@@ -28,7 +28,7 @@
    "Manager":" ",
    
    "Dashboard":"",
-   "Booking Requests ":"",
+   "Booking Requests":"",
    "Meeting Spaces":"",
    "All":"",
    "New Space":"",
@@ -61,7 +61,7 @@
    "Print":"",
    "Send Invoice":"",
 
-   "BOOKING REQUEST TABLE":" ",
+   "BOOKING REQUEST TABLE":"BOOKING REQUEST TABLE ",
    "Id":"",
    "Date":"",
    "Hour":"",
