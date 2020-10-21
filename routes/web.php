@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+
+
 Route::group(['prefix' => 'home', 'as' => 'home.'], function () {
 	Route::get('/', 'DashboardController@home');
 	//orders
