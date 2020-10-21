@@ -5,12 +5,12 @@ use Illuminate\Support\Facades\Route;
 
  
  
-Route::group(['prefix'=>'home','as'=>'home.'], function ( ) {
+Route::group(['prefix'=>'dashboard','as'=>'admin.'], function ( ) {
 	 	Route::get('/', 'DashboardController@home');
 	 	//orders
 	 	Route::group(['prefix'=>'orders','as'=>'orders.'], function ( ) {
-		    Route::get('/', 'OrderController@index')->name('index');
-		    Route::get('/details', 'OrderController@show')->name('details');
+		    Route::get('/', 'OrdersController@index')->name('index');
+		    Route::get('/details', 'OrdersController@show')->name('details');
 		    
 		});
 		//spaces

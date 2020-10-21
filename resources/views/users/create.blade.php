@@ -10,21 +10,21 @@
 						<div class="my-auto">
 							<div class="d-flex my-xl-auto right-content">						
 								<div class="pr-1 mb-3 mb-xl-0">
-									<a href="{{ route('home.users.index') }}">
+									<a href="{{ route('admin.users.index') }}">
 										<button type="button" class="btn btn-danger btn-icon mr-2"><i class="mdi mdi-arrow-left"></i></button>
 									</a>
 								</div>	
 								<div class="pr-1 mb-3 mb-xl-0">
 								   <div class="d-flex">
 									<h5 class="content-title mb-0 my-auto">{{ __('Dashboard') }}</h5>
-									<span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('New User') }} </span>
+									<span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('Add.User') }} </span>
 								</div>
 							</div>					 
 						</div>
 						</div>
 						<div class="d-flex my-xl-auto right-content">						
 							<div class="pr-1 mb-3 mb-xl-0">
-								<a href="{{ route('home.users.create') }}">
+								<a href="{{ route('admin.users.create') }}">
 									<button type="button" class="btn btn-warning  btn-icon mr-2"><i class="mdi mdi-refresh"></i></button>
 								</a>
 							</div>					 
@@ -46,7 +46,7 @@
 												<label class="form-label mg-b-0">{{ __('Name') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder="Enter the name " type="text">
+												<input class="form-control" placeholder=" " type="text">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -62,7 +62,7 @@
 												<label class="form-label mg-b-0">{{ __('Address') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder="Enter the adress " type="text">
+												<input class="form-control" placeholder= "" type="text">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -70,7 +70,7 @@
 												<label class="form-label mg-b-0">{{ __('Email') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder="Enter the mail" type="mail">
+												<input class="form-control" placeholder=" " type="mail">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -78,7 +78,7 @@
 												<label class="form-label mg-b-0">{{ __('Password') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+												<input type="password" class="form-control" id="inputPassword3" placeholder=" ">
 											</div>
 										</div>										
 										
@@ -87,7 +87,7 @@
 												<label class="form-label mg-b-0">{{ __('Phone Number') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder="Enter the Phone number" type="text">
+												<input class="form-control" placeholder=" " type="text">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">

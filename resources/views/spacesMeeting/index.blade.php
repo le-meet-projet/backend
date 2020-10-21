@@ -10,7 +10,7 @@
 						<div class="my-auto">
 							<div class="d-flex my-xl-auto right-content">						
 								<div class="pr-1 mb-3 mb-xl-0">
-									<a href="{{ route('home.') }}">
+									<a href="{{ route('admin.') }}">
 										<button type="button" class="btn btn-danger btn-icon mr-2"><i class="mdi mdi-arrow-left"></i></button>
 									</a>
 								</div>	
@@ -23,10 +23,10 @@
 						</div>
 						<div class="d-flex my-xl-auto right-content">						
 							<div class="pr-1 mb-3 mb-xl-0">
-								<a href="{{ route('home.spaces.index') }}"><button type="button" class="btn btn-warning  btn-icon mr-2"><i class="mdi mdi-refresh"></i></button></a>
+								<a href="{{ route('admin.spaces.index') }}"><button type="button" class="btn btn-warning  btn-icon mr-2"><i class="mdi mdi-refresh"></i></button></a>
 							</div>	
 							<div class="pr-1 mb-3 mb-xl-0">
-							    <a href="{{ route('home.spaces.create') }}"><button type="button" class="btn btn-info btn-icon ml-2"><i class="mdi mdi-plus"></i></button></a>	
+							    <a href="{{ route('admin.spaces.create') }}"><button type="button" class="btn btn-info btn-icon ml-2"><i class="mdi mdi-plus"></i></button></a>	
 							</div>					 
 						</div>
 					</div>
@@ -91,7 +91,7 @@
 													<td> 25 persons</td>
 													<td>
 														<span class="ml-auto">
-															<a href="{{ route('home.spaces.edit') }}"><i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i></a>
+															<a href="{{ route('admin.spaces.edit') }}"><i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i></a>
 															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
 														</span> 
 													</td>

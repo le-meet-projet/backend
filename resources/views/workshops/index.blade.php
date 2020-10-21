@@ -10,7 +10,7 @@
 						<div class="my-auto">
 							<div class="d-flex my-xl-auto right-content">						
 								<div class="pr-1 mb-3 mb-xl-0">
-									<a href="{{ route('home.') }}">
+									<a href="{{ route('admin.') }}">
 										<button type="button" class="btn btn-danger btn-icon mr-2"><i class="mdi mdi-arrow-left"></i></button>
 									</a>
 								</div>	
@@ -24,12 +24,12 @@
 						</div>
 						<div class="d-flex my-xl-auto right-content">						
 							<div class="pr-1 mb-3 mb-xl-0">
-								<a href="{{ route('home.workshops.index') }}">
+								<a href="{{ route('admin.workshops.index') }}">
 									<button type="button" class="btn btn-warning  btn-icon mr-2"><i class="mdi mdi-refresh"></i></button>
 								</a>
 							</div>	
 							<div class="pr-1 mb-3 mb-xl-0">
-							    <a href="{{ route('home.workshops.create') }}">
+							    <a href="{{ route('admin.workshops.create') }}">
 							    	<button type="button" class="btn btn-info btn-icon ml-2"><i class="mdi mdi-plus"></i></button>
 							    </a>	
 							</div>					 
@@ -101,7 +101,7 @@
 													<td>self discipline</td>
 													<td>
 														<span class="ml-auto">
-															<a href="{{ route('home.workshops.edit') }}">
+															<a href="{{ route('admin.workshops.edit') }}">
 																<i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i>
 															</a>
 															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
