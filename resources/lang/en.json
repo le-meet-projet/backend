@@ -28,14 +28,14 @@
    "Manager":" ",
    
    "Dashboard":"",
-   "Booking Requests ":"",
+   "Booking Requests":"",
    "Meeting Spaces":"",
    "All":"",
    "New Space":"",
    "Workshops":"",
    "New Workshop":"",
    "Users":"",
-   "New User ":"",
+   "Add.User":"New User",
 
    "Booking Request Details":"",
    "Invoice":"",
@@ -61,7 +61,7 @@
    "Print":"",
    "Send Invoice":"",
 
-   "BOOKING REQUEST TABLE":" ",
+   "BOOKING REQUEST TABLE":"BOOKING REQUEST TABLE ",
    "Id":"",
    "Date":"",
    "Hour":"",

@@ -122,7 +122,7 @@
 												<td>05 Dec 2019</td>
 												<td class="tx-right tx-medium tx-inverse">Nour Coffee</td>
 												<td class="tx-right tx-medium tx-inverse">Soulaime</td>
-												<td class="tx-right tx-medium tx-danger"><a href="{{ route('home.orders.details') }}">Details</a></td>
+												<td class="tx-right tx-medium tx-danger"><a href="{{ route('admin.orders.details') }}">Details</a></td>
 											</tr>
 										</tbody>
 									</table>

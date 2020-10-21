@@ -1,7 +1,7 @@
- {
+ {  
 
-
-   "welcome to the control panel !" : ""   , 
+   "Dashboard" : "" , 
+   "welcome to the control panel !" : "" , 
    "Here you can manage every aspect of your application." : "" , 
    "TOTAL REQUEST" : "" , 
    "TOTAL WORKSHOPS" : "" , 
@@ -10,36 +10,35 @@
    "Your Top Meeting Spaces" : "" , 
    "The most booking spaces  last week" : "" , 
    "student space" : "" , 
-
-
    "Recent.Request" : "Your Recent Booking Request",
    "This is your  recent booking request for today's date" : "",
-   "Date" : "",
-
-   "Request ID" : "",
-   "User" : " ",
+   "Date" : "",  
+   "Space" : "" , 
+   "User" : "" , 
    "More" : " ",
-   " English" : " ",
-   " Arabic" : "",
+
+   "English" : " ",
+   "Arabic" : "",
    "Notifications" : " ",
-   " You have 4 new Booking requests":" ",
+   "You have 4 new Booking requests":" ",
    "VIEW ALL":" ",
    "Profile":" ",
    "Edit Profile":" ",
-   "Sign Out":"Sign Out",
-
-
-   "Dashboard":" ",
-   "Booking request":"",
+   "Sign Out":" ",
+   "Manager":" ",
+   
+   "Dashboard":"",
+   "Booking Requests ":"",
    "Meeting Spaces":"",
    "All":"",
    "New Space":"",
    "Workshops":"",
    "New Workshop":"",
    "Users":"",
-   "New User ":"",
+   "Add.User":"New User",
 
-   "Details Booking Request":"",
+   "Booking Request Details":"",
+   "Invoice":"",
    "Le Meet Group":"",
    "Jaddah,Arabia Saudic":"",
    "Tel Number":"",
@@ -54,21 +53,25 @@
    "Description":"",
    "Date":"",
    "Price":"",
-   "Note":"Notes",
+   "Note":" ",
+   "Le meet is a great tool to find your meeting space ..":" ",
    "Sub-Total":"",
    "Tax":"",
    "Total Due":"",
    "Print":"",
    "Send Invoice":"",
 
-    
-   "Le meet is an essential tool to find your meeting space and great workshops. ":" ",
    "BOOKING REQUEST TABLE":" ",
-   " ID":"",
-   "USER":"",
-   "STATE":"",
-   "DATE":"",
-   "MORE":"",
+   "Id":"",
+   "Date":"",
+   "Hour":"",
+   "User":"",
+   "Price":"",
+   "Status":"",
+   "Payement Methode":"",
+   "Coupon":"",
+   "Type":"",
+   "More":"",
    "details":"",
    "Showing 1 to 3 of 50 entries":"",
    "Previous":"",
@@ -80,25 +83,20 @@
    "Name":"",
    "Address":"",
    "Capacity":"",
+   "Price":"",
    "Description":"",
    "Image":"",
+   "Map":"",
    "Choose file":"",
    "Add ":"",
    "Cancel":"",
-
-
    "Edit":"",
    "Edit A Meeting Space":"",
-  
    "MEETING SPACES TABLE":"",
-   " New User":" ",
-   "Name":" ",
-   "Avatar":" ",
-   "Choose file":" ",
-   "Gender":" ",
-   "Female":" ",
- 
-   "Male":" ",
+
+   "New User":" ",
+   "Add A New User":"",
+   "Avatar":"Avatar ",
    "Address":"",
    "Role":"",
    "Manager":"",
@@ -106,15 +104,16 @@
    "Email":"",
    "Password":"",
    "Phone Number":"",
-   "Description":"",
-   "set As Default":"",
+   "Role":"",
+   "Status":"",
+   "Password":"",
+   "Actived":"",
+   "Blocked":"",
    "Add":"",
    "Cancel":"",
-
    "Edit User ":"",
    "Edit":"",
    "USERS TABLE":"",
-   "Status":"",
    "More":"",
 
    "New Workshop":"",
@@ -122,18 +121,16 @@
    "Title":"",
    "Date":"",
    "Longtitude":"",
-
    "Edit Workshop":"",
    "Edit a Workshop":"",
-
-   "BOOKING REQUEST TABLE":"",
-   "Time":"",
-    
- 
+   "WORKSHOPS TABLE":"",
+   "Title":"",
    "Payement Methode":"",
    "Paypal":"",
    "Credit Card":"",
    
-   
-   "allowed types":""
+   "Copyright © 2020":"",
+   "Le Meet":"",
+   "All rights reserved.":""
+
 }

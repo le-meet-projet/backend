@@ -10,7 +10,7 @@
 							<div class="my-auto">
 								<div class="d-flex my-xl-auto right-content">						
 									<div class="pr-1 mb-3 mb-xl-0">
-										<a href="{{ route('home.users.index') }}">
+										<a href="{{ route('admin.users.index') }}">
 											<button type="button" class="btn btn-danger btn-icon mr-2"><i class="mdi mdi-arrow-left"></i></button>
 										</a>
 									</div>	
@@ -25,7 +25,7 @@
 							</div>
 							<div class="d-flex my-xl-auto right-content">						
 								<div class="pr-1 mb-3 mb-xl-0">
-									<a href="{{ route('home.users.edit') }}">
+									<a href="{{ route('admin.users.edit') }}">
 										<button type="button" class="btn btn-warning  btn-icon mr-2"><i class="mdi mdi-refresh"></i></button>
 									</a>
 								</div>					 
