@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 //<<<<<<< HEAD
  
- 
+ Route::get('/', 'DashboardController@home');
 Route::group(['prefix'=>'dashboard','as'=>'admin.'], function ( ) {
 	 	Route::get('/', 'DashboardController@home');
 	 	//orders
