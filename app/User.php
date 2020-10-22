@@ -10,6 +10,12 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable;
+<<<<<<< HEAD
+=======
+ 
+    use SoftDeletes;
+ 
+>>>>>>> 5ff9e506ed96118b2e61bf6bdd923ef1a91c1047
 
     /**
      * The attributes that are mass assignable.
@@ -37,7 +43,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 5ff9e506ed96118b2e61bf6bdd923ef1a91c1047
     public function orders()
     {
         return $this->hasMany('App\Order');
@@ -57,4 +67,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Payment');
     }
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> 5ff9e506ed96118b2e61bf6bdd923ef1a91c1047
 }
