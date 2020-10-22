@@ -3,9 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 
-//<<<<<<< HEAD
  
- Route::get('/', 'DashboardController@home');
+Route::get('/', 'DashboardController@home');
 Route::group(['prefix'=>'dashboard','as'=>'admin.'], function ( ) {
 	 	Route::get('/', 'DashboardController@home');
 	 	//orders
@@ -32,8 +31,6 @@ Route::group(['prefix'=>'dashboard','as'=>'admin.'], function ( ) {
 		    Route::get('/create', 'UserController@create')->name('create');
 		    Route::get('/edit', 'UserController@edit')->name('edit');
 		});
-//=======
-//>>>>>>> 0dcfb6e39e0d33c8c90d5f970544137bfbd95067
 
 
  

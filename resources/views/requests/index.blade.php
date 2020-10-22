@@ -1,6 +1,6 @@
-@include('layouts.header') 
-@include('layouts.navbar')
+@extends('/layouts/app')
 
+@section('content')
  <!-- main-content opened -->
 <div class="main-content horizontal-content">
 	<!-- container opened -->
@@ -142,4 +142,4 @@
 	<!-- Container closed -->
 </div>
 <!-- main-content closed -->
-@include('layouts.footer')
+@endsection
