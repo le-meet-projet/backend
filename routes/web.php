@@ -56,3 +56,9 @@ Route::group(['prefix' => 'home', 'as' => 'home.'], function () {
 		Route::get('/edit', 'UserController@edit')->name('edit');
 	});
 });
+
+Auth::routes();
+
+Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
