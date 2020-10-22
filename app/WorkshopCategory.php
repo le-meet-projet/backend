@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Review extends Model
+class WorkshopCategory extends Model
 {
     public function workshop()
     {
-        return $this->belongsTo('App\User');
+        return $this->hasMany('App\Workshop');
     }
 }

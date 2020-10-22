@@ -4,7 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Favourite extends Model
+class Favorite extends Model
 {
-    //
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
