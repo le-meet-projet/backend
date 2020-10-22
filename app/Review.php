@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Review extends Model
 {
     use SoftDeletes;
+
+    public function workshop()
+    {
+        return $this->belongsTo('App\Workshop');
+    }
 }

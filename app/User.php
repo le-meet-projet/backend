@@ -38,7 +38,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
- 
+
     public function orders()
     {
         return $this->hasMany('App\Order');
@@ -58,5 +58,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Payment');
     }
- 
+
+    public function statue()
+    {
+    }
 }
