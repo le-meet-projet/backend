@@ -169,7 +169,6 @@ class CouponsController extends Controller
         }
     }
 
-
     /**
      * Update coupon record
      *

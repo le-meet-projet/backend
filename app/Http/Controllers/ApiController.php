@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\{Favourite , Order};
+use Auth;
 
 class ApiController extends Controller
 {
@@ -19,7 +21,8 @@ class ApiController extends Controller
      */
     public function favorites()
     {
-        return null;
+        $user = Auth::user();
+        return $user->favorites()->paginate(10)->toJson(JSON_PRETTY_PRINT);
     }
 
     /**
@@ -27,7 +30,8 @@ class ApiController extends Controller
      */
     public function orders()
     {
-        return null;
+        $user = Auth::user();
+        return $user->favorites()->paginate(10)->toJson(JSON_PRETTY_PRINT);
     }
 
     /**

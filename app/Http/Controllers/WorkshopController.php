@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Space;
+use DB;
 
 class WorkshopController extends Controller
 {
@@ -12,8 +14,12 @@ class WorkshopController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('workshops.index');
+    {   
+       
+        $workshops=Space::where('type','=','workshop')->paginate(2);
+        return view('workshops.index',compact('workshops'));
+   
+      
     }
 
     /**

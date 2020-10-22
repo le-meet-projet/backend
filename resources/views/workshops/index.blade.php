@@ -84,18 +84,18 @@
 												</tr>
 											</thead>
 											<tbody>
-						
+						                         @foreach($workshops as $workshop)
 												<tr>
 													<td>1</td>
-													<td><img src="../../assets/img/cafe.jpg"></td>
-													<td>self discipline</td>
-													<td>25/10/2019</td>
-													<td>9:00 pm</td>
-													<td>Jaddah</td>
-													<td><img src="../../assets/img/cafe.jpg"></td>
+													<td>{{$workshop->gallery}}</td>
+													<td>{{$workshop->name}}</td>
+													<td>{{$workshop->date}}</td>
+													<td>{{$workshop->time}}</td>
+													<td>{{$workshop->address}}</td>
+													<td>{{$workshop->map}}</td>
 													<td>30 min</td>
-													<td>30 persons</td>
-													<td>self discipline</td>
+													<td>{{$workshop->capacity}}</td>
+													<td>{{$workshop->description}}</td>
 													<td>
 														<span class="ml-auto">
 															<a href="{{ route('admin.workshops.edit') }}">
@@ -104,7 +104,8 @@
 															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
 														</span> 
 													</td>
-										 
+										        </tr>
+										        @endforeach
 											</tbody>																	
 										</table>
 									</div>
@@ -117,7 +118,8 @@
 									<div class="col-sm-12 col-md-7">
 										<div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
 											<ul class="pagination">
-												<li class="paginate_button page-item previous disabled" id="example1_previous">
+												{{$workshops->links()}}
+											<!-- 	<li class="paginate_button page-item previous disabled" id="example1_previous">
 													<a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link">{{ __('Previous') }}</a>
 												</li>
 												<li class="paginate_button page-item active"
@@ -133,7 +135,7 @@
 												<li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="5" tabindex="0" class="page-link">5</a>
 												</li>
 												<li class="paginate_button page-item next" id="example1_next"><a href="#" aria-controls="example1" data-dt-idx="6" tabindex="0" class="page-link">{{ __('Next') }}</a>
-												</li>
+												</li> -->
 											</ul>
 										</div>
 									</div>

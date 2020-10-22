@@ -86,16 +86,17 @@
 												</tr>
 											</thead>
 											<tbody>
+												@foreach($users as $user)
 						
 												<tr>
-													<td>1</td>
-													<td><img src="../../assets/img/avatar.jpg">  </td>
-													<td>Soulaimane</td>
-													<td>Agadir</td>
-													<td>Soulaimane@gmail.com  </td>
-													<td>0652184565 </td>
-													<td>Manager</td>
-													<td>Active </td>
+													<td>{{$user->id}}</td>
+													<td>{{$user->avatar}}  </td>
+													<td>{{$user->name}}</td>
+													<td>{{$user->address}} </td>
+													<td>{{$user->email}}</td>
+													<td>{{$user->phone}} </td>
+													<td>{{$user->role}}</td>
+													<td>{{$user->status}}</td>
 													<td>
 														<span class="ml-auto">
 															<a href="{{ route('admin.users.edit') }}">
@@ -105,6 +106,7 @@
 														</span> 
 													</td>													
 												</tr>
+												@endforeach
 											</tbody>																			 
 										</table>
 									</div>
@@ -114,12 +116,16 @@
 										<div class="dataTables_info" id="example1_info" role="status" aria-live="polite">{{ __('Showing 3 to 10 of 50 entries') }}
 										</div>
 									</div>
-									<div class="col-sm-12 col-md-7">
+									{{$users->links()}}
+									<!-- <div class="col-sm-12 col-md-7">
+										
 										<div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
 											<ul class="pagination">
+
 												<li class="paginate_button page-item previous disabled" id="example1_previous">
 													<a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link">{{ __('Previous') }}</a>
 												</li>
+												
 												<li class="paginate_button page-item active"
 												><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
 												<li class="paginate_button page-item ">
@@ -135,8 +141,8 @@
 												<li class="paginate_button page-item next" id="example1_next"><a href="#" aria-controls="example1" data-dt-idx="6" tabindex="0" class="page-link">{{ __('Next') }}</a>
 												</li>
 											</ul>
-										</div>
-									</div>
+										</div> 
+									</div> -->
 								</div>
 							</div>
 						</div>
