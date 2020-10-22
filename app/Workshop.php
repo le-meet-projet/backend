@@ -7,11 +7,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Workshop extends Model
 {
+<<<<<<< HEAD
  
+=======
+    use SoftDeletes;
+
+>>>>>>> 34c4fa410578a37d6fb24db32486f4235ffae8b0
     public function workshopCategory()
     {
         return $this->belongsTo('App\WorkshopCategory');
     }
+<<<<<<< HEAD
 
     public function gallery()
     {
@@ -20,4 +26,6 @@ class Workshop extends Model
  
     use SoftDeletes;
  
+=======
+>>>>>>> 34c4fa410578a37d6fb24db32486f4235ffae8b0
 }

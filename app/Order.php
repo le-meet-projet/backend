@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-   
- 
+
+
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
- 
+
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -23,23 +23,20 @@ class Order extends Model
 
     public function orderDetail()
     {
-        return $this->hasMany('App\OrderDetail');
-    }
-
-    public function scopePaid()
-    {
-
-    }
-
-    public function scopeSearch() {
-
+        return $this->belongsTo('App\User', 'user_id');
     }
 
     public function statue()
     {
-
     }
- 
+
+    public function scopeSearch()
+    {
+    }
+
+    public function scoePaied()
+    {
+    }
+
     use SoftDeletes;
- 
 }
