@@ -27,9 +27,15 @@ Route::group(['prefix' => 'dashboard', 'as' => 'admin.'], function () {
 		Route::get('/create', 'UserController@create')->name('create');
 		Route::get('/edit', 'UserController@edit')->name('edit');
 	});
+	//coupons
+	Route::group(['prefix' => 'coupons', 'as' => 'coupons.'], function () {
+		Route::get('/', 'CouponsController@index')->name('index');
+		Route::get('/create', 'CouponsController@create')->name('create');
+		Route::get('/edit', 'CouponsController@edit')->name('edit');
+	});
 });
 
-
+/*
 Route::group(['prefix' => 'home', 'as' => 'home.'], function () {
 	Route::get('/', 'DashboardController@home');
 	//orders
@@ -56,3 +62,4 @@ Route::group(['prefix' => 'home', 'as' => 'home.'], function () {
 		Route::get('/edit', 'UserController@edit')->name('edit');
 	});
 });
+*/

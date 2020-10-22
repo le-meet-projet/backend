@@ -16,6 +16,7 @@
    "Space" : "" , 
    "User" : "" , 
    "More" : " ",
+   "Coupon" : " ",
 
    "English" : " ",
    "Arabic" : "",
@@ -134,6 +135,19 @@
    "Paypal":"",
    "Credit Card":"",
    
+   "Add Coupon":"",
+   "Add A New Coupon":"",
+   "Coupon Code":"",
+   "Statue":"",
+   "Active":"",
+   "Block":"",
+   "Edit Coupon":"",
+   "Edit Coupon":"",
+   "COUPONS TABLE":"",
+   "Activate the coupon":"",
+   "Type":"",
+   "Value":"",
+
    "Copyright © 2020":"",
    "Le Meet":"",
    "All rights reserved.":""
