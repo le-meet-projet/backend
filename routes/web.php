@@ -36,8 +36,14 @@ Route::group(['prefix' => 'dashboard', 'as' => 'admin.'], function () {
 	});
 });
 
+
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
+
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+
+
+
+
