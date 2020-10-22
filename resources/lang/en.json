@@ -36,7 +36,12 @@
    "New Workshop":"",
    "Users":"",
    "Add.User":"New User",
-
+   "User Name":" User Name",
+   "User Address":"User Address ",
+   "User Email":"User Email ",
+   "Password":"",
+   "User Phone Number":"",
+   
    "Booking Request Details":"",
    "Invoice":"",
    "Le Meet Group":"",
@@ -94,7 +99,7 @@
    "Edit A Meeting Space":"",
    "MEETING SPACES TABLE":"",
 
-   "New User":" ",
+   "New User":"New User ",
    "Add A New User":"",
    "Avatar":"Avatar ",
    "Address":"",

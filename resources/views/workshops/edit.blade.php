@@ -23,14 +23,8 @@
 								</div>
 							</div>					 
 						</div>
-						</div>
-						<div class="d-flex my-xl-auto right-content">						
-							<div class="pr-1 mb-3 mb-xl-0">
-								<a href="{{ route('admin.workshops.edit') }}">
-									<button type="button" class="btn btn-warning  btn-icon mr-2"><i class="mdi mdi-refresh"></i></button>
-								</a>
-							</div>					 
-						</div>
+					</div>
+			 
 					</div>
 					<!-- breadcrumb -->		 
 					<!-- /row -->
