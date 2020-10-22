@@ -15,7 +15,7 @@ class CouponsController extends Controller
     public function index()
     {
         $coupons = Coupon::orderby('id', 'desc')->paginate(10);
-        return view('admin.Coupon.index', compact('coupons'));
+        return view('coupons.index', compact('coupons'));
     }
 
     /**
@@ -34,7 +34,7 @@ class CouponsController extends Controller
      */
     public function create()
     {
-        return view('admin.coupons.create');
+        return view('coupons.create');
     }
 
     /**
@@ -43,10 +43,10 @@ class CouponsController extends Controller
      * @param $id
      * @return View
      */
-    public function edit(int $id)
+    public function edit( )
     {
-        $content = Coupon::whereId($id)->first();
-        return view('admin.coupons.edit', compact('content'));
+       // $content = Coupon::whereId($id)->first();
+        return view('coupons.edit', compact('content'));
     }
 
 

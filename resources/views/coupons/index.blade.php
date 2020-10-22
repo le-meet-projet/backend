@@ -18,7 +18,7 @@
 								<div class="pr-1 mb-3 mb-xl-0">
 								   <div class="d-flex">
 										<h5 class="content-title mb-0 my-auto">{{ __('Dashboard') }}</h5>
-										<span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('Users') }} </span>
+										<span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('Coupons') }} </span>
 								   </div>
 							   </div>					 
 						   </div>
@@ -27,7 +27,7 @@
 						<div class="d-flex my-xl-auto right-content">						
  
 							<div class="pr-1 mb-3 mb-xl-0">
-							    <a href="{{ route('admin.users.create') }}">							    	
+							    <a href="{{ route('admin.coupons.create') }}">							    	
 							      <button type="button" class="btn btn-info btn-icon ml-2"><i class="mdi mdi-plus"></i></button>
 							    </a>	
 							</div>					 
@@ -39,7 +39,7 @@
 							<div class="card">
 								<div class="card-header pb-0">
 									<div class="d-flex justify-content-between">
-										<h4 class="card-title mg-b-0">{{ __('USERS TABLE') }}</h4>
+										<h4 class="card-title mg-b-0">{{ __('COUPONS TABLE') }}</h4>
 										<i class="mdi mdi-dots-horizontal text-gray"></i>
 									</div>
 									 
@@ -72,13 +72,8 @@
 													<table class="table text-md-nowrap dataTable no-footer" id="example1" role="grid" aria-describedby="example1_info">
 											<thead>
 												<tr role="row">
-													<th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 131px;">{{ __('Id') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Avatar') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Name') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Address') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Email') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Phone Number') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Role') }}</th>
+													<th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 131px;">{{ __('Coupon Code') }}</th>
+													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Date') }}</th>
 													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Statue') }}</th>
 													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 105px;">{{ __('More') }}</th>
 													
@@ -86,27 +81,21 @@
 												</tr>
 											</thead>
 											<tbody>
-												@foreach($users as $user)
 						
 												<tr>
-													<td>{{$user->id}}</td>
-													<td>{{$user->avatar}}  </td>
-													<td>{{$user->name}}</td>
-													<td>{{$user->address}} </td>
-													<td>{{$user->email}}</td>
-													<td>{{$user->phone}} </td>
-													<td>{{$user->role}}</td>
-													<td>{{$user->status}}</td>
+													
+													<td>125</td>
+													<td>15/20/2020</td>
+													<td>Active </td>
 													<td>
 														<span class="ml-auto">
-															<a href="{{ route('admin.users.edit') }}">
+															<a href="{{ route('admin.coupons.edit') }}">
 																<i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i>
 															</a>
 															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
 														</span> 
 													</td>													
 												</tr>
-												@endforeach
 											</tbody>																			 
 										</table>
 									</div>
@@ -116,16 +105,12 @@
 										<div class="dataTables_info" id="example1_info" role="status" aria-live="polite">{{ __('Showing 3 to 10 of 50 entries') }}
 										</div>
 									</div>
-									{{$users->links()}}
-									<!-- <div class="col-sm-12 col-md-7">
-										
+									<div class="col-sm-12 col-md-7">
 										<div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
 											<ul class="pagination">
-
 												<li class="paginate_button page-item previous disabled" id="example1_previous">
 													<a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link">{{ __('Previous') }}</a>
 												</li>
-												
 												<li class="paginate_button page-item active"
 												><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
 												<li class="paginate_button page-item ">
@@ -141,8 +126,8 @@
 												<li class="paginate_button page-item next" id="example1_next"><a href="#" aria-controls="example1" data-dt-idx="6" tabindex="0" class="page-link">{{ __('Next') }}</a>
 												</li>
 											</ul>
-										</div> 
-									</div> -->
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

@@ -74,6 +74,21 @@
 										</li>
 									</ul>
 								</li>
+								<li aria-haspopup="true">
+									<a href="{{ route('admin.coupons.index') }}" class="sub-icon">
+										<svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+											  <i class="fas fa-percent"></i>
+										</svg> {{ __('Coupons') }} 
+										<i class="fe fe-chevron-down horizontal-icon"></i></a>
+	 								<ul class="sub-menu">
+										<li aria-haspopup="true">
+											<a href="{{ route('admin.coupons.index') }}" class="slide-item">{{ __('All') }}</a>
+										</li>
+										<li aria-haspopup="true">
+											<a href="{{ route('admin.coupons.create') }}" class="slide-item">{{ __('New Coupon') }}</a>
+										</li>
+									</ul>
+								</li>
 							</ul>
 						</nav>
 						<!--Nav-->
