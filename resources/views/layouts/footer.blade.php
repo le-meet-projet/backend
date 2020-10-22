@@ -1,9 +1,5 @@
 
-	<div class="main-footer ht-40">
-		<div class="container-fluid pd-t-0-f ht-100p">
-				<span>{{ __('Copyright © 2020 ') }}<a href="/dashboard">{{ __('Le Meet') }}</a> {{ __('All rights reserved.') }}</span>
-		</div>
-	</div>
+	 
 
 		
 		</div>
