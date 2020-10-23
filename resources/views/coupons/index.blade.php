@@ -18,7 +18,7 @@
 								<div class="pr-1 mb-3 mb-xl-0">
 								   <div class="d-flex">
 										<h5 class="content-title mb-0 my-auto">{{ __('Dashboard') }}</h5>
-										<span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('Users') }} </span>
+										<span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('Coupons') }} </span>
 								   </div>
 							   </div>					 
 						   </div>
@@ -27,7 +27,7 @@
 						<div class="d-flex my-xl-auto right-content">						
  
 							<div class="pr-1 mb-3 mb-xl-0">
-							    <a href="{{ route('admin.users.create') }}">							    	
+							    <a href="{{ route('admin.coupons.create') }}">							    	
 							      <button type="button" class="btn btn-info btn-icon ml-2"><i class="mdi mdi-plus"></i></button>
 							    </a>	
 							</div>					 
@@ -39,7 +39,7 @@
 							<div class="card">
 								<div class="card-header pb-0">
 									<div class="d-flex justify-content-between">
-										<h4 class="card-title mg-b-0">{{ __('USERS TABLE') }}</h4>
+										<h4 class="card-title mg-b-0">{{ __('COUPONS TABLE') }}</h4>
 										<i class="mdi mdi-dots-horizontal text-gray"></i>
 									</div>
 									 
@@ -47,7 +47,7 @@
 									<div class="table-responsive">
 										<div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 											<div class="row">
-												<div class="col-sm-12 col-md-6"></div>																						
+												<div class="col-sm-12 col-md-6"></div>	
 												<div class="col-sm-12 col-md-6">
 													<div id="example1_filter" class="dataTables_filter">
 														<label>
@@ -61,13 +61,8 @@
 													<table class="table text-md-nowrap dataTable no-footer" id="example1" role="grid" aria-describedby="example1_info">
 											<thead>
 												<tr role="row">
-													<th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 131px;">{{ __('Id') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Avatar') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Name') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Address') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Email') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Phone Number') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Role') }}</th>
+													<th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 131px;">{{ __('Coupon Code') }}</th>
+													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Date') }}</th>
 													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Statue') }}</th>
 													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 105px;">{{ __('More') }}</th>
 													
@@ -75,20 +70,15 @@
 												</tr>
 											</thead>
 											<tbody>
-												@foreach($users as $user)
-						
+						                        @foreach($coupons as $coupon)
 												<tr>
-													<td>{{$user->id}}</td>
-													<td>{{$user->avatar}}  </td>
-													<td>{{$user->name}}</td>
-													<td>{{$user->address}} </td>
-													<td>{{$user->email}}</td>
-													<td>{{$user->phone}} </td>
-													<td>{{$user->role}}</td>
-													<td>{{$user->status}}</td>
+													
+													<td>{{$coupon->code}}</td>
+													<td>{{$coupon->date}}</td>
+													<td>{{$coupon->statue}} </td>
 													<td>
 														<span class="ml-auto">
-															<a href="{{ route('admin.users.edit') }}">
+															<a href="{{ route('admin.coupons.edit') }}">
 																<i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i>
 															</a>
 															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
@@ -98,12 +88,10 @@
 												@endforeach
 											</tbody>																			 
 										</table>
+										{{$coupons->links()}}
 									</div>
 								</div>
-								<div class="row">
-									 
-									{{$users->links()}}
-						 
+								 
 								</div>
 							</div>
 						</div>
