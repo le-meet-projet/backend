@@ -1,7 +1,10 @@
-@include('layouts.header') 
-@include('layouts.navbar')
+@extends('/layouts/app')
 
+<<<<<<< HEAD
 
+=======
+@section('content')
+>>>>>>> c0f64b4bc023dc8e407eb5285d8456332ae169a9
  <!-- main-content opened -->
 <div class="main-content horizontal-content">
 	<!-- container opened -->
@@ -19,12 +22,8 @@
 								</div>
 							</div>					 
 						</div>
-						</div>
-						<div class="d-flex my-xl-auto right-content">						
-							<div class="pr-1 mb-3 mb-xl-0">
-								<a href="{{ route('admin.orders.index') }}"><button type="button" class="btn btn-warning  btn-icon mr-2"><i class="mdi mdi-refresh"></i></button></a>
-							</div>					 
-						</div>
+					</div>
+ 
 					</div>
 					<!-- breadcrumb -->
 					<!-- row opened -->
@@ -136,4 +135,4 @@
 	<!-- Container closed -->
 </div>
 <!-- main-content closed -->
-@include('layouts.footer')
+@endsection

@@ -1,6 +1,6 @@
-@include('layouts.header') 
-@include('layouts.navbar')
+@extends('/layouts/app')
 
+@section('content')
  <!-- main-content opened -->
 			<div class="main-content horizontal-content">
 				<!-- container opened -->
@@ -22,9 +22,6 @@
 						</div>
 						</div>
 						<div class="d-flex my-xl-auto right-content">						
-							<div class="pr-1 mb-3 mb-xl-0">
-								<a href="{{ route('admin.spaces.index') }}"><button type="button" class="btn btn-warning  btn-icon mr-2"><i class="mdi mdi-refresh"></i></button></a>
-							</div>	
 							<div class="pr-1 mb-3 mb-xl-0">
 							    <a href="{{ route('admin.spaces.create') }}"><button type="button" class="btn btn-info btn-icon ml-2"><i class="mdi mdi-plus"></i></button></a>	
 							</div>					 
@@ -144,4 +141,4 @@
 	</div>
 	<!-- main-content closed -->	 
 
-@include('layouts.footer')
+@endsection

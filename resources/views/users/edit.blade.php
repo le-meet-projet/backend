@@ -1,5 +1,6 @@
-@include('layouts.header') 
-@include('layouts.navbar')
+@extends('/layouts/app')
+
+@section('content')
  <!-- main-content opened -->
 <div class="container">
 			<div class="main-content horizontal-content">
@@ -23,13 +24,7 @@
 								</div>					 
 							</div>
 							</div>
-							<div class="d-flex my-xl-auto right-content">						
-								<div class="pr-1 mb-3 mb-xl-0">
-									<a href="{{ route('admin.users.edit') }}">
-										<button type="button" class="btn btn-warning  btn-icon mr-2"><i class="mdi mdi-refresh"></i></button>
-									</a>
-								</div>					 
-							</div>
+
 						</div>
 					<!-- breadcrumb -->		 
 					<!-- /row -->
@@ -141,4 +136,4 @@
 		<!-- End Page -->	
 </div>	 
 
-@include('layouts.footer')
+@endsection
