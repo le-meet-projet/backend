@@ -70,12 +70,12 @@
 												</tr>
 											</thead>
 											<tbody>
-						
+						                        @foreach($coupons as $coupon)
 												<tr>
 													
-													<td>125</td>
-													<td>15/20/2020</td>
-													<td>Active </td>
+													<td>{{$coupon->code}}</td>
+													<td>{{$coupon->date}}</td>
+													<td>{{$coupon->statue}} </td>
 													<td>
 														<span class="ml-auto">
 															<a href="{{ route('admin.coupons.edit') }}">
@@ -85,8 +85,10 @@
 														</span> 
 													</td>													
 												</tr>
+												@endforeach
 											</tbody>																			 
 										</table>
+										{{$coupons->links()}}
 									</div>
 								</div>
 								 
