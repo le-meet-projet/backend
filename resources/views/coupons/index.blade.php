@@ -74,14 +74,15 @@
 												<tr>
 													
 													<td>{{$coupon->code}}</td>
-													<td>{{$coupon->date}}</td>
-													<td>{{$coupon->statue}} </td>
+													<td>{{ $coupon->created_at->diffForHumans() }} </td>
+													<td> {{ $coupon->status }} </td>
 													<td>
 														<span class="ml-auto">
-															<a href="{{ route('admin.coupons.edit') }}">
+															<a href="{{ route('admin.coupons.edit',['id' => $coupon->id]) }}" class="text-primary-600">
 																<i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i>
 															</a>
-															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
+															<a href="{{route('admin.coupons.delete', $coupon->id)}}">
+															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i></a>
 														</span> 
 													</td>													
 												</tr>

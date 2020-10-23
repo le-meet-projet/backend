@@ -35,6 +35,8 @@
 										 {{ __('Add A New Coupon') }}
 									</div>
 									<p class="mg-b-20">{{ __('All fields are required*') }} </p>
+									<form method="POST" action="{{ route('admin.coupons.store') }}">
+										@csrf
 									<div class="pd-30 pd-sm-40 bg-gray-200">
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
@@ -45,14 +47,13 @@
 														<span></span>
 												</div>
 											</div>
-										</div>
-
+										</div>										
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Coupon Code') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder="{{ __('Coupon Code') }} " type="text">
+												<input class="form-control" name="code" placeholder="{{ __('Coupon Code') }} " type="text" required="required fields">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -60,7 +61,7 @@
 												<label class="form-label mg-b-0">{{ __('Title') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder="{{ __('Coupon Title') }} " type="text">
+												<input class="form-control" name="title" placeholder="{{ __('Coupon Title') }} " type="text">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -68,7 +69,7 @@
 												<label class="form-label mg-b-0">{{ __('Value') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder="{{ __('Reducing Value') }} " type="text">
+												<input class="form-control" name="discount" placeholder="{{ __('Reducing Value') }} " type="text" >
 											</div>
 										</div>	 
 																	
@@ -77,7 +78,7 @@
 												<label class="form-label mg-b-0">{{ __('Type') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<select class="form-control select2-no-search select2-hidden-accessible" data-select2-id="13" tabindex="-1" aria-hidden="true">
+												<select class="form-control select2-no-search select2-hidden-accessible" data-select2-id="13" name="discount_type" tabindex="-1" aria-hidden="true">
 												<option label="Choose one" data-select2-id="15">
 												</option>
 												<option value="Female" data-select2-id="31">
@@ -94,12 +95,22 @@
 												<label class="form-label mg-b-0">{{ __('Description') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<textarea class="form-control" placeholder=" " type="text"></textarea>  
+												<textarea class="form-control" name="description" placeholder=" " type="text"></textarea>  
 											</div>
-										</div>    													 
+										</div>
+
+										<div class="row row-xs align-items-center mg-b-20">
+											
+											<input class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block" type="submit" name="add" value="ADD">
+										</div>
+											
+										<!-- <button type="submit"   class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Add') }}</button> -->
+											 
 									</div>
-										<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5">{{ __('Add') }}</button>
-										<button class="btn btn-dark pd-x-30 mg-t-5">{{ __('Cancel') }}</button>
+									</form>
+
+								
+										
 									</div>
 								</div>
 							</div>

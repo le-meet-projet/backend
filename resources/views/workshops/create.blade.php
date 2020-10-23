@@ -28,6 +28,8 @@
 					<!-- breadcrumb -->		 
 					<!-- /row -->
 					<!-- row -->
+					<form class=" " action="{{ route('admin.workshops.add') }}" method='POST' action="" autocomplete="off">
+						@csrf 
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
 							<div class="card">
@@ -42,31 +44,17 @@
 												<label class="form-label mg-b-0">{{ __('Title') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="text">
+												<input required="" class="form-control" placeholder="{{ __('Workshop Subject Name') }}  " type="text" name="title">
 											</div>
 										</div>
-										<div class="row row-xs align-items-center mg-b-20">
-											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Date') }}</label>
-											</div>
-											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control fc-datepicker hasDatepicker" placeholder="MM/DD/YYYY" type="date" id="dp1602760476938">
-											</div>
-										</div>
-										<div class="row row-xs align-items-center mg-b-20">
-											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Hour') }}</label>
-											</div>
-											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="text">
-											</div>
-										</div>
+										 
+										 
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Address') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="text">
+												<input required=""class="form-control" placeholder="{{ __('Workshop Address') }} " type="text" name="address">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -74,7 +62,7 @@
 												<label class="form-label mg-b-0">{{ __('Longtitude') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="text">
+												<input required=""class="form-control" placeholder=" " type="text" name="longtitude">
 											</div>
 										</div>
 									   <div class="row row-xs align-items-center mg-b-20">
@@ -82,7 +70,7 @@
 												<label class="form-label mg-b-0">{{ __('Capacity') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="text">
+												<input required="" class="form-control" placeholder=" " type="text" name="capacity">
 											</div>
 										</div>
 								        <div class="row row-xs align-items-center mg-b-20">
@@ -90,34 +78,20 @@
 												<label class="form-label mg-b-0">{{ __('Description') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<textarea class="form-control" placeholder=" " type="text"></textarea>  
+												<textarea required=""class="form-control" placeholder=" " type="text" name="description"></textarea>  
 											</div>
 										</div>
-								         <div class="row row-xs align-items-center mg-b-20">
-											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Image') }}</label>
-											</div>
-											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="custom-file-input" id=" " type="file"> <label class="custom-file-label" for="customFile">{{ __('Choose file') }}</label>
-											</div>
-										</div>
-										<div class="row row-xs align-items-center mg-b-20">
-											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Map') }}</label>
-											</div>
-											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="custom-file-input" id=" " type="file"> <label class="custom-file-label" for="customFile">{{ __('Choose file') }}</label>
-											</div>
-										</div>																		 
+								         																		 
 									</div>
-										<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5">{{ __('Add') }}</button>
-										<button class="btn btn-dark pd-x-30 mg-t-5">{{ __('Cancel') }}</button>
+										<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Create New Workshop') }}</button>
+										 
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<!-- /row -->				 
+					<!-- /row -->	
+					</form>				 
 				</div>
 				<!-- Container closed -->
 			</div>

@@ -17,7 +17,7 @@
 									<a href=" {{ route('admin.orders.index') }} " class="sub-icon">
 										<svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
 											<i class="fas fa-shopping-basket"></i>
-										</svg> {{ __('Booking Requests') }}
+										</svg> {{ __('Orders') }}
 									</a>
 							 
 								</li>
@@ -31,7 +31,7 @@
 									</a>
 									 <ul class="sub-menu">
 										<li aria-haspopup="true">
-											<a href="{{ route('admin.spaces.index') }}" class="slide-item">{{ __('All') }}</a>
+											<a href="{{ route('admin.spaces.index') }}" class="slide-item">{{ __('Meeting Spaces') }}</a>
 										</li>
 										<li aria-haspopup="true">
 											<a href="{{ route('admin.spaces.create') }}" class="slide-item">{{ __('New Space') }}</a>
@@ -51,7 +51,7 @@
 									</a>
 									<ul class="sub-menu">
 										<li aria-haspopup="true">
-											<a href="{{ route('admin.workshops.index') }}" class="slide-item">{{ __('All') }}</a>
+											<a href="{{ route('admin.workshops.index') }}" class="slide-item">{{ __('Workshops') }}</a>
 										</li>
 										<li aria-haspopup="true">
 											<a href="{{ route('admin.workshops.create') }}" class="slide-item">{{ __('New Workshop') }}</a>
@@ -67,7 +67,7 @@
 										<i class="fe fe-chevron-down horizontal-icon"></i></a>
 	 								<ul class="sub-menu">
 										<li aria-haspopup="true">
-											<a href="{{ route('admin.users.index') }}" class="slide-item">{{ __('All') }}</a>
+											<a href="{{ route('admin.users.index') }}" class="slide-item">{{ __('Users') }}</a>
 										</li>
 										<li aria-haspopup="true">
 											<a href="{{ route('admin.users.create') }}" class="slide-item">{{ __('New User') }}</a>
@@ -82,7 +82,7 @@
 										<i class="fe fe-chevron-down horizontal-icon"></i></a>
 	 								<ul class="sub-menu">
 										<li aria-haspopup="true">
-											<a href="{{ route('admin.coupons.index') }}" class="slide-item">{{ __('All') }}</a>
+											<a href="{{ route('admin.coupons.index') }}" class="slide-item">{{ __('Coupons') }}</a>
 										</li>
 										<li aria-haspopup="true">
 											<a href="{{ route('admin.coupons.create') }}" class="slide-item">{{ __('New Coupon') }}</a>

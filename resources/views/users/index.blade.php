@@ -61,14 +61,14 @@
 													<table class="table text-md-nowrap dataTable no-footer" id="example1" role="grid" aria-describedby="example1_info">
 											<thead>
 												<tr role="row">
-													<th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 131px;">{{ __('Id') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Avatar') }}</th>
+													
+													
 													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Name') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Address') }}</th>
+													
 													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Email') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Phone Number') }}</th>
+													
 													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Role') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Statue') }}</th>
+													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('created at') }}</th>
 													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 105px;">{{ __('More') }}</th>
 													
 		
@@ -78,20 +78,33 @@
 												@foreach($users as $user)
 						
 												<tr>
+<<<<<<< HEAD
+ 
+=======
+
 													<td>{{$user->id}}</td>
 													<td><img src="{{$user->avatar}}" alt="">  </td>
+
+>>>>>>> 83628393d205112cce5ecb84df728f1c2e1c6e09
 													<td>{{$user->name}}</td>
-													<td>{{$user->address}} </td>
+													 
 													<td>{{$user->email}}</td>
-													<td>{{$user->phone}} </td>
+													
 													<td>{{$user->role}}</td>
-													<td>{{$user->status}}</td>
+													<td>{{$user->created_at}}</td>
 													<td>
 														<span class="ml-auto">
-															<a href="{{ route('admin.users.edit') }}">
+															<a href="{{route('admin.users.edit',['id' => $user->id]) }}">
 																<i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i>
 															</a>
-															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
+
+															<a href="{{route('admin.users.delete', $user->id)}}">
+															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i></a>
+
+															<a href="{{ route('admin.users.delete',['id'=> $user->id]) }}">
+																<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
+														    </a>
+
 														</span> 
 													</td>													
 												</tr>

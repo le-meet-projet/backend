@@ -20,4 +20,7 @@ class OrdersController extends Controller
     {
        return view('requests.details');
     }
+
+
+  
 }
