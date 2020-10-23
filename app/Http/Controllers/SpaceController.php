@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Space;
 class SpaceController extends Controller
 {
     /**
@@ -12,8 +12,10 @@ class SpaceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-       return view('spacesMeeting.index');
+    {  
+        $meetings=Space::where('type','=','meeting')->paginate(2);
+        return view('spacesMeeting.index',compact('meetings'));
+       
     }
 
     /**

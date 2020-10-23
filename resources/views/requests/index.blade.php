@@ -1,6 +1,7 @@
 @include('layouts.header') 
 @include('layouts.navbar')
 
+
  <!-- main-content opened -->
 <div class="main-content horizontal-content">
 	<!-- container opened -->
@@ -76,30 +77,21 @@
 												</tr>
 											</thead>
 											<tbody>
+												@foreach($orders as $order)
 												<tr>
-													<td>15</td>
-													<td>25/10/2019</td>
-													<td>8:00 pm</td>
-													<td>soulaiamane</td>
-													<td>15000 $</td>
-													<td>confirmed</td>
-													<td>paypal</td>
-													<td>15%</td>
-													<td>type</td>
+													<td>{{$order->id}}</td>
+													<td>{{$order->date}}</td>
+													<td>{{$order->hour}}</td>
+													<td>{{$order->user->name}}</td>
+													<td>{{$order->price}}</td>
+													<td>{{$order->status}}</td>
+													<td>{{$order->payment_method}}</td>
+													<td>{{$order->	coupon}}</td>
+													<td>{{$order->type}}</td>
 													<td><a href=" {{ route('admin.orders.details') }}">{{ __('details') }}</a></td>
 												</tr>
-												<tr>
-													<td>15</td>
-													<td>25/10/2019</td>
-													<td>8:00 pm</td>
-													<td>soulaiamane</td>
-													<td>15000 $</td>
-													<td>confirmed</td>
-													<td>paypal</td>
-													<td>15%</td>
-													<td>type</td>
-													<td><a href=" {{ route('admin.orders.details') }}">{{ __('details') }}</a></td>
-												</tr>
+												@endforeach
+												
  
 											</tbody>																			 
 										</table>
@@ -110,9 +102,11 @@
 										<div class="dataTables_info" id="example1_info" role="status" aria-live="polite">{{ __('Showing 1 to 3 of 50 entries') }}
 										</div>
 									</div>
-									<div class="col-sm-12 col-md-7">
-										<div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+									{{$orders->links()}}
+									<!-- <div class="col-sm-12 col-md-7">
+										 <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
 											<ul class="pagination">
+												
 												<li class="paginate_button page-item previous disabled" id="example1_previous">
 													<a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link">{{ __('Previous') }}</a>
 												</li>
@@ -131,8 +125,8 @@
 												<li class="paginate_button page-item next" id="example1_next"><a href="#" aria-controls="example1" data-dt-idx="6" tabindex="0" class="page-link">{{ __('Next') }}</a>
 												</li>
 											</ul>
-										</div>
-									</div>
+										</div> 
+									</div> -->
 								</div>
 					 
 					     </div>

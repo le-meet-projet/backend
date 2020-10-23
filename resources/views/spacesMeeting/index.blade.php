@@ -80,15 +80,16 @@
 												</tr>
 											</thead>
 											<tbody>
+												@foreach($meetings as $meeting)
 												<tr>
-													<td>1</td>
-													<td><img src="../../assets/img/cafe.jpg"></td>
-													<td>Coffee Nour</td>
-													<td> 25000 $</td>
-													<td>Riyade</td>
-													<td> Description</td>
-													<td>map</td>
-													<td> 25 persons</td>
+													<td>{{$meeting->id}}</td>
+													<td>{{$meeting->gallery}}</td>
+													<td>{{$meeting->name}}</td>
+													<td> {{$meeting->price}}</td>
+													<td>{{$meeting->address}}</td>
+													<td> {{$meeting->description}}</td>
+													<td>{{$meeting->map}}</td>
+													<td> {{$meeting->capacity}}</td>
 													<td>
 														<span class="ml-auto">
 															<a href="{{ route('admin.spaces.edit') }}"><i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i></a>
@@ -97,6 +98,7 @@
 													</td>
 
 												</tr>
+												@endforeach
 											</tbody>																		 
 										</table>
 									</div>
@@ -106,9 +108,11 @@
 										<div class="dataTables_info" id="example1_info" role="status" aria-live="polite">{{ __('Showing 1 to 3 of 50 entries') }}
 										</div>
 									</div>
-									<div class="col-sm-12 col-md-7">
+									{{$meetings->links()}}
+									<!-- <div class="col-sm-12 col-md-7">
 										<div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
 											<ul class="pagination">
+												
 												<li class="paginate_button page-item previous disabled" id="example1_previous">
 													<a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link">{{ __('Previous') }}</a>
 												</li>
@@ -128,7 +132,7 @@
 												</li>
 											</ul>
 										</div>
-									</div>
+									</div> -->
 								</div>
 							</div>
 							</div>
