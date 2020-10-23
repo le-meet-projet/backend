@@ -56,9 +56,10 @@ class SpaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit( )
-    {
-         return view('spacesMeeting.edit');
+    public function edit($id)
+    {     
+        $content = Space::whereId($id)->first();
+         return view('spacesMeeting.edit',compact('content'));
     }
 
     /**
@@ -68,9 +69,23 @@ class SpaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+      public  function update(Request $request, $id)
     {
-        //
+          $this->validate($request, [
+            'name' => 'unique:spaces',
+                    ]);
+        //dd($request);
+        $space = Space::whereId($id)->first();
+
+
+        $input = $request->all();
+
+        $space->update($input);
+        $notification = array(
+            'message' => 'Coupon successfully updated.',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('admin.spaces.index')->with($notification);
     }
 
     /**
@@ -79,8 +94,11 @@ class SpaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
-        //
+        Space::find($id)->delete();
+    
+        return redirect()->route('admin.spaces.index');
     }
 }

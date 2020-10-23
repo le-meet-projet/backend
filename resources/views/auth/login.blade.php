@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 <!--
  
+=======
+
+
+@section('content')
+>>>>>>> 83628393d205112cce5ecb84df728f1c2e1c6e09
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

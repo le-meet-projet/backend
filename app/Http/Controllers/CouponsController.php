@@ -43,9 +43,9 @@ class CouponsController extends Controller
      * @param $id
      * @return View
      */
-    public function edit( )
+    public function edit($id)
     {
-       // $content = Coupon::whereId($id)->first();
+        $content = Coupon::whereId($id)->first();
         return view('coupons.edit', compact('content'));
     }
 
@@ -59,19 +59,24 @@ class CouponsController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'code' => 'required|unique:coupon',
-            'discount' => 'required|max:3'
-        ]);
-
-        $input = $request->all();
-        Coupon::create($input);
+        
+        $input= $this->validate($request, [
+            'code' => 'required|unique:coupons',
+                    ]);
+        
+        
+       $input = $request->all();
+       Coupon::create($input);
         $notification = array(
             'message' => 'Coupon successfully created.',
             'alert-type' => 'success'
         );
-        return redirect()->route('admin.coupons.home')->with($notification);
+        return redirect()->route('admin.coupons.index')->with($notification);
     }
+
+  
+
+    //
 
     /*/ Update coupon record
     public  function update(Request $request, $id){
@@ -100,10 +105,9 @@ class CouponsController extends Controller
      */
     public  function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'code' => 'required',
-            'discount' => 'required|max:3'
-        ]);
+          $this->validate($request, [
+            'code' => 'required|unique:coupons',
+                    ]);
         //dd($request);
         $coupon = Coupon::whereId($id)->first();
 
@@ -120,7 +124,7 @@ class CouponsController extends Controller
             'message' => 'Coupon successfully updated.',
             'alert-type' => 'success'
         );
-        return redirect()->route('admin.coupons.home')->with($notification);
+        return redirect()->route('admin.coupons.index')->with($notification);
     }
 
     /**
@@ -129,7 +133,7 @@ class CouponsController extends Controller
      * @param $id
      * @return RedirectResponse
      */
-    public function delete($id)
+    public function destroy($id)
     {
         Coupon::find($id)->delete();
 
@@ -137,7 +141,7 @@ class CouponsController extends Controller
             'message' => 'Coupon successfully deleted.',
             'alert-type' => 'success'
         );
-        return redirect()->route('admin.coupons.home')->with($notification);
+        return redirect()->route('admin.coupons.index')->with($notification);
     }
 
     /**

@@ -78,7 +78,14 @@
 												@foreach($users as $user)
 						
 												<tr>
+<<<<<<< HEAD
  
+=======
+
+													<td>{{$user->id}}</td>
+													<td><img src="{{$user->avatar}}" alt="">  </td>
+
+>>>>>>> 83628393d205112cce5ecb84df728f1c2e1c6e09
 													<td>{{$user->name}}</td>
 													 
 													<td>{{$user->email}}</td>
@@ -90,9 +97,14 @@
 															<a href="{{route('admin.users.edit',['id' => $user->id]) }}">
 																<i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i>
 															</a>
+
+															<a href="{{route('admin.users.delete', $user->id)}}">
+															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i></a>
+
 															<a href="{{ route('admin.users.delete',['id'=> $user->id]) }}">
 																<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
 														    </a>
+
 														</span> 
 													</td>													
 												</tr>

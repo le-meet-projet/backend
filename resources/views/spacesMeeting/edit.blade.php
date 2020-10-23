@@ -32,13 +32,16 @@
 									<div class="main-content-label mg-b-5">
 										{{ __(' Edit A Meeting Space') }}
 									</div>
+
 									<div class="pd-30 pd-sm-40 bg-gray-200">
+										<form method="POST" action="{{route('admin.spaces.update',['id'=>$content->id])}}">
+											@csrf
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Name') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" type="text">
+												<input name="name" class="form-control" type="text">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -46,7 +49,7 @@
 												<label class="form-label mg-b-0">{{ __('Address') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" type="text">
+												<input class="form-control" name="adddress" type="text">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -54,7 +57,7 @@
 												<label class="form-label mg-b-0">{{ __('Capacity') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" type="text">
+												<input class="form-control" name="capacity" type="text">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -62,7 +65,7 @@
 												<label class="form-label mg-b-0">{{ __('Price') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="text">
+												<input class="form-control" name="price" type="text">
 											</div>
 										</div>
 								        <div class="row row-xs align-items-center mg-b-20">
@@ -70,7 +73,7 @@
 												<label class="form-label mg-b-0">{{ __('Description') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<textarea class="form-control" type="text"></textarea>  
+												<textarea class="form-control" name="description" type="text"></textarea>  
 											</div>
 										</div>
 								        <div class="row row-xs align-items-center mg-b-20">
@@ -78,7 +81,7 @@
 												<label class="form-label mg-b-0">{{ __('Image') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="custom-file-input" id="customFile" type="file"> <label class="custom-file-label" for="customFile">{{ __('Choose file') }}</label>
+												<input class="custom-file-input" name="image" id="customFile" type="file"> <label class="custom-file-label" for="customFile">{{ __('Choose file') }}</label>
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -86,11 +89,13 @@
 												<label class="form-label mg-b-0">{{ __('Map') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="custom-file-input" id=" " type="file"> <label class="custom-file-label" for="customFile">{{ __('Choose file') }}</label>
+												<input class="custom-file-input" name="map" id=" " type="file"> <label class="custom-file-label" for="customFile">{{ __('Choose file') }}</label>
 											</div>
-										</div>																			 
+										</div>	
+											<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5">{{ __('Edit') }}</button>
+										</form>																		 
 									</div>
-										<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5">{{ __('Edit') }}</button>
+									
 									</div>
 								</div>
 							</div>
