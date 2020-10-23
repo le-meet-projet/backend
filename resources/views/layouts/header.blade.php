@@ -6,14 +6,14 @@
 		<meta name="Author" content="Spruko Technologies Private Limited">
 		<meta name="Keywords" content="admin,admin dashboard,admin dashboard template,admin panel template,admin template,admin theme,bootstrap 4 admin template,bootstrap 4 dashboard,bootstrap admin,bootstrap admin dashboard,bootstrap admin panel,bootstrap admin template,bootstrap admin theme,bootstrap dashboard,bootstrap form template,bootstrap panel,bootstrap ui kit,dashboard bootstrap 4,dashboard design,dashboard html,dashboard template,dashboard ui kit,envato templates,flat ui,html,html and css templates,html dashboard template,html5,jquery html,premium,premium quality,sidebar bootstrap 4,template admin bootstrap 4"/>
 		<title> {{config('app.name','LeMeet')}} </title>
-		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
-		<link href="../../assets/css/icons.css" rel="stylesheet">
-		<link href="../../assets/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet"/>
-		<link href="../../assets/plugins/sidebar/sidebar.css" rel="stylesheet">
-		<link href="../../assets/plugins/morris.js/morris.css" rel="stylesheet">
-		<link href="../../assets/css/style.css" rel="stylesheet">
-		<link href="../../assets/css/style-dark.css" rel="stylesheet">
-		<link href="../../assets/css/skin-modes.css" rel="stylesheet" />
+		<link rel="icon" href="/assets/img/brand/favicon.png" type="image/x-icon"/>
+		<link href="/assets/css/icons.css" rel="stylesheet">
+		<link href="/assets/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet"/>
+		<link href="/assets/plugins/sidebar/sidebar.css" rel="stylesheet">
+		<link href="/assets/plugins/morris.js/morris.css" rel="stylesheet">
+		<link href="/assets/css/style.css" rel="stylesheet">
+		<link href="/assets/css/style-dark.css" rel="stylesheet">
+		<link href="/assets/css/skin-modes.css" rel="stylesheet" />
 
 
 
@@ -23,7 +23,7 @@
 <body class="main-body ">
 		<!-- Loader -->
 		<div id="global-loader">
-			<img src="../../assets/img/loader.svg" class="loader-img" alt="Loader">
+			<img src="/assets/img/loader.svg" class="loader-img" alt="Loader">
 		</div>
 		<!-- /Loader -->
 		<!-- Page -->
@@ -43,7 +43,7 @@
 							<li class="">
 								<div class="dropdown  nav-itemd-none d-md-flex">
 									<a href="?lang=en" class="d-flex  nav-item nav-link pr-0 country-flag1" data-toggle="dropdown" aria-expanded="false">
-										<span class="avatar country-Flag mr-0 align-self-center bg-transparent"><img src="../../assets/img/flags/us_flag.jpg" alt="img"></span>
+										<span class="avatar country-Flag mr-0 align-self-center bg-transparent"><img src="/assets/img/flags/us_flag.jpg" alt="img"></span>
 										<div class="my-auto">
 											<strong class="mr-2 ml-2 my-auto">  {{ __('English') }} </strong>
 										</div>
@@ -51,7 +51,7 @@
 									<div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow" x-placement="bottom-end">
 			 
  										<a href="?lang=ar" class="dropdown-item d-flex ">
-											<span class="avatar  ml-3 align-self-center bg-transparent"><img src="../../assets/img/flags/arabic_flag.png" alt="img"></span>
+											<span class="avatar  ml-3 align-self-center bg-transparent"><img src="/assets/img/flags/arabic_flag.png" alt="img"></span>
 											<div class="d-flex">
 												<span class="mt-2">  {{ __('Arabic') }} </span>
 											</div>
