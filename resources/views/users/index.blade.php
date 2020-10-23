@@ -79,7 +79,7 @@
 						
 												<tr>
 													<td>{{$user->id}}</td>
-													<td>{{$user->avatar}}  </td>
+													<td><img src="{{$user->avatar}}" alt="">  </td>
 													<td>{{$user->name}}</td>
 													<td>{{$user->address}} </td>
 													<td>{{$user->email}}</td>
