@@ -77,9 +77,8 @@
 												<label class="form-label mg-b-0">{{ __('Role') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<select required=""class="form-control select2-no-search select2-hidden-accessible" data-select2-id="13" tabindex="-1" aria-hidden="true" name="role">
-												<option label="Choose one" data-select2-id="15">
-												</option>
+												<select  required=""class="form-control select2-no-search select2-hidden-accessible" data-select2-id="13" tabindex="-1" aria-hidden="true" name="role">
+												 
 												<option value="{{ $content->role }}"  name="role" selected>
 													{{ __('Admin') }}
 												</option>

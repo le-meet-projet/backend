@@ -30,11 +30,11 @@ class Order extends Model
     {
     }
 
-    public function scopeSearch()
+    public function scopeSearch($query)
     {
     }
 
-    public function scoePaied()
+    public function scopePaied($query)
     {
     }
 

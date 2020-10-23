@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'dashboard', 'as' => 'admin.'], function () {
+Route::group(['prefix' => 'dashboard', 'as' => 'admin.', 'middleware' => 'Admin'], function () {
 	Route::get('/', 'DashboardController@home');
 	//orders
 	Route::group(['prefix' => 'orders', 'as' => 'orders.'], function () {
@@ -41,6 +41,17 @@ Route::group(['prefix' => 'dashboard', 'as' => 'admin.'], function () {
 	});
 });
 
+
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
+<<<<<<< HEAD
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+=======
+
+
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+
+
+
+
+>>>>>>> 2baf13bb16f64980c885ec2966604823428fb66e
