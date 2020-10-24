@@ -105,11 +105,9 @@ class CouponsController extends Controller
      */
     public  function update(Request $request, $id)
     {
-          $this->validate($request, [
-            'code' => 'required|unique:coupons',
-                    ]);
+         
         //dd($request);
-        $coupon = Coupon::whereId($id)->first();
+        $input = Coupon::find($id);
 
         if ($request->has('statue')) {
             $request->request->add(['statue' => 'active']);
@@ -117,9 +115,10 @@ class CouponsController extends Controller
             $request->request->add(['statue' => 'inactive']);
         }
 
-        $input = $request->all();
-
-        $coupon->update($input);
+        $input->code = $request->code;
+        
+        $input->save();
+       // $coupon->update($input);
         $notification = array(
             'message' => 'Coupon successfully updated.',
             'alert-type' => 'success'

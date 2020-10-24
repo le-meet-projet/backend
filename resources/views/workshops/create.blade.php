@@ -28,8 +28,7 @@
 					<!-- breadcrumb -->		 
 					<!-- /row -->
 					<!-- row -->
-					<form class=" " action="{{ route('admin.workshops.add') }}" method='POST' action="" autocomplete="off">
-						@csrf 
+					
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
 							<div class="card">
@@ -39,6 +38,8 @@
 									</div>
 									<p class="mg-b-20">{{ __('All fields are required') }}*  </p>
 									<div class="pd-30 pd-sm-40 bg-gray-200">
+									   <form method="POST" action="{{route('admin.workshops.store')}}">
+											@csrf 
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Title') }}</label>
@@ -54,7 +55,11 @@
 												<label class="form-label mg-b-0">{{ __('Address') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
+<<<<<<< HEAD
+												<input required="" class="form-control" placeholder=" " type="text" name="address">
+=======
 												<input required=""class="form-control" placeholder="{{ __('Workshop Address') }} " type="text" name="address">
+>>>>>>> 17666bd4a17dfc02e71e8373da0b01f75d466086
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -62,7 +67,7 @@
 												<label class="form-label mg-b-0">{{ __('Longtitude') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input required=""class="form-control" placeholder=" " type="text" name="longtitude">
+												<input required="" class="form-control" placeholder=" " type="text" name="longtitude">
 											</div>
 										</div>
 									   <div class="row row-xs align-items-center mg-b-20">
@@ -81,9 +86,10 @@
 												<textarea required=""class="form-control" placeholder=" " type="text" name="description"></textarea>  
 											</div>
 										</div>
-								         																		 
+										<button type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Create New Workshop') }}</button>
+								         </form>																		 
 									</div>
-										<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Create New Workshop') }}</button>
+										
 										 
 									</div>
 								</div>
@@ -91,7 +97,7 @@
 						</div>
 					</div>
 					<!-- /row -->	
-					</form>				 
+								 
 				</div>
 				<!-- Container closed -->
 			</div>
