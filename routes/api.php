@@ -16,7 +16,10 @@ use App\User;
 */
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::get('user','ApiController@user');
+    Route::group(['prefix' => 'user'], function () {
+        Route::post('login', 'UserApiController@login');
+        Route::middleware(['auth:api'])->get('user', 'ApiController@user');
+    });
     Route::get('favorites', 'ApiController@favorites');
     Route::get('orders', 'ApiController@orders');
     Route::get('workshops', 'ApiController@workshops');

@@ -16,23 +16,22 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return void
      */
     public function index()
     {
-        $users=User::paginate(2);
-
-       return view('users.index',compact('users'));
+        $users = User::all();
+        echo $users;
+        exit();
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return Application|Factory|Response|View
      */
     public function create()
     {
-
        return view('users.create');
     }
 
@@ -44,10 +43,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
-        $rules = [
-
-        ];
+        $rules = [];
         $messages = [
             'email.required'    => trans("email.required"),
             'email.email'       => trans("email.unique"),
