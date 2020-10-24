@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'v1'], function () {
+    Route::get('user','ApiController@user');
+    Route::get('favorites', 'ApiController@favorites');
+    Route::get('orders', 'ApiController@orders');
+    Route::get('workshops', 'ApiController@workshops');
+    Route::get('search/{id}', 'ApiController@search');
+    Route::get('add-to-fav/{id}', 'ApiController@addToFavorite');
+    Route::get('rem-fav/{id}', 'ApiController@removeFromFavorite');
+    Route::get('find', 'ApiController@findClose');
+    Route::get('request', 'ApiController@request');
+    Route::get('index', 'ApiController@index');
+    Route::get('create', 'ApiController@create');
+    Route::get('edit', 'ApiController@edit');
+    Route::get('update', 'ApiController@update');
+    Route::get('delete', 'ApiController@delete');
+    Route::get('rules', 'ApiController@rules');
+    Route::get('booking', 'ApiController@getBooking');
+    Route::get('space-details/{id}', 'ApiController@showSpaceDetails');
+    Route::get('list-feat', 'ApiController@listFeatured');
+    Route::get('apply-coupon', 'ApiController@applyCoupon');
 });

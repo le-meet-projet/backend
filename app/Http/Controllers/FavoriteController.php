@@ -17,10 +17,7 @@ class FavoriteController extends Controller
     
      public function add($store,$id,Request $request) {
        if (Auth::check()) {
-           $user_id = Auth::user()->id;
-          $data = [ 'user_id' => $user_id, 'productID' => $id ];
-          Favourite::firstOrCreate($data);
-          return redirect()->back()->with('success',trans('wishlist.added')); 
+          
        }
         return view ('website.user');  
      }
