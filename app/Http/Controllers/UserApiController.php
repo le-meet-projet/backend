@@ -17,7 +17,7 @@ class UserApiController extends Controller
 
     /**
      * VALIDATE REQUEST
-     * UPDATE
+     * UPDATE PROFILE & AVAtAR
      */
     public function updateInfo()
     {
@@ -28,6 +28,11 @@ class UserApiController extends Controller
      * LOGIN
      */
     public function login()
+    {
+        return null;
+    }
+
+    public function logout()
     {
         return null;
     }

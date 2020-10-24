@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
@@ -20,22 +21,31 @@ class Order extends Model
     {
         return $this->belongsTo('App\Course');
     }
-
+    
     public function orderDetail()
     {
         return $this->belongsTo('App\User', 'user_id');
     }
 
-    public function statue()
+    /**
+     * 
+     * 
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeSearch(Builder $query)
     {
     }
-
-    public function scopeSearch($query)
+    
+    /**
+     * 
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopePaied(Builder $query)
     {
-    }
-
-    public function scopePaied($query)
-    {
+        return  $query->where('status','paid');
     }
 
     use SoftDeletes;

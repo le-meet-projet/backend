@@ -82,14 +82,24 @@
 																<i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i>
 															</a>
 															<a href="{{route('admin.coupons.delete', $coupon->id)}}">
-															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i></a>
+															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" onclick="return confirm('Are you sure?')" title="" data-placement="top" data-original-title="Delete"></i></a>
 														</span> 
 													</td>													
 												</tr>
 												@endforeach
 											</tbody>																			 
 										</table>
-										{{$coupons->links()}}
+										<div class="row">
+											 <div class="col-sm-12 col-md-7">
+												<div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+													<ul class="pagination">
+														{{$coupons->links()}}
+												 
+													</ul>
+												</div>
+											</div>
+										</div>
+										
 									</div>
 								</div>
 								 

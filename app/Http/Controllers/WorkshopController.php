@@ -42,11 +42,10 @@ class WorkshopController extends Controller
     {
         $input= $this->validate($request, [
 
+
             'name' => 'unique:spaces',
 
-           // 'name' => 'required',
-           
-
+           'name' => 'required',
                     ]);
 
         $space = new Space();
@@ -62,6 +61,12 @@ class WorkshopController extends Controller
 
          
 
+
+  
+ 
+         
+ 
+>>>>>>> 2685cfdafee9486aa0c8022959f7b0ee1e67132c
         
         $space->type="workshop";
         $space->save();

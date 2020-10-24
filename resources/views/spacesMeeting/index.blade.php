@@ -56,12 +56,12 @@
 												<tr role="row">
 													 
 													 
-													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 105px;">{{ __('Name') }}</th>
-													<th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 105px;">{{ __('Address') }}</th>
-													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 105px;">{{ __('Capacity') }}</th>
-													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 105px;">{{ __('Price') }}</th>
+													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 175px;">{{ __('Name') }}</th>
+													<th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 175px;">{{ __('Address') }}</th>
+													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 175px;">{{ __('Capacity') }}</th>
+													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 175px;">{{ __('Price') }}</th>
 													 
-													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 105px;">{{ __('More') }}</th>	
+													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 175px;">{{ __('More') }}</th>	
 		
 												</tr>
 											</thead>
@@ -92,10 +92,16 @@
 									</div>
 								</div>
 								<div class="row">
-									 
-									{{$meetings->links()}}
-								 
+									 <div class="col-sm-12 col-md-7">
+										<div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+											<ul class="pagination">
+												{{$meetings->links()}}
+										 
+											</ul>
+										</div>
+									</div>
 								</div>
+							 
 							</div>
 							</div>
 						</div>
