@@ -14,12 +14,7 @@
 		<link href="/assets/css/style.css" rel="stylesheet">
 		<link href="/assets/css/style-dark.css" rel="stylesheet">
 		<link href="/assets/css/skin-modes.css" rel="stylesheet" />
-<<<<<<< HEAD
-     
-=======
-		
 
->>>>>>> e4eeebd6b4694a854cb39ddc94a61f07b796c4e9
 
 		 
 </head>

@@ -61,19 +61,24 @@ class CouponsController extends Controller
     {
         
         $input= $this->validate($request, [
-           // 'code' => 'required|unique:coupons',
+           'code' => 'required|unique:coupons',
                     ]);
+
+          if ($request->has('statue')) {
+            $request->request->add(['statue' => 'active']);
+        } else {
+            $request->request->add(['statue' => 'inactive']);
+        }
         
         $coupon = new Coupon();
         $coupon->title = $request->title;
         $coupon->code = $request->code;
         $coupon->discount=$request->discount;
-        $coupon->discount_type = $request->discount_type;
+        $coupon->discount_type = $request->type;
         $coupon->description = $request->description;
         $coupon->statue = $request->statue;
         $coupon->save();
-       // $input = $request->all();
-       // Coupon::create($input);
+      
         $notification = array(
             'message' => 'Coupon successfully created.',
             'alert-type' => 'success'
@@ -99,7 +104,7 @@ class CouponsController extends Controller
     {
          
         //dd($request);
-        $input = Coupon::find($id);
+        $coupon = Coupon::find($id);
 
         if ($request->has('statue')) {
             $request->request->add(['statue' => 'active']);
@@ -107,11 +112,15 @@ class CouponsController extends Controller
             $request->request->add(['statue' => 'inactive']);
         }
 
-        $input->code = $request->code;
+        $coupon->title = $request->title;
+        $coupon->code = $request->code;
+        $coupon->discount=$request->discount;
+        $coupon->discount_type = $request->discount_type;
+        $coupon->description = $request->description;
+        $coupon->statue = $request->statue;
         
-        $input->save();
-       // $coupon->update($input);
-        $notification = array(
+        $coupon->save();
+               $notification = array(
             'message' => 'Coupon successfully updated.',
             'alert-type' => 'success'
         );

@@ -75,7 +75,7 @@
 													
 													<td>{{$coupon->code}}</td>
 													<td>{{ $coupon->created_at}} </td>
-													<td> {{ $coupon->status }} </td>
+													<td> {{ $coupon->statue }} </td>
 													<td>
 														<span class="ml-auto">
 															<a href="{{ route('admin.coupons.edit',['id' => $coupon->id]) }}" class="text-primary-600">

@@ -26,7 +26,7 @@
 									<div class="pb-0 mt-0">
 										<div class="d-flex">
 											<div class="">
-												<h4 class="tx-20 font-weight-bold mb-1 text-white">74</h4>
+												<h4 class="tx-20 font-weight-bold mb-1 text-white">{{$orders}}</h4>
 											</div>
 	
 										</div>
@@ -44,7 +44,7 @@
 									<div class="pb-0 mt-0">
 										<div class="d-flex">
 											<div class="">
-												<h4 class="tx-20 font-weight-bold mb-1 text-white">230</h4>
+												<h4 class="tx-20 font-weight-bold mb-1 text-white">{{$workshops}}</h4>
 											</div>
 										</div>
 									</div>
@@ -61,7 +61,7 @@
 									<div class="pb-0 mt-0">
 										<div class="d-flex">
 											<div class="">
-												<h4 class="tx-20 font-weight-bold mb-1 text-white">125</h4>
+												<h4 class="tx-20 font-weight-bold mb-1 text-white">{{$meeting}}</h4>
 											</div>
 										</div>
 									</div>
@@ -78,7 +78,7 @@
 									<div class="pb-0 mt-0">
 										<div class="d-flex">
 											<div class="">
-												<h4 class="tx-20 font-weight-bold mb-1 text-white">50</h4>
+												<h4 class="tx-20 font-weight-bold mb-1 text-white">{{$users}}</h4>
 											</div>
 										</div>
 									</div>
