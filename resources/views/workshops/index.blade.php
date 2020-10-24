@@ -94,7 +94,7 @@
 																<i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i>
 															</a>
 															<a href="{{route('admin.workshops.delete', $workshop->id)}}">
-																<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
+																<i class="si si-trash text-danger mr-2" onclick="return confirm('Are you sure?')"data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
 															</a>
 															
 														</span> 

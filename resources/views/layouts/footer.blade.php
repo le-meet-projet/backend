@@ -70,13 +70,8 @@
 		<script src="/assets/js/jquery.vmap.sampledata.js"></script>
 		<script src="/assets/js/pass.js"></script>
 		<script src="/assets/js/sweetalert.js"></script>
-		 <script src="/assets/js/sweetalert.js">
-		@if(session('success'))
-			<div class='alert alert-success' role='alert'>
-				 {{session('success')}}
-			</div>
-    	@endif
-</script>
+		  
+	 
 
 </body>
 </html>

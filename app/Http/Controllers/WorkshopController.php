@@ -56,17 +56,6 @@ class WorkshopController extends Controller
         $space->capacity = $request->capacity;
         $space->price = $request->price;
         $space->description = $request->description;
-
-        //$space->longtitude = $request->longtitude;
-
-         
-
-
-  
- 
-         
- 
->>>>>>> 2685cfdafee9486aa0c8022959f7b0ee1e67132c
         
         $space->type="workshop";
         $space->save();
