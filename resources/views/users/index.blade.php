@@ -78,10 +78,14 @@
 												@foreach($users as $user)
 						
 												<tr>
+<<<<<<< HEAD
+ 
+=======
 
 													<td>{{$user->id}}</td>
 													<td><img src="{{$user->avatar}}" alt="">  </td>
 
+>>>>>>> 83628393d205112cce5ecb84df728f1c2e1c6e09
 													<td>{{$user->name}}</td>
 													 
 													<td>{{$user->email}}</td>

@@ -1,6 +1,11 @@
+<<<<<<< HEAD
+<!--
+ 
+=======
 
 
 @section('content')
+>>>>>>> 83628393d205112cce5ecb84df728f1c2e1c6e09
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -70,9 +75,8 @@
         </div>
     </div>
 </div>
-@endsection
-=======
-
+ 
+-->
 
 
 <!DOCTYPE html>
@@ -218,4 +222,4 @@
 
 	</body>
 </html>
->>>>>>> 2baf13bb16f64980c885ec2966604823428fb66e
+ 
