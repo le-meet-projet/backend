@@ -27,10 +27,6 @@ class Order extends Model
         return $this->belongsTo('App\User', 'user_id');
     }
 
-    public function statue()
-    {
-    }
-
     /**
      * 
      * 
@@ -49,6 +45,7 @@ class Order extends Model
      */
     public function scopePaied(Builder $query)
     {
+        return  $query->where('status','paid');
     }
 
     use SoftDeletes;

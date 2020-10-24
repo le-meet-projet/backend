@@ -3,17 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Favourite , Order};
-use Auth;
+use App\{Favorite, Order, Space, User, Workshop};
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 
 class ApiController extends Controller
 {
     /**
-     * SET CURRENT USER 
+     * SET CURRENT USER
      */
     public function __construct()
     {
-        return;
+    }
+
+    public function user(Request $request)
+    {
+        echo User::all()->toJson(JSON_PRETTY_PRINT);
+        exit;
     }
 
     /**
@@ -22,7 +28,8 @@ class ApiController extends Controller
     public function favorites()
     {
         $user = Auth::user();
-        return $user->favorites()->paginate(10)->toJson(JSON_PRETTY_PRINT);
+        echo $user->favorites()->paginate(10)->toJson(JSON_PRETTY_PRINT);
+        exit();
     }
 
     /**
@@ -31,7 +38,17 @@ class ApiController extends Controller
     public function orders()
     {
         $user = Auth::user();
-        return $user->favorites()->paginate(10)->toJson(JSON_PRETTY_PRINT);
+        echo $user->orders()->paginate(10)->toJson(JSON_PRETTY_PRINT);
+        exit();
+    }
+
+    /**
+     * RETURN THE DETAILS OF ORDER BY ID
+     * @param int $id
+     */
+    public function orderDetails(int $id)
+    {
+        return null;
     }
 
     /**
@@ -40,26 +57,53 @@ class ApiController extends Controller
      */
     public function workshops()
     {
-        return null;
+        $user = Auth::user();
+        echo $user->workshops()->toJson(JSON_PRETTY_PRINT);
     }
 
     /**
-     * USE FILTER 
+     * USE FILTER
      * RETURN ALL THE WORKSHOPS BY FILTER
+     * @param $id
+     * @return null
      */
-    public function Search()
+    public function search(int $id)
     {
-        return null;
+        echo Workshop::find($id);
+        exit();
     }
 
-    public function addToFavorite()
+    /**
+     * ADD PRODUCT TO FAVORITE
+     *
+     * @param Request $request
+     * @param $id
+     * @return void
+     */
+    public function addToFavorite(Request $request, $id)
     {
-        return null;
+          $user_id = Auth::user()->id;
+          $data = ['user_id' => $user_id, 'productID' => $id];
+          Favorite::firstOrCreate($data);
+          unset($user,$data);
+          echo Response()->json(['success'=>'added successfully to favorite']);
+          exit();
     }
 
-    public function removeFromFavorite()
+    /**
+     * REMOVE PRODUCT FROM FAVORITE
+     * DELETE FAVORITE
+     *
+     * @param Request $request
+     * @param $id
+     * @return void
+     */
+    public function removeFromFavorite(Request $request, $id)
     {
-        return null;
+        $favorite = Favorite::findOrFails(['user_id' => $request->user()->id, 'product_id' => $id]);
+        $favorite->delete();
+        echo Response::json(['success' => 'Removed from favorite']);
+        exit();
     }
 
     public function findClose()
@@ -69,7 +113,7 @@ class ApiController extends Controller
 
     /**
      * VALIDATE THE REQUEST
-     * SAVE THE ORDER 
+     * SAVE THE ORDER
      * SEND EMAIL TO USER
      */
     public function request()
@@ -82,11 +126,14 @@ class ApiController extends Controller
      */
     public function index()
     {
-        return null;
+        $workshops = Workshop::all();
+        echo Response::json(['workshops' => $workshops]);
+        unset($workshops);
+        exit();
     }
 
     /**
-     * LOAD CATEGORIES (ID, NAME) TO ARRAY 
+     * LOAD CATEGORIES (ID, NAME) TO ARRAY
      * SHOW THE CREATE PAGE WITH CATEGORIES
      * VALIDATE THE REQUEST
      * STORE IN DATABASE
@@ -99,8 +146,8 @@ class ApiController extends Controller
 
     /**
      * GET THE WORKSHOP
-     * LOAD CATEGORIS (ID, NAME) TO ARRAY 
-     * SHOW THE CREATE PAGE WITH WORKSHOP & CATEGORIS
+     * LOAD CATEGORIES (ID, NAME) TO ARRAY
+     * SHOW THE CREATE PAGE WITH WORKSHOP & CATEGORIES
      */
     public function edit()
     {
@@ -122,16 +169,60 @@ class ApiController extends Controller
      * GET THE WORKSHOP
      * DELETE
      * REDIRECT WITH SUCCESS
+     * @param int $id
+     * @return null
      */
-    public function delete()
+    public function delete(int $id)
     {
-        return null;
+        $workshop = Workshop::find($id);
+        $workshop->delete();
+        unset($workshop);
+        echo Response::json(['success' => 'The workshop was deleted with successfully']);
+        exit();
     }
 
     /**
      * RETURN VALIDATION RULES ARRAY
      */
     public function rules()
+    {
+        return null;
+    }
+
+    /**
+     * GET BOOKING
+     *
+     * @return |null
+     */
+    public function getBooking()
+    {
+        return null;
+    }
+
+    /**
+     * SHOW SPACE DETAILS WITH REVIEWS
+     *
+     * @param int $id
+     * @return null
+     */
+    public function showSpaceDetails(int $id)
+    {
+        echo Space::find($id);
+        exit();
+    }
+
+    public function applyCoupon()
+    {
+        echo Response::json(['success' => 'Your coupon was applied']);
+        exit();
+    }
+
+    /**
+     * RETURN THE LIST FEATURED
+     *
+     * @return |null
+     */
+    public function listFeatured()
     {
         return null;
     }

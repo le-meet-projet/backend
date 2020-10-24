@@ -5,24 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Hash;
+use Illuminate\Http\Response;
+
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
         $users=User::paginate(2);
-        
+
        return view('users.index',compact('users'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -33,12 +35,12 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
-         
+
         $rules = [
             'name' => 'required|string|min:4',
             'email' => 'required|email|unique:users',
@@ -65,7 +67,7 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->phone = $request->input('phone');
         $user->role = $request->input('role');
-        
+
         $user->save();
 
         return redirect()->route('admin.users.index')->with('success', 'Post Created');
@@ -75,12 +77,12 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
          //  $pagination=User::paginate(2);
-         
+
          // return view('users.index', compact('pagination'));
     }
 
@@ -88,9 +90,9 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-     public function edit($id) {     
+     public function edit($id) {
         $content = User::find($id);
         return view ('users.edit',compact('content'));
 
@@ -113,13 +115,13 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
 
          User::find($id)->delete();
-    
+
         return redirect()->route('admin.users.index');
 
         $content= User::find($id);
