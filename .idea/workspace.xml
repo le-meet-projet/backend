@@ -5,18 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f95f1bca-670e-470b-b664-522e06bfda65" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/public/assets/js/pass.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Favorite.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Favorite.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FavoriteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FavoriteController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserApiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CouponsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CouponsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SpaceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SpaceController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Order.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Order.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WorkshopController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WorkshopController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Space.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Space.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/coupons/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/coupons/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/coupons/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/coupons/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/coupons/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/coupons/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/footer.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/header.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/spacesMeeting/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/spacesMeeting/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/spacesMeeting/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/spacesMeeting/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/spacesMeeting/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/spacesMeeting/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/users/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/users/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/users/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/workshops/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/workshops/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/workshops/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/workshops/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/workshops/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/workshops/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -170,7 +181,7 @@
       <workItem from="1603368800652" duration="5947000" />
       <workItem from="1603485065281" duration="5023000" />
       <workItem from="1603493359647" duration="943000" />
-      <workItem from="1603541518250" duration="1513000" />
+      <workItem from="1603541518250" duration="1851000" />
     </task>
     <servers />
   </component>
@@ -182,9 +193,9 @@
       <screen x="0" y="40" width="1536" height="824" />
     </state>
     <state x="590" y="211" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.40.1536.824@0.40.1536.824" timestamp="1603370827992" />
-    <state x="430" y="185" width="672" height="678" key="search.everywhere.popup" timestamp="1603542296209">
+    <state x="430" y="185" width="672" height="678" key="search.everywhere.popup" timestamp="1603543279304">
       <screen x="0" y="40" width="1536" height="824" />
     </state>
-    <state x="430" y="185" width="672" height="678" key="search.everywhere.popup/0.40.1536.824@0.40.1536.824" timestamp="1603542296209" />
+    <state x="430" y="185" width="672" height="678" key="search.everywhere.popup/0.40.1536.824@0.40.1536.824" timestamp="1603543279304" />
   </component>
 </project>

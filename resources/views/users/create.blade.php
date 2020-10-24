@@ -51,7 +51,7 @@
 												<label  class="form-label mg-b-0">{{ __('Email') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input required="" class="form-control "name="email" placeholder=" {{ __('User Email') }}" type="email">
+												<input required="" class="form-control "name="email" placeholder=" {{ __('User Email') }}" type="email" value="{{ old('email') }}">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -59,7 +59,7 @@
 												<label class="form-label mg-b-0">{{ __('Password') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input required="" type="password" name="password" id="password" class="form-control"   placeholder="{{ __('Password') }} ">
+												<input required="" type="password" name="password" id="password" class="form-control"   placeholder="{{ __('Password') }} "value="{{ old('password') }}">
 											</div>
 										</div>										
 										
@@ -68,7 +68,7 @@
 												<label class="form-label mg-b-0">{{ __('Phone Number') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input required="" class="form-control" name="phone" placeholder=" {{ __('User Phone Number') }}" type="text">
+												<input required="" class="form-control" name="phone" placeholder=" {{ __('User Phone Number') }}" type="number" value="{{ old('phone') }}">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">

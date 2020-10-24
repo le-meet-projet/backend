@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\User;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
@@ -36,19 +40,14 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return Response
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
 
         $rules = [
-            'name' => 'required|string|min:4',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:3',
-            'phone' => 'required',
-            'role'=>  'required'
-        ];
 
+        ];
         $messages = [
             'email.required'    => trans("email.required"),
             'email.email'       => trans("email.unique"),
@@ -70,7 +69,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('admin.users.index')->with('success', 'Post Created');
+        return redirect()->route('admin.users.index')->with('success', 'User Created');
     }
 
     /**
@@ -90,15 +89,12 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return Application|Factory|Response|View
      */
      public function edit($id) {
         $content = User::find($id);
         return view ('users.edit',compact('content'));
-
     }
-
-
 
     public function update(Request $request, $id) {
         $user = User::find($id);
@@ -115,18 +111,11 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return RedirectResponse
      */
     public function destroy($id)
     {
-
-         User::find($id)->delete();
-
+        User::find($id)->delete();
         return redirect()->route('admin.users.index');
-
-        $content= User::find($id);
-        $content->delete();
-        return redirect()->route('admin.users.index')->with('success',trans('user.deleted'));
-
     }
 }

@@ -22,9 +22,11 @@
 						</div>
  
 					</div>
-					<!-- breadcrumb -->		 
-					<!-- /row -->
+					<!-- breadcrumb -->		
+
 					<!-- row -->
+					<form method="POST" action="{{route('admin.spaces.store')}}">
+											@csrf
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
 							<div class="card">
@@ -34,12 +36,13 @@
 									</div>
 									<p class="mg-b-20">{{ __('All fields are required') }}* </p>
 									<div class="pd-30 pd-sm-40 bg-gray-200">
+										
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Name') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder="{{ __(' ') }} " type="text">
+												<input class="form-control" name="name" placeholder="{{ __('Space Name ') }} " type="text" required="">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -47,7 +50,7 @@
 												<label class="form-label mg-b-0">{{ __('Address') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="text">
+												<input class="form-control" name="address" placeholder="{{ __('Space Address ') }} " type="text" required="required">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -55,7 +58,7 @@
 												<label class="form-label mg-b-0">{{ __('Capacity') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="text">
+												<input class="form-control" name="capacity" placeholder="{{ __('Space Capacity ') }} " type="number" required="required">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -63,7 +66,7 @@
 												<label class="form-label mg-b-0">{{ __('Price') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="text">
+												<input class="form-control" name="price" placeholder="{{ __('Price ') }} " type="number" required="required">
 											</div>
 										</div>
 								        <div class="row row-xs align-items-center mg-b-20">
@@ -71,34 +74,23 @@
 												<label class="form-label mg-b-0">{{ __('Description') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<textarea class="form-control" placeholder=" " type="text"></textarea>  
+												<textarea class="form-control" name="description" placeholder=" " type="text" required="required"></textarea>  
 											</div>
 										</div>
-								        <div class="row row-xs align-items-center mg-b-20">
-											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Image') }}</label>
-											</div>
-											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="custom-file-input" id=" " type="file"> <label class="custom-file-label" for="customFile">{{ __('Choose file') }}</label>
-											</div>
-										</div>
-										<div class="row row-xs align-items-center mg-b-20">
-											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Map') }}</label>
-											</div>
-											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="custom-file-input" id=" " type="file"> <label class="custom-file-label" for="customFile">{{ __('Choose file') }}</label>
-											</div>
-										</div>																		 
+								         
+										 
+										
+									 												
+													 
 									</div>
-										<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5">{{ __('Add') }}</button>
-										<button class="btn btn-dark pd-x-30 mg-t-5">{{ __('Cancel') }}</button>
+										<button type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Create New Space') }}</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<!-- /row -->				 
+					<!-- /row -->	
+				</form>				 
 				</div>
 				<!-- Container closed -->
 			</div>
