@@ -1,6 +1,31 @@
 @extends('/layouts/app')
 
 @section('content')
+<script type="text/javascript">
+		var state= false;
+function tooglePassword(){
+    if(state){
+	document.getElementById("password").setAttribute("type","password");
+	document.getElementById("eye").style.color='#7a797e';
+	state = false;
+     }
+     else{
+	document.getElementById("password").setAttribute("type","text");
+	document.getElementById("eye").style.color='#5887ef';
+	state = true;
+     }
+}
+ function password_generator( ) {
+        var ok = 'azertyupqsdfghjkmwxcvbn23456789AZERTYUPQSDFGHJKMWXCVBN';
+        var pass = '';
+        longueur = 15;
+        for(i=0;i<longueur;i++){
+            var wpos = Math.round(Math.random()*ok.length);
+            pass+=ok.substring(wpos,wpos+1);
+        }
+        document.getElementById("password").value = pass;
+    }
+</script>
  <!-- main-content opened -->
 <div class="container">
 			<div class="main-content horizontal-content">
@@ -38,6 +63,7 @@
 									<div class="main-content-label mg-b-5">
 										{{ __(' Edit User') }}
 									</div>
+									 <p>{{ __('all information are in safe hands') }}</p>
 									 <div class="pd-30 pd-sm-40 bg-gray-200">
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
@@ -52,24 +78,15 @@
 												<label class="form-label mg-b-0">{{ __('Email') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input required=""class="form-control "name="email" placeholder=" {{ __('User Email') }}" type="mail" value="{{ $content->email }}">
+												<input required="" class="form-control "name="email" placeholder=" {{ __('User Email') }}" type="mail" value="{{ $content->email }}">
 											</div>
 										</div>
-										<div class="row row-xs align-items-center mg-b-20">
-											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Password') }}</label>
-											</div>
-											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input required=""type="password" name="password" id="password" class="form-control"   placeholder="{{ __('Password') }} ">
-											</div>
-										</div>										
-										
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Phone Number') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input required=""class="form-control" name="phone" placeholder=" {{ __('User Phone Number') }}" type="text" value="{{ $content->phone }}">
+												<input required=""class="form-control" name="phone" placeholder=" {{ __('User Phone Number') }}" type="number" value="{{ $content->phone }}">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -77,20 +94,45 @@
 												<label class="form-label mg-b-0">{{ __('Role') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<select  required=""class="form-control select2-no-search select2-hidden-accessible" data-select2-id="13" tabindex="-1" aria-hidden="true" name="role">
-												 
-												<option value="{{ $content->role }}"  name="role" selected>
-													{{ __('Admin') }}
-												</option>
-												<option value="{{ $content->role }}"   name="role">
-													{{ __('User') }}
-												</option>
-											</select> 
+												<select name="role" id="input-role" class="form-control">
+													<option value="{{ $content->role }}">{{ $content->role }} </option>
+													@if($content->role == 'admin')
+													<option value="user">{{ __('user') }}  </option>
+													@elseif($content->role == 'user')
+													<option value="admin">{{ __('admin') }}</option>
+													@else
+													<option value="user">{{ __('user') }}  </option>
+													<option value="admin">{{ __('admin') }}</option>
+													@endif
+											   </select> 
+
 											</div>
-										</div>	
-									 													 
+										</div>												 
 									</div>
-										<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Save Changes') }}</button>
+							 </div>
+  							<div class="card-body">
+								   <div class="main-content-label mg-b-5">
+										{{ __(' Edit Password') }}
+									</div>
+									 <div class="pd-30 pd-sm-40 bg-gray-200">
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Password') }}</label>
+											</div>
+											<div class="input-group">
+                                                <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('Enter here the new password') }}"    />
+                                            <div class="input-group-btn">
+                                                <button type="button" onclick="tooglePassword()" class="btn btn-default"><i id="eye" class="icon-eye"></i></button>
+                                            </div>
+                                        </div>
+
+									</div>																							<div class="col-md-3">
+                                <a onclick="password_generator()" class="btn btn-primary">{{ __('create strong password') }}</a>
+                            </div> 
+							</div>
+
+							</div>
+								<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Save Changes') }}</button>
 									 
 								</div>
 							</div>
