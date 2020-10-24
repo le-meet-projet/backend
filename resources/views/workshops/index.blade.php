@@ -23,6 +23,11 @@
 							</div>					 
 						</div>
 						</div>
+						       <!-- @if(session('message')) 
+                                <div class="alert alert-success">
+                                {{session('message')}}
+                                </div>
+                                @endif  -->
 						<div class="d-flex my-xl-auto right-content">						
  	
 							<div class="pr-1 mb-3 mb-xl-0">
@@ -75,7 +80,7 @@
 											<tbody>
 						                         @foreach($workshops as $workshop)
 												<tr>
-													<td>1</td>
+													<td>{{$workshop->id}}</td>
 													<td>{{$workshop->gallery}}</td>
 													<td>{{$workshop->name}}</td>
 													<td>{{$workshop->date}}</td>
@@ -90,7 +95,10 @@
 															<a href="{{ route('admin.workshops.edit') }}">
 																<i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i>
 															</a>
-															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
+															<a href="{{route('admin.workshops.delete', $workshop->id)}}">
+																<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
+															</a>
+															
 														</span> 
 													</td>
 										        </tr>

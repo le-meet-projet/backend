@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Space;
-use DB;
+use App\workshop;
 
 class WorkshopController extends Controller
 {
@@ -85,6 +85,8 @@ class WorkshopController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Space::find($id)->delete();
+    
+        return redirect()->route('admin.workshops.index');
     }
 }

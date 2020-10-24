@@ -56,9 +56,10 @@ class SpaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit( )
-    {
-         return view('spacesMeeting.edit');
+    public function edit($id)
+    {     
+        $content = Space::whereId($id)->first();
+         return view('spacesMeeting.edit',compact('content'));
     }
 
     /**
@@ -79,8 +80,11 @@ class SpaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
-        //
+        Space::find($id)->delete();
+    
+        return redirect()->route('admin.spaces.index');
     }
 }

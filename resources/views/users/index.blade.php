@@ -91,7 +91,8 @@
 															<a href="{{ route('admin.users.edit') }}">
 																<i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i>
 															</a>
-															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
+															<a href="{{route('admin.users.delete', $user->id)}}">
+															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i></a>
 														</span> 
 													</td>													
 												</tr>
