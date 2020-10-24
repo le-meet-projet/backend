@@ -41,16 +41,27 @@ class WorkshopController extends Controller
     public function store(Request $request)
     {
         $input= $this->validate($request, [
+<<<<<<< HEAD
             'name' => 'unique:spaces',
+=======
+           // 'name' => 'required',
+           
+>>>>>>> e4eeebd6b4694a854cb39ddc94a61f07b796c4e9
                     ]);
 
         $space = new Space();
         $space->name = $request->title;
         $space->address = $request->address;
+        $space->date = $request->date;
+        $space->time = $request->time;
         $space->capacity = $request->capacity;
         $space->price = $request->price;
         $space->description = $request->description;
+<<<<<<< HEAD
         //$space->longtitude = $request->longtitude;
+=======
+         
+>>>>>>> e4eeebd6b4694a854cb39ddc94a61f07b796c4e9
         
         $space->type="workshop";
         $space->save();

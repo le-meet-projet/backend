@@ -38,6 +38,10 @@ class SpaceController extends Controller
     {
         $input= $this->validate($request, [
             'name' => 'required|unique:spaces',
+            'address' => 'required',
+            'capacity' => 'required',
+            'price' => 'required'
+
                     ]);
         
         
@@ -51,8 +55,7 @@ class SpaceController extends Controller
         $space->capacity = $request->capacity;
         $space->price = $request->price;
         $space->description = $request->description;
-        $space->gallery = $request->image;
-        $space->map = $request->map;
+        
         $space->type="meeting";
         $space->save();
         $notification = array(
@@ -130,8 +133,9 @@ class SpaceController extends Controller
 
     public function destroy($id)
     {
-        Space::find($id)->delete();
-    
-        return redirect()->route('admin.spaces.index');
+         
+         $content= Space::find($id);
+        $content->delete();
+        return redirect()->route('admin.spaces.index')->with('success',trans('user.deleted'));
     }
 }

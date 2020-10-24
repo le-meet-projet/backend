@@ -61,7 +61,7 @@ class CouponsController extends Controller
     {
         
         $input= $this->validate($request, [
-            'code' => 'required|unique:coupons',
+           // 'code' => 'required|unique:coupons',
                     ]);
         
         $coupon = new Coupon();

@@ -40,11 +40,7 @@ class UserController extends Controller
     {
          
         $rules = [
-            'name' => 'required|string|min:4',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:3',
-            'phone' => 'required',
-            'role'=>  'required'
+             
         ];
 
         $messages = [
@@ -68,7 +64,7 @@ class UserController extends Controller
         
         $user->save();
 
-        return redirect()->route('admin.users.index')->with('success', 'Post Created');
+        return redirect()->route('admin.users.index')->with('success', 'User Created');
     }
 
     /**
@@ -118,9 +114,7 @@ class UserController extends Controller
     public function destroy($id)
     {
 
-         User::find($id)->delete();
-    
-        return redirect()->route('admin.users.index');
+         
 
         $content= User::find($id);
         $content->delete();

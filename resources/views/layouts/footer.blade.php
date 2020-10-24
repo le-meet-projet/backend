@@ -1,11 +1,7 @@
 
 	 
-
-		
-		</div>
-		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
-
 		<!-- JQuery min js -->
+
 		<script src="/assets/plugins/jquery/jquery.min.js"></script>
 
 		<!-- Bootstrap Bundle js -->
@@ -72,3 +68,4 @@
 		<!-- custom js -->
 		<script src="/assets/js/custom.js"></script>
 		<script src="/assets/js/jquery.vmap.sampledata.js"></script>
+		<script src="/assets/js/pass.js"></script>
