@@ -64,9 +64,16 @@ class CouponsController extends Controller
             'code' => 'required|unique:coupons',
                     ]);
         
-        
-       $input = $request->all();
-       Coupon::create($input);
+        $coupon = new Coupon();
+        $coupon->title = $request->title;
+        $coupon->code = $request->code;
+        $coupon->discount=$request->discount;
+        $coupon->discount_type = $request->discount_type;
+        $coupon->description = $request->description;
+        $coupon->statue = $request->statue;
+        $coupon->save();
+       // $input = $request->all();
+       // Coupon::create($input);
         $notification = array(
             'message' => 'Coupon successfully created.',
             'alert-type' => 'success'
@@ -78,22 +85,7 @@ class CouponsController extends Controller
 
     //
 
-    /*/ Update coupon record
-    public  function update(Request $request, $id){
-        $this->validate($request, [
-            'coupon' => 'required',
-            'discount' => 'required|max:3'
-        ]);
-        $input = $request->all();
-        $coupon = Coupon::whereId($id)->first();
-        $coupon->update($input);
-        $notification = array(
-            'message' => 'Coupon successfully updated.',
-            'alert-type' => 'success'
-        );
-        return redirect()->route('admin.coupons.index')->with($notification);
-    }*/
-
+   
 
     /**
      * Update coupon record

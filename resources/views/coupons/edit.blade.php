@@ -43,15 +43,13 @@
 												<label class="form-label mg-b-0">{{ __('Activate the coupon') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												 <div class="main-toggle on">
-													<span></span>
-												</div>
+											<label >
+
+                                              <input name='statue' type="checkbox"  value="{{ $content->statue }}" />
+                                             <span class="slider round"></span>
+                                             </label>
 											</div>
-											<!-- <div class="col-md-8 mg-t-5 mg-md-t-0">
-												 
-													<input name='statue' type="checkbox"  value="{{ $content->statue }}" />
-												
-											</div> -->
+
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
