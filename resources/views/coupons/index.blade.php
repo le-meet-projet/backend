@@ -82,7 +82,7 @@
 																<i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i>
 															</a>
 															<a href="{{route('admin.coupons.delete', $coupon->id)}}">
-															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i></a>
+															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" onclick="return confirm('Are you sure?')" title="" data-placement="top" data-original-title="Delete"></i></a>
 														</span> 
 													</td>													
 												</tr>

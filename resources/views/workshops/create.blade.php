@@ -55,15 +55,10 @@
 												<label class="form-label mg-b-0">{{ __('Address') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-<<<<<<< HEAD
+ 
 
 												<input required=""class="form-control" placeholder="{{ __('Workshop Address') }} " type="text" name="address">
-
-=======
  
-											 
- 
-												<input required=""class="form-control" placeholder="{{ __('Workshop Address') }} " type="text" name="address">
  
 											</div>
 										</div>
@@ -73,7 +68,7 @@
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
 												<input class="form-control fc-datepicker hasDatepicker" name="date" placeholder="MM/DD/YYYY" type="date" id="dp1602760476938">
->>>>>>> e4eeebd6b4694a854cb39ddc94a61f07b796c4e9
+ 
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">

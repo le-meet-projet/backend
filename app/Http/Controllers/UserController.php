@@ -102,7 +102,7 @@ class UserController extends Controller
         $user->role     = $request->role;
         $user->password = Hash::make($request->password);
         $user->save();
-        return redirect()->route('admin.users.index')->with('success',trans('user.updated'));
+        return redirect()->route('admin.users.index')->with('success','user updated');
     }
 
     /**
