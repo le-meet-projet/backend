@@ -14,7 +14,7 @@
 		<link href="/assets/css/style.css" rel="stylesheet">
 		<link href="/assets/css/style-dark.css" rel="stylesheet">
 		<link href="/assets/css/skin-modes.css" rel="stylesheet" />
-		<link href="/js/main.js"rel="stylesheet"  />
+		
 
 
 		 

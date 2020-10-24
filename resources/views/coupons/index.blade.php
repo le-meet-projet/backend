@@ -61,10 +61,10 @@
 													<table class="table text-md-nowrap dataTable no-footer" id="example1" role="grid" aria-describedby="example1_info">
 											<thead>
 												<tr role="row">
-													<th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 131px;">{{ __('Coupon Code') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Date') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Statue') }}</th>
-													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 105px;">{{ __('More') }}</th>
+													<th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 171px;">{{ __('Coupon Code') }}</th>
+													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 154px;">{{ __('Date') }}</th>
+													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 174px;">{{ __('Statue') }}</th>
+													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 135px;">{{ __('More') }}</th>
 													
 		
 												</tr>
@@ -74,7 +74,7 @@
 												<tr>
 													
 													<td>{{$coupon->code}}</td>
-													<td>{{ $coupon->created_at->diffForHumans() }} </td>
+													<td>{{ $coupon->created_at}} </td>
 													<td> {{ $coupon->status }} </td>
 													<td>
 														<span class="ml-auto">

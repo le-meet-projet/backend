@@ -34,7 +34,7 @@
 							<div class="card">
 								<div class="card-body">
 									<div class="main-content-label mg-b-5">
-										 {{ __('Edit a Workshop') }}
+										 {{ __('Edit Workshop') }}
 									</div>
 									 <div class="pd-30 pd-sm-40 bg-gray-200">
 									 	<form method="POST" action="{{route('admin.workshops.update' , ['id' => $content->id ])}}">
@@ -57,7 +57,7 @@
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Hour') }}</label>
+												<label class="form-label mg-b-0">{{ __('Time') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
 												<input class="form-control" placeholder=" " type="text" name="hour" value="{{$content->time}}">
@@ -71,14 +71,7 @@
 												<input class="form-control" placeholder=" " type="text" name="address" value="{{$content->address}}">
 											</div>
 										</div>
-										<div class="row row-xs align-items-center mg-b-20">
-											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Longtitude') }}</label>
-											</div>
-											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="text" name="longtitude" value="{{$content->created_at->diffForHumans()}}">
-											</div>
-										</div>
+										 
 									   <div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Capacity') }}</label>
@@ -95,32 +88,19 @@
 												<textarea class="form-control" placeholder=" " type="text" name="description">{{$content->description}}</textarea>  
 											</div>
 										</div>
-								         <div class="row row-xs align-items-center mg-b-20">
-											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Image') }}</label>
-											</div>
-											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="custom-file-input" id=" " type="file" name="image" > <label class="custom-file-label" for="customFile">{{ __('Choose file') }}</label>
-											</div>
-										</div>
-										<div class="row row-xs align-items-center mg-b-20">
-											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Map') }}</label>
-											</div>
-											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="custom-file-input" id=" " type="file" name="map"> <label class="custom-file-label" for="customFile">{{ __('Choose file') }}</label>
-											</div>
-										</div>
-										<button type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5">{{ __('Edit') }}</button>
-								         </form>																 
-									</div>
+								          
+										 
 										
+								       															 
+									</div>
+										<button type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Save Changes') }}</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<!-- /row -->				 
+					<!-- /row -->
+					  </form>					 
 				</div>
 				<!-- Container closed -->
 			</div>
