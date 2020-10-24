@@ -6,15 +6,14 @@
 		<meta name="Author" content="Spruko Technologies Private Limited">
 		<meta name="Keywords" content="admin,admin dashboard,admin dashboard template,admin panel template,admin template,admin theme,bootstrap 4 admin template,bootstrap 4 dashboard,bootstrap admin,bootstrap admin dashboard,bootstrap admin panel,bootstrap admin template,bootstrap admin theme,bootstrap dashboard,bootstrap form template,bootstrap panel,bootstrap ui kit,dashboard bootstrap 4,dashboard design,dashboard html,dashboard template,dashboard ui kit,envato templates,flat ui,html,html and css templates,html dashboard template,html5,jquery html,premium,premium quality,sidebar bootstrap 4,template admin bootstrap 4"/>
 		<title> {{config('app.name','LeMeet')}} </title>
-		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
-		<link href="../../assets/css/icons.css" rel="stylesheet">
-		<link href="../../assets/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet"/>
-		<link href="../../assets/plugins/sidebar/sidebar.css" rel="stylesheet">
-		<link href="../../assets/plugins/morris.js/morris.css" rel="stylesheet">
-		<link href="../../assets/css/style.css" rel="stylesheet">
-		<link href="../../assets/css/style-dark.css" rel="stylesheet">
-		<link href="../../assets/css/skin-modes.css" rel="stylesheet" />
-
+		<link rel="icon" href="/assets/img/brand/favicon.png" type="image/x-icon"/>
+		<link href="/assets/css/icons.css" rel="stylesheet">
+		<link href="/assets/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet"/>
+		<link href="/assets/plugins/sidebar/sidebar.css" rel="stylesheet">
+		<link href="/assets/plugins/morris.js/morris.css" rel="stylesheet">
+		<link href="/assets/css/style.css" rel="stylesheet">
+		<link href="/assets/css/style-dark.css" rel="stylesheet">
+		<link href="/assets/css/skin-modes.css" rel="stylesheet" />
 
 
 		 
@@ -23,7 +22,7 @@
 <body class="main-body ">
 		<!-- Loader -->
 		<div id="global-loader">
-			<img src="../../assets/img/loader.svg" class="loader-img" alt="Loader">
+			<img src="/assets/img/loader.svg" class="loader-img" alt="Loader">
 		</div>
 		<!-- /Loader -->
 		<!-- Page -->
@@ -43,7 +42,7 @@
 							<li class="">
 								<div class="dropdown  nav-itemd-none d-md-flex">
 									<a href="?lang=en" class="d-flex  nav-item nav-link pr-0 country-flag1" data-toggle="dropdown" aria-expanded="false">
-										<span class="avatar country-Flag mr-0 align-self-center bg-transparent"><img src="../../assets/img/flags/us_flag.jpg" alt="img"></span>
+										<span class="avatar country-Flag mr-0 align-self-center bg-transparent"><img src="/assets/img/flags/us_flag.jpg" alt="img"></span>
 										<div class="my-auto">
 											<strong class="mr-2 ml-2 my-auto">  {{ __('English') }} </strong>
 										</div>
@@ -51,7 +50,7 @@
 									<div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow" x-placement="bottom-end">
 			 
  										<a href="?lang=ar" class="dropdown-item d-flex ">
-											<span class="avatar  ml-3 align-self-center bg-transparent"><img src="../../assets/img/flags/arabic_flag.png" alt="img"></span>
+											<span class="avatar  ml-3 align-self-center bg-transparent"><img src="/assets/img/flags/arabic_flag.png" alt="img"></span>
 											<div class="d-flex">
 												<span class="mt-2">  {{ __('Arabic') }} </span>
 											</div>
@@ -81,19 +80,18 @@
 								<a class="new nav-link full-screen-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></a>
 							</div>
 							<div class="dropdown main-profile-menu nav nav-item nav-link">
-								<a class="profile-user d-flex" href=""><img alt="" src="../../assets/img/faces/6.jpg"></a>
+								<a class="profile-user d-flex" href=""><img alt="" src="{{ Auth::user()->avatar }}"></a>
 								<div class="dropdown-menu">
 									<div class="main-header-profile bg-primary p-3">
 										<div class="d-flex wd-100p">
-											<div class="main-img-user"><img alt="" src="../../assets/img/faces/6.jpg" class=""></div>
+											<div class="main-img-user"><img alt="" src="{{ Auth::user()->avatar }}" class=""></div>
 											<div class="ml-3 my-auto">
-												<h6>{{ __('Soulaimane') }}</h6><span>{{ __('Manager') }}</span>
+												<h6>{{ Auth::user()->name }}</h6>
 											</div>
 										</div>
 									</div>
 									<a class="dropdown-item" href=""><i class="bx bx-user-circle"></i>{{ __('Profile') }}</a>
-									<a class="dropdown-item" href=""><i class="bx bx-cog"></i>{{ __(' Edit Profile') }}</a>
-									<a class="dropdown-item" href="page-signin.html"><i class="bx bx-log-out"></i>{{ __(' Sign Out') }}</a>
+									<a class="dropdown-item" href="/logout"><i class="bx bx-log-out"></i>{{ __(' Sign Out') }}</a>
 								</div>
 							</div>
 							 

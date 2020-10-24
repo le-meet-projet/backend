@@ -69,9 +69,28 @@ class SpaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+      public  function update(Request $request, $id)
     {
-        //
+          $this->validate($request, [
+            'code' => 'required|unique:coupons',
+                    ]);
+        //dd($request);
+        $coupon = Coupon::whereId($id)->first();
+
+        if ($request->has('statue')) {
+            $request->request->add(['statue' => 'active']);
+        } else {
+            $request->request->add(['statue' => 'inactive']);
+        }
+
+        $input = $request->all();
+
+        $coupon->update($input);
+        $notification = array(
+            'message' => 'Coupon successfully updated.',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('admin.coupons.index')->with($notification);
     }
 
     /**
