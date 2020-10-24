@@ -34,12 +34,14 @@
 									</div>
 									<p class="mg-b-20">{{ __('All fields are required') }}* </p>
 									<div class="pd-30 pd-sm-40 bg-gray-200">
+										<form method="POST" action="{{route('admin.spaces.store')}}">
+											@csrf
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Name') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder="{{ __(' ') }} " type="text">
+												<input class="form-control" name="name" placeholder="{{ __(' ') }} " type="text" required="">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -47,7 +49,7 @@
 												<label class="form-label mg-b-0">{{ __('Address') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="text">
+												<input class="form-control" name="address" placeholder=" " type="text" required="required">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -55,7 +57,7 @@
 												<label class="form-label mg-b-0">{{ __('Capacity') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="text">
+												<input class="form-control" name="capacity" placeholder=" " type="text" required="required">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -63,7 +65,7 @@
 												<label class="form-label mg-b-0">{{ __('Price') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="text">
+												<input class="form-control" name="price" placeholder=" " type="text" required="required">
 											</div>
 										</div>
 								        <div class="row row-xs align-items-center mg-b-20">
@@ -71,7 +73,7 @@
 												<label class="form-label mg-b-0">{{ __('Description') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<textarea class="form-control" placeholder=" " type="text"></textarea>  
+												<textarea class="form-control" name="description" placeholder=" " type="text" required="required"></textarea>  
 											</div>
 										</div>
 								        <div class="row row-xs align-items-center mg-b-20">
@@ -79,7 +81,7 @@
 												<label class="form-label mg-b-0">{{ __('Image') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="custom-file-input" id=" " type="file"> <label class="custom-file-label" for="customFile">{{ __('Choose file') }}</label>
+												<input class="custom-file-input" name="image" id=" " type="file" required="required"> <label class="custom-file-label"  for="customFile">{{ __('Choose file') }}</label>
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -87,12 +89,14 @@
 												<label class="form-label mg-b-0">{{ __('Map') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="custom-file-input" id=" " type="file"> <label class="custom-file-label" for="customFile">{{ __('Choose file') }}</label>
+												<input class="custom-file-input" name="map" id=" " type="file" required="required"> <label class="custom-file-label" for="customFile">{{ __('Choose file') }}</label>
 											</div>
-										</div>																		 
+										</div>
+										<button type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5">{{ __('Add') }}</button>
+										<button class="btn btn-dark pd-x-30 mg-t-5">{{ __('Cancel') }}</button>														
+										</form>				 
 									</div>
-										<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5">{{ __('Add') }}</button>
-										<button class="btn btn-dark pd-x-30 mg-t-5">{{ __('Cancel') }}</button>
+										
 									</div>
 								</div>
 							</div>

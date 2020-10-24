@@ -61,7 +61,7 @@
 												<label class="form-label mg-b-0">{{ __('Title') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" name="title" placeholder="{{ __('Coupon Title') }} " type="text">
+												<input class="form-control" name="title" placeholder="{{ __('Coupon Title') }} " type="text" required="">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -69,7 +69,7 @@
 												<label class="form-label mg-b-0">{{ __('Value') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" name="discount" placeholder="{{ __('Reducing Value') }} " type="text" >
+												<input class="form-control" name="discount" placeholder="{{ __('Reducing Value') }} " type="text" required="">
 											</div>
 										</div>	 
 																	
@@ -79,9 +79,9 @@
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
 												<select class="form-control select2-no-search select2-hidden-accessible" data-select2-id="13" name="discount_type" tabindex="-1" aria-hidden="true">
-												<option label="Choose one" data-select2-id="15">
+												<option label="Choose one" data-select2-id="15" >
 												</option>
-												<option value="Female" data-select2-id="31">
+												<option value="Female" data-select2-id="31" >
 													{{ __('Percent Reduction') }}
 												</option>
 												<option value="Male" data-select2-id="32">
@@ -95,7 +95,7 @@
 												<label class="form-label mg-b-0">{{ __('Description') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<textarea class="form-control" name="description" placeholder=" " type="text"></textarea>  
+												<textarea class="form-control" name="description" placeholder=" " type="text" required=""></textarea>  
 											</div>
 										</div>
 

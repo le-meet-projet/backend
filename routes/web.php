@@ -17,16 +17,16 @@ Route::group(['prefix' => 'dashboard', 'as' => 'admin.', 'middleware' => 'Admin'
 		Route::get('/edit/{id}', 'SpaceController@edit')->name('edit');
 		Route::get('/delete/{id}', 'SpaceController@destroy')->name('delete');
 		Route::post('/update/{id}', 'SpaceController@update')->name('update');
+		Route::post('/store', 'SpaceController@store')->name('store');
 	});
 	//workshops
 	Route::group(['prefix' => 'workshops', 'as' => 'workshops.'], function () {
 		Route::get('/', 'WorkshopController@index')->name('index');
 		Route::get('/create', 'WorkshopController@create')->name('create');
-		Route::get('/edit', 'WorkshopController@edit')->name('edit');
-
+		Route::get('/edit/{id}', 'WorkshopController@edit')->name('edit');
+		Route::post('/update/{id}', 'WorkshopController@update')->name('update');
 		Route::get('/delete/{id}', 'WorkshopController@destroy')->name('delete');
-
-		Route::post('/add', 'WorkshopController@store')->name('add');
+		Route::post('/store', 'WorkshopController@store')->name('store');
 
 	});
 	//users

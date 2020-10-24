@@ -40,7 +40,25 @@ class WorkshopController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input= $this->validate($request, [
+            'name' => 'required|unique:spaces',
+                    ]);
+
+        $space = new Space();
+        $space->name = $request->title;
+        $space->address = $request->address;
+        $space->capacity = $request->capacity;
+        $space->price = $request->price;
+        $space->description = $request->description;
+        $space->longtitude = $request->longtitude;
+        
+        $space->type="workshop";
+        $space->save();
+        $notification = array(
+            'message' => 'Coupon successfully created.',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('admin.workshops.index')->with($notification);
     }
 
     /**
@@ -60,9 +78,11 @@ class WorkshopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit( )
+    public function edit($id)
     {
-        return view('workshops.edit');
+         $content = Space::find($id);
+         return view('workshops.edit',compact('content'));
+        
     }
 
     /**
@@ -74,7 +94,28 @@ class WorkshopController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $workshop = Space::find($id);
+
+        
+        $workshop->name = $request->title;
+        $workshop->address = $request->address;
+        $workshop->capacity = $request->capacity;
+        $workshop->price = $request->price;
+        $workshop->description = $request->description;
+        $workshop->gallery = $request->image;
+        $workshop->map = $request->map;
+        $workshop->type="workshop";
+        $workshop->time=$request->hour;
+        $workshop->save();
+
+        // $input = $request->all();
+
+        // $space->update($input);
+        $notification = array(
+            'message' => 'Coupon successfully updated.',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('admin.workshops.index')->with($notification);
     }
 
     /**

@@ -87,12 +87,12 @@
 													<td>{{$workshop->time}}</td>
 													<td>{{$workshop->address}}</td>
 													<td>{{$workshop->map}}</td>
-													<td>30 min</td>
+													<td>{{$workshop->created_at->diffForHumans()}}</td>
 													<td>{{$workshop->capacity}}</td>
 													<td>{{$workshop->description}}</td>
 													<td>
 														<span class="ml-auto">
-															<a href="{{ route('admin.workshops.edit') }}">
+															<a href="{{ route('admin.workshops.edit',['id'=> $workshop->id]) }}">
 																<i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i>
 															</a>
 															<a href="{{route('admin.workshops.delete', $workshop->id)}}">
