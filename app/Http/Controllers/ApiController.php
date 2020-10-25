@@ -2,24 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\{Favorite, Order, Space, User, Workshop};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
+use phpDocumentor\Reflection\Types\This;
 
 class ApiController extends Controller
 {
+    private $user;
     /**
      * SET CURRENT USER
      */
     public function __construct()
     {
+        $this->user = Auth::user();
     }
 
-    public function user(Request $request)
+    /**
+     * GET ALL THE USERS
+     *
+     * @return JsonResponse
+     */
+    public function user()
     {
-        echo User::all()->toJson(JSON_PRETTY_PRINT);
-        exit;
+        return new JsonResponse(['Users' => User::all()]);
     }
 
     /**
@@ -28,8 +36,7 @@ class ApiController extends Controller
     public function favorites()
     {
         $user = Auth::user();
-        echo $user->favorites()->paginate(10)->toJson(JSON_PRETTY_PRINT);
-        exit();
+        return new JsonResponse(['Users' => $user->favorites()->paginate(10)]);
     }
 
     /**
