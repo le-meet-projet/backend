@@ -59,17 +59,16 @@ class CouponsController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $input= $this->validate($request, [
+        $input = $this->validate($request, [
            //'code' => 'required|unique:coupons',
-                    ]);
+        ]);
 
-          if ($request->has('statue')) {
+        if ($request->has('statue')) {
             $request->request->add(['statue' => 'active']);
         } else {
             $request->request->add(['statue' => 'inactive']);
         }
-        
+
         $coupon = new Coupon();
         $coupon->title = $request->title;
         $coupon->code = $request->code;
@@ -78,7 +77,7 @@ class CouponsController extends Controller
         $coupon->description = $request->description;
         $coupon->statue = $request->statue;
         $coupon->save();
-      
+
         // $notification = array(
         //     'message' => 'Coupon successfully created.',
         //     'alert-type' => 'success'
@@ -87,11 +86,11 @@ class CouponsController extends Controller
         return redirect()->route('admin.coupons.index')->with('status', 'Coupon Created');
     }
 
-  
+
 
     //
 
-   
+
 
     /**
      * Update coupon record
@@ -103,7 +102,7 @@ class CouponsController extends Controller
      */
     public  function update(Request $request, $id)
     {
-         
+
         //dd($request);
         $coupon = Coupon::find($id);
 
@@ -119,7 +118,7 @@ class CouponsController extends Controller
         $coupon->discount_type = $request->discount_type;
         $coupon->description = $request->description;
         $coupon->statue = $request->statue;
-        
+
         $coupon->save();
         Session::flash('statuscode','info');
         return redirect()->route('admin.coupons.index')->with('status','Coupon Updated');

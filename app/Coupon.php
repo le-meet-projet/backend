@@ -9,6 +9,7 @@ class Coupon extends Model
 {
     use SoftDeletes;
 
-    
-   protected $fillable = ['code'];
+     protected $fillable = [
+         'code'
+     ];
 }
