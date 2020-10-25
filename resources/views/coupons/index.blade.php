@@ -81,8 +81,32 @@
 															<a href="{{ route('admin.coupons.edit',['id' => $coupon->id]) }}" class="text-primary-600">
 																<i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i>
 															</a>
-															<a href="{{route('admin.coupons.delete', $coupon->id)}}">
-															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" onclick="return confirm('Are you sure?')" title="" data-placement="top" data-original-title="Delete"></i></a>
+
+														 
+
+															<a href="javascript:void(0)"  class="deletebtn" data-toggle="modal" data-target="#deletemodalpop"> <i class="si si-trash text-danger mr-2  "   data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i></a>
+														<!-- Delete Modal -->
+														<div class="modal fade" id="deletemodalpop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+														  <div class="modal-dialog">
+														    <div class="modal-content">
+														      <div class="modal-header">
+														        <h5 class="modal-title" id="exampleModalLabel">{{ __('Are you sure !') }}</h5>
+														        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														          <span aria-hidden="true">&times;</span>
+														        </button>
+														      </div>
+														      <form id="delete_modal_form" method="GET" action="{{route('admin.coupons.delete', $coupon->id)}}">
+														      	@csrf
+									  
+														      <div class="modal-footer">
+														        <button type="button" class="btn btn-primary" data-dismiss="modal">{{ __('Close') }}</button>
+														        <button type="submit" class="btn btn-danger ">{{ __('Yes Delete It') }}</button>
+														      </div>
+														      </form>
+														    </div>
+														  </div>
+														</div>
+														<!-- End Delete Modal -->
 														</span> 
 													</td>													
 												</tr>

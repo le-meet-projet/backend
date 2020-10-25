@@ -10,7 +10,7 @@ use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
-
+use Session;
 class UserController extends Controller
 {
     /**
@@ -46,7 +46,10 @@ class UserController extends Controller
     {
 
         $rules = [
-
+         // 'email'    => 'required|email|unique:users', 
+         //  'password' => 'required|min:3',
+         //  'name'     => 'required|string|min:4',
+         //  'phone'    => 'required',
         ];
         $messages = [
             'email.required'    => trans("email.required"),
@@ -68,8 +71,8 @@ class UserController extends Controller
         $user->role = $request->input('role');
 
         $user->save();
-
-        return redirect()->route('admin.users.index')->with('success', 'User Created');
+        Session::flash('statuscode','success');
+        return redirect()->route('admin.users.index')->with('status', 'User Created');
     }
 
     /**
@@ -104,7 +107,8 @@ class UserController extends Controller
         $user->role     = $request->role;
         $user->password = Hash::make($request->password);
         $user->save();
-        return redirect()->route('admin.users.index')->with('success','user updated');
+        Session::flash('statuscode','info');
+        return redirect()->route('admin.users.index')->with('status','User Updated');
     }
 
     /**
@@ -116,6 +120,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::find($id)->delete();
-        return redirect()->route('admin.users.index');
+        Session::flash('statuscode','error');
+        return redirect()->route('admin.users.index')->with('status','User Deleted');
     }
 }

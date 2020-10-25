@@ -61,7 +61,7 @@ class CouponsController extends Controller
     {
         
         $input= $this->validate($request, [
-           'code' => 'required|unique:coupons',
+           //'code' => 'required|unique:coupons',
                     ]);
 
           if ($request->has('statue')) {
@@ -79,11 +79,12 @@ class CouponsController extends Controller
         $coupon->statue = $request->statue;
         $coupon->save();
       
-        $notification = array(
-            'message' => 'Coupon successfully created.',
-            'alert-type' => 'success'
-        );
-        return redirect()->route('admin.coupons.index')->with($notification);
+        // $notification = array(
+        //     'message' => 'Coupon successfully created.',
+        //     'alert-type' => 'success'
+        // );
+        Session::flash('statuscode','success');
+        return redirect()->route('admin.coupons.index')->with('status', 'Coupon Created');
     }
 
   
@@ -120,11 +121,8 @@ class CouponsController extends Controller
         $coupon->statue = $request->statue;
         
         $coupon->save();
-               $notification = array(
-            'message' => 'Coupon successfully updated.',
-            'alert-type' => 'success'
-        );
-        return redirect()->route('admin.coupons.index')->with($notification);
+        Session::flash('statuscode','info');
+        return redirect()->route('admin.coupons.index')->with('status','Coupon Updated');
     }
 
     /**
@@ -137,11 +135,8 @@ class CouponsController extends Controller
     {
         Coupon::find($id)->delete();
 
-        $notification = array(
-            'message' => 'Coupon successfully deleted.',
-            'alert-type' => 'success'
-        );
-        return redirect()->route('admin.coupons.index')->with($notification);
+         Session::flash('statuscode','error');
+        return redirect()->route('admin.coupons.index')->with('status','Coupon Deleted');
     }
 
     /**
