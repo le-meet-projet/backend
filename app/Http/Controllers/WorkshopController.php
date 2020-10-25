@@ -56,7 +56,11 @@ class WorkshopController extends Controller
         $space->price = $request->price;
         $space->description = $request->description;
 
+
         //$space->longtitude = $request->longtitude;
+
+        
+
         $space->type="workshop";
         $space->save();
         // $notification = array(

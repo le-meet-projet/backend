@@ -81,7 +81,7 @@
 														<span class="ml-auto">
 															<a href="{{ route('admin.spaces.edit',['id'=>$meeting->id]) }}"><i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i></a>
 															<a href="{{route('admin.spaces.delete', $meeting->id)}}">
-															<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i></a>
+															<i class="si si-trash text-danger mr-2"  onclick="return confirm('Are you sure?')"data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i></a>
 
 														</span> 
 													</td>

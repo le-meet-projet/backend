@@ -82,6 +82,7 @@
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
 
+
 												<select name="discount_type" class="form-control select2-no-search select2-hidden-accessible"  data-select2-id="13" tabindex="-1" aria-hidden="true">
 												<option label="Choose one" value="{{$content->discount_type}}" data-select2-id="15">
 												</option>
@@ -94,9 +95,10 @@
 
 											</select> 
 
+
 												<select name="type" id="input-type" class="form-control">
-													<option value="percent">{{ __('Percent reduction') }}  </option>
-													<option value="fixed">{{ __('Third memorization') }}</option>
+													<option value="Percent Reduction">{{ __('Percent reduction') }}  </option>
+													<option value="Percent Reduction">{{ __('Third memorization') }}</option>
 												</select> 
 
 											</div>

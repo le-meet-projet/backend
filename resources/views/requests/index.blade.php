@@ -16,7 +16,7 @@
 								</div>	
 								<div class="pr-1 mb-3 mb-xl-0">
 								   <div class="d-flex">
-									<h5 class="content-title mb-0 my-auto">{{ __('Dashboard') }} </h5><span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('Booking Requests') }} </span>
+									<h5 class="content-title mb-0 my-auto">{{ __('Dashboard') }} </h5><span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('Orders') }} </span>
 								</div>
 							</div>					 
 						</div>
@@ -29,7 +29,7 @@
 							<div class="card">
 								<div class="card-header pb-0">
 									<div class="d-flex justify-content-between">
-										<h4 class="card-title mg-b-0">{{ __('BOOKING REQUEST TABLE') }}</h4>
+										<h4 class="card-title mg-b-0">{{ __('ORDERS TABLE') }}</h4>
 										<i class="mdi mdi-dots-horizontal text-gray"></i>
 									</div> 
 								<div class="card-body">
@@ -51,15 +51,15 @@
 											<thead>
 												<tr role="row">
 													<th class="wd-10p border-bottom-0 sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending" style="width: 34px;">{{ __('Id') }}</th>
-													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 25px;">{{ __('Date') }}</th>
-													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 25px;">{{ __('Hour') }}</th>
-													<th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 35px;">{{ __('User') }}</th>
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 35px;">{{ __('Price') }}</th>
-													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width:35px;">{{ __('Status') }}</th>
-													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 105px;">{{ __('Payement Methode') }}</th>
-													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 105px;">{{ __('Coupon') }}</th>
-													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 75px;">{{ __('Type') }}</th>
-													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 75px;">{{ __('More') }}</th>
+													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 105px;">{{ __('Date') }}</th>
+													
+													<th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 105px;">{{ __('User') }}</th>
+													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 105px;">{{ __('Total') }}</th>
+													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width:105px;">{{ __('Status') }}</th>
+													
+												 
+													 
+													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 105px;">{{ __('More') }}</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -67,14 +67,21 @@
 												<tr>
 													<td>{{$order->id}}</td>
 													<td>{{$order->date}}</td>
-													<td>{{$order->hour}}</td>
+													 
 													<td>{{$order->user->name}}</td>
 													<td>{{$order->price}}</td>
 													<td>{{$order->status}}</td>
+
 													<td>{{$order->payment_method}}</td>
 													<td>{{$order->	coupon}}</td>
 													<td>{{$order->type}}</td>
 													<td><a href=" {{ route('admin.orders.details', ['id' => $order->id]) }}">{{ __('details') }}</a></td>
+
+												 
+													 
+													 
+													<td><a href=" {{ route('admin.orders.details') }}">{{ __('details') }}</a></td>
+
 												</tr>
 												@endforeach
 												

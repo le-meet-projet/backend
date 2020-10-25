@@ -98,10 +98,10 @@
 										</div>
 										<hr class="mg-b-40">
 										<a href="#" class="btn btn-danger float-right mt-3 ml-2">
-											<i class="mdi mdi-printer mr-1"></i>{{ __('Print') }}
+											<i class=" "></i>{{ __('Delete Order') }}
 										</a>
 										<a href="#" class="btn btn-success float-right mt-3">
-											<i class="mdi mdi-telegram mr-1"></i>{{ __('Send Invoice') }}
+											<i class="mdi mdi-printer mr-1"></i>{{ __('Print') }}
 										</a>
 									</div>
 								</div>

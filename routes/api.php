@@ -16,8 +16,14 @@ use App\User;
 */
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::get('user','ApiController@user');
-    Route::get('favorites', 'ApiController@favorites');
+    Route::group(['prefix' => 'user'], function () {
+        Route::post('login', 'UserApiController@login');
+        Route::post('register', 'UserApiController@register');
+        Route::middleware(['auth:api'])->post('update', 'UserApiController@update');
+        Route::middleware(['auth:api'])->get('', 'UserApiController@index');
+        Route::middleware(['auth:api'])->get('users', 'ApiController@user');
+        Route::middleware(['auth:api'])->get('favorites', 'ApiController@favorites');
+    });
     Route::get('orders', 'ApiController@orders');
     Route::get('workshops', 'ApiController@workshops');
     Route::get('search/{id}', 'ApiController@search');

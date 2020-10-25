@@ -88,49 +88,7 @@
 						</div>
 					</div>
 					<!-- row closed -->
-					<!-- row opened -->
-					<div class="row row-sm row-deck">
-						<div class="col-md-12 col-lg-4 col-xl-4">
-							<div class="card card-dashboard-eight pb-2">
-								<h6 class="card-title">{{ __('Your Top Meeting Spaces') }}</h6><span class="d-block mg-b-10 text-muted tx-12">{{ __('The most booking spaces  last week') }}</span>
-								<div class="list-group">		 
-									<div class="list-group-item">	 
-										<p>{{ __('student space') }}</p><span> 10 </span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-12 col-lg-8 col-xl-8">
-							<div class="card card-table-two">
-								<div class="d-flex justify-content-between">
-							 	<h4 class="card-title mb-1">{{ __('Recent.Request') }}</h4>
-									<i class="mdi mdi-dots-horizontal text-gray"></i>
-								</div>
-					 
-								<div class="table-responsive country-table">
-									<table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
-										<thead>
-											<tr>
-												<th class="wd-lg-25p">{{ __('Date') }}</th>
-												<th class="wd-lg-25p tx-right">{{ __('Space') }}</th>
-												<th class="wd-lg-25p tx-right">{{ __('User') }} </th>
-												<th class="wd-lg-25p tx-right">{{ __('More') }}</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>05 Dec 2019</td>
-												<td class="tx-right tx-medium tx-inverse">Nour Coffee</td>
-												<td class="tx-right tx-medium tx-inverse">Soulaime</td>
-												<td class="tx-right tx-medium tx-danger"><a href="{{ route('admin.orders.details') }}">Details</a></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-				   </div>
-				   <!-- /row -->
+				 
 		</div>
 </div>
  

@@ -99,7 +99,7 @@
 														
 
 															<a href="{{ route('admin.users.delete',['id'=> $user->id]) }}">
-																<i class="si si-trash text-danger mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
+																<i class="si si-trash text-danger mr-2"onclick="return confirm('Are you sure?')" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
 														    </a>
 
 														</span> 
