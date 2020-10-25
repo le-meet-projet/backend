@@ -34,6 +34,7 @@
 						</div>
 					</div>
 					<!-- breadcrumb -->
+					
 					<!-- row opened -->
 					 <div class="col-xl-12">
 							<div class="card">
@@ -45,7 +46,7 @@
 									 
 								<div class="card-body">
 									<div class="table-responsive">
-										<div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+										<div id=" " class="dataTables_wrapper dt-bootstrap4 no-footer">
 											<div class="row">
 												<div class="col-sm-12 col-md-6"></div>																						
 												<div class="col-sm-12 col-md-6">
@@ -58,7 +59,7 @@
 											</div>
 											<div class="row">
 												<div class="col-sm-12">
-													<table class="table text-md-nowrap dataTable no-footer" id="example1" role="grid" aria-describedby="example1_info">
+													<table class="table text-md-nowrap dataTable no-footer" id="datatable" role="grid" aria-describedby="example1_info">
 											<thead>
 												<tr role="row">
 													
@@ -91,11 +92,30 @@
 																<i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i>
 															</a>
 
-														
-
-															<a href="{{ route('admin.users.delete',['id'=> $user->id]) }}">
-																<i class="si si-trash text-danger mr-2"onclick="return confirm('Are you sure?')" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i>
-														    </a>
+														<a href="javascript:void(0)"  class="deletebtn" data-toggle="modal" data-target="#deletemodalpop"> <i class="si si-trash text-danger mr-2  "   data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i></a>
+														<!-- Delete Modal -->
+														<div class="modal fade" id="deletemodalpop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+														  <div class="modal-dialog">
+														    <div class="modal-content">
+														      <div class="modal-header">
+														        <h5 class="modal-title" id="exampleModalLabel">{{ __('Are you sure !') }}</h5>
+														        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														          <span aria-hidden="true">&times;</span>
+														        </button>
+														      </div>
+														      <form id="delete_modal_form" method="GET" action="{{ route('admin.users.delete',['id'=>$user->id]) }}">
+														      	@csrf
+									  
+														      <div class="modal-footer">
+														        <button type="button" class="btn btn-primary" data-dismiss="modal">{{ __('Close') }}</button>
+														        <button type="submit" class="btn btn-danger ">{{ __('Yes Delete It') }}</button>
+														      </div>
+														      </form>
+														    </div>
+														  </div>
+														</div>
+														<!-- End Delete Modal -->
+															
 
 														</span> 
 													</td>													
@@ -127,4 +147,28 @@
 			<!-- Container closed -->
 	</div>
 	<!-- main-content closed -->	 
+@endsection
+
+@section('scripts')
+	<script >
+/*		$(document).ready(function(){
+			//$('#datatable').DataTable();
+			$('#datatable').on('click','.deletebtn',fonction(){
+					$tr=$(this).closest('tr');
+					var data= $str.children("td").map(function(){
+						return $(this).text();
+
+					}).get();
+				//	console.log(data);
+					$('#delete_user').val(data[0]);
+					$('#delete_modal_form').attr('action','{{route('admin.users.delete',['id' => $user->id]) }}'+data[0]);
+					$('#deletemodalpop').modal('show');
+
+				
+			});
+
+			
+		});*/
+	</script>
+
 @endsection

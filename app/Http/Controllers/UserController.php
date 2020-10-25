@@ -10,7 +10,7 @@ use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
-
+use Session;
 class UserController extends Controller
 {
     /**
@@ -20,9 +20,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        echo $users;
-        exit();
+      //  $users = User::all();
+      //  echo $users;
+      //  exit();
+               // return view('users.index');
+        $users = User::orderby('id', 'desc')->paginate(2);
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -43,7 +46,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+ 
+
+        $rules = [
+         // 'email'    => 'required|email|unique:users', 
+         //  'password' => 'required|min:3',
+         //  'name'     => 'required|string|min:4',
+         //  'phone'    => 'required',
+        ];
+ 
         $rules = [];
+ 
         $messages = [
             'email.required'    => trans("email.required"),
             'email.email'       => trans("email.unique"),
@@ -64,8 +77,8 @@ class UserController extends Controller
         $user->role = $request->input('role');
 
         $user->save();
-
-        return redirect()->route('admin.users.index')->with('success', 'User Created');
+        Session::flash('statuscode','success');
+        return redirect()->route('admin.users.index')->with('status', 'User Created');
     }
 
     /**
@@ -100,7 +113,8 @@ class UserController extends Controller
         $user->role     = $request->role;
         $user->password = Hash::make($request->password);
         $user->save();
-        return redirect()->route('admin.users.index')->with('success','user updated');
+        Session::flash('statuscode','info');
+        return redirect()->route('admin.users.index')->with('status','User Updated');
     }
 
     /**
@@ -112,6 +126,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::find($id)->delete();
-        return redirect()->route('admin.users.index');
+        Session::flash('statuscode','error');
+        return redirect()->route('admin.users.index')->with('status','User Deleted');
     }
 }

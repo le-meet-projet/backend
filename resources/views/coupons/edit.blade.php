@@ -28,6 +28,8 @@
 					</div>
 					<!-- breadcrumb -->		 
 					<!-- row -->
+					<form method="POST" action="{{route('admin.coupons.update', ['id' => $content->id] )}}">
+										@csrf
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
 							<div class="card">
@@ -35,8 +37,7 @@
 									<div class="main-content-label mg-b-5">
 										 {{ __('Coupon Modification') }}
 									</div>
-									<form method="POST" action="{{route('admin.coupons.update', ['id' => $content->id] )}}">
-										@csrf
+									
 								<div class="pd-30 pd-sm-40 bg-gray-200">	
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
@@ -99,16 +100,17 @@
 												<textarea name="description" class="form-control"  type="text">{{ $content->description }}</textarea>  
 											</div>
 										</div> 
-										<input class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block" type="submit" value="{{ __('Edit') }}" >	 
+										 	 
 									</div>
-									</form>
-										
+									
+										<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Save Changes') }}</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<!-- /row -->				 
+					<!-- /row -->	
+				</form>			 
 				</div>
 				<!-- Container closed -->
 			</div>
