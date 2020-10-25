@@ -18,6 +18,46 @@ class UserApiController extends Controller
         return new JsonResponse(['User' => Auth::user()]);
     }
 
+    private function showErrorRequest(Request $request, string $action = 'register')
+    {
+        $rules = [];
+        $messages = [];
+        if ( 'register' === strtolower($action) ) {
+            $rules = [
+                'email'    => 'required|email|unique:users',
+                'password' => 'required|min:3',
+                'name'     => 'required|string|min:4',
+                'phone'    => 'required',
+            ];
+
+            $messages = [
+                'email.required'    => trans("email.required"),
+                'email.email'       => trans("email.unique"),
+                'email.unique'      => trans("email.unique"),
+                'password.required' => trans("password.required"),
+                'password.min'      => trans("password.min"),
+                'name.required'     => trans("name.required"),
+                'phone.required'    => trans("phone.required"),
+            ];
+
+        }
+        else {
+            $rules = [
+                'email'    => 'required|email|unique:users',
+                'password' => 'required|min:3',
+                'name'     => 'string|min:4',
+            ];
+
+            $messages = [
+                'email.required'    => trans("email.required"),
+                'email.email'       => trans("email.email"),
+                'email.unique'      => trans("email.unique"),
+                'password.min'      => trans("password.min"),
+            ];
+        }
+        $request->validate($rules, $messages);
+    }
+
     /**
      * VALIDATE REQUEST
      * CREATE
@@ -26,20 +66,12 @@ class UserApiController extends Controller
      */
     public function register(Request $request)
     {
-        $validation = $request->validate([
-            'name' => 'required | string | min:4',
-            'email' => 'required | string',
-            'password' => 'required | string | min:8'
-        ]);
-        if ( !$validation ) {
-            return new JsonResponse([
-                'The data is not valid'
-            ]);
-        }
+        $this->showErrorRequest($request);
         $data = [
-            'name' => $request->name,
-            'email' => $request->email,
+            'name'     => $request->name,
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
+            'phone'    => $request->phone,
         ];
 
         User::create($data);
@@ -55,22 +87,14 @@ class UserApiController extends Controller
      */
     public function update(Request $request)
     {
+        $this->showErrorRequest($request, 'update');
         $user = Auth::user();
-        $validation = $request->validate([
-            'name' => 'string',
-            'email' => 'string',
-            'password' => 'string'
-        ]);
-        if ( !$validation ) {
-            return new JsonResponse([
-                'The data is not valid'
-            ]);
-        }
         $hashedPassword = $request->password ? Hash::make($request->password) : $user['password'];
         $data = [
-            'name' => $request->name ?? $user['name'],
-            'email' => $request->email ?? $user['email'],
+            'name'     => $request->name ?? $user['name'],
+            'email'    => $request->email ?? $user['email'],
             'password' => $hashedPassword,
+            'phone'    => $user['phone'],
         ];
 
         $user->update($data);
