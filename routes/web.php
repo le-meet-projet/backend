@@ -33,7 +33,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'admin.' ], function () {
 	Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
 		Route::get('/', 'UserController@index')->name('index');
 		Route::get('/create', 'UserController@create')->name('create');
-		Route::get('/edit', 'UserController@edit')->name('edit');
+		
 		Route::post('/add', 'UserController@store')->name('add');
 		Route::get('/edit/{id}', 'UserController@edit')->name('edit');
 		Route::post('/update/{id}', 'UserController@update')->name('update');

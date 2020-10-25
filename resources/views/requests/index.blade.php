@@ -80,7 +80,7 @@
 												 
 													 
 													 
-													<td><a href=" {{ route('admin.orders.details') }}">{{ __('details') }}</a></td>
+													
 
 												</tr>
 												@endforeach
