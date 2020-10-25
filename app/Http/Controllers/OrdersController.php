@@ -5,20 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Order;
 use App\User;
-use DB;
+use App\OrderDetail;
 class OrdersController extends Controller
 {
+
     public function index()
     {
       $orders=Order::paginate(2);
-  
-    
-      
        return view('requests.index',compact('orders'));
     }
-    public function show()
+
+    public function show($id)
     {
-       return view('requests.details');
+    	$orders=Order::find($id);
+       return view('requests.details',compact('orders'));
     }
 
 

@@ -42,10 +42,9 @@ class WorkshopController extends Controller
     {
         $input= $this->validate($request, [
 
-
             'name' => 'unique:spaces',
 
-           'name' => 'required',
+           
                     ]);
 
         $space = new Space();
@@ -58,23 +57,13 @@ class WorkshopController extends Controller
         $space->description = $request->description;
 
         //$space->longtitude = $request->longtitude;
-
-         
-
-
-  
- 
-         
- 
->>>>>>> 2685cfdafee9486aa0c8022959f7b0ee1e67132c
-        
         $space->type="workshop";
         $space->save();
-        $notification = array(
-            'message' => 'Coupon successfully created.',
-            'alert-type' => 'success'
-        );
-        return redirect()->route('admin.workshops.index')->with($notification);
+        // $notification = array(
+        //     'message' => 'workshop successfully created.',
+        //     'alert-type' => 'success'
+        // );
+        return redirect()->route('admin.workshops.index')->with('notification','workshop successfully created');
     }
 
     /**
@@ -122,16 +111,17 @@ class WorkshopController extends Controller
         $workshop->map = $request->map;
         $workshop->type="workshop";
         $workshop->time=$request->hour;
+        $workshop->date=$request->date;
         $workshop->save();
 
         // $input = $request->all();
 
         // $space->update($input);
-        $notification = array(
-            'message' => 'Coupon successfully updated.',
-            'alert-type' => 'success'
-        );
-        return redirect()->route('admin.workshops.index')->with($notification);
+        // $notification = array(
+        //     'message' => 'workshop successfully updated.',
+        //     'alert-type' => 'success'
+        // );
+        return redirect()->route('admin.workshops.index')->with('notification','workshop successfully updated');
     }
 
     /**

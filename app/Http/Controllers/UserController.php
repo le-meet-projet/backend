@@ -69,7 +69,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('admin.users.index')->with('success', 'User Created');
+        return redirect()->route('admin.users.index')->with('notification', 'User successfully Created');
     }
 
     /**
@@ -104,7 +104,7 @@ class UserController extends Controller
         $user->role     = $request->role;
         $user->password = Hash::make($request->password);
         $user->save();
-        return redirect()->route('admin.users.index')->with('success','user updated');
+        return redirect()->route('admin.users.index')->with('notification','User successfully updated');
     }
 
     /**

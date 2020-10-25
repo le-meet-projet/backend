@@ -41,18 +41,18 @@
 											<div class="col-md">
 												<label class="tx-gray-600">{{ __('Billed To') }}</label>
 												<div class="billed-to">
-													<h6>{{ __('Soulaimane') }}</h6>
-													<p>{{ __('4033 Patterson Road, Staten Island, NY 10301') }}<br>
-													{{ __('Tel No') }}: 324 445-4544<br>
-													{{ __('Email') }}: Soulaimane@gmail.com</p>
+													<h6>{{$orders->user->name}}</h6>
+													<p>{{ $orders->user->address }}<br>
+													{{ __('Tel No') }}: {{$orders->user->phone}}<br>
+													{{ __('Email') }}: {{$orders->user->email}}</p>
 												</div>
 											</div>
 											<div class="col-md">
 												<label class="tx-gray-600">{{ __('Invoice Information') }}</label>
-												<p class="invoice-info-row"><span>{{ __('Invoice No') }}</span> <span>GHT-673-00</span></p>
-												<p class="invoice-info-row"><span>{{ __('Project ID') }}</span> <span>32334300</span></p>
-												<p class="invoice-info-row"><span>{{ __('Issue Date') }}:</span> <span>November 21, 2019</span></p>
-												<p class="invoice-info-row"><span>{{ __('Due Date') }}:</span> <span>November 30, 2019</span></p>
+												<p class="invoice-info-row"><span>{{ __('Invoice No') }}</span> <span>{{$orders->code}}</span></p>
+												<p class="invoice-info-row"><span>{{ __('Project ID') }}</span> <span>{{$orders->id}}</span></p>
+												<p class="invoice-info-row"><span>{{ __('Issue Date') }}:</span> <span>{{$orders->created_at}}</span></p>
+												<p class="invoice-info-row"><span>{{ __('Due Date') }}:</span> <span>{{$orders->deleted_at}}</span></p>
 											</div>
 										</div>
 										<div class="table-responsive mg-t-40">
@@ -67,10 +67,10 @@
 												</thead>
 												<tbody>
 													<tr>
-														<td>{{ __('Workshop about self confidence') }}</td>
-														<td class="tx-12">{{ __('This workshop explores the positive impact of self confidence in your career and personal life. Through exercise, you will discover the sources of low self confidence and develop new skills to increase your self confidence in order to increase your effectiveness and comfort in various areas of your life.') }}</td>
-														<td class="tx-center">{{ __('November 21, 2019') }}</td>
-														<td class="tx-right">$300.00</td>
+														<td>{{$orders->type}}</td>
+														<td class="tx-12">{{$orders->description}}</td>
+														<td class="tx-center">{{$orders->created_at}}</td>
+														<td class="tx-right">{{$orders->price}} $</td>
 													</tr>
 										 
 													<tr>

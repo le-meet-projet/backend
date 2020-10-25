@@ -74,7 +74,7 @@
 													<td>{{$order->payment_method}}</td>
 													<td>{{$order->	coupon}}</td>
 													<td>{{$order->type}}</td>
-													<td><a href=" {{ route('admin.orders.details') }}">{{ __('details') }}</a></td>
+													<td><a href=" {{ route('admin.orders.details', ['id' => $order->id]) }}">{{ __('details') }}</a></td>
 												</tr>
 												@endforeach
 												
