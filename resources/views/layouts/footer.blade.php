@@ -70,8 +70,21 @@
 		<script src="/assets/js/jquery.vmap.sampledata.js"></script>
 		<script src="/assets/js/pass.js"></script>
 		<script src="/assets/js/sweetalert.js"></script>
-		  
-	 
+		  <script>
+		  	
+		  	@if(session('status'))
+									 
+						//alert('	{{ session('status') }}')
+						swal({
+							  title: '	{{ session('status') }}',
+							//  text: "You clicked the button!",
+							  icon: '{{ session('statuscode') }}',
+							  button: "OK!",
+							});			 
+								 
+			@endif
+		  </script>
+	
 
 </body>
 </html>

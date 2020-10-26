@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Space;
 use App\workshop;
+use Session;
 
 class WorkshopController extends Controller
 {
@@ -42,9 +43,15 @@ class WorkshopController extends Controller
     {
         $input= $this->validate($request, [
 
+
             'name' => 'unique:spaces',
 
            
+
+
+           // 'name' => 'unique:spaces',
+
+         
                     ]);
 
         $space = new Space();
@@ -63,11 +70,16 @@ class WorkshopController extends Controller
 
         $space->type="workshop";
         $space->save();
+
         // $notification = array(
         //     'message' => 'workshop successfully created.',
         //     'alert-type' => 'success'
         // );
         return redirect()->route('admin.workshops.index')->with('notification','workshop successfully created');
+
+        Session::flash('statuscode','success');
+        return redirect()->route('admin.workshops.index')->with('status', 'Workshop Created');
+
     }
 
     /**
@@ -121,11 +133,16 @@ class WorkshopController extends Controller
         // $input = $request->all();
 
         // $space->update($input);
+
         // $notification = array(
         //     'message' => 'workshop successfully updated.',
         //     'alert-type' => 'success'
         // );
         return redirect()->route('admin.workshops.index')->with('notification','workshop successfully updated');
+
+        Session::flash('statuscode','info');
+        return redirect()->route('admin.workshops.index')->with('status','Workshop Updated');
+
     }
 
     /**
@@ -137,7 +154,7 @@ class WorkshopController extends Controller
     public function destroy($id)
     {
         Space::find($id)->delete();
-    
-        return redirect()->route('admin.workshops.index');
+        Session::flash('statuscode','error');
+        return redirect()->route('admin.workshops.index')->with('status','Workshop Deleted');
     }
 }
