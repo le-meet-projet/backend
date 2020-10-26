@@ -84,7 +84,7 @@ class UserController extends Controller
         $user->save();
 
 
-        return redirect()->route('admin.users.index')->with('notification', 'User successfully Created');
+        //return redirect()->route('admin.users.index')->with('notification', 'User successfully Created');
 
         Session::flash('statuscode','success');
         return redirect()->route('admin.users.index')->with('status', 'User Created');
@@ -124,7 +124,7 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return redirect()->route('admin.users.index')->with('notification','User successfully updated');
+       // return redirect()->route('admin.users.index')->with('notification','User successfully updated');
 
         Session::flash('statuscode','info');
         return redirect()->route('admin.users.index')->with('status','User Updated');

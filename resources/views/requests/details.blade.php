@@ -52,7 +52,7 @@
 												<p class="invoice-info-row"><span>{{ __('Invoice No') }}</span> <span>{{$orders->code}}</span></p>
 												<p class="invoice-info-row"><span>{{ __('Project ID') }}</span> <span>{{$orders->id}}</span></p>
 												<p class="invoice-info-row"><span>{{ __('Issue Date') }}:</span> <span>{{$orders->created_at}}</span></p>
-												<p class="invoice-info-row"><span>{{ __('Due Date') }}:</span> <span>{{$orders->deleted_at}}</span></p>
+												<p class="invoice-info-row"><span>{{ __('Due Date') }}:</span><span>{{$orders->deleted_at}}</span></p>
 											</div>
 										</div>
 										<div class="table-responsive mg-t-40">
@@ -81,11 +81,11 @@
 															</div> 
 														</td>
 														<td class="tx-right">{{ __('Sub-Total') }}</td>
-														<td class="tx-right" colspan="2">$5,750.00</td>
+														<td class="tx-right" colspan="2">{{$orders->price*$orders->hour}}</td>
 													</tr>
 													<tr>
-														<td class="tx-right">{{ __('Tax ') }}(5%)</td>
-														<td class="tx-right" colspan="2">$287.50</td>
+														<td class="tx-right">{{ __('Tax ') }}({{$orders->coupon}}%)</td>
+														<td class="tx-right" colspan="2">{{$orders->price*$orders->coupon/100}}</td>
 													</tr>
 													<tr>
 														<td class="tx-right tx-uppercase tx-bold tx-inverse">{{ __('Total Due') }}</td>

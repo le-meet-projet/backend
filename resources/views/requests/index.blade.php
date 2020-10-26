@@ -72,9 +72,8 @@
 													<td>{{$order->price}}</td>
 													<td>{{$order->status}}</td>
 
-													<td>{{$order->payment_method}}</td>
-													<td>{{$order->	coupon}}</td>
-													<td>{{$order->type}}</td>
+													
+												
 													<td><a href=" {{ route('admin.orders.details', ['id' => $order->id]) }}">{{ __('details') }}</a></td>
 
 												 
