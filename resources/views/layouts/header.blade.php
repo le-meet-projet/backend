@@ -14,18 +14,8 @@
 		<link href="/assets/css/style.css" rel="stylesheet">
 		<link href="/assets/css/style-dark.css" rel="stylesheet">
 		<link href="/assets/css/skin-modes.css" rel="stylesheet" />
-<<<<<<< HEAD
-
-
-
-<<<<<<< HEAD
-
-=======
-=======
 		<link href="/css/es.css" rel="stylesheet" />
->>>>>>> 86ff9c523bf5816814c17fe129f0d1b5e8fb867d
-
->>>>>>> ea07a16c626f1a2fb52d2dbf1a508b1f75c2ddfd
+ 
 </head>
 
 <body class="main-body ">
