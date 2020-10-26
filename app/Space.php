@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Space extends Model
 {
     use SoftDeletes;
-    
-    protected $table="spaces";
 
-   protected $fillable = ['name'];
+    protected $fillable = [
+        'name'
+    ];
 }

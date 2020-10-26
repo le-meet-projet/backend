@@ -83,10 +83,10 @@
 		  	
 		  	@if(session('status'))
 									 
-						//alert('	{{ session('status') }}')
+					 
 						swal({
 							  title: '	{{ session('status') }}',
-							//  text: "You clicked the button!",
+							 
 							  icon: '{{ session('statuscode') }}',
 							  button: "OK!",
 							});			 

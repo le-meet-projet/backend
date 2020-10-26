@@ -18,26 +18,30 @@ class Order extends Model
     {
         return $this->belongsTo('App\Course');
     }
-    
-    public function orderDetail()
+
+    public function detail()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        //return $this->belongsTo('App\User', 'user_id');
+        return $this->hasOne('App\OrderDetail');
     }
 
+<<<<<<< HEAD
     
+=======
+>>>>>>> 86ff9c523bf5816814c17fe129f0d1b5e8fb867d
 
     /**
-     * 
-     * 
+     *
+     *
      * @param Builder $query
      * @return Builder
      */
     public function scopeSearch(Builder $query)
     {
     }
-    
+
     /**
-     * 
+     *
      *
      * @param Builder $query
      * @return Builder

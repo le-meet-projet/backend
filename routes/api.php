@@ -19,16 +19,18 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'user'], function () {
         Route::post('login', 'UserApiController@login');
         Route::post('register', 'UserApiController@register');
-        Route::middleware(['auth:api'])->post('update', 'UserApiController@update');
-        Route::middleware(['auth:api'])->get('', 'UserApiController@index');
-        Route::middleware(['auth:api'])->get('users', 'ApiController@user');
-        Route::middleware(['auth:api'])->get('favorites', 'ApiController@favorites');
+        Route::middleware(['auth:api'])->group(function () {
+            Route::post('update', 'UserApiController@update');
+            Route::get('', 'UserApiController@index');
+            Route::get('users', 'ApiController@users');
+            Route::get('favorites', 'ApiController@favorites');
+            Route::get('orders', 'ApiController@orders');
+            Route::get('workshops', 'ApiController@workshops');
+            Route::get('add-to-fav/{id}', 'ApiController@addToFavorite');
+            Route::get('rem-fav/{id}', 'ApiController@removeFromFavorite');
+        });
     });
-    Route::get('orders', 'ApiController@orders');
-    Route::get('workshops', 'ApiController@workshops');
     Route::get('search/{id}', 'ApiController@search');
-    Route::get('add-to-fav/{id}', 'ApiController@addToFavorite');
-    Route::get('rem-fav/{id}', 'ApiController@removeFromFavorite');
     Route::get('find', 'ApiController@findClose');
     Route::get('request', 'ApiController@request');
     Route::get('index', 'ApiController@index');

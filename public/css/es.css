@@ -1,0 +1,15 @@
+.empty_state{
+	 margin-top: 5px;
+
+}
+.empty_state_icon {
+    font-size: 176px;
+    opacity: 0.1;
+    margin-bottom: 15px;
+}
+.empty_state h4 {
+    font-size: 20px;
+}
+.card{
+	 margin-top: 15px;
+}

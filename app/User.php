@@ -51,7 +51,7 @@ class User extends Authenticatable
 
     public function favorites()
     {
-        return $this->hasMany('App\favorite');
+        return $this->hasMany('App\Favorite');
     }
 
     public function payments()
