@@ -38,6 +38,11 @@
 					@endif
 					<!-- row opened -->
 					 <div class="col-xl-12">
+					 	<!--  @if(session('notification')) 
+                                <div class="alert alert-success">
+                                {{session('notification')}}
+                                </div>
+                                @endif  --> 
 							<div class="card">
 								 @if ($users->isEmpty())
 

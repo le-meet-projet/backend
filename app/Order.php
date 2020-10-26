@@ -3,9 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
-
-
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -24,10 +21,8 @@ class Order extends Model
 
     public function detail()
     {
-        //return $this->belongsTo('App\User', 'user_id');
         return $this->hasOne('App\OrderDetail');
     }
-
 
     /**
      *

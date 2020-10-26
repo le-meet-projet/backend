@@ -32,6 +32,7 @@
 					@endif
 					<!-- row opened -->
 					 <div class="col-xl-12">
+					 	  
 							<div class="card">
 								@if ($meetings->isEmpty())
 

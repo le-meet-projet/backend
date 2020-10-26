@@ -69,7 +69,16 @@
 		<script src="/assets/js/custom.js"></script>
 		<script src="/assets/js/jquery.vmap.sampledata.js"></script>
 		<script src="/assets/js/pass.js"></script>
+		<script src="../public/js/app.js"></script>
+		<script src="jquery.printPage.js"></script>
 		<script src="/assets/js/sweetalert.js"></script>
+        	<script type="text/javascript">
+											
+				$('#print').click(function(){
+												$('.container').printThis();
+											});
+										</script>
+
 		  <script>
 		  	
 		  	@if(session('status'))
@@ -84,6 +93,8 @@
 								 
 			@endif
 		  </script>
+
+
 	
 
 </body>

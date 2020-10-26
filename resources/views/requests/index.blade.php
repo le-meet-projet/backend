@@ -89,10 +89,16 @@
 													<td>{{$order->user->name}}</td>
 													<td>{{$order->price}}</td>
 													<td>{{$order->status}}</td>
+
+													
+												
+													<td><a href=" {{ route('admin.orders.details', ['id' => $order->id]) }}">{{ __('details') }}</a></td>
+
 												 
 													 
 													 
-													<td><a href=" {{ route('admin.orders.details') }}">{{ __('details') }}</a></td>
+													
+
 												</tr>
 												@endforeach
 												

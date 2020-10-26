@@ -59,8 +59,16 @@ class SpaceController extends Controller
         
         $space->type="meeting";
         $space->save();
+
+        // $notification = array(
+        //     'message' => 'Coupon successfully created.',
+        //     'alert-type' => 'success'
+        // );
+       // return redirect()->route('admin.spaces.index')->with('notification','space Meeting successfully created');
+
         Session::flash('statuscode','success');
         return redirect()->route('admin.spaces.index')->with('status', 'Space Created');
+
     }
 
     /**
@@ -115,8 +123,16 @@ class SpaceController extends Controller
         // $input = $request->all();
 
         // $space->update($input);
+
+        // $notification = array(
+        //     'message' => 'space Meeting successfully updated.',
+        //     'alert-type' => 'success'
+        // );
+       // return redirect()->route('admin.spaces.index')->with('notification','space Meeting successfully updated');
+
         Session::flash('statuscode','info');
         return redirect()->route('admin.spaces.index')->with('status','Space Updated');
+
     }
 
     /**

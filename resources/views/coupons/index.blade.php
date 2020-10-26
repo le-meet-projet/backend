@@ -37,7 +37,7 @@
 					<!-- breadcrumb -->
 					@endif
 					<!-- row opened -->
-					 <div class="col-xl-12">
+					 <div class="col-xl-12"> 
 							<div class="card">
 								@if ($coupons->isEmpty())
 

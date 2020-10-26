@@ -1,25 +1,4 @@
-@extends('/layouts/app')
 
-@section('content')
-
- <!-- main-content opened -->
-			<div class="main-content horizontal-content">
-				<!-- container opened -->
-				<div class="container">
-					<!-- breadcrumb -->
-						<div class="breadcrumb-header justify-content-between">
-						<div class="my-auto">
-							<div class="d-flex my-xl-auto right-content">						
-								<div class="pr-1 mb-3 mb-xl-0">
-									<a href="{{ route('admin.orders.index') }}"><button type="button" class="btn btn-danger btn-icon mr-2"><i class="mdi mdi-arrow-left"></i></button></a>
-								</div>	
-								<div class="pr-1 mb-3 mb-xl-0">
-								   <div class="d-flex">
-									<h5 class="content-title mb-0 my-auto">{{ __('Dashboard') }} </h5><span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('Booking Request Details') }} </span>
-								</div>
-							</div>					 
-						</div>
-					</div>
  
 					</div>
 					<!-- breadcrumb -->
@@ -97,21 +76,19 @@
 											</table>
 										</div>
 										<hr class="mg-b-40">
-										<a href="#" class="btn btn-danger float-right mt-3 ml-2">
-											<i class=" "></i>{{ __('Delete Order') }}
-										</a>
-										<div>
-										<a href="{{route('admin.orders.printdetails',['id'=>$orders->id])}}"   class=" btn btnprn btn-success float-right mt-3" >
-											<i class="mdi mdi-printer mr-1"  >{{ __('Print') }}</i>
-                                            
-									
-										</a>
+										
 
-                                      
 									</div>
 									</div>
 								</div>
 							</div>
 						</div><!-- COL-END -->
 					</div>
-@endsection
+
+
+					<script type="text/javascript">
+                                      	 printd:{
+                                                window.print()
+                                                 }
+                                      
+                                      </script>

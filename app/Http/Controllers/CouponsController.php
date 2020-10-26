@@ -82,8 +82,12 @@ class CouponsController extends Controller
         //     'message' => 'Coupon successfully created.',
         //     'alert-type' => 'success'
         // );
+
+       // return redirect()->route('admin.coupons.index')->with('notification','Coupon successfully created');
+
         Session::flash('statuscode','success');
         return redirect()->route('admin.coupons.index')->with('status', 'Coupon Created');
+
     }
 
 
@@ -118,10 +122,22 @@ class CouponsController extends Controller
         $coupon->discount_type = $request->discount_type;
         $coupon->description = $request->description;
         $coupon->statue = $request->statue;
+<<<<<<< HEAD
+        
+
+        // $coupon->save();
+        //        $notification = array(
+        //     'message' => 'Coupon successfully updated.',
+        //     'alert-type' => 'success'
+        // );
+       // return redirect()->route('admin.coupons.index')->with('notification','Coupon successfully updated');
+=======
+>>>>>>> 86ff9c523bf5816814c17fe129f0d1b5e8fb867d
 
         $coupon->save();
         Session::flash('statuscode','info');
         return redirect()->route('admin.coupons.index')->with('status','Coupon Updated');
+
     }
 
     /**

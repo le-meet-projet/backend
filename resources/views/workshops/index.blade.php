@@ -24,20 +24,29 @@
 							</div>					 
 						</div>
 						</div>
+<<<<<<< HEAD
+						        
+=======
 						       
+>>>>>>> 86ff9c523bf5816814c17fe129f0d1b5e8fb867d
 						<div class="d-flex my-xl-auto right-content">						
- 	
-							<div class="pr-1 mb-3 mb-xl-0">
+ 	                        							<div class="pr-1 mb-3 mb-xl-0">
 							    <a href="{{ route('admin.workshops.create') }}">
 							    	<button type="button" class="btn btn-info btn-icon ml-2"><i class="mdi mdi-plus"></i></button>
 							    </a>	
 							</div>					 
 						</div>
 					</div>
+<<<<<<< HEAD
+
+
+=======
 					@endif
+>>>>>>> 86ff9c523bf5816814c17fe129f0d1b5e8fb867d
 					<!-- breadcrumb -->
 					<!-- row opened -->
 					 <div class="col-xl-12">
+					 		
 							<div class="card">
 								
 								 @if ($workshops->isEmpty())
@@ -56,13 +65,17 @@
       
         						@endif @if (!$workshops->isEmpty())
 								<div class="card-header pb-0">
+
 									<div class="d-flex justify-content-between">
+			
 										<h4 class="card-title mg-b-0">{{ __('WORKSHOPS TABLE') }}</h4>
 										<i class="mdi mdi-dots-horizontal text-gray"></i>
-									</div>	 
+									</div>
+
 								<div class="card-body">
 									<div class="table-responsive">
 										<div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+
 											<div class="row">
 												<div class="col-sm-12 col-md-6"></div>
 												<div class="col-sm-12 col-md-6">

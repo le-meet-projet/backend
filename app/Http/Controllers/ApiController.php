@@ -32,59 +32,6 @@ class ApiController extends Controller
     }
 
     /**
-     * GET ALL THE FAVORITES OF THE CURRENT USER
-     *
-     * @return JsonResponse
-     */
-    public function favorites()
-    {
-        $user = Auth::user();
-        return new JsonResponse(['Favorites' => $user->favorites()->get()]);
-    }
-
-    /**
-     * GET ALL THE ORDERS OF THE CURRENT USER
-     */
-    public function orders()
-    {
-        $user = Auth::user();
-        return new JsonResponse(['Orders' => $user->orders()->paginate(10)]);
-    }
-
-    /**
-     * RETURN THE DETAILS OF ORDER BY ID
-     * @param int $id
-     * @return null
-     */
-    public function orderDetails(int $id)
-    {
-        $order = Order::find(1);
-        return new JsonResponse(['Order Details' => $order->details()]);
-    }
-
-    /**
-     * USE_FILTER
-     * return all the workshops by filter
-     */
-    public function workshops()
-    {
-        $user = Auth::user();
-        return new JsonResponse($user->workshops());
-    }
-
-    /**
-     * USE FILTER
-     * RETURN ALL THE WORKSHOPS BY FILTER
-     * @param $id
-     * @return null
-     */
-    public function search(int $id)
-    {
-        echo Workshop::find($id);
-        exit();
-    }
-
-    /**
      * CHECK THE PRODUCT IF EXISTS
      *
      * @param int $id
@@ -93,6 +40,24 @@ class ApiController extends Controller
     private function checkSpace(int $id): bool
     {
         return NULL !== Space::find($id);
+    }
+
+    /**
+     * GET ALL THE FAVORITES OF THE CURRENT USER
+     *
+     * @return JsonResponse
+     */
+    public function favorites()
+    {
+        $favorites = Auth::user()->favorites;
+        $user_spaces = [];
+        if ( $favorites ) {
+            foreach ($favorites as $favorite) {
+                $space_id = Favorite::find(['user_id' => Auth::user()->id]);
+                array_push($user_spaces, Space::find(1));
+            }
+        }
+        return new JsonResponse(['Spaces' => Favorite::find(['user_id' => Auth::user()->id])->get('space_id')]);
     }
 
     /**
@@ -116,7 +81,6 @@ class ApiController extends Controller
     }
 
     /**
-     * REMOVE PRODUCT FROM FAVORITE
      * DELETE FAVORITE
      *
      * @param Request $request
@@ -137,6 +101,82 @@ class ApiController extends Controller
         ]);
     }
 
+    /**
+     * GET ALL THE ORDERS OF THE CURRENT USER
+     *
+     * @return JsonResponse
+     */
+    public function orders()
+    {
+        $user = Auth::user();
+        return new JsonResponse(['Orders' => $user->orders()->paginate(10)]);
+    }
+
+    /**
+     * RETURN THE DETAILS OF ORDER BY ID
+     * @param int $id
+     *
+     *
+     * @return JsonResponse
+     */
+    public function orderDetails(int $id)
+    {
+        $order = Order::find(1);
+        return new JsonResponse(['Order Details' => $order->details()]);
+    }
+
+    /**
+     * USE_FILTER
+     * return all the workshops by filter
+     *
+     * @return JsonResponse
+     */
+    public function userWorkshops()
+    {
+        return new JsonResponse([
+            'Workshops' => Auth::user()->workshops
+        ]);
+    }
+
+    /**
+     * PAGINATE THE WORKSHOP
+     */
+    public function workshops()
+    {
+        return new JsonResponse(['Workshops' => Workshop::all()]);
+    }
+
+    /**
+     * SHOW SPACE DETAILS WITH REVIEWS
+     *
+     * @param int $id
+     * @return null
+     */
+    public function showSpaceDetails(int $id)
+    {
+        $space = Space::find($id);
+        return new JsonResponse(['SpaceDetails' => $space->details()]);
+    }
+
+    public function applyCoupon()
+    {
+        echo Response::json(['success' => 'Your coupon was applied']);
+        exit();
+    }
+
+    /**
+     * USE FILTER
+     * RETURN ALL THE WORKSHOPS BY FILTER
+     *
+     *
+     * @param $id
+     * @return null
+     */
+    public function search(int $id)
+    {
+        return null;
+    }
+
     public function findClose()
     {
         return null;
@@ -150,17 +190,6 @@ class ApiController extends Controller
     public function request()
     {
         return null;
-    }
-
-    /**
-     * PAGINATE THE WORKSHOP
-     */
-    public function index()
-    {
-        $workshops = Workshop::all();
-        echo Response::json(['workshops' => $workshops]);
-        unset($workshops);
-        exit();
     }
 
     /**
@@ -198,18 +227,16 @@ class ApiController extends Controller
 
     /**
      * GET THE WORKSHOP
-     * DELETE
-     * REDIRECT WITH SUCCESS
+     *
      * @param int $id
-     * @return null
+     * @return JsonResponse
      */
-    public function delete(int $id)
+    public function deleteWorkshop(int $id)
     {
         $workshop = Workshop::find($id);
+        if ( !$workshop ) return new JsonResponse(['error' => 'No work shop found !']);
         $workshop->delete();
-        unset($workshop);
-        echo Response::json(['success' => 'The workshop was deleted with successfully']);
-        exit();
+        return new JsonResponse(['success' => 'The workshop was deleted with successfully']);
     }
 
     /**
@@ -228,24 +255,6 @@ class ApiController extends Controller
     public function getBooking()
     {
         return null;
-    }
-
-    /**
-     * SHOW SPACE DETAILS WITH REVIEWS
-     *
-     * @param int $id
-     * @return null
-     */
-    public function showSpaceDetails(int $id)
-    {
-        echo Space::find($id);
-        exit();
-    }
-
-    public function applyCoupon()
-    {
-        echo Response::json(['success' => 'Your coupon was applied']);
-        exit();
     }
 
     /**
