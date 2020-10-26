@@ -23,22 +23,31 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('update', 'UserApiController@update');
             Route::get('', 'UserApiController@index');
             Route::get('users', 'ApiController@users');
-            Route::get('favorites', 'ApiController@favorites');
-            Route::get('orders', 'ApiController@orders');
-            Route::get('workshops', 'ApiController@userWorkshops');
-            Route::get('add-to-fav/{id}', 'ApiController@addToFavorite');
-            Route::get('rem-fav/{id}', 'ApiController@removeFromFavorite');
+            Route::group(['prefix' => 'favorites'], function () {
+                Route::get('', 'ApiController@favorites');
+                Route::get('add/{id}', 'ApiController@addSpaceToFavorite');
+                Route::get('remove/{id}', 'ApiController@removeFromFavorite');
+            });
+            Route::group(['prefix' => 'orders'], function () {
+                Route::get('', 'ApiController@orders');
+                Route::get('create', 'ApiController@createOrder');
+                Route::get('{id}/edit', 'ApiController@editOrder');
+                Route::get('delete/{id}', 'ApiController@deleteOrder');
+            });
+            Route::post('orders/create', 'ApiController@request');
+            Route::group(['prefix' => 'workshop'], function () {
+                Route::get('', 'ApiController@userWorkshops');
+                Route::post('create', 'ApiController@createWorkshop');
+                Route::get('{id}/edit', 'ApiController@editWorkshop');
+                Route::get('delete/{id}', 'ApiController@deleteWorkshop');
+            });
         });
     });
-    Route::get('delete/{id}', 'ApiController@deleteWorkshop');
-    Route::get('space/{id}/details', 'ApiController@showSpaceDetails');
-    Route::get('workshops', 'ApiController@workshops');
 //    Route::get('search/{id}', 'ApiController@search');
 //    Route::get('find', 'ApiController@findClose');
 //    Route::get('request', 'ApiController@request');
 //    Route::get('index', 'ApiController@index');
 //    Route::get('create', 'ApiController@create');
-//    Route::get('edit', 'ApiController@edit');
 //    Route::get('update', 'ApiController@update');
 //    Route::get('delete', 'ApiController@delete');
 //    Route::get('rules', 'ApiController@rules');

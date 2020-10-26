@@ -8,19 +8,9 @@ use Illuminate\Http\Request;
 use App\{Favorite, Order, Space, User, Workshop};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
-use phpDocumentor\Reflection\Types\This;
 
 class ApiController extends Controller
 {
-    private $user;
-    /**
-     * SET CURRENT USER
-     */
-    public function __construct()
-    {
-        $this->user = Auth::user();
-    }
-
     /**
      * GET ALL THE USERS
      *
@@ -42,6 +32,8 @@ class ApiController extends Controller
         return NULL !== Space::find($id);
     }
 
+    // START FAVORITE FUNCTIONS
+
     /**
      * GET ALL THE FAVORITES OF THE CURRENT USER
      *
@@ -49,15 +41,7 @@ class ApiController extends Controller
      */
     public function favorites()
     {
-        $favorites = Auth::user()->favorites;
-        $user_spaces = [];
-        if ( $favorites ) {
-            foreach ($favorites as $favorite) {
-                $space_id = Favorite::find(['user_id' => Auth::user()->id]);
-                array_push($user_spaces, Space::find(1));
-            }
-        }
-        return new JsonResponse(['Spaces' => Favorite::find(['user_id' => Auth::user()->id])->get('space_id')]);
+        return new JsonResponse(['Favorites' => Auth::user()->favorites]);
     }
 
     /**
@@ -67,7 +51,7 @@ class ApiController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function addToFavorite(Request $request, int $id)
+    public function addSpaceToFavorite(Request $request, int $id)
     {
         $user = Auth::user();
         if ( !$this->checkSpace($id) ) return new JsonResponse(['status' => 'error', 'message' => 'The space doesn\'t exist',]);
@@ -93,7 +77,11 @@ class ApiController extends Controller
             $favorite = Favorite::where(['user_id' => $request->user()->id, 'space_id' => $id])->firstOrFail();
         }
         catch(ModelNotFoundException $exception) {
-            return new jsonResponse(['error' => 'The favorite doesn\'t exists !']);
+            return new JsonResponse(['error' => 'The favorite doesn\'t exists !']);
+        }
+        catch (\Exception $exception)
+        {
+            return new JsonResponse(['error' => 'Something happened !']);
         }
         $favorite->delete();
         return new JsonResponse([
@@ -101,28 +89,66 @@ class ApiController extends Controller
         ]);
     }
 
+    // END FAVORITE FUNCTIONS
+
+    // START WORKSHOPS FUNCTIONS
+
     /**
-     * GET ALL THE ORDERS OF THE CURRENT USER
-     *
-     * @return JsonResponse
+     * PAGINATE THE WORKSHOP
      */
-    public function orders()
+    public function workshops()
     {
-        $user = Auth::user();
-        return new JsonResponse(['Orders' => $user->orders()->paginate(10)]);
+        return new JsonResponse(['Workshops' => Workshop::all()]);
     }
 
     /**
-     * RETURN THE DETAILS OF ORDER BY ID
+     * LOAD CATEGORIES (ID, NAME) TO ARRAY
+     * SHOW THE CREATE PAGE WITH CATEGORIES
+     * VALIDATE THE REQUEST
+     * STORE IN DATABASE
+     * REDIRECT WITH SUCCESS
+     */
+    public function createWorkshop()
+    {
+        return null;
+    }
+
+    /**
+     * GET THE WORKSHOP
+     * LOAD CATEGORIES (ID, NAME) TO ARRAY
+     * SHOW THE CREATE PAGE WITH WORKSHOP & CATEGORIES
+     *
+     * @param Request $request
      * @param int $id
-     *
-     *
      * @return JsonResponse
      */
-    public function orderDetails(int $id)
+    public function editWorkshop(Request $request, int $id)
     {
-        $order = Order::find(1);
-        return new JsonResponse(['Order Details' => $order->details()]);
+        $user_id = Auth::user()->id;
+        $workshop = Workshop::find($id);
+        if ( !$workshop ) return new JsonResponse(['error' => 'The workshop is not found !']);
+        if ( $workshop['user_id'] !== $user_id) {
+            return new JsonResponse(['error' => 'You didn\'t have the authorization to edit the workshop']);
+        }
+        return new JsonResponse(['success' => 'The workshop was updated !']);
+    }
+
+    /**
+     * GET THE WORKSHOP
+     * VERIFY THE CREATOR
+     * DELETE THE WORKSHOP
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function deleteWorkshop(int $id)
+    {
+        $user_id = Auth::user()->id;
+        $workshop = Workshop::find($id);
+        if ( !$workshop ) { return new JsonResponse(['error' => 'The workshop doesn\'t exist']); }
+        if ( $workshop['user_id'] !== $user_id ) return new JsonResponse(['error' => 'You don\'t have the permission for this action !']);
+        $workshop->delete();
+        return new JsonResponse(['success' => 'The workshop was deleted !']);
     }
 
     /**
@@ -138,13 +164,9 @@ class ApiController extends Controller
         ]);
     }
 
-    /**
-     * PAGINATE THE WORKSHOP
-     */
-    public function workshops()
-    {
-        return new JsonResponse(['Workshops' => Workshop::all()]);
-    }
+    // END WORKSHOPS FUNCTIONS
+
+    // START SPACE FUNCTIONS
 
     /**
      * SHOW SPACE DETAILS WITH REVIEWS
@@ -157,22 +179,74 @@ class ApiController extends Controller
         $space = Space::find($id);
         return new JsonResponse(['SpaceDetails' => $space->details()]);
     }
+    // END SPACE FUNCTIONS
 
+    // STARTS ORDER FUNCTIONS
+
+    /**
+     * @return JsonResponse
+     */
     public function applyCoupon()
     {
-        echo Response::json(['success' => 'Your coupon was applied']);
-        exit();
+        return new JsonResponse(['success' => 'Your coupon was applied']);
     }
+
+    /**
+     * GET ALL THE ORDERS OF THE CURRENT USER
+     *
+     * @return JsonResponse
+     */
+    public function orders()
+    {
+        $user = Auth::user();
+        return new JsonResponse(['Orders' => $user->orders()->paginate(10)]);
+    }
+
+    /**
+     * VALIDATE THE REQUEST
+     * SAVE THE ORDER
+     * SEND EMAIL TO USER
+     *
+     *
+     * @param Request $request
+     * @return null
+     */
+    public function createOrder(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|min:4|max:10'
+        ]);
+        $order = new Order();
+        $order->date = new \DateTime();
+        $order->user_id = Auth::user()->id;
+        if ( $order->save() ) {
+            return new JsonResponse(['message' => 'The order was created with successfully !']);
+        }
+        return new JsonResponse(['error' => 'Something happened please try again']);
+    }
+
+    /**
+     * RETURN THE DETAILS OF ORDER BY ID
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function orderDetails(int $id)
+    {
+        $order = Order::find(1);
+        return new JsonResponse(['Order Details' => $order->details()]);
+    }
+
+    // END ORDER FUNCTIONS
 
     /**
      * USE FILTER
      * RETURN ALL THE WORKSHOPS BY FILTER
      *
      *
-     * @param $id
      * @return null
      */
-    public function search(int $id)
+    public function search()
     {
         return null;
     }
@@ -183,68 +257,13 @@ class ApiController extends Controller
     }
 
     /**
-     * VALIDATE THE REQUEST
-     * SAVE THE ORDER
-     * SEND EMAIL TO USER
-     */
-    public function request()
-    {
-        return null;
-    }
-
-    /**
-     * LOAD CATEGORIES (ID, NAME) TO ARRAY
-     * SHOW THE CREATE PAGE WITH CATEGORIES
-     * VALIDATE THE REQUEST
-     * STORE IN DATABASE
-     * REDIRECT WITH SUCCESS
-     */
-    public function create()
-    {
-        return null;
-    }
-
-    /**
-     * GET THE WORKSHOP
-     * LOAD CATEGORIES (ID, NAME) TO ARRAY
-     * SHOW THE CREATE PAGE WITH WORKSHOP & CATEGORIES
-     */
-    public function edit()
-    {
-        return null;
-    }
-
-    /**
-     * VALIDATE THE REQUEST
-     * GET THE WORKSHOP
-     * UPDATE
-     * REDIRECT WITH SUCCESS
-     */
-    public function update()
-    {
-        return null;
-    }
-
-    /**
-     * GET THE WORKSHOP
-     *
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function deleteWorkshop(int $id)
-    {
-        $workshop = Workshop::find($id);
-        if ( !$workshop ) return new JsonResponse(['error' => 'No work shop found !']);
-        $workshop->delete();
-        return new JsonResponse(['success' => 'The workshop was deleted with successfully']);
-    }
-
-    /**
      * RETURN VALIDATION RULES ARRAY
+     *
+     * @return array|null
      */
-    public function rules()
+    public function rules():? array
     {
-        return null;
+        return array();
     }
 
     /**
