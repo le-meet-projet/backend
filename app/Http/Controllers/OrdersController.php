@@ -18,7 +18,23 @@ class OrdersController extends Controller
     public function show($id)
     {
     	$orders=Order::find($id);
-       return view('requests.details',compact('orders'));
+    	
+    	$sub_total=$orders->price*$orders->hour;
+    	$discount=($sub_total*$orders->coupon)/100;
+    	$duo_total=$orders->price-$orders->price*$orders->coupon/100;
+
+       return view('requests.details',compact('orders','discount','sub_total','duo_total'));
+    }
+
+
+    public function print($id){
+          $orders=Order::find($id);
+    	
+    	$sub_total=$orders->price*$orders->hour;
+    	$discount=($sub_total*$orders->coupon)/100;
+    	$duo_total=$orders->price-$orders->price*$orders->coupon/100;
+
+       return view('requests.printdetails',compact('orders','discount','sub_total','duo_total'));
     }
 
 

@@ -9,6 +9,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'admin.' ], function () {
 	Route::group(['prefix' => 'orders', 'as' => 'orders.'], function () {
 		Route::get('/', 'OrdersController@index')->name('index');
 		Route::get('/details/{id}', 'OrdersController@show')->name('details');
+		Route::get('/printdetails/{id}', 'OrdersController@print')->name('printdetails');
 	});
 	//spaces
 	Route::group(['prefix' => 'spaces', 'as' => 'spaces.'], function () {
