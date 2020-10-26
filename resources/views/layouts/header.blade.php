@@ -16,7 +16,7 @@
 		<link href="/assets/css/skin-modes.css" rel="stylesheet" />
 
 
-		 
+
 </head>
 
 <body class="main-body ">
@@ -32,7 +32,7 @@
 				<div class="container">
 					<div class="main-header-left ">
 						<a class="animated-arrow hor-toggle horizontal-navtoggle"><span></span></a><!-- sidebar-toggle-->
-				 
+
 						<div class="main-header-center  ml-4">
 							 <h5>CONTROL PANEL</h5>
 						</div>
@@ -48,7 +48,7 @@
 										</div>
 									</a>
 									<div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow" x-placement="bottom-end">
-			 
+
  										<a href="?lang=ar" class="dropdown-item d-flex ">
 											<span class="avatar  ml-3 align-self-center bg-transparent"><img src="/assets/img/flags/arabic_flag.png" alt="img"></span>
 											<div class="d-flex">
@@ -75,7 +75,7 @@
 									</div>
 								</form>
 							</div>
-	 
+
 							<div class="nav-item full-screen fullscreen-button">
 								<a class="new nav-link full-screen-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></a>
 							</div>
@@ -94,7 +94,7 @@
 									<a class="dropdown-item" href="/logout"><i class="bx bx-log-out"></i>{{ __(' Sign Out') }}</a>
 								</div>
 							</div>
-							 
+
 						</div>
 					</div>
 				</div>
