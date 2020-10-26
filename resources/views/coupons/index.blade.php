@@ -4,6 +4,7 @@
 
  <!-- main-content opened -->
 			<div class="main-content horizontal-content">
+				@if (!$coupons->isEmpty())
 				<!-- container opened -->
 				<div class="container">
 				   <!-- breadcrumb -->
@@ -34,9 +35,25 @@
 						</div>
 					</div>
 					<!-- breadcrumb -->
+					@endif
 					<!-- row opened -->
 					 <div class="col-xl-12">
 							<div class="card">
+								@if ($coupons->isEmpty())
+
+								 <div class="card-body">
+								 	 <div class="empty_state text-center">
+
+									            <i class="fas fa-percent empty_state_icon"></i>
+									            <h4> {{ __('start adding new coupons') }}
+									</h4>
+									            <a href="{{ route('admin.coupons.create') }}" class="btn bg-blue btn-labeled heading-btn"><b><i class="icon-plus"></i></b>
+									{{ __('create new coupon') }}
+									</a>
+									 </div>
+								</div>
+      
+        						@endif @if (!$coupons->isEmpty())
 								<div class="card-header pb-0">
 									<div class="d-flex justify-content-between">
 										<h4 class="card-title mg-b-0">{{ __('COUPONS TABLE') }}</h4>
@@ -113,6 +130,7 @@
 												@endforeach
 											</tbody>																			 
 										</table>
+										@endif
 										<div class="row">
 											 <div class="col-sm-12 col-md-7">
 												<div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">

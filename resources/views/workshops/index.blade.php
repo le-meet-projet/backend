@@ -4,6 +4,7 @@
 
  <!-- main-content opened -->
 			<div class="main-content horizontal-content">
+				 @if (!$workshops->isEmpty())
 				<!-- container opened -->
 				<div class="container">
 					<!-- breadcrumb -->
@@ -23,11 +24,7 @@
 							</div>					 
 						</div>
 						</div>
-						       <!-- @if(session('message')) 
-                                <div class="alert alert-success">
-                                {{session('message')}}
-                                </div>
-                                @endif  -->
+						       
 						<div class="d-flex my-xl-auto right-content">						
  	
 							<div class="pr-1 mb-3 mb-xl-0">
@@ -37,10 +34,27 @@
 							</div>					 
 						</div>
 					</div>
+					@endif
 					<!-- breadcrumb -->
 					<!-- row opened -->
 					 <div class="col-xl-12">
 							<div class="card">
+								
+								 @if ($workshops->isEmpty())
+
+								 <div class="card-body">
+								 	 <div class="empty_state text-center">
+
+									            <i class="fas fa-chalkboard empty_state_icon"></i>
+									            <h4> {{ __('start adding new workshops') }}
+									</h4>
+									            <a href="{{ route('admin.workshops.create') }}" class="btn bg-blue btn-labeled heading-btn"><b><i class="icon-plus"></i></b>
+									{{ __('create new workshop') }}
+									</a>
+									 </div>
+								</div>
+      
+        						@endif @if (!$workshops->isEmpty())
 								<div class="card-header pb-0">
 									<div class="d-flex justify-content-between">
 										<h4 class="card-title mg-b-0">{{ __('WORKSHOPS TABLE') }}</h4>
@@ -128,6 +142,7 @@
 										</table>
 									</div>
 								</div>
+								@endif
 								<div class="row">
 									 
 									<div class="col-sm-12 col-md-7">
