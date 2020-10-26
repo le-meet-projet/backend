@@ -44,6 +44,11 @@ class WorkshopController extends Controller
         $input= $this->validate($request, [
 
 
+            'name' => 'unique:spaces',
+
+           
+
+
            // 'name' => 'unique:spaces',
 
          
@@ -57,11 +62,24 @@ class WorkshopController extends Controller
         $space->capacity = $request->capacity;
         $space->price = $request->price;
         $space->description = $request->description;
+
+
+        //$space->longtitude = $request->longtitude;
+
         
+
         $space->type="workshop";
         $space->save();
+
+        // $notification = array(
+        //     'message' => 'workshop successfully created.',
+        //     'alert-type' => 'success'
+        // );
+        return redirect()->route('admin.workshops.index')->with('notification','workshop successfully created');
+
         Session::flash('statuscode','success');
         return redirect()->route('admin.workshops.index')->with('status', 'Workshop Created');
+
     }
 
     /**
@@ -109,13 +127,22 @@ class WorkshopController extends Controller
         $workshop->map = $request->map;
         $workshop->type="workshop";
         $workshop->time=$request->hour;
+        $workshop->date=$request->date;
         $workshop->save();
 
         // $input = $request->all();
 
         // $space->update($input);
+
+        // $notification = array(
+        //     'message' => 'workshop successfully updated.',
+        //     'alert-type' => 'success'
+        // );
+        return redirect()->route('admin.workshops.index')->with('notification','workshop successfully updated');
+
         Session::flash('statuscode','info');
         return redirect()->route('admin.workshops.index')->with('status','Workshop Updated');
+
     }
 
     /**

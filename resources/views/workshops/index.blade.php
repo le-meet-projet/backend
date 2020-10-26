@@ -4,6 +4,7 @@
 
  <!-- main-content opened -->
 			<div class="main-content horizontal-content">
+				 @if (!$workshops->isEmpty())
 				<!-- container opened -->
 				<div class="container">
 					<!-- breadcrumb -->
@@ -23,32 +24,58 @@
 							</div>					 
 						</div>
 						</div>
-						       <!-- @if(session('message')) 
-                                <div class="alert alert-success">
-                                {{session('message')}}
-                                </div>
-                                @endif  -->
+<<<<<<< HEAD
+						        
+=======
+						       
+>>>>>>> 86ff9c523bf5816814c17fe129f0d1b5e8fb867d
 						<div class="d-flex my-xl-auto right-content">						
- 	
-							<div class="pr-1 mb-3 mb-xl-0">
+ 	                        							<div class="pr-1 mb-3 mb-xl-0">
 							    <a href="{{ route('admin.workshops.create') }}">
 							    	<button type="button" class="btn btn-info btn-icon ml-2"><i class="mdi mdi-plus"></i></button>
 							    </a>	
 							</div>					 
 						</div>
 					</div>
+<<<<<<< HEAD
+
+
+=======
+					@endif
+>>>>>>> 86ff9c523bf5816814c17fe129f0d1b5e8fb867d
 					<!-- breadcrumb -->
 					<!-- row opened -->
 					 <div class="col-xl-12">
+					 		
 							<div class="card">
+								
+								 @if ($workshops->isEmpty())
+
+								 <div class="card-body">
+								 	 <div class="empty_state text-center">
+
+									            <i class="fas fa-chalkboard empty_state_icon"></i>
+									            <h4> {{ __('start adding new workshops') }}
+									</h4>
+									            <a href="{{ route('admin.workshops.create') }}" class="btn bg-blue btn-labeled heading-btn"><b><i class="icon-plus"></i></b>
+									{{ __('create new workshop') }}
+									</a>
+									 </div>
+								</div>
+      
+        						@endif @if (!$workshops->isEmpty())
 								<div class="card-header pb-0">
+
 									<div class="d-flex justify-content-between">
+			
 										<h4 class="card-title mg-b-0">{{ __('WORKSHOPS TABLE') }}</h4>
 										<i class="mdi mdi-dots-horizontal text-gray"></i>
-									</div>	 
+									</div>
+
 								<div class="card-body">
 									<div class="table-responsive">
 										<div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+
 											<div class="row">
 												<div class="col-sm-12 col-md-6"></div>
 												<div class="col-sm-12 col-md-6">
@@ -128,6 +155,7 @@
 										</table>
 									</div>
 								</div>
+								@endif
 								<div class="row">
 									 
 									<div class="col-sm-12 col-md-7">

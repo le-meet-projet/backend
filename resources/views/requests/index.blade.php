@@ -6,6 +6,7 @@
  <!-- main-content opened -->
 <div class="main-content horizontal-content">
 	<!-- container opened -->
+	@if (!$orders->isEmpty())
 	<div class="container">
 					<!-- breadcrumb -->
 					<div class="breadcrumb-header justify-content-between">
@@ -24,9 +25,26 @@
  
 					</div>
 					<!-- breadcrumb -->
+					@endif
 					<!-- row opened -->
 					 <div class="col-xl-12">
 							<div class="card">
+								@if ($orders->isEmpty())
+
+								 <div class="card-body">
+								 	 <div class="empty_state text-center">
+
+									            <i class="fas fa-shopping-basket empty_state_icon"></i>
+									           <h4 > 
+									              <br>
+									                {{ __('when you recieve new order , will apear here.') }}
+									                </h4>
+									             
+									 
+									 </div>
+								</div>
+      
+        						@endif @if (!$orders->isEmpty())
 								<div class="card-header pb-0">
 									<div class="d-flex justify-content-between">
 										<h4 class="card-title mg-b-0">{{ __('ORDERS TABLE') }}</h4>
@@ -71,10 +89,16 @@
 													<td>{{$order->user->name}}</td>
 													<td>{{$order->price}}</td>
 													<td>{{$order->status}}</td>
+
+													
+												
+													<td><a href=" {{ route('admin.orders.details', ['id' => $order->id]) }}">{{ __('details') }}</a></td>
+
 												 
 													 
 													 
-													<td><a href=" {{ route('admin.orders.details') }}">{{ __('details') }}</a></td>
+													
+
 												</tr>
 												@endforeach
 												
@@ -83,10 +107,17 @@
 										</table>
 									</div>
 								</div>
+								@endif
+
 								<div class="row">
-									 
-									{{$orders->links()}}
-									 
+									 <div class="col-sm-12 col-md-7">
+										<div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+											<ul class="pagination">
+												{{$orders->links()}}
+										 
+											</ul>
+										</div>
+									</div>
 								</div>
 					 
 					     </div>

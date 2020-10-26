@@ -4,6 +4,7 @@
 
  <!-- main-content opened -->
 			<div class="main-content horizontal-content">
+				@if (!$users->isEmpty())
 				<!-- container opened -->
 				<div class="container">
 				   <!-- breadcrumb -->
@@ -34,10 +35,30 @@
 						</div>
 					</div>
 					<!-- breadcrumb -->
-					
+					@endif
 					<!-- row opened -->
 					 <div class="col-xl-12">
+					 	<!--  @if(session('notification')) 
+                                <div class="alert alert-success">
+                                {{session('notification')}}
+                                </div>
+                                @endif  --> 
 							<div class="card">
+								 @if ($users->isEmpty())
+
+								 <div class="card-body">
+								 	 <div class="empty_state text-center">
+
+									            <i class="far fa-user empty_state_icon"></i>
+									            <h4> {{ __('start adding new users') }}
+									</h4>
+									            <a href="{{ route('admin.users.create') }}" class="btn bg-blue btn-labeled heading-btn"><b><i class="icon-plus"></i></b>
+									{{ __('create new user') }}
+									</a>
+									 </div>
+								</div>
+      
+        						@endif @if (!$users->isEmpty())
 								<div class="card-header pb-0">
 									<div class="d-flex justify-content-between">
 										<h4 class="card-title mg-b-0">{{ __('USERS TABLE') }}</h4>
@@ -125,7 +146,7 @@
 										</table>
 									</div>
 								</div>
-
+								@endif
 								<div class="row">
 									 <div class="col-sm-12 col-md-7">
 										<div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">

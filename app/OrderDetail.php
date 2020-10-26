@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderDetail extends Model
-{
+{    
     public function order()
     {
         return $this->belongsTo('App\Order');
@@ -14,5 +14,10 @@ class OrderDetail extends Model
     public function workshop()
     {
         return $this->belongsTo('App\Workshop');
+    }
+
+
+    public function user(){
+    	return $this->belongsTo('App\User');
     }
 }

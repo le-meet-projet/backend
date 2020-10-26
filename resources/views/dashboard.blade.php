@@ -22,6 +22,7 @@
 								<div class="pl-3 pt-3 pr-3 pb-2 pt-0">
 									<div class="">
 										<h3 class="mb-3 tx-12 text-white">{{ __('TOTAL REQUEST') }}</h3>
+										<h3 class="mb-3 tx-12 text-white">{{ $orders }}</h3>
 									</div>
 									<div class="pb-0 mt-0">
 										<div class="d-flex">
@@ -40,6 +41,7 @@
 								<div class="pl-3 pt-3 pr-3 pb-2 pt-0">
 									<div class="">
 										<h3 class="mb-3 tx-12 text-white">{{ __('TOTAL WORKSHOPS') }}</h3>
+										<h3 class="mb-3 tx-12 text-white">{{ $workshops }}</h3>
 									</div>
 									<div class="pb-0 mt-0">
 										<div class="d-flex">
@@ -57,6 +59,7 @@
 								<div class="pl-3 pt-3 pr-3 pb-2 pt-0">
 									<div class="">
 										<h6 class="mb-3 tx-12 text-white">{{ __('TOTAL MEETING SPACES') }}</h6>
+										<h3 class="mb-3 tx-12 text-white">{{ $meeting }}</h3>
 									</div>
 									<div class="pb-0 mt-0">
 										<div class="d-flex">
@@ -74,6 +77,7 @@
 								<div class="pl-3 pt-3 pr-3 pb-2 pt-0">
 									<div class="">
 										<h6 class="mb-3 tx-12 text-white">{{ __('TOTAL USERS') }}</h6>
+										<h3 class="mb-3 tx-12 text-white">{{ $users }}</h3>
 									</div>
 									<div class="pb-0 mt-0">
 										<div class="d-flex">

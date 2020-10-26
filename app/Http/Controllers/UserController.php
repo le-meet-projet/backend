@@ -20,12 +20,17 @@ class UserController extends Controller
      */
     public function index()
     {
+
+        $users = User::paginate(2);
+        return view('users.index',compact('users'));
+
       //  $users = User::all();
       //  echo $users;
       //  exit();
                // return view('users.index');
         $users = User::orderby('id', 'desc')->paginate(2);
         return view('users.index', compact('users'));
+
     }
 
     /**
@@ -77,8 +82,13 @@ class UserController extends Controller
         $user->role = $request->input('role');
 
         $user->save();
+
+
+        //return redirect()->route('admin.users.index')->with('notification', 'User successfully Created');
+
         Session::flash('statuscode','success');
         return redirect()->route('admin.users.index')->with('status', 'User Created');
+
     }
 
     /**
@@ -113,8 +123,12 @@ class UserController extends Controller
         $user->role     = $request->role;
         $user->password = Hash::make($request->password);
         $user->save();
+
+       // return redirect()->route('admin.users.index')->with('notification','User successfully updated');
+
         Session::flash('statuscode','info');
         return redirect()->route('admin.users.index')->with('status','User Updated');
+
     }
 
     /**

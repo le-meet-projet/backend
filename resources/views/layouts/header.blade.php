@@ -14,9 +14,18 @@
 		<link href="/assets/css/style.css" rel="stylesheet">
 		<link href="/assets/css/style-dark.css" rel="stylesheet">
 		<link href="/assets/css/skin-modes.css" rel="stylesheet" />
+<<<<<<< HEAD
 
 
 
+<<<<<<< HEAD
+
+=======
+=======
+		<link href="/css/es.css" rel="stylesheet" />
+>>>>>>> 86ff9c523bf5816814c17fe129f0d1b5e8fb867d
+
+>>>>>>> ea07a16c626f1a2fb52d2dbf1a508b1f75c2ddfd
 </head>
 
 <body class="main-body ">
@@ -75,7 +84,6 @@
 									</div>
 								</form>
 							</div>
-
 							<div class="nav-item full-screen fullscreen-button">
 								<a class="new nav-link full-screen-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></a>
 							</div>
@@ -99,4 +107,7 @@
 					</div>
 				</div>
 			</div>
+			<!-- /main-header -->
+
+
 			<!-- /main-header -->
