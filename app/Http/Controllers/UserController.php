@@ -46,28 +46,34 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
- 
+        $this->validate($request,[
 
-        $rules = [
-         // 'email'    => 'required|email|unique:users', 
-         //  'password' => 'required|min:3',
-         //  'name'     => 'required|string|min:4',
-         //  'phone'    => 'required',
-        ];
- 
-        $rules = [];
- 
-        $messages = [
-            'email.required'    => trans("email.required"),
-            'email.email'       => trans("email.unique"),
-            'email.unique'      => trans("name.required"),
-            'password.required' => trans("password.required"),
-            'password.min'      => trans("password.min"),
-            'name.required'     => trans("name.required"),
-            'phone.required'    => trans("phone.required"),
-        ];
+            'email'    => 'required|email|unique:users', 
+          'password' => 'required|min:3',
+           'name'     => 'required|string|min:4',
+           'phone'    => 'required',
+        ]);
 
-        $request->validate($rules,$messages);
+        // $rules = [
+        //   'email'    => 'required|email|unique:users', 
+        //    'password' => 'required|min:3',
+        //    'name'     => 'required|string|min:4',
+        //    'phone'    => 'required',
+        // ];
+ 
+        // $rules = [];
+ 
+        // $messages = [
+        //     'email.required'    => trans("email.required"),
+        //     'email.email'       => trans("email.unique"),
+        //     'email.unique'      => trans("name.required"),
+        //     'password.required' => trans("password.required"),
+        //     'password.min'      => trans("password.min"),
+        //     'name.required'     => trans("name.required"),
+        //     'phone.required'    => trans("phone.required"),
+        // ];
+
+        // $request->validate($rules,$messages);
 
         $user = new User;
         $user->name = $request->input('name');
