@@ -122,7 +122,7 @@ class CouponsController extends Controller
         $coupon->discount_type = $request->discount_type;
         $coupon->description = $request->description;
         $coupon->statue = $request->statue;
-<<<<<<< HEAD
+
         
 
         // $coupon->save();
@@ -131,8 +131,7 @@ class CouponsController extends Controller
         //     'alert-type' => 'success'
         // );
        // return redirect()->route('admin.coupons.index')->with('notification','Coupon successfully updated');
-=======
->>>>>>> 86ff9c523bf5816814c17fe129f0d1b5e8fb867d
+
 
         $coupon->save();
         Session::flash('statuscode','info');

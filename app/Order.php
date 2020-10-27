@@ -25,10 +25,7 @@ class Order extends Model
         return $this->hasOne('App\OrderDetail');
     }
 
-<<<<<<< HEAD
-    
-=======
->>>>>>> 86ff9c523bf5816814c17fe129f0d1b5e8fb867d
+
 
     /**
      *
