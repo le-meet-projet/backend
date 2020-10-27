@@ -12,4 +12,9 @@ class Space extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function details()
+    {
+        return $this->hasOne('App\SpaceDetails');
+    }
 }

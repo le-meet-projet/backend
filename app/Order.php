@@ -21,12 +21,14 @@ class Order extends Model
 
     public function detail()
     {
-        //return $this->belongsTo('App\User', 'user_id');
         return $this->hasOne('App\OrderDetail');
     }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 50f59ad34f9e2e942d9ca0659e323cc56f06e6b6
     /**
      *
      *
