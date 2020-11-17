@@ -63,11 +63,11 @@ class CouponsController extends Controller
            //'code' => 'required|unique:coupons',
         ]);
 
-        if ($request->has('statue')) {
-            $request->request->add(['statue' => 'active']);
-        } else {
-            $request->request->add(['statue' => 'inactive']);
-        }
+        // if ($request->has('statue')) {
+        //     $request->request->add(['statue' => 'active']);
+        // } else {
+        //     $request->request->add(['statue' => 'inactive']);
+        // }
 
         $coupon = new Coupon();
         $coupon->title = $request->title;
@@ -110,11 +110,11 @@ class CouponsController extends Controller
         //dd($request);
         $coupon = Coupon::find($id);
 
-        if ($request->has('statue')) {
-            $request->request->add(['statue' => 'active']);
-        } else {
-            $request->request->add(['statue' => 'inactive']);
-        }
+        // if ($request->has('statue')) {
+        //     $request->request->add(['statue' => 'active']);
+        // } else {
+        //     $request->request->add(['statue' => 'inactive']);
+        // }
 
         $coupon->title = $request->title;
         $coupon->code = $request->code;
@@ -195,5 +195,20 @@ class CouponsController extends Controller
             'alert-type' => 'success'
         );
         return Redirect()->back()->with($notification);
+    }
+    public function changeStatus(Request $request)
+
+    {
+
+        $coupon = Coupon::find($request->id);
+
+        $coupon->statue = $request->statue;
+
+        $coupon->save();
+
+  
+
+        return response()->json(['success'=>'Status change successfully.']);
+
     }
 }

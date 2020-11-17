@@ -92,7 +92,13 @@
 													
 													<td>{{$coupon->code}}</td>
 													<td>{{ $coupon->created_at}} </td>
-													<td> {{ $coupon->statue }} </td>
+													<td>   @if($coupon->statue==1 ) 
+														{{ __('Active') }}
+														@else
+														{{ __('Deactive') }}
+														@endif
+
+													 </td>
 													<td>
 														<span class="ml-auto">
 															<a href="{{ route('admin.coupons.edit',['id' => $coupon->id]) }}" class="text-primary-600">

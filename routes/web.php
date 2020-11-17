@@ -48,6 +48,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'admin.' ], function () {
 		Route::post('/update/{id}', 'CouponsController@update')->name('update');
 		Route::get('/delete/{id}', 'CouponsController@destroy')->name('delete');
 		Route::post('/store', 'CouponsController@store')->name('store');
+		Route::get('/changeStatus', 'UCouponsController@changeStatus')->name('changeStatus');
 
 	});
 });

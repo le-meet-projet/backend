@@ -101,7 +101,7 @@
 											<i class=" "></i>{{ __('Delete Order') }}
 										</a>
 										<div>
-										<a href="{{route('admin.orders.printdetails',['id'=>$orders->id])}}"   class=" btn btnprn btn-success float-right mt-3" >
+										<a onclick="print()"   class=" btn btnprn btn-success float-right mt-3" >
 											<i class="mdi mdi-printer mr-1"  >{{ __('Print') }}</i>
                                             
 									
@@ -115,3 +115,14 @@
 						</div><!-- COL-END -->
 					</div>
 @endsection
+<script type="text/javascript">
+	function print(){
+ 
+            printd:{
+                                                window.print()
+                                                 }
+                                              
+                                      
+	}
+                                      	 
+ </script>

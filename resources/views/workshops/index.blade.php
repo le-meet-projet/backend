@@ -24,11 +24,7 @@
 							</div>					 
 						</div>
 						</div>
-<<<<<<< HEAD
-						        
-=======
-						       
->>>>>>> 86ff9c523bf5816814c17fe129f0d1b5e8fb867d
+ 
 						<div class="d-flex my-xl-auto right-content">						
  	                        							<div class="pr-1 mb-3 mb-xl-0">
 							    <a href="{{ route('admin.workshops.create') }}">
@@ -37,12 +33,12 @@
 							</div>					 
 						</div>
 					</div>
-<<<<<<< HEAD
+ 
 
 
-=======
+ 
 					@endif
->>>>>>> 86ff9c523bf5816814c17fe129f0d1b5e8fb867d
+ 
 					<!-- breadcrumb -->
 					<!-- row opened -->
 					 <div class="col-xl-12">

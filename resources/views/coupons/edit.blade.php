@@ -46,8 +46,8 @@
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
 											<label >
 
-                                              <input name='statue' type="checkbox"  value="{{ $content->statue }}" />
-                                             <span class="slider round"></span>
+                                               
+                                             <input data-id="{{$content->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $content->status ? 'checked' : '' }}>
                                              </label>
 											</div>
 
@@ -97,10 +97,7 @@
 											</select> 
 
 
-												<select name="type" id="input-type" class="form-control">
-													<option value="Percent Reduction">{{ __('Percent reduction') }}  </option>
-													<option value="Percent Reduction">{{ __('Third memorization') }}</option>
-												</select> 
+												 
 
 											</div>
 										</div>
@@ -130,4 +127,39 @@
 		</div>
 		<!-- End Page -->	
 </div>	 
+<script>
+
+  $(function() {
+
+    $('.toggle-class').change(function() {
+
+        var status = $(this).prop('checked') == true ? 1 : 0; 
+
+        var user_id = $(this).data('id'); 
+
+         
+
+        $.ajax({
+
+            type: "GET",
+
+            dataType: "json",
+
+            url: '/changeStatus',
+
+            data: {'statue': statue, 'id': id},
+
+            success: function(data){
+
+              console.log(data.success)
+
+            }
+
+        });
+
+    })
+
+  })
+
+</script>
 @endsection

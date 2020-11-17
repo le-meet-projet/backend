@@ -22,7 +22,7 @@
 								<div class="pl-3 pt-3 pr-3 pb-2 pt-0">
 									<div class="">
 										<h3 class="mb-3 tx-12 text-white">{{ __('TOTAL REQUEST') }}</h3>
-										<h3 class="mb-3 tx-12 text-white">{{ $orders }}</h3>
+										<h3 class="mb-3 tx-12 text-white">{{ $orders  }}</h3>
 									</div>
 									<div class="pb-0 mt-0">
 										<div class="d-flex">
