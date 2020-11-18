@@ -106,7 +106,8 @@
 												<label class="form-label mg-b-0">{{ __('Description') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<textarea name="description" class="form-control"  type="text">{{ $content->description }}</textarea>  
+							<textarea name="description" class="form-control"  type="text">{{ $content->description }}
+							</textarea>  
 											</div>
 										</div> 
 										 	 

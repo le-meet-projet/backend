@@ -104,6 +104,14 @@
 										</li>
 									</ul>
 								</li>
+								<li aria-haspopup="true">
+									<a href="{{ route('admin.reviews.index') }}" class="sub-icon">
+										<svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+											 <i class="fas fa-stream"></i>
+										</svg> {{ __('Reviews') }} 
+										 
+	 							 
+								</li>
 							</ul>
 						</nav>
 						<!--Nav-->

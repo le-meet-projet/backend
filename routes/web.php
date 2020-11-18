@@ -62,6 +62,17 @@ Route::group(['prefix' => 'dashboard', 'as' => 'admin.' ], function () {
 		 
 
 	});
+	//reviews
+	Route::group(['prefix' => 'reviews', 'as' => 'reviews.'], function () {
+		Route::get('/', 'ReviewsController@index')->name('index');
+	
+		Route::get('/edit/{id}', 'ReviewsController@edit')->name('edit');
+		Route::post('/update/{id}', 'ReviewsController@update')->name('update');
+		Route::get('/delete/{id}', 'ReviewsController@destroy')->name('delete');
+	
+		 
+
+	});
 });
 
 

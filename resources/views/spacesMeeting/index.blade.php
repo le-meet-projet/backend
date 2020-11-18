@@ -22,6 +22,7 @@
 							</div>					 
 						</div>
 						</div>
+					
 						<div class="d-flex my-xl-auto right-content">						
 							<div class="pr-1 mb-3 mb-xl-0">
 							    <a href="{{ route('admin.spaces.create') }}"><button type="button" class="btn btn-info btn-icon ml-2"><i class="mdi mdi-plus"></i></button></a>	
