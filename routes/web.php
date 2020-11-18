@@ -51,6 +51,17 @@ Route::group(['prefix' => 'dashboard', 'as' => 'admin.' ], function () {
 		Route::get('/changeStatus', 'UCouponsController@changeStatus')->name('changeStatus');
 
 	});
+	//brands
+	Route::group(['prefix' => 'brand', 'as' => 'brand.'], function () {
+		Route::get('/', 'BrandController@index')->name('index');
+		Route::get('/create', 'BrandController@create')->name('create');
+		Route::get('/edit/{id}', 'BrandController@edit')->name('edit');
+		Route::post('/update/{id}', 'BrandController@update')->name('update');
+		Route::get('/delete/{id}', 'BrandController@destroy')->name('delete');
+		Route::post('/store', 'BrandController@store')->name('store');
+		 
+
+	});
 });
 
 
