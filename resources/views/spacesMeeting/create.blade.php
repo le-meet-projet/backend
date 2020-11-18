@@ -69,6 +69,43 @@
 												<input class="form-control" name="price" placeholder="{{ __('Price ') }} " type="number" required="required">
 											</div>
 										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Percent') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input class="form-control" name="percent" placeholder="{{ __('percent ') }} " type="number" required="required">
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Thumbnail') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input class="form-control" name="thumbnail" placeholder="{{ __('thumbnail ') }} " type="file" required="required">
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Gallery') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input class="form-control" name="gallery" placeholder="{{ __('gallery ') }} " type="file" required="required">
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Brand') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												 <select name="type" id="input-type" class="form-control">@foreach($brand as $brand)
+													<option value="{{$brand->id}}"> {{$brand->name}}</option>
+													 @endforeach
+												 </select>
+											</div>
+										</div>
+										 
+
 								        <div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Description') }}</label>

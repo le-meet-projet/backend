@@ -9,7 +9,7 @@
 	@if (!$orders->isEmpty())
 	<div class="container">
 					<!-- breadcrumb -->
-					<div class="breadcrumb-header justify-content-between">
+					<div class="breadcrumb-header ">
 						<div class="my-auto">
 							<div class="d-flex my-xl-auto right-content">						
 								<div class="pr-1 mb-3 mb-xl-0">

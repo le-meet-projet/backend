@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Space;
+use App\Brand;
 use Session;
 class SpaceController extends Controller
 {
@@ -25,8 +26,10 @@ class SpaceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
+
     {
-         return view('spacesMeeting.create');
+        $brand = Brand::orderby('id', 'desc');
+         return view('spacesMeeting.create', compact('brand'));
     }
 
     /**
