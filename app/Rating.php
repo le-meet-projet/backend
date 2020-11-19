@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Rating extends Model
 {
     use SoftDeletes;
+
+    protected $table = "rating";
 }

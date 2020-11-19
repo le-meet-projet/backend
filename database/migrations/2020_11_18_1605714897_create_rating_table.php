@@ -14,7 +14,7 @@ class CreateRatingTable extends Migration
 		$table->date('date')->nullable();
 		$table->integer('user_id')->nullable();
 		$table->timestamps();
-		$table->timestamp('deleted_at');
+		$table->timestamp('deleted_at')->nullable();;
 
         });
     }
