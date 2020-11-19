@@ -54,10 +54,11 @@
 											<div class="mb-5 d-flex"> <a href="index.html"><img src="../../assets/img/brand/favicon.png" class="sign-favicon ht-40" alt="logo"></a><h1 class="main-logo1 ml-1 mr-0 my-auto tx-28">Le Meet<span> </span> </h1></div>
 											<div class="card-sigin">
 												<div class="main-signup-header">
-                                                    <h2>Welcome back!</h2>
+													<h2>Welcome back!</h2>
+													
                                                     <h5 class="font-weight-semibold mb-4">Please sign in to continue.</h5>
                                                     <form method="POST" action="{{ route('login') }}">
-
+													
                                                         @csrf
 
                                                         <div class="form-group">
@@ -67,7 +68,12 @@
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
-                                                            @enderror
+															@enderror
+															@if(Session::has('error'))
+																<span class="invalid-feedback" style="display: block;" role="alert">
+																	<strong>{{ Session::get('error') }}</strong>
+																</span>
+															@endif
                                                         </div>
                                                         <div class="form-group">
                                                             <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">

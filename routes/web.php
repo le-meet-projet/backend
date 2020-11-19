@@ -1,10 +1,12 @@
 <?php
 
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'dashboard', 'as' => 'admin.' ], function () {
-	Route::get('/', 'DashboardController@home');
+Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin' ], function () {
+
+ 	Route::get('/', 'DashboardController@home');
 	//orders
 	Route::group(['prefix' => 'orders', 'as' => 'orders.'], function () {
 		Route::get('/', 'OrdersController@index')->name('index');
@@ -76,5 +78,4 @@ Route::group(['prefix' => 'dashboard', 'as' => 'admin.' ], function () {
 
 
 Auth::routes();
-Route::get('/', 'HomeController@index')->name('home');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');

@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/dashboard';
 
     public function logout(Request $request)
     {
@@ -46,4 +46,38 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+
+
+
+
+       
+    public function login(Request $request) {
+      
+        $email    = $request->email;
+        $password = $request->password;
+        
+        $this->validate($request, [
+            'email'           => 'required|max:255|email',
+            'password'        => 'required|min:4',
+        ]);
+       
+  
+          if (\Auth::guard()->attempt(['role'=>'admin', 'email' => $email, 'password' => $password], $request->get('remember'))) {
+              return redirect('/dashboard');
+          }
+    
+          return back()->withInput($request->only('email', 'remember'))->with('error', 'wrong credentials!');
+  
+  
+      }
+
+
+
+
+
+
+
+
+
 }
