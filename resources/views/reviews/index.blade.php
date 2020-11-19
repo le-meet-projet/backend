@@ -74,17 +74,17 @@
 												</tr>
 											</thead>
 											<tbody>
-						                        @foreach($reviews as $reviews)
+						                        @foreach($reviews as $review)
 												<tr>
 													
-													<td>{{$reviews->review}}</td>
-													<td>{{ $reviews->rating}} </td>
+													<td>{{$review->review}}</td>
+													<td>{{ $review->rating}} </td>
 													<td>   
-															{{ $reviews->created_at}}
+															{{ $review->created_at}}
 													 </td>
 													<td>
 														<span class="ml-auto">
-															<a href="{{ route('admin.reviews.edit',['id' => $reviews->id]) }}" class="text-primary-600">
+															<a href="{{ route('admin.reviews.edit',['id' => $review->id]) }}" class="text-primary-600">
 																<i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i>
 															</a>
 
@@ -101,7 +101,7 @@
 														          <span aria-hidden="true">&times;</span>
 														        </button>
 														      </div>
-														      <form id="delete_modal_form" method="GET" action="{{route('admin.reviews.delete', $reviews->id)}}">
+														      <form id="delete_modal_form" method="GET" action="{{route('admin.reviews.delete', $review->id)}}">
 														      	@csrf
 									  
 														      <div class="modal-footer">
@@ -120,15 +120,9 @@
 											</tbody>																			 
 										</table>
 										@endif
-										<div class="row">
-											 <div class="col-sm-12 col-md-7">
-												<div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
-													<ul class="pagination">
-													 
-												 
-													</ul>
-												</div>
-											</div>
+
+										<div class="pagination-cont">
+											{{ $reviews->links() }}
 										</div>
 										
 									</div>

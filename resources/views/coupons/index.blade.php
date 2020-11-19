@@ -137,15 +137,9 @@
 											</tbody>																			 
 										</table>
 										@endif
-										<div class="row">
-											 <div class="col-sm-12 col-md-7">
-												<div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
-													<ul class="pagination">
-														{{$coupons->links()}}
-												 
-													</ul>
-												</div>
-											</div>
+										
+										<div class="pagination-cont">
+											{{$coupons->links()}}
 										</div>
 										
 									</div>

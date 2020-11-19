@@ -52512,5 +52512,10 @@ a.text-dark:hover, a.text-dark:focus {
     display: none !important;
 }
 
+
+.pagination-cont nav{
+  display: flex;
+  justify-content: center;
+}
 /*# sourceMappingURL=style.css.map */
 

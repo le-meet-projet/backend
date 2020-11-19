@@ -4,7 +4,7 @@
 
  <!-- main-content opened -->
 			<div class="main-content horizontal-content">
-				@if (!$brand->isEmpty())
+				@if (!$brands->isEmpty())
 				<!-- container opened -->
 				<div class="container">
 				   <!-- breadcrumb -->
@@ -40,7 +40,7 @@
 					<!-- row opened -->
 					 <div class="col-xl-12"> 
 							<div class="card">
-								@if ($brand->isEmpty())
+								@if ($brands->isEmpty())
 
 								 <div class="card-body">
 								 	 <div class="empty_state text-center">
@@ -54,7 +54,7 @@
 									 </div>
 								</div>
       
-        						@endif @if (!$brand->isEmpty())
+        						@endif @if (!$brands->isEmpty())
 								<div class="card-header pb-0">
 									<div class="d-flex justify-content-between">
 										<h4 class="card-title mg-b-0">{{ __('BRAND TABLE') }}</h4>
@@ -88,7 +88,7 @@
 												</tr>
 											</thead>
 											<tbody>
-						                        @foreach($brand as $brand)
+						                        @foreach($brands as $brand)
 												<tr>
 													
 													<td>{{$brand->name}}</td>
@@ -134,15 +134,9 @@
 											</tbody>																			 
 										</table>
 										@endif
-										<div class="row">
-											 <div class="col-sm-12 col-md-7">
-												<div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
-													<ul class="pagination">
-													 
-												 
-													</ul>
-												</div>
-											</div>
+										
+										<div class="pagination-cont">
+											{{ $brands->links() }}
 										</div>
 										
 									</div>
