@@ -17,7 +17,7 @@ class WorkshopController extends Controller
     public function index()
     {   
        
-        $workshops=Space::where('type','=','workshop')->paginate(2);
+        $workshops=Space::where('type','=','workshop')->paginate(10);
         return view('workshops.index',compact('workshops'));
    
       

@@ -15,7 +15,7 @@ class SpaceController extends Controller
      */
     public function index()
     {  
-        $meetings=Space::where('type','=','meeting')->paginate(2);
+        $meetings=Space::where('type','=','meeting')->paginate(10);
         return view('spacesMeeting.index',compact('meetings'));
        
     }
