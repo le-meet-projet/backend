@@ -47,29 +47,21 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-
-       
-           'name'     => 'required|string|min:4',
-           
+           'name'     => 'required|string|min:4'
         ]);
-
-        
 
         $brand = new Brand;
         $brand->name = $request->input('name');
         $brand->adress = $request->input('adress');
-         
         $brand->description = $request->input('description');
-      
+        if($request->hasFile('thumbnail')){
+            $brand->thumbnail = $request->thumbnail->store('thumbnails');
+        }
 
         $brand->save();
 
-
-        
-
         Session::flash('statuscode','success');
         return redirect()->route('admin.brand.index')->with('status', 'Brand Created');
-
     }
 
     /**
@@ -102,6 +94,9 @@ class BrandController extends Controller
         $brand->name     = $request->name;
         $brand->adress    = $request->adress;
         $brand->description    = $request->description;
+        if($request->hasFile('thumbnail')){
+            $brand->thumbnail = $request->thumbnail->store('thumbnails');
+        }
      
      
         $brand->save();

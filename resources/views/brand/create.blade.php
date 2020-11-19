@@ -27,8 +27,8 @@
 					</div>
 					<!-- breadcrumb -->		 
 					<!-- row -->
-					<form method="POST" action="{{ route('admin.brand.store') }}">
-										@csrf
+					<form method="POST" action="{{ route('admin.brand.store') }}" enctype="multipart/form-data">
+					@csrf
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
 							<div class="card">
@@ -53,6 +53,14 @@
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
 												<input class="form-control" name="adress" placeholder="{{ __('Address') }} " type="text" required="">
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Thumbnail') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input class="form-control" name="thumbnail" placeholder="{{ __('Thumbnail') }}" type="file">
 											</div>
 										</div>
 										 

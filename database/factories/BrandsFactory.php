@@ -9,6 +9,7 @@ $factory->define(Brand::class, function (Faker $faker) {
     return [
         'name' => $faker->userName,
 		'adress' => $faker->address,
-		'description' => $faker->realText
+        'description' => $faker->realText,
+        'thumbnail' => 'thumbnails/'.$faker->uuid.'.jpeg'
     ];
 });
