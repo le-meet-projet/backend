@@ -1,6 +1,5 @@
 <?php
 
-use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -50,7 +49,7 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
 		Route::post('/update/{id}', 'CouponsController@update')->name('update');
 		Route::get('/delete/{id}', 'CouponsController@destroy')->name('delete');
 		Route::post('/store', 'CouponsController@store')->name('store');
-		Route::get('/changeStatus', 'UCouponsController@changeStatus')->name('changeStatus');
+		Route::get('/changeStatus', 'CouponsController@changeStatus')->name('changeStatus');
 
 	});
 	//brands
