@@ -44,7 +44,7 @@
 								<div class="card-header pb-0">
 									<div class="d-flex justify-content-between">
 										<h4 class="card-title mg-b-0">{{ __('REVIEWS TABLE') }}</h4>
-										<i class="mdi mdi-dots-horizontal text-gray"></i>
+										 
 									</div>
 									 
 								<div class="card-body">
@@ -54,9 +54,7 @@
 												<div class="col-sm-12 col-md-6"></div>	
 												<div class="col-sm-12 col-md-6">
 													<div id="example1_filter" class="dataTables_filter">
-														<label>
-															<input type="search" class="form-control form-control-sm" placeholder="Search..." aria-controls="example1">
-														</label>
+													 
 													</div>
 												</div>
 											</div>

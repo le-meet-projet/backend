@@ -73,6 +73,15 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
 		 
 
 	});
+	//profile
+	Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
+		Route::get('/', 'ProfileController@index')->name('index');
+		Route::post('/update/{id}', 'ProfileController@update')->name('update');
+	 
+	
+		 
+
+	});
 });
 
 
