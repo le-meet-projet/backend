@@ -2,287 +2,215 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\JsonResponse;
+use App\Favorite;
+use App\Order;
+use App\Rating;
+use App\Review;
+use App\Space;
 use Illuminate\Http\Request;
-use App\{Favorite, Order, Space, User, Workshop};
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
 {
-    /**
-     * GET ALL THE USERS
-     *
-     * @return JsonResponse
-     */
-    public function users()
-    {
-        return new JsonResponse(['Users' => User::all()]);
-    }
-
-    /**
-     * CHECK THE PRODUCT IF EXISTS
-     *
-     * @param int $id
-     * @return bool
-     */
-    private function checkSpace(int $id): bool
-    {
-        return NULL !== Space::find($id);
-    }
-
-    // START FAVORITE FUNCTIONS
-
-    /**
-     * GET ALL THE FAVORITES OF THE CURRENT USER
-     *
-     * @return JsonResponse
-     */
-    public function favorites()
-    {
-        return new JsonResponse(['Favorites' => Auth::user()->favorites]);
-    }
-
-    /**
-     * ADD SPACE TO FAVORITE
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function addSpaceToFavorite(Request $request, int $id)
-    {
-        $user = Auth::user();
-        if ( !$this->checkSpace($id) ) return new JsonResponse(['status' => 'error', 'message' => 'The space doesn\'t exist',]);
-        $data = ['user_id' => $user->id, 'space_id' => $id];
-        $exists = Favorite::firstOrCreate($data);
-        $message = TRUE === $exists ? 'The favorite was added !' : 'The space is already in your favorites !';
-        return new JsonResponse([
-            'status' => 'success',
-            'message' => $message,
-        ]);
-    }
-
-    /**
-     * DELETE FAVORITE
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function removeFromFavorite(Request $request, int $id)
-    {
-        try {
-            $favorite = Favorite::where(['user_id' => $request->user()->id, 'space_id' => $id])->firstOrFail();
-        }
-        catch(ModelNotFoundException $exception) {
-            return new JsonResponse(['error' => 'The favorite doesn\'t exists !']);
-        }
-        catch (\Exception $exception)
-        {
-            return new JsonResponse(['error' => 'Something happened !']);
-        }
-        $favorite->delete();
-        return new JsonResponse([
-            'message' => 'The favorite was deleted !'
-        ]);
-    }
-
-    // END FAVORITE FUNCTIONS
-
-    // START WORKSHOPS FUNCTIONS
-
-    /**
-     * PAGINATE THE WORKSHOP
-     */
-    public function workshops()
-    {
-        return new JsonResponse(['Workshops' => Workshop::all()]);
-    }
-
-    /**
-     * LOAD CATEGORIES (ID, NAME) TO ARRAY
-     * SHOW THE CREATE PAGE WITH CATEGORIES
-     * VALIDATE THE REQUEST
-     * STORE IN DATABASE
-     * REDIRECT WITH SUCCESS
-     */
-    public function createWorkshop()
-    {
-        return null;
-    }
-
-    /**
-     * GET THE WORKSHOP
-     * LOAD CATEGORIES (ID, NAME) TO ARRAY
-     * SHOW THE CREATE PAGE WITH WORKSHOP & CATEGORIES
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function editWorkshop(Request $request, int $id)
-    {
-        $user_id = Auth::user()->id;
-        $workshop = Workshop::find($id);
-        if ( !$workshop ) return new JsonResponse(['error' => 'The workshop is not found !']);
-        if ( $workshop['user_id'] !== $user_id) {
-            return new JsonResponse(['error' => 'You didn\'t have the authorization to edit the workshop']);
-        }
-        return new JsonResponse(['success' => 'The workshop was updated !']);
-    }
-
-    /**
-     * GET THE WORKSHOP
-     * VERIFY THE CREATOR
-     * DELETE THE WORKSHOP
-     *
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function deleteWorkshop(int $id)
-    {
-        $user_id = Auth::user()->id;
-        $workshop = Workshop::find($id);
-        if ( !$workshop ) { return new JsonResponse(['error' => 'The workshop doesn\'t exist']); }
-        if ( $workshop['user_id'] !== $user_id ) return new JsonResponse(['error' => 'You don\'t have the permission for this action !']);
-        $workshop->delete();
-        return new JsonResponse(['success' => 'The workshop was deleted !']);
-    }
-
-    /**
-     * USE_FILTER
-     * return all the workshops by filter
-     *
-     * @return JsonResponse
-     */
-    public function userWorkshops()
-    {
-        return new JsonResponse([
-            'Workshops' => Auth::user()->workshops
-        ]);
-    }
-
-    // END WORKSHOPS FUNCTIONS
-
     // START SPACE FUNCTIONS
+    /**
+     * GET ALL THE SPACES
+     *
+     * @return Response
+     */
+    public function spaces()
+    {
+        $response = ['spaces' => Space::all()];
+        return response($response, 200);
+    }
 
     /**
-     * SHOW SPACE DETAILS WITH REVIEWS
+     * CREATE NEW SPACE
      *
-     * @param int $id
-     * @return null
+     * @param Request $request
+     * @return Response
      */
-    public function showSpaceDetails(int $id)
+    public function createSpace(Request $request)
+    {
+        $space = Space::where(['name' => $request['name']])->withTrashed()->first();
+        if ( $space !== null ) {
+            $space->restore();
+        }
+        else {
+            $this->validateSpaceOrderRequest($request);
+
+            $space = new Space();
+            $space->name = $request['name'];
+        }
+
+        $space->price = $request['price'];
+        $space->address = $request['address'];
+        $space->description = $request['description'];
+        $space->map = $request['map'];
+        $space->thumbnail = $request['thumbnail'];
+        $space->gallery = $request['gallery'];
+        $space->type = $request['type'];
+        $space->date = $request['date'];
+        $space->time = $request['time'];
+        $space->capacity = $request['capacity'];
+
+        $space->save();
+
+        $response = ['message' => 'The space was created with success !'];
+        return response($response, 200);
+    }
+
+    /**
+     * @param int $id
+     * @return Response
+     */
+    public function spaceOrderDetails(int $id)
+    {
+        $order = Order::where(['space_id' => $id])->first();
+        if ( $order === null ) return response(['error' => 'nothing found'], 404);
+        $response = ['details' => $order];
+        return response($response);
+    }
+
+    /**
+     * @param int $id
+     * @return Response
+     */
+    public function editSpace(int $id)
+    {
+        return response(['Space' => Space::find($id)]);
+    }
+
+    /**
+     * @param int $id
+     * @return Response
+     */
+    public function deleteSpace(int $id)
     {
         $space = Space::find($id);
-        return new JsonResponse(['SpaceDetails' => $space->details()]);
-    }
-    // END SPACE FUNCTIONS
+        if ( null === $space ) return response(['error' => 'Not found'], 404);
 
-    // STARTS ORDER FUNCTIONS
+        $space->delete();
 
-    /**
-     * @return JsonResponse
-     */
-    public function applyCoupon()
-    {
-        return new JsonResponse(['success' => 'Your coupon was applied']);
+        $response = ['message' => 'The space was deleted with success !'];
+        return response();
     }
 
     /**
-     * GET ALL THE ORDERS OF THE CURRENT USER
-     *
-     * @return JsonResponse
-     */
-    public function orders()
-    {
-        $user = Auth::user();
-        return new JsonResponse(['Orders' => $user->orders()->paginate(10)]);
-    }
-
-    /**
-     * VALIDATE THE REQUEST
-     * SAVE THE ORDER
-     * SEND EMAIL TO USER
-     *
-     *
      * @param Request $request
-     * @return null
+     * @param int $id
+     * @return Response
      */
-    public function createOrder(Request $request)
+    public function updateSpace(Request $request, int $id)
+    {
+        $space = Space::find($id);
+        if ( null === $space ) return response(['error' => 'Not found'], 404);
+        $this->validateSpaceOrderRequest($request);
+
+        $space = new Space();
+        $space->name = $request['name'];
+        $space->price = $request['price'];
+        $space->address = $request['address'];
+        $space->description = $request['description'];
+        $space->map = $request['map'];
+        $space->thumbnail = $request['thumbnail'];
+        $space->gallery = $request['gallery'];
+        $space->type = $request['type'];
+        $space->date = $request['date'];
+        $space->time = $request['time'];
+        $space->capacity = $request['capacity'];
+
+        $space->save();
+
+        $response = ['message' => 'The space was update with success !'];
+        return response($response, 200);
+    }
+
+    private function validateSpaceOrderRequest(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|min:4|max:10'
+            'name' => 'required | string | max:255 | unique:spaces',
+            'price' => 'required',
+            'address' => 'required | string',
+            'description' => 'required | string',
+            'map' => 'required | string',
+            'thumbnail' => 'required | string | max:255',
+            'gallery' => 'required | string | max:255',
+            'type' => 'required | string | max:255',
+            'date' => 'required | date',
+            'time' => 'required | time',
+            'capacity' => 'required | string',
         ]);
-        $order = new Order();
-        $order->date = new \DateTime();
-        $order->user_id = Auth::user()->id;
-        if ( $order->save() ) {
-            return new JsonResponse(['message' => 'The order was created with successfully !']);
-        }
-        return new JsonResponse(['error' => 'Something happened please try again']);
     }
 
     /**
-     * RETURN THE DETAILS OF ORDER BY ID
      * @param int $id
-     *
-     * @return JsonResponse
+     * @return Response
      */
-    public function orderDetails(int $id)
+    public function addFavorite(int $id)
     {
-        $order = Order::find(1);
-        return new JsonResponse(['Order Details' => $order->details()]);
+        $user_id = Auth::user()->id;
+        $space = Space::find($id);
+        $favorite = Favorite::where(['user_id' => $user_id, 'space_id' => $id])->first();
+        if ( null === $space ) return response(['error' => 'Not found'], 404);
+        if ( null !== $favorite ) return response(['error' => 'The space is already in your favorite !']);
+
+        $favorite = Favorite::where(['user_id' => $user_id, 'space_id' => $id])->withTrashed();
+        if ( $favorite !== null ) {
+            $favorite->restore();
+
+            $response = ['message' => 'The space was added to your favorite with success !'];
+            return response($response, 200);
+        }
+        $favorite = new Favorite();
+        $favorite->user_id = $user_id;
+        $favorite->space_id = $id;
+        $favorite->save();
+
+        $response = ['message' => 'The space was added to your favorite with success !'];
+        return response($response, 200);
     }
 
-    // END ORDER FUNCTIONS
-
-    /**
-     * USE FILTER
-     * RETURN ALL THE WORKSHOPS BY FILTER
-     *
-     *
-     * @return null
-     */
-    public function search()
+    public function deleteFavorite(int $id)
     {
-        return null;
-    }
+        $user_id = Auth::user()->id;
+        $favorite = Favorite::where(['user_id' => $user_id, 'space_id' => $id])->first();
+        if ( null === $favorite ) return response(['error' => 'The favorite does not exists !']);
 
-    public function findClose()
-    {
-        return null;
-    }
-
-    /**
-     * RETURN VALIDATION RULES ARRAY
-     *
-     * @return array|null
-     */
-    public function rules():? array
-    {
-        return array();
-    }
-
-    /**
-     * GET BOOKING
-     *
-     * @return null
-     */
-    public function getBooking()
-    {
-        return null;
+        $favorite->delete();
+        $response = ['message' => 'The favorite was deleted with success !'];
+        return response($response);
     }
 
     /**
-     * RETURN THE LIST FEATURED
-     *
-     * @return null
+     * @param Request $request
+     * @param int $id
+     * @return Response
      */
-    public function listFeatured()
+    public function addReview(Request $request, int $id)
     {
-        return null;
+        $user_id = Auth::user()->id;
+        $space = Space::find($id);
+        if ( $space === null ) return response(['error' => 'Not found'], 404);
+        $review = new Review();
+        $rating = new Rating();
+        $review->user_id = $user_id;
+        $rating->user_id = $user_id;
+        $review->space_id = $id;
+        $rating->space_id = $id;
+        $request->validate([
+            'rating_value' => 'required | int',
+            'review_value' => 'string | max:255',
+        ]);
+        $rating->value = $request['rating_value'];
+        $review->value = $request['review_value'];
+
+        $rating->save();
+        if ( $review->value !== null ) $review->save();
+
+        return response(['message' => 'The rating was added with success !'], 200);
     }
+    // END SPACE FUNCTIONS
 }
