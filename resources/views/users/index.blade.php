@@ -62,7 +62,7 @@
 								<div class="card-header pb-0">
 									<div class="d-flex justify-content-between">
 										<h4 class="card-title mg-b-0">{{ __('USERS TABLE') }}</h4>
-										<i class="mdi mdi-dots-horizontal text-gray"></i>
+										 
 									</div>
 									 
 								<div class="card-body">
@@ -72,9 +72,7 @@
 												<div class="col-sm-12 col-md-6"></div>																						
 												<div class="col-sm-12 col-md-6">
 													<div id="example1_filter" class="dataTables_filter">
-														<label>
-															<input type="search" class="form-control form-control-sm" placeholder="Search..." aria-controls="example1">
-														</label>
+														 
 													</div>
 												</div>
 											</div>
@@ -83,7 +81,7 @@
 													<table class="table text-md-nowrap dataTable no-footer" id="datatable" role="grid" aria-describedby="example1_info">
 											<thead>
 												<tr role="row">
-													
+													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Avatar') }}</th>
 													
 													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 134px;">{{ __('Name') }}</th>
 													
@@ -101,8 +99,9 @@
 						
 												<tr>
  
-													<td>{{$user->name}}</td>
-													 
+													
+													 <td><img src="{{URL::to('/')}}/users/{{$user->avatar}}" class="   " width="70px"></td>
+													  <td>{{$user->name}}</td>
 													<td>{{$user->email}}</td>
 													
 													<td>{{$user->role}}</td>

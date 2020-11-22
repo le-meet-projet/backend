@@ -10,6 +10,8 @@ use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
+
+
 use Session;
 class UserController extends Controller
 {
@@ -53,69 +55,63 @@ class UserController extends Controller
     {
         $this->validate($request,[
 
-            'email'    => 'required|email|unique:users', 
-          'password' => 'required|min:3',
-           'name'     => 'required|string|min:4',
-           'phone'    => 'required',
+          //   'email'    => 'required|email|unique:users', 
+          // 'password' => 'required|min:3',
+          //  'name'     => 'required|string|min:4',
+          //  'phone'    => 'required',
         ]);
 
-        // $rules = [
-        //   'email'    => 'required|email|unique:users', 
-        //    'password' => 'required|min:3',
-        //    'name'     => 'required|string|min:4',
-        //    'phone'    => 'required',
-        // ];
- 
-        // $rules = [];
- 
-        // $messages = [
-        //     'email.required'    => trans("email.required"),
-        //     'email.email'       => trans("email.unique"),
-        //     'email.unique'      => trans("name.required"),
-        //     'password.required' => trans("password.required"),
-        //     'password.min'      => trans("password.min"),
-        //     'name.required'     => trans("name.required"),
-        //     'phone.required'    => trans("phone.required"),
-        // ];
-
-        // $request->validate($rules,$messages);
+         
 
         $user = new User;
         $user->name = $request->input('name');
+             if ($request->hasFile('avatar')) {
+            $image = $request->file('avatar');
+            $name = time().'.'.$image->getClientOriginalExtension();
+           $image->store('users/');
+
+           // $image->move('users/'.$name);
+            $user->avatar = $name;
+
+
+        
+    } 
+        
+         
         $user->email = $request->input('email');
         $user->password = Hash::make($request->password);
         $user->phone = $request->input('phone');
         $user->role = $request->input('role');
+        $user->status = $request->input('statue');
+       // if($request->hasFile('image'))
+       // {
+       //     $file = $request->file('avatar');
+       //     $extension=$file->getClientOriginalExtension();
+       //     $filename = time() . '.' .$extension;
+       //     $file->move( '/assets/img/users'.$filename);
+       //      $user->avatar = $filename;
+       //  }
+       //  else {
+       //      return $request;
+       //      $users_images->avatar='';
+
+       //  }
+
+   
 
         $user->save();
 
-
-        //return redirect()->route('admin.users.index')->with('notification', 'User successfully Created');
+ 
 
         Session::flash('statuscode','success');
         return redirect()->route('admin.users.index')->with('status', 'User Created');
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-         //  $pagination=User::paginate(2);
+ 
+   
 
-         // return view('users.index', compact('pagination'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Application|Factory|Response|View
-     */
+ 
      public function edit($id) {
         $content = User::find($id);
         return view ('users.edit',compact('content'));
@@ -130,19 +126,14 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-       // return redirect()->route('admin.users.index')->with('notification','User successfully updated');
+        
 
         Session::flash('statuscode','info');
         return redirect()->route('admin.users.index')->with('status','User Updated');
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return RedirectResponse
-     */
+   
     public function destroy($id)
     {
         User::find($id)->delete();

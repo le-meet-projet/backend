@@ -105,12 +105,14 @@
 									</div>																							<div class="col-md-3">
                                 <a onclick="password_generator()" class="btn btn-primary">{{ __('create strong password') }}</a>
                             </div> 
-							</div>
-
-							</div>
+</div>
 								<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Save Changes') }}</button>
 									 
 								</div>
+                            
+							</div>
+
+							
 							</div>
 						</div>
 					</div>

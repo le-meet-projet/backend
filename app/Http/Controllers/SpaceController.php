@@ -16,7 +16,9 @@ class SpaceController extends Controller
     public function index()
     {  
         $meetings=Space::where('type','=','meeting')->paginate(10);
-        return view('spacesMeeting.index',compact('meetings'));
+        $brands =Brand::All();
+      
+        return view('spacesMeeting.index',compact('meetings'), ['brands' => $brands]);
        
     }
 
@@ -28,8 +30,10 @@ class SpaceController extends Controller
     public function create()
 
     {
-        $brand = Brand::orderby('id', 'desc');
-         return view('spacesMeeting.create', compact('brand'));
+
+      
+        $brands =Brand::All();
+         return view('spacesMeeting.create', ['brands' => $brands]);
     }
 
     /**
@@ -54,11 +58,19 @@ class SpaceController extends Controller
        // Space::create($input);
 
         $space = new Space();
+        
+        $space->type_space = $request->type_space;
+        $space->id_brand = $request->id_brand ;
         $space->name = $request->name;
         $space->address = $request->address;
+        $space->city = $request->city;
         $space->capacity = $request->capacity;
         $space->price = $request->price;
-        $space->description = $request->description;
+        $space->period = $request->period;
+        $space->post_type = $request->post_type;
+        $space->activity_type = $request->activity_type;
+        $space->activity_type = $request->activity_type;
+        $space->percent = $request->percent;
         
         $space->type="meeting";
         $space->save();
