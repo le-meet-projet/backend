@@ -17,4 +17,9 @@ class Space extends Model
     {
         return $this->hasOne('App\SpaceDetails');
     }
+
+    public function invitations()
+    {
+        return $this->hasMany('App\Invitation');
+    }
 }
