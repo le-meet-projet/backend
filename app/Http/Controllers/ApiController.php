@@ -236,6 +236,7 @@ class ApiController extends Controller
         $invitation = new Invitation();
         $invitation->user_id = $user_id;
         $invitation->space_id = $id;
+        $invitation->accepted = false;
         $invitation->save();
 
         $response = ['message' => 'The Invitation sent with success !'];
@@ -247,7 +248,7 @@ class ApiController extends Controller
      * @param int $id
      * @return Response
      */
-    public function editInvitation(Request $request, int $id)
+    public function updateInvitation(int $id)
     {
         $invitation = Invitation::find($id);
         if ( $invitation === null ) return response(['error' => 'The invitation was not found !'], 404);
