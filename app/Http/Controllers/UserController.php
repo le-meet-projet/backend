@@ -22,31 +22,19 @@ class UserController extends Controller
         $users = User::paginate(10);
         return view('users.index',compact('users'));
 
-      //  $users = User::all();
-      //  echo $users;
-      //  exit();
-               // return view('users.index');
+  
         $users = User::orderby('id', 'desc')->paginate(2);
         return view('users.index', compact('users'));
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Application|Factory|Response|View
-     */
+    
     public function create()
     {
        return view('users.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return RedirectResponse
-     */
+    
     public function store(Request $request)
     {
         $this->validate($request,[
@@ -55,9 +43,7 @@ class UserController extends Controller
           // 'password' => 'required|min:3',
           //  'name'     => 'required|string|min:4',
           //  'phone'    => 'required',
-        ]);
-
-         
+        ]);    
 
         $user = new User;
         $user->name = $request->input('name');
@@ -65,41 +51,19 @@ class UserController extends Controller
             $image = $request->file('avatar');
             $name = time().'.'.$image->getClientOriginalExtension();
             $destinationPath = \public_path('/users');
-           //$image->store('users/');
-
             $image->move($destinationPath,$name);
             $user->avatar = $name;
-
-
+        } 
         
-    } 
-        
-         
+        $user->address     = $request->address;
         $user->email = $request->input('email');
         $user->password = Hash::make($request->password);
         $user->phone = $request->input('phone');
         $user->role = $request->input('role');
         $user->status = $request->input('statue');
-       // if($request->hasFile('image'))
-       // {
-       //     $file = $request->file('avatar');
-       //     $extension=$file->getClientOriginalExtension();
-       //     $filename = time() . '.' .$extension;
-       //     $file->move( '/assets/img/users'.$filename);
-       //      $user->avatar = $filename;
-       //  }
-       //  else {
-       //      return $request;
-       //      $users_images->avatar='';
-
-       //  }
-
-   
+      
 
         $user->save();
-
- 
-
         Session::flash('statuscode','success');
         return redirect()->route('admin.users.index')->with('status', 'User Created');
 
@@ -120,6 +84,16 @@ class UserController extends Controller
         $user->email    = $request->email;
         $user->phone    = $request->phone;
         $user->role     = $request->role;
+        $user->status     = $request->status;
+        $user->address     = $request->address;
+        $user->name = $request->input('name');
+        if ($request->hasFile('avatar')) {
+            $image = $request->file('avatar');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = \public_path('/users');
+            $image->move($destinationPath,$name);
+            $user->avatar = $name;
+        } 
         $user->password = Hash::make($request->password);
         $user->save();
 
