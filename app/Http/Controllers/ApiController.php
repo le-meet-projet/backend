@@ -7,10 +7,11 @@ use App\Order;
 use App\Rating;
 use App\Review;
 use App\Space;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use App\Invitation;
 
 class ApiController extends Controller
 {
@@ -211,6 +212,57 @@ class ApiController extends Controller
         if ( $review->value !== null ) $review->save();
 
         return response(['message' => 'The rating was added with success !'], 200);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @param int $id
+     * @return Response
+     */
+    public function inviteUserToSpace(Request $request, int $id)
+    {
+        $request->validate([
+            'user_id' => 'required | string',
+        ]);
+
+        $user_id = $request['user_id'];
+        if ( User::find($user_id) === null ) return \response(['error' => 'User not found !'], 404);
+
+        $space = Space::find($id);
+        if ( null === $space ) return response(['message' => 'Space not found', 404]);
+
+        $invitation = new Invitation();
+        $invitation->user_id = $user_id;
+        $invitation->space_id = $id;
+        $invitation->save();
+
+        $response = ['message' => 'The Invitation sent with success !'];
+        return response($response);
+    }
+
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return Response
+     */
+    public function editInvitation(Request $request, int $id)
+    {
+        $invitation = Invitation::find($id);
+        if ( $invitation === null ) return response(['error' => 'The invitation was not found !'], 404);
+
+        $request->validate([
+            'user_id' => 'required',
+            'space_id' => 'required',
+        ]);
+
+        $invitation->user_id = $request['user_id'];
+        $invitation->space_id = $request['space_id'];
+        $invitation->save();
+
+        $response = ['message' => 'The invitation was updated with success !'];
+        return response($response, 200);
     }
     // END SPACE FUNCTIONS
 }
