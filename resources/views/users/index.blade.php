@@ -100,7 +100,7 @@
 												<tr>
  
 													
-													 <td><img src="{{URL::to('/')}}/users/{{$user->avatar}}" class="   " width="70px"></td>
+													 <td><img src="/users/{{$user->avatar}}" class="   " width="70px"></td>
 													  <td>{{$user->name}}</td>
 													<td>{{$user->email}}</td>
 													

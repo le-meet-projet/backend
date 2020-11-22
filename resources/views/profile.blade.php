@@ -71,23 +71,39 @@
 									 
 										<div class="tab-pane active" id="settings">
 											<form role="form" method="post" action="{{ route('admin.profile.update',['id'=>Auth::user()->id]) }}">
+											@csrf 
 												<div class="form-group">
 													<label for="FullName">Full Name</label>
-													<input type="text" value="{{ Auth::user()->name }}" id="FullName" class="form-control">
+													<input type="text" name="name" value="{{ Auth::user()->name }}" id="FullName" class="form-control">
 												</div>
 												<div class="form-group">
 													<label for="Email">Email</label>
-													<input type="email" value="{{ Auth::user()->email }}" id="Email" class="form-control">
+													<input type="email" name="email" value="{{ Auth::user()->email }}" id="Email" class="form-control">
 												</div>
 												<div class="form-group">
 													<label for="phone">Number Phone</label>
-													<input type="text" value="{{ Auth::user()->phone }}" id="phone" class="form-control">
+													<input type="text"name="phone" value="{{ Auth::user()->phone }}" id="phone" class="form-control">
 												</div>
 												<div class="form-group">
 													<label for="adress">Adress</label>
-													<input type="text" placeholder="{{ Auth::user()->address }}" id="adress" class="form-control">
+													<input type="text" name="address"value="{{ Auth::user()->address }}" id="adress" class="form-control">
 												</div>
 												 
+
+												 <div class="form-group" >
+												 	<div class="card-body">
+								   <div class=" ">
+										{{ __(' Edit Password') }}
+									</div>
+									 <div class="pd-30 pd-sm-40  ">
+										<div class="row row-xs align-items-center mg-b-20">
+											
+                                        </div>
+
+									</div>																							<div class="col-md-3">
+                                <a onclick="password_generator()" class="btn btn-primary">{{ __('create strong password') }}</a>
+                            </div> 
+												 </div>
 												 
 												<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Save Changes') }}</button>
 											</form>
