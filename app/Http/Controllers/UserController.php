@@ -15,11 +15,7 @@ use Illuminate\View\View;
 use Session;
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return void
-     */
+     
     public function index()
     {
 
@@ -68,9 +64,10 @@ class UserController extends Controller
              if ($request->hasFile('avatar')) {
             $image = $request->file('avatar');
             $name = time().'.'.$image->getClientOriginalExtension();
-           $image->store('users/');
+            $destinationPath = \public_path('/users');
+           //$image->store('users/');
 
-           // $image->move('users/'.$name);
+            $image->move($destinationPath,$name);
             $user->avatar = $name;
 
 

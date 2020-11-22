@@ -6,7 +6,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Profiler;
-
+use App\User;
+use Session;
 class ProfileController extends Controller
 {
     public function index()
@@ -28,9 +29,9 @@ class ProfileController extends Controller
 
         
 
-        
+        Session::flash('statuscode','info');
          
-         return view('profile') ;
+         return redirect()->route('admin.profile.index')->with('status','Profile Updated');
 
     }
 }
