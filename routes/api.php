@@ -39,7 +39,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
                 Route::post('/review/{id}', 'ApiController@addReview')->name('spaces.review.add');
                 // INVITATION
                 Route::post('/invitation/{id}', 'ApiController@inviteUserToSpace')->name('spaces.invite.user');
-                Route::post('/invitation/{id}/edit', 'ApiController@editInvitation')->name('spaces.invite.edit');
+                Route::get('/invitation/{id}/edit', 'ApiController@editInvitation')->name('spaces.invite.edit');
+                Route::post('/invitation/{id}/update', 'ApiController@updateInvitation')->name('spaces.invite.update');
             });
             // ORDER
             Route::get('/{id}/order/details', 'ApiController@spaceOrderDetails')->name('space.order.details');
