@@ -19,8 +19,9 @@ class CreateInvitationTable extends Migration
             $table->integer('user_id');
             $table->integer('space_id');
             $table->boolean('accepted');
+            $table->date('date')->nullable();
             $table->timestamps();
-            $table->softDeletes();
+            $table->softDeletes()->nullable();
         });
     }
 
