@@ -15,6 +15,7 @@ class CreateInvitationTable extends Migration
     {
         Schema::create('invitations', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('creator_id');
             $table->integer('user_id');
             $table->integer('space_id');
             $table->boolean('accepted');
