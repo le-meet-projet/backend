@@ -22,7 +22,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::middleware('auth:api')->group(function () {
             Route::get('/logout', 'Auth\ApiAuthController@logout')->name('user.logout');
         });
-
         // SPACES
         Route::group(['prefix' => 'spaces'], function () {
             Route::get('/', 'ApiController@spaces')->name('spaces.all');
@@ -45,6 +44,14 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
                     Route::post('/{id}/delete', 'ApiController@deleteInvitation')->name('spaces.invite.delete');
                     Route::post('/{id}/answer', 'ApiController@acceptOrDenyInvitation')->name('spaces.invite.respond');
                 });
+            });
+            // MEETING
+            Route::group(['prefix' => '/meeting'], function () {
+                Route::get('/', 'ApiController@getMeetingSpaces')->name('spaces.meeting.all');
+                Route::post('/sort', 'ApiController@sortMeetingSpaces')->name('spaces.meeting.sort');
+                Route::post('/search', 'ApiController@searchMeetingSpaces')->name('spaces.meeting.search');
+                Route::get('/{id}', 'ApiController@getMeeting')->name('spaces.meeting.get');
+                Route::get('/{id}/reviews', 'ApiController@getMeetingReviews')->name('spaces.meeting.reviews');
             });
             // ORDER
             Route::get('/{id}/order/details', 'ApiController@spaceOrderDetails')->name('space.order.details');
