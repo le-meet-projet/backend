@@ -22,4 +22,14 @@ class Space extends Model
     {
         return $this->hasMany('App\Invitation');
     }
+
+    public function ratings()
+    {
+        return $this->hasMany('App\Rating');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany('App\Review');
+    }
 }
