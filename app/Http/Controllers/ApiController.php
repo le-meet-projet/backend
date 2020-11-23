@@ -227,13 +227,14 @@ class ApiController extends Controller
             'user_id' => 'required | string',
         ]);
 
-        $user_id = $request['user_id'];
-        if ( User::find($user_id) === null ) return \response(['error' => 'User not found !'], 404);
+        $user_id = (int) $request['user_id'];
+        if ( User::find($user_id) === null or $request['user_id'] === Auth::user()->id ) return \response(['error' => 'User not found !'], 404);
 
         $space = Space::find($id);
         if ( null === $space ) return response(['message' => 'Space not found', 404]);
 
         $invitation = new Invitation();
+        $invitation->creator_id = Auth::user()->id;
         $invitation->user_id = $user_id;
         $invitation->space_id = $id;
         $invitation->accepted = false;
@@ -244,19 +245,36 @@ class ApiController extends Controller
     }
 
     /**
+     * @param int $id
+     * @return Response
+     */
+    public function editInvitation(int $id)
+    {
+        $invitation = Invitation::where(['id' => $id, 'creator_id' => Auth::user()->id])->first();
+        if ( $invitation === null ) return response(['error' => 'Invitation was not found']);
+        $response = ['Invitation' => $invitation];
+        return response($response);
+    }
+
+    /**
      * @param Request $request
      * @param int $id
      * @return Response
      */
-    public function updateInvitation(int $id)
+    public function updateInvitation(Request $request, int $id)
     {
-        $invitation = Invitation::find($id);
+        $invitation = Invitation::where(['id' => $id, 'creator_id' => Auth::user()->id])->first();
         if ( $invitation === null ) return response(['error' => 'The invitation was not found !'], 404);
 
         $request->validate([
             'user_id' => 'required',
             'space_id' => 'required',
         ]);
+
+        $request['user_id'] = (int) $request['user_id'];
+        $request['space_id'] = (int) $request['space_id'];
+        if ( User::find($request['user_id']) === null or $request['user_id'] === Auth::user()->id ) return response(['error' => 'User was not found !']);
+        if ( Space::find($request['space_id']) === null ) return response(['error' => 'Space was not found !']);
 
         $invitation->user_id = $request['user_id'];
         $invitation->space_id = $request['space_id'];
