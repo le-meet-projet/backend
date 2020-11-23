@@ -1,31 +1,4 @@
-.empty_state{
-	 margin-top: 5px;
-
-}
-.empty_state_icon {
-    font-size: 176px;
-    opacity: 0.1;
-    margin-bottom: 15px;
-}
-.empty_state h4 {
-    font-size: 20px;
-}
-.card{
-	 margin-top: 15px;
-}
-
-.input--file {
-  position: relative;
-  color: #7f7f7f;
-}
-
-.input--file input[type="file"] {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-} 
- 
+<style>
 .switch {
 position: relative;
 display: inline-block;
@@ -81,4 +54,4 @@ border-radius: 34px;
 .slider.round:before {
 border-radius: 50%;
 }
- 
+</style>

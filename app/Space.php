@@ -22,4 +22,8 @@ class Space extends Model
     {
         return $this->hasMany('App\Invitation');
     }
+    public function brand()
+    {
+        return $this->belongsTo('App\Brand','id_brand');
+    }
 }

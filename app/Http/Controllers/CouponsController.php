@@ -75,46 +75,26 @@ class CouponsController extends Controller
         $coupon->discount=$request->discount;
         $coupon->discount_type = $request->type;
         $coupon->description = $request->description;
-        $coupon->statue = $request->statue;
+        
+        if($request->has('status')){
+            $coupon->statue = 'active';
+        }else{
+             $coupon->statue = 'inactive';
+        }
         $coupon->save();
-
-        // $notification = array(
-        //     'message' => 'Coupon successfully created.',
-        //     'alert-type' => 'success'
-        // );
-
-       // return redirect()->route('admin.coupons.index')->with('notification','Coupon successfully created');
+ 
 
         Session::flash('statuscode','success');
         return redirect()->route('admin.coupons.index')->with('status', 'Coupon Created');
 
     }
 
-
-
-    //
-
-
-
-    /**
-     * Update coupon record
-     *
-     * @param Request $request
-     * @param $id
-     * @return RedirectResponse
-     * @throws ValidationException
-     */
+ 
     public  function update(Request $request, $id)
     {
 
-        //dd($request);
+         
         $coupon = Coupon::find($id);
-
-        // if ($request->has('statue')) {
-        //     $request->request->add(['statue' => 'active']);
-        // } else {
-        //     $request->request->add(['statue' => 'inactive']);
-        // }
 
         $coupon->title = $request->title;
         $coupon->code = $request->code;
@@ -122,16 +102,11 @@ class CouponsController extends Controller
         $coupon->discount_type = $request->discount_type;
         $coupon->description = $request->description;
         $coupon->statue = $request->statue;
-
-        
-
-        // $coupon->save();
-        //        $notification = array(
-        //     'message' => 'Coupon successfully updated.',
-        //     'alert-type' => 'success'
-        // );
-       // return redirect()->route('admin.coupons.index')->with('notification','Coupon successfully updated');
-
+        if($request->has('status')){
+            $coupon->statue = 'active';
+        }else{
+             $coupon->statue = 'inactive';
+        }
 
         $coupon->save();
         Session::flash('statuscode','info');
@@ -139,12 +114,7 @@ class CouponsController extends Controller
 
     }
 
-    /**
-     * Delete coupon record
-     *
-     * @param $id
-     * @return RedirectResponse
-     */
+  
     public function destroy($id)
     {
         Coupon::find($id)->delete();
@@ -153,12 +123,7 @@ class CouponsController extends Controller
         return redirect()->route('admin.coupons.index')->with('status','Coupon Deleted');
     }
 
-    /**
-     * Apply coupon
-     *
-     * @param Request $request
-     * @return RedirectResponse
-     */
+    
     public function applyCoupon(Request $request)
     {
         $coupon = $request->coupon;
@@ -182,11 +147,7 @@ class CouponsController extends Controller
         }
     }
 
-    /**
-     * Update coupon record
-     *
-     * @return RedirectResponse
-     */
+   
     public function removeCoupon()
     {
         Session::forget('coupon');
@@ -197,18 +158,12 @@ class CouponsController extends Controller
         return Redirect()->back()->with($notification);
     }
     public function changeStatus(Request $request)
-
     {
-
-        $coupon = Coupon::find($request->id);
-
-        $coupon->statue = $request->statue;
-
+        $coupon = User::find($coupon->id);
+        $coupon->status = $request->statue;
         $coupon->save();
-
   
-
         return response()->json(['success'=>'Status change successfully.']);
-
     }
+  
 }

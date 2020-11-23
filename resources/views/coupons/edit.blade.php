@@ -44,11 +44,10 @@
 												<label class="form-label mg-b-0">{{ __('Activate the coupon') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-											<label >
-
-                                               
-                                             <input data-id="{{$content->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $content->status ? 'checked' : '' }}>
-                                             </label>
+											  <label class="switch">
+															<input name='status' type="checkbox" value="{{$content->statue}}"  >
+															<span class="slider round"></span>
+												</label>
 											</div>
 
 										</div>
@@ -77,39 +76,36 @@
 											</div>
 										</div>	 
 																	
-								        <div class="row row-xs align-items-center mg-b-20">
+								       
+										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Type') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-
-
-												<select name="discount_type" class="form-control select2-no-search select2-hidden-accessible"  data-select2-id="13" tabindex="-1" aria-hidden="true">
-												<option label="Choose one" value="{{$content->discount_type}}" data-select2-id="15">
-												</option>
-												<option value="Percent Reduction" data-select2-id="31">
-													{{ __('Third memorization') }}
-												</option>
-												<option value="Third memorization" data-select2-id="32">
-													{{ __('Percent Reduction') }}
-												</option>
-
-											</select> 
-
-
-												 
+												<select name="discount_type" id="input-role" class="form-control">
+													
+													@if($content->discount_type == 'percent')
+													<option value="{{ $content->discount_type }}">{{ __('Percent Reduction') }} </option>
+													<option value="fixed">{{ __('Third memorization') }}  </option>
+													@elseif($content->discount_type == 'fixed')
+													<option value="{{ $content->discount_type }}">{{ __('Third memorization') }}  </option>
+													<option value="percent">{{ __('Percent Reduction') }}</option>
+													@else
+													<option value="fixed">{{ __('Third memorization') }}  </option>
+													<option value="percent">{{ __('Percent Reduction') }}</option>
+													@endif
+											   </select> 
 
 											</div>
 										</div>
-										<div class="row row-xs align-items-center mg-b-20">
+										 <div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Description') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-							<textarea name="description" class="form-control"  type="text">{{ $content->description }}
-							</textarea>  
+												<textarea class="form-control" name="description" type="text">{{$content->description}}</textarea>  
 											</div>
-										</div> 
+										</div>
 										 	 
 									</div>
 									

@@ -36,12 +36,7 @@ class SpaceController extends Controller
          return view('spacesMeeting.create', ['brands' => $brands]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
         $input= $this->validate($request, [
@@ -53,13 +48,19 @@ class SpaceController extends Controller
                     ]);
         
         
-       // $input = $request->all();
-       // $input->type="meeting";
-       // Space::create($input);
+       
 
         $space = new Space();
-        
         $space->type_space = $request->type_space;
+        if ($request->hasFile('thumbnail')) {
+            $image = $request->file('thumbnail');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = \public_path('/spaces');
+            $image->move($destinationPath,$name);
+            $space->thumbnail = $name;
+            echo "thumbnail";
+        }
+        
         $space->id_brand = $request->id_brand ;
         $space->name = $request->name;
         $space->address = $request->address;
@@ -71,91 +72,106 @@ class SpaceController extends Controller
         $space->activity_type = $request->activity_type;
         $space->activity_type = $request->activity_type;
         $space->percent = $request->percent;
-        
+        $space->description = $request->description;
         $space->type="meeting";
+        if($request->has('ads')){
+            $space->ads = 'yes';
+        }else{
+             $space->ads = 'no';
+        }
+         if($files=$request->file('images')){
+            foreach($files as $file){
+                $name=$file->getClientOriginalName();
+                $file->move('spaces',$name);
+                $images[]=$name;
+            }
+         }
+
+
+ 
+         $space->gallery=json_encode($images);
+         
+
+
         $space->save();
 
-        // $notification = array(
-        //     'message' => 'Coupon successfully created.',
-        //     'alert-type' => 'success'
-        // );
-       // return redirect()->route('admin.spaces.index')->with('notification','space Meeting successfully created');
+   
 
         Session::flash('statuscode','success');
         return redirect()->route('admin.spaces.index')->with('status', 'Space Created');
 
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function edit($id)
     {     
+        $brands =Brand::All();
         $content = Space::whereId($id)->first();
-         return view('spacesMeeting.edit',compact('content'));
+         return view('spacesMeeting.edit',compact('content'), ['brands' => $brands]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
       public  function update(Request $request, $id)
     {
-         // $input= $this->validate($request, [
-         //    'name' => 'unique:spaces',
-         //            ]);
-        //dd($request);
+          
         $space = Space::find($id);
 
         
+       
+        $space->type_space = $request->type_space;
+        if ($request->hasFile('thumbnail')) {
+            $image = $request->file('thumbnail');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = \public_path('/spaces');
+            $image->move($destinationPath,$name);
+            $space->thumbnail = $name;
+            echo "thumbnail";
+        }
+        
+        $space->id_brand = $request->id_brand ;
         $space->name = $request->name;
         $space->address = $request->address;
+        $space->city = $request->city;
         $space->capacity = $request->capacity;
         $space->price = $request->price;
-        $space->description = $request->description;
-        $space->gallery = $request->image;
-        $space->map = $request->map;
+        $space->period = $request->period;
+        $space->post_type = $request->post_type;
+        $space->activity_type = $request->activity_type;
+        $space->activity_type = $request->activity_type;
+        $space->percent = $request->percent;
+       
         $space->type="meeting";
+        if($request->has('ads')){
+            $space->ads = 'yes';
+        }else{
+             $space->ads = 'no';
+        }
+
+        if($files=$request->file('images')){
+            foreach($files as $file){
+                $name=$file->getClientOriginalName();
+                $file->move('spaces',$name);
+                $images[]=$name;
+            }
+           $space->gallery=json_encode($images);  
+        }
+        
+
         $space->save();
 
-        // $input = $request->all();
-
-        // $space->update($input);
-
-        // $notification = array(
-        //     'message' => 'space Meeting successfully updated.',
-        //     'alert-type' => 'success'
-        // );
-       // return redirect()->route('admin.spaces.index')->with('notification','space Meeting successfully updated');
+ 
 
         Session::flash('statuscode','info');
         return redirect()->route('admin.spaces.index')->with('status','Space Updated');
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
 
     public function destroy($id)
     {

@@ -31,6 +31,16 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
 		Route::post('/store', 'WorkshopController@store')->name('store');
 
 	});
+	//vacations
+	Route::group(['prefix' => 'vacations', 'as' => 'vacations.'], function () {
+		Route::get('/', 'VacationsController@index')->name('index');
+		Route::get('/create', 'VacationsController@create')->name('create');
+		Route::get('/edit/{id}', 'VacationsController@edit')->name('edit');
+		Route::post('/update/{id}', 'VacationsController@update')->name('update');
+		Route::get('/delete/{id}', 'VacationsController@destroy')->name('delete');
+		Route::post('/store', 'VacationsController@store')->name('store');
+
+	});
 	//users
 	Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
 		Route::get('/', 'UserController@index')->name('index');
@@ -49,7 +59,8 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
 		Route::post('/update/{id}', 'CouponsController@update')->name('update');
 		Route::get('/delete/{id}', 'CouponsController@destroy')->name('delete');
 		Route::post('/store', 'CouponsController@store')->name('store');
-		Route::get('/changeStatus', 'CouponsController@changeStatus')->name('changeStatus');
+		//Route::get('/changeStatus', 'CouponsController@changeStatus')->name('changeStatus');
+		Route::get('changeStatus', 'CouponsController@changeStatus');
 
 	});
 	//brands

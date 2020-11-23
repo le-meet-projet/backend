@@ -69,7 +69,7 @@
 										 
 									 
 										<div class="tab-pane active" id="settings">
-											<form role="form" method="post" action="{{ route('admin.profile.update',['id'=>Auth::user()->id]) }}">
+											<form enctype="multipart/form-data" role="form" method="post" action="{{ route('admin.profile.update',['id'=>Auth::user()->id]) }}">
 											@csrf 
 												<div class="form-group">
 													<label for="FullName">Change Profile Picture</label>
@@ -97,10 +97,8 @@
 										{{ __(' Edit Password') }}
 									</div>
 									 <div class="pd-30 pd-sm-40 bg-gray-200">
-										<div class="row row-xs align-items-center mg-b-20">
-											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Password') }}</label>
-											</div>
+										 
+								 
 											<div class="input-group">
                                                 <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('Enter here the new password') }}"    />
 	                                            <div class="input-group-btn">
@@ -108,11 +106,10 @@
 	                                            </div>
                                        		 </div>
 
-										</div>																					
-										<div class=" ">
-                               		 <a onclick="password_generator()" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('create strong password') }}</a>
-                           				 </div> 
-							</div> </div>
+										 																					
+										 
+										</div> 
+									</div>
 												 
 												<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Save Changes') }}</button>
 											</form>

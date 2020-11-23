@@ -4,7 +4,7 @@
  <!-- main-content opened -->
 			<div class="main-content horizontal-content">
 				<!-- container opened -->
-				@if (!$meetings->isEmpty())
+				@if (!$vacations->isEmpty())
 				<div class="container">
 					<!-- breadcrumb -->
 					<div class="breadcrumb-header justify-content-between">
@@ -17,7 +17,7 @@
 								</div>	
 								<div class="pr-1 mb-3 mb-xl-0">
 								   <div class="d-flex">
-									<h5 class="content-title mb-0 my-auto">{{ __('Dashboard') }}</h5><span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('Meeting Spaces') }}  </span>
+									<h5 class="content-title mb-0 my-auto">{{ __('Dashboard') }}</h5><span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('Vacations  ') }}  </span>
 								</div>
 							</div>					 
 						</div>
@@ -25,7 +25,7 @@
 					
 						<div class="d-flex my-xl-auto right-content">						
 							<div class="pr-1 mb-3 mb-xl-0">
-							    <a href="{{ route('admin.spaces.create') }}"><button type="button" class="btn btn-info btn-icon ml-2"><i class="mdi mdi-plus"></i></button></a>	
+							    <a href="{{ route('admin.vacations.create') }}"><button type="button" class="btn btn-info btn-icon ml-2"><i class="mdi mdi-plus"></i></button></a>	
 							</div>					 
 						</div>
 					</div>
@@ -35,24 +35,24 @@
 					 <div class="col-xl-12">
 					 	  
 							<div class="card">
-								@if ($meetings->isEmpty())
+								@if ($vacations->isEmpty())
 
 								 <div class="card-body">
 								 	 <div class="empty_state text-center">
-
-									            <i class="fas fa-map-marker-alt empty_state_icon"></i>
-									            <h4> {{ __('start adding new meeting spaces') }}
+								 	 			 
+									             <i class="fas fa-plane-departure empty_state_icon"></i>
+									            <h4> {{ __('start adding new vacation  ') }}
 									</h4>
-									            <a href="{{ route('admin.spaces.create') }}" class="btn bg-blue btn-labeled heading-btn"><b><i class="icon-plus"></i></b>
-									{{ __('create new space') }}
+									            <a href="{{ route('admin.vacations.create') }}" class="btn bg-blue btn-labeled heading-btn"><b><i class="icon-plus"></i></b>
+									{{ __('create a new vacation') }}
 									</a>
 									 </div>
 								</div>
       
-        						@endif @if (!$meetings->isEmpty())
+        						@endif @if (!$vacations->isEmpty())
 								<div class="card-header pb-0">
 									<div class="d-flex justify-content-between">
-										<h4 class="card-title mg-b-0">{{ __('MEETING SPACES TABLE') }}</h4>
+										<h4 class="card-title mg-b-0">{{ __('VACATIONS TABLE') }}</h4>
 								 
 									</div>									 
 								<div class="card-body">
@@ -72,7 +72,7 @@
 											<thead>
 												<tr role="row">
 													 
-													 <th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 175px;">{{ __('Thumbnail') }}</th>
+													 
 													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 175px;">{{ __('Name') }}</th>
 													<th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 175px;">{{ __('Address') }}</th>
 													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 175px;">{{ __('Capacity') }}</th>
@@ -83,19 +83,19 @@
 												</tr>
 											</thead>
 											<tbody>
-												@foreach($meetings as $meeting)
+												@foreach($vacations as $vacation)
 												<tr>
 													 
-													<td><img src="/spaces/{{$meeting->thumbnail}}" class="   " width="70px"></td>
-													<td>{{$meeting->name}}</td>
-													<td>{{$meeting->address}}</td>
-													<td> {{$meeting->capacity}}</td>
-													<td> {{$meeting->price}}</td>
+													 
+													<td>{{$vacation->name}}</td>
+													<td>{{$vacation->address}}</td>
+													<td> {{$vacation->capacity}}</td>
+													<td> {{$vacation->price}}</td>
 	
 													
 													<td>
 														<span class="ml-auto">
-															<a href="{{ route('admin.spaces.edit',['id'=>$meeting->id]) }}"><i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i></a>
+															<a href="{{ route('admin.vacations.edit',['id'=>$vacation->id]) }}"><i class="si si-pencil text-primary mr-2" data-toggle="tooltip" title="" data-placement="top" data-original-title="Edit"></i></a>
 
 
 															<a href="javascript:void(0)"  class="deletebtn" data-toggle="modal" data-target="#deletemodalpop"> <i class="si si-trash text-danger mr-2  "   data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"></i></a>
@@ -109,7 +109,7 @@
 														          <span aria-hidden="true">&times;</span>
 														        </button>
 														      </div>
-														      <form id="delete_modal_form" method="GET" action="{{route('admin.spaces.delete', $meeting->id)}}">
+														      <form id="delete_modal_form" method="GET" action="{{route('admin.vacations.delete', $vacation->id)}}">
 														      	@csrf
 									  
 														      <div class="modal-footer">
@@ -134,7 +134,7 @@
 								@endif
 								
 								<div class="pagination-cont">
-									{{$meetings->links()}}
+									{{$vacations->links()}}
 								</div>
 							 
 							</div>
