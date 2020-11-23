@@ -31,6 +31,7 @@ class ApiAuthController extends Controller
         }
 
         $request['password'] = Hash::make($request['password']);
+        User::create($request->toArray());
         $response = ['message' => 'The user was created with success'];
         return response($response, 200);
     }
@@ -45,7 +46,7 @@ class ApiAuthController extends Controller
             'password' => 'required | string | min:6',
         ]);
 
-        if ( !Auth::attempt($logins) ) return response(['error' => 'The user does not exists'], 422);
+        if ( !Auth::attempt($logins) ) return response(['error' => 'Invalid credentials'], 422);
 
         $token = Auth::user()->createToken('authToken')->accessToken;
 
