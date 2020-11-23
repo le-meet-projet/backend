@@ -196,16 +196,21 @@ class ApiController extends Controller
         $user_id = Auth::user()->id;
         $space = Space::find($id);
         if ( $space === null ) return response(['error' => 'Not found'], 404);
+
         $review = new Review();
         $rating = new Rating();
+
         $review->user_id = $user_id;
         $rating->user_id = $user_id;
+
         $review->space_id = $id;
         $rating->space_id = $id;
+
         $request->validate([
             'rating_value' => 'required | int',
             'review_value' => 'string | max:255',
         ]);
+
         $rating->value = $request['rating_value'];
         $review->value = $request['review_value'];
 
@@ -327,6 +332,76 @@ class ApiController extends Controller
             return response(['message' => 'You are denied the invitation'], 200);
 
         return response(['message' => 'You are accepted the invitation'], 200);
+    }
+
+    /**
+     * @return Response
+     */
+    public function getMeetingSpaces()
+    {
+        $meeting_spaces = Space::where(['type' => 'meeting'])->get();
+        if ( $meeting_spaces === null ) return \response(['error' => 'No meeting spaces found'], 404);
+        return response(['meetings_spaces' => $meeting_spaces]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function sortMeetingSpaces(Request $request)
+    {
+        $request->validate([
+            'option' => 'required | string | max:255',
+        ]);
+
+        $sort_option = $request['option'];
+        $meeting_spaces = [];
+        if ( $sort_option === 'best_price' ) $meeting_spaces = Space::where(['type' => 'meeting'])->orderBy('price', 'asc')->get();
+        elseif ( $sort_option = 'best_rating' ) {
+            $meeting_spaces = Space::where(['type' => 'meeting'])->get();
+            $ratings = [];
+
+            foreach ( $meeting_spaces as $meeting_space ) {
+                $ratings[] = $meeting_space->ratings()->get();
+            }
+
+            usort($ratings, array($this, 'bestValue'));
+
+            return response($ratings);
+        }
+
+        if ( $meeting_spaces === null ) return \response(['error' => 'No meeting spaces found'], 404);
+        return response(['meeting_spaces' => $meeting_spaces]);
+    }
+
+    /**
+     * @return Response
+     */
+    public function searchMeetingSpaces()
+    {
+        $meeting_spaces = Space::where(['type' => 'meeting'])->get();
+        return response(['meeting_spaces' => $meeting_spaces]);
+    }
+
+    /**
+     * @param int $id
+     * @return Response
+     */
+    public function getMeeting(int $id)
+    {
+        $meeting_space = Space::where(['id' => $id, 'type' => 'meeting'])->first();
+        if ( $meeting_space === null ) return response(['error' => 'Space not found !'], 404);
+        return response(['meeting_space' => $meeting_space]);
+    }
+
+    public function getMeetingReviews(int $id)
+    {
+        $meeting_space = Space::where(['type' => 'meeting', 'id' => $id])->first();
+        if ( $meeting_space === null ) return response(['error' => 'Space not found !'], 404);
+
+        $reviews = $meeting_space->reviews()->get();
+        if ( count($reviews) === 0 ) return \response(['reviews' => 'No reviews for this space'], 404);
+        return response(['reviews' => $reviews], 200);
     }
     // END SPACE FUNCTIONS
 }
