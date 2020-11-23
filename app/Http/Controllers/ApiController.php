@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Invitation;
+use Illuminate\Support\Facades\Date;
 
 class ApiController extends Controller
 {
@@ -233,7 +234,12 @@ class ApiController extends Controller
         $space = Space::find($id);
         if ( null === $space ) return response(['message' => 'Space not found', 404]);
 
-        $invitation = new Invitation();
+        $invitation = Invitation::where(['user_id' => $user_id, 'creator_id' => Auth::user()->id])->withTrashed()->first();
+
+        if ( $invitation === null )
+            $invitation = new Invitation();
+        else
+            $invitation->restore();
         $invitation->creator_id = Auth::user()->id;
         $invitation->user_id = $user_id;
         $invitation->space_id = $id;
@@ -282,6 +288,45 @@ class ApiController extends Controller
 
         $response = ['message' => 'The invitation was updated with success !'];
         return response($response, 200);
+    }
+
+    /**
+     * @param int $id
+     * @return Response
+     */
+    public function deleteInvitation(int $id)
+    {
+        $invitation = Invitation::find($id);
+        if ( null === $invitation ) return response(['error' => 'The invitation was not found !'], 404);
+
+        if ( Auth::user()->id !== $invitation->creator()->first()->id ) return response(['error' => 'Unauthorized'], 403);
+
+        $invitation->delete();
+        return response(['message' => 'The invitation was deleted with success'], 200);
+    }
+
+    public function acceptOrDenyInvitation(Request $request, int $id)
+    {
+        $invitation = Invitation::where(['id' => $id, 'date' => null])->first();
+        if ( $invitation === null ) return response(['error' => 'The invitation was not found '], 404);
+
+        if ( $invitation->user()->first()->id !== Auth::user()->id ) return response(['error' => 'Unauthorized'], 403);
+
+        $request->validate([
+            'action' => 'required | string | max:255',
+        ]);
+
+        if ( $request['action'] !== 'accept' and $request['action'] !== 'deny' ) return response(['error' => 'Action not defined'], 404);
+        elseif ( $request['action'] === 'accept' ) $invitation->accepted = true;
+        else $invitation->accepted = false;
+
+        $invitation->date = new \DateTimeImmutable();
+        $invitation->save();
+
+        if ( $request['action'] === 'deny' )
+            return response(['message' => 'You are denied the invitation'], 200);
+
+        return response(['message' => 'You are accepted the invitation'], 200);
     }
     // END SPACE FUNCTIONS
 }
