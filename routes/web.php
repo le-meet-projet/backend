@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-Route::get('/', 'DashboardController@home');
+Route::get('/', 'DashboardController@login');
 Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin' ], function () {
 
  	Route::get('/', 'DashboardController@home');
