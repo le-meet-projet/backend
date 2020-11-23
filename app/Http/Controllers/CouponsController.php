@@ -63,11 +63,7 @@ class CouponsController extends Controller
            //'code' => 'required|unique:coupons',
         ]);
 
-        // if ($request->has('statue')) {
-        //     $request->request->add(['statue' => 'active']);
-        // } else {
-        //     $request->request->add(['statue' => 'inactive']);
-        // }
+       
 
         $coupon = new Coupon();
         $coupon->title = $request->title;

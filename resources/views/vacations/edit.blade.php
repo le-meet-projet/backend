@@ -1,4 +1,4 @@
-@extends('/layouts/app')
+  @extends('/layouts/app')
 
 @section('content')
  <!-- main-content opened -->
@@ -11,56 +11,38 @@
 						<div class="my-auto">
 							<div class="d-flex my-xl-auto right-content">						
 								<div class="pr-1 mb-3 mb-xl-0">
-									<a href="{{ route('admin.workshops.index') }}">
-										<button type="button" class="btn btn-danger btn-icon mr-2"><i class="mdi mdi-arrow-left"></i></button>
-									</a>
+									<a href="{{ route('admin.spaces.index') }}"><button type="button" class="btn btn-danger btn-icon mr-2"><i class="mdi mdi-arrow-left"></i></button></a>
 								</div>	
 								<div class="pr-1 mb-3 mb-xl-0">
 								   <div class="d-flex">
-									<h5 class="content-title mb-0 my-auto">{{ __('Dashboard') }}</h5>
-									<span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('Workshop') }}  </span>
-									<span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('Edit Workshop') }} </span>
+									<h5 class="content-title mb-0 my-auto">{{ __('Dashboard') }}</h5><span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('Edit Vacation  ') }}  </span>
 								</div>
 							</div>					 
 						</div>
+						</div>
+ 
 					</div>
-			 
-					</div>
-					<!-- breadcrumb -->		 
-					<!-- /row -->
+					<!-- breadcrumb -->		
+
 					<!-- row -->
+					<form method="POST" id="upload"  action="{{ route('admin.vacations.update',['id'=>$content->id]) }} "enctype="multipart/form-data">
+											@csrf
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
 							<div class="card">
 								<div class="card-body">
 									<div class="main-content-label mg-b-5">
-										 {{ __('Edit Workshop') }}
+										 {{ __('Edit A Vacation  ') }}
 									</div>
-									 <div class="pd-30 pd-sm-40 bg-gray-200">
-									 	<form enctype="multipart/form-data"method="POST" action="{{route('admin.workshops.update' , ['id' => $content->id ])}}">
-									 		@csrf
+									 
+									<div class="pd-30 pd-sm-40 bg-gray-200">
+										 
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Title') }}</label>
+												<label class="form-label mg-b-0">{{ __('Name') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" value="{{$content->name}}" placeholder=" " type="text" name="name">
-											</div>
-										</div>
-										<div class="row row-xs align-items-center mg-b-20">
-											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Date') }}</label>
-											</div>
-											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control fc-datepicker hasDatepicker" placeholder="MM/DD/YYYY" type="date" id="dp1602760476938" name="date" value="{{$content->date}}">
-											</div>
-										</div>
-										<div class="row row-xs align-items-center mg-b-20">
-											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Time') }}</label>
-											</div>
-											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="time" name="hour" value="{{$content->time}}">
+												<input class="form-control" name="name" value="{{ $content->name }}"  type="text" required="">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -68,7 +50,7 @@
 												<label class="form-label mg-b-0">{{ __('Address') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="text" name="address" value="{{$content->address}}">
+												<input class="form-control" name="address" value="{{ $content->address }}" type="text" required="required">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -102,16 +84,33 @@
 											 </select>
 											</div>
 										</div>
-									    <div class="row row-xs align-items-center mg-b-20">
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Date') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+
+												<input class="form-control fc-datepicker hasDatepicker" name="date"  value="{{ $content->date }}" type="date" id="">
+
+
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Capacity') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" placeholder=" " type="text" name="capacity" value="{{$content->capacity}}">
+												<input class="form-control" name="capacity" value="{{ $content->capacity }}" type="number" required="required">
 											</div>
 										</div>
-								         
-								          
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Price') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input class="form-control" name="price" value="{{ $content->price }}" type="number" required="required">
+											</div>
+										</div>
 										 <div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Percent') }}</label>
@@ -201,12 +200,39 @@
 											 </select>
 											</div>
 										</div>
-								       <div class="row row-xs align-items-center mg-b-20">
+								      
+								         
+										 
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('   نوع الحجز   ') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+											 <select  id="reservation_type" class="form-control" name="reservation_type" required>
+														  <option value="once">  مرة واحدة </option>
+											               <option value="many">متعدد المرات  </option>
+											                           
+											 </select>
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('   نوع التكرار    ') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+											 <select  id="repetition_type" class="form-control" name="repetition_type" required>
+														  <option value="daily"> يوميا </option>
+											               <option value="weekly">   اسبوعيا  </option>
+											                           
+											 </select>
+											</div>
+										</div>
+								        <div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Description') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<textarea class="form-control" name="description" type="text">{{$content->description}}</textarea>  
+												<textarea class="form-control" name="description" placeholder=" " type="text" required="required">{{$brand->description}}</textarea>  
 											</div>
 										</div>
 								         
@@ -216,22 +242,23 @@
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
  													 <label class="switch">
-															<input name='ads' type="checkbox" value=" "  >
+															<input name='ads' type="checkbox" value="{{$brand->ads}}"  >
 															<span class="slider round"></span>
 												</label>
 											</div>
 										</div>
 										
-								       															 
+									 												
+													 
 									</div>
-										<button type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Save Changes') }}</button>
+										<button type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Save Changes ') }}</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<!-- /row -->
-					  </form>					 
+					<!-- /row -->	
+				</form>				 
 				</div>
 				<!-- Container closed -->
 			</div>
@@ -239,5 +266,4 @@
 		</div>
 		<!-- End Page -->	
 </div>	 
-
-@endsection
+ @endsection
