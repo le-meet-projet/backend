@@ -35,9 +35,8 @@
 									<div class="pl-0">
 										<div class="main-profile-overview">
 											<div class="main-img-user profile-user">
-												<img src="{{URL::to('/')}}/users/{{ Auth::user()->avatar }}">
-												<div>
-												<span class="fas fa-camera profile-edit" href=" "> <input type="file" id="browse" name="browse" style="display: none">   </span></div>
+												<img src="/users/{{Auth::user()->avatar }}"   >
+												 
 											</div>
 											<div class="d-flex justify-content-between mg-b-20">
 												<div>
@@ -73,9 +72,14 @@
 											<form role="form" method="post" action="{{ route('admin.profile.update',['id'=>Auth::user()->id]) }}">
 											@csrf 
 												<div class="form-group">
+													<label for="FullName">Change Profile Picture</label>
+													<input  class="form-control" name="avatar" placeholder=" {{ __('Avatar') }}" type="file" value="">
+												</div>
+												<div class="form-group">
 													<label for="FullName">Full Name</label>
 													<input type="text" name="name" value="{{ Auth::user()->name }}" id="FullName" class="form-control">
 												</div>
+												 
 												<div class="form-group">
 													<label for="Email">Email</label>
 													<input type="email" name="email" value="{{ Auth::user()->email }}" id="Email" class="form-control">
@@ -88,22 +92,27 @@
 													<label for="adress">Adress</label>
 													<input type="text" name="address"value="{{ Auth::user()->address }}" id="adress" class="form-control">
 												</div>
-												 
-
-												 <div class="form-group" >
-												 	<div class="card-body">
+												 <div class=" ">
 								   <div class=" ">
 										{{ __(' Edit Password') }}
 									</div>
-									 <div class="pd-30 pd-sm-40  ">
+									 <div class="pd-30 pd-sm-40 bg-gray-200">
 										<div class="row row-xs align-items-center mg-b-20">
-											
-                                        </div>
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Password') }}</label>
+											</div>
+											<div class="input-group">
+                                                <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('Enter here the new password') }}"    />
+	                                            <div class="input-group-btn">
+	                                                <button type="button" onclick="tooglePassword()" class="btn btn-default"><i id="eye" class="icon-eye"></i></button>
+	                                            </div>
+                                       		 </div>
 
-									</div>																							<div class="col-md-3">
-                                <a onclick="password_generator()" class="btn btn-primary">{{ __('create strong password') }}</a>
-                            </div> 
-												 </div>
+										</div>																					
+										<div class=" ">
+                               		 <a onclick="password_generator()" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('create strong password') }}</a>
+                           				 </div> 
+							</div> </div>
 												 
 												<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Save Changes') }}</button>
 											</form>

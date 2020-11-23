@@ -38,14 +38,6 @@
 									</div>
 									<p class="mg-b-20">{{ __('All fields are required*') }} </p>
 									<div class="pd-30 pd-sm-40 bg-gray-200">
-										<div class="row row-xs align-items-center mg-b-20  ">
-											<div class="col-md-4">
-												<label class="form-label mg-b-0">{{ __('Name') }}</label>
-											</div>
-											<div class="form-group col-md-8 mg-t-5 mg-md-t-0 {{$errors->has('name') ? 'has-error':''}}">
-												<input   class="form-control" placeholder="{{ __('User Name') }} "  name="name" type="text" value="{{ old('name') }}" required="">
-											</div>
-										</div>
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Avatar') }}</label>
@@ -54,6 +46,15 @@
 												<input  class="form-control" name="avatar" placeholder=" {{ __('Avatar') }}" type="file" value="{{ old('avatar') }}"required>
 											</div>
 										</div>
+										<div class="row row-xs align-items-center mg-b-20  ">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Name') }}</label>
+											</div>
+											<div class="form-group col-md-8 mg-t-5 mg-md-t-0 {{$errors->has('name') ? 'has-error':''}}">
+												<input   class="form-control" placeholder="{{ __('User Name') }} "  name="name" type="text" value="{{ old('name') }}" required="">
+											</div>
+										</div>
+										
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label  class="form-label mg-b-0">{{ __('Email') }}</label>
@@ -77,6 +78,14 @@
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
 												<input  class="form-control" name="phone" placeholder=" {{ __('User Phone Number') }}" type="number" value="{{ old('phone') }}"required>
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Address  ') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input  class="form-control" name="address" placeholder=" {{ __('Address') }}" type="text" value="{{ old('address') }}"required>
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">

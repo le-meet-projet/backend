@@ -41,6 +41,15 @@
 									</div>
 									 <p>{{ __('all information are in safe hands') }}</p>
 									 <div class="pd-30 pd-sm-40 bg-gray-200">
+									 	<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Avatar') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<img src="/users/{{$content->avatar}}" class="   " width="70px">
+												<input  class="form-control" name="avatar" placeholder=" {{ __('Avatar') }}" type="file" value="{{ $content->avatar }}"required>
+											</div>
+										</div>
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Name') }}</label>
@@ -67,6 +76,14 @@
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Address  ') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input  class="form-control" name="address" placeholder=" {{ __('Address') }}" type="text" value="{{ $content->address }}"required>
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Role') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
@@ -83,7 +100,27 @@
 											   </select> 
 
 											</div>
-										</div>												 
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Statue') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<select name="status" id="input-statue" class="form-control">
+													<option value="{{ $content->status }}">{{ $content->status }} </option>
+													@if($content->status == 'active')
+													<option value="block">{{ __('block') }}  </option>
+													@elseif($content->status == 'block')
+													<option value="active">{{ __('active') }}</option>
+													@else
+													<option value="block">{{ __('block') }}  </option>
+													<option value="active">{{ __('active') }}</option>
+													@endif
+											   </select> 
+
+											</div>
+										</div>
+										 												 
 									</div>
 							 </div>
   							<div class="card-body">
@@ -97,19 +134,20 @@
 											</div>
 											<div class="input-group">
                                                 <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('Enter here the new password') }}"    />
-                                            <div class="input-group-btn">
-                                                <button type="button" onclick="tooglePassword()" class="btn btn-default"><i id="eye" class="icon-eye"></i></button>
-                                            </div>
-                                        </div>
+	                                            <div class="input-group-btn">
+	                                                <button type="button" onclick="tooglePassword()" class="btn btn-default"><i id="eye" class="icon-eye"></i></button>
+	                                            </div>
+                                       		 </div>
 
-									</div>																							<div class="col-md-3">
-                                <a onclick="password_generator()" class="btn btn-primary">{{ __('create strong password') }}</a>
-                            </div> 
-</div>
+										</div>																					
+										<div class="col-md-3">
+                               		 <a onclick="password_generator()" class="btn btn-primary">{{ __('create strong password') }}</a>
+                           				 </div> 
+							</div>
 								<button class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Save Changes') }}</button>
 									 
 								</div>
-                            
+
 							</div>
 
 							
