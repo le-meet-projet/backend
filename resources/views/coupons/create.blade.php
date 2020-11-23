@@ -1,6 +1,7 @@
 @extends('/layouts/app')
 
 @section('content')
+ 
  <!-- main-content opened -->
 <div class="container">
 			<div class="main-content horizontal-content">
@@ -40,15 +41,17 @@
 									
 									<div class="pd-30 pd-sm-40 bg-gray-200">
 										<div class="row row-xs align-items-center mg-b-20">
+
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Activate the coupon') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-											<label >
-<input data-id="statue" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive"  >
-                                               
-                                              
-                                             </label>
+											 
+	 											<label class="switch">
+															<input name='status' type="checkbox" value=" "  >
+															<span class="slider round"></span>
+												</label>
+										 
 											</div>
 										</div>										
 										<div class="row row-xs align-items-center mg-b-20">

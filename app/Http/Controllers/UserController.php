@@ -47,7 +47,7 @@ class UserController extends Controller
 
         $user = new User;
         $user->name = $request->input('name');
-             if ($request->hasFile('avatar')) {
+        if ($request->hasFile('avatar')) {
             $image = $request->file('avatar');
             $name = time().'.'.$image->getClientOriginalExtension();
             $destinationPath = \public_path('/users');

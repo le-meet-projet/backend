@@ -1,6 +1,6 @@
 <div class="sticky">
 	<div class="horizontal-main hor-menu clearfix side-header">
-			<div class="horizontal-mainwrapper container clearfix">
+			<div class=" ">
 						<!--Nav-->
 						<nav class="horizontalMenu clearfix">
 							<ul class="horizontalMenu-list">
@@ -59,6 +59,23 @@
 									</ul>
 								</li>
 
+								<li aria-haspopup="true">
+									<a href="{{ route('admin.vacations.index') }}" class="sub-icon">
+										<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" class="side-menu__icon" viewBox="0 0 24 24" >
+											<i class="fas fa-plane-departure"></i>
+										</svg>
+										{{ __('Vacations') }} 
+										<i class="fe fe-chevron-down horizontal-icon"></i>
+									</a>
+									<ul class="sub-menu">
+										<li aria-haspopup="true">
+											<a href="{{ route('admin.vacations.index') }}" class="slide-item">{{ __('Vacations') }}</a>
+										</li>
+										<li aria-haspopup="true">
+											<a href="{{ route('admin.vacations.create') }}" class="slide-item">{{ __('New Vacation') }}</a>
+										</li>
+									</ul>
+								</li>
 								<li aria-haspopup="true">
 									<a href="{{ route('admin.users.index') }}" class="sub-icon">
 										<svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">

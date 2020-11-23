@@ -11,11 +11,11 @@
 						<div class="my-auto">
 							<div class="d-flex my-xl-auto right-content">						
 								<div class="pr-1 mb-3 mb-xl-0">
-									<a href="{{ route('admin.spaces.index') }}"><button type="button" class="btn btn-danger btn-icon mr-2"><i class="mdi mdi-arrow-left"></i></button></a>
+									<a href="{{ route('admin.vacations.index') }}"><button type="button" class="btn btn-danger btn-icon mr-2"><i class="mdi mdi-arrow-left"></i></button></a>
 								</div>	
 								<div class="pr-1 mb-3 mb-xl-0">
 								   <div class="d-flex">
-									<h5 class="content-title mb-0 my-auto">{{ __('Dashboard') }}</h5><span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('New Meeting Space') }}  </span>
+									<h5 class="content-title mb-0 my-auto">{{ __('Dashboard') }}</h5><span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {{ __('New Vaction ') }}  </span>
 								</div>
 							</div>					 
 						</div>
@@ -25,14 +25,14 @@
 					<!-- breadcrumb -->		
 
 					<!-- row -->
-					<form method="POST" id="upload" action="{{route('admin.spaces.store')}}" enctype="multipart/form-data">
+					<form method="POST" action="{{route('admin.vacations.store')}}">
 											@csrf
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
 							<div class="card">
 								<div class="card-body">
 									<div class="main-content-label mg-b-5">
-										 {{ __('Add A New Meeting Space') }}
+										 {{ __('Add A New Vaction ') }}
 									</div>
 									<p class="mg-b-20">{{ __('All fields are required') }}* </p>
 									<div class="pd-30 pd-sm-40 bg-gray-200">
@@ -43,7 +43,7 @@
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
 											 <select  id="type_space" class="form-control" name="type_space" required>
 														  <option value="conference">Conference Space</option>
-											               <option value="meeting">Meeting Space</option>
+											               <option value="meeting">Vaction    </option>
 											                              
 											 </select>
 											</div>
@@ -53,7 +53,7 @@
 												<label class="form-label mg-b-0">{{ __('Name') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" name="name" placeholder="{{ __('Space Name ') }} " type="text" required="">
+												<input class="form-control" name="name" placeholder="{{ __('Vaction Name ') }} " type="text" required="">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -61,7 +61,7 @@
 												<label class="form-label mg-b-0">{{ __('Address') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" name="address" placeholder="{{ __('Space Address ') }} " type="text" required="required">
+												<input class="form-control" name="address" placeholder="{{ __('Vaction Address ') }} " type="text" required="required">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -99,7 +99,7 @@
 												<label class="form-label mg-b-0">{{ __('Capacity') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" name="capacity" placeholder="{{ __('Space Capacity ') }} " type="number" required="required">
+												<input class="form-control" name="capacity" placeholder="{{ __('Vaction Capacity ') }} " type="number" required="required">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -130,13 +130,9 @@
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Gallery') }}</label>
 											</div>
-	 	
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
- 											<input required type="file" class="form-control" name="images[]" placeholder="address" multiple>
-
- 										</div>
-
-
+												<input class="form-control" name="gallery" placeholder="{{ __('gallery ') }} " type="file"  >
+											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
@@ -203,17 +199,14 @@
 												<label class="form-label mg-b-0">{{ __('هل سيظهر في الاعلانات') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
- 													 <label class="switch">
-															<input name='ads' type="checkbox" value=" "  >
-															<span class="slider round"></span>
-												</label>
+ 													 <input type="checkbox" name="published" value="1">
 											</div>
 										</div>
 										
 									 												
 													 
 									</div>
-										<button type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Create New Space') }}</button>
+										<button type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Create New Vaction') }}</button>
 									</div>
 								</div>
 							</div>
@@ -228,4 +221,5 @@
 		</div>
 		<!-- End Page -->	
 </div>	 
- @endsection
+
+@endsection

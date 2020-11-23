@@ -91,14 +91,9 @@
 												<tr>
 													
 													<td>{{$coupon->code}}</td>
-													<td>{{ $coupon->created_at}} </td>
-													<td>   @if($coupon->statue==1 ) 
-														{{ __('Active') }}
-														@else
-														{{ __('Deactive') }}
-														@endif
-
-													 </td>
+													<td>{{ $coupon->created_at->diffForHumans()}} </td>
+													<td>  {{ $coupon->statue}}		</td>		
+													 
 													<td>
 														<span class="ml-auto">
 															<a href="{{ route('admin.coupons.edit',['id' => $coupon->id]) }}" class="text-primary-600">
@@ -155,5 +150,24 @@
 			</div>
 			<!-- Container closed -->
 	</div>
-	<!-- main-content closed -->	 
+	<!-- main-content closed -->
+ 
+<script>
+  $(function() {
+    $('.toggle-class').change(function() {
+        var status = $(this).prop('checked') == true ? 1 : 0; 
+        var user_id = $(this).data('id'); 
+         
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: '/changeStatus',
+            data: {'status': status, 'user_id': user_id},
+            success: function(data){
+              console.log(data.success)
+            }
+        });
+    })
+  })
+</script> 
 @endsection
