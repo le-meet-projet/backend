@@ -18,7 +18,9 @@
         "laravel/passport": "~9.0",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^2.5",
-        "paypal/rest-api-sdk-php": "*"
+        "paypal/rest-api-sdk-php": "*",
+        "simplesoftwareio/simple-qrcode": "^4.1",
+        "werneckbh/laravel-qr-code": "^0.1.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",

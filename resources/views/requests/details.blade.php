@@ -101,7 +101,7 @@
 											<i class=" "></i>{{ __('Delete Order') }}
 										</a>
 										<div>
-										<a onclick="print()"   class=" btn btnprn btn-success float-right mt-3" >
+										<a onclick="window.print()""   class=" btn btnprn btn-success float-right mt-3" >
 											<i class="mdi mdi-printer mr-1"  >{{ __('Print') }}</i>
                                             
 									

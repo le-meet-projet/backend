@@ -98,3 +98,22 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
 
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('qr-code-g', function () {
+
+  \QrCode::size(500)
+
+            ->format('png')
+
+            ->generate('ItSolutionStuff.com', public_path('images/qrcode.png'));
+
+    
+
+  return view('qrCode');
+
+    
+
+});
+// Route::get('qr-code', function () 
+// {
+//   return QRCode::text('QR Code Generator for Laravel!')->png();    
+// });
