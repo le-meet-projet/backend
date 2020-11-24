@@ -1,16 +1,16 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** @var Factory $factory */
 
 use App\Rating;
-use App\User;
 use Carbon\Carbon;
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(Rating::class, function (Faker $faker) {
-    $users_id = User::get('id');
     return [
-        'date' => Carbon::now()->format('Y-m-d'),
-        'user_id' => $faker->randomElement($users_id)
+        'user_id' => $faker->biasedNumberBetween($min = 0, $max = App\User::all()->count()),
+        'value' => $faker->biasedNumberBetween(0, 100),
+        'space_id' => $faker->biasedNumberBetween($min = 0, $max = App\Space::all()->count()),
     ];
 });

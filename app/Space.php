@@ -37,4 +37,25 @@ class Space extends Model
     {
         return $this->belongsTo('App\Brand','id_brand');
     }
+
+    public function scopeCity($query, $request)
+    {
+        return $query->where('city', '=', $request['city']);
+    }
+
+    public function scopeDate($query, $request)
+    {
+        return $query->where('date', '=', $request['date']);
+    }
+
+    public function scopeTime($query, $request)
+    {
+        return $query->where('time', '=', $request['time']);
+    }
+
+    public function scopeCapacity($query, $request)
+    {
+        return $query->where('capacity', '=', $request['capacity']);
+    }
+
 }

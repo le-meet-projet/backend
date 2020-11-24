@@ -1,16 +1,15 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** @var Factory $factory */
 
 use App\Review;
-use App\User;
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(Review::class, function (Faker $faker) {
-    $users_id = User::get('id');
     return [
-        'user_id' => $faker->randomElement($users_id),
+        'user_id' => $faker->biasedNumberBetween($min = 0, $max = App\User::all()->count()),
+        'space_id' => $faker->biasedNumberBetween($min = 0, $max = App\Space::all()->count()),
 		'review' => $faker->realText,
-		'rating' => $faker->numberBetween($min = 0, $max = 100)
     ];
 });
