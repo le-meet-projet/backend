@@ -84,7 +84,7 @@
 													<td>{{$order->id}}</td>
 													<td>{{$order->date}}</td>
 													 
-													<td>{{$order->user->name}}</td>
+													<td>   </td>
 													<td>{{$order->price}}</td>
 													<td>{{$order->status}}</td>
 

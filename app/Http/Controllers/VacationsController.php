@@ -54,6 +54,7 @@ class VacationsController extends Controller
 
         $vacations = new Space();
        
+        
         if ($request->hasFile('thumbnail')) {
             $image = $request->file('thumbnail');
             $name = time().'.'.$image->getClientOriginalExtension();
@@ -72,63 +73,88 @@ class VacationsController extends Controller
         $vacations->period = $request->period;
         $vacations->post_type = $request->post_type;
         $vacations->activity_type = $request->activity_type;
-        $vacations->activity_type = $request->activity_type;
+        $vacations->repetition_type = $request->repetition_type;
+        $vacations->reservation_type = $request->reservation_type;
         $vacations->percent = $request->percent;
+        $vacations->date = $request->date;
+        $vacations->description = $request->description;
+        $vacations->type="meeting";
+        if($request->has('ads')){
+            $vacations->ads = 'yes';
+        }else{
+             $vacations->ads = 'no';
+        }
+         if($files=$request->file('images')){
+            foreach($files as $file){
+                $name=$file->getClientOriginalName();
+                $file->move('spaces',$name);
+                $images[]=$name;
+            }
+         }
+ 
+         $vacations->gallery=json_encode($images);
  
         $vacations->type="vacation";
         $vacations->save();
-
-        
-
         Session::flash('statuscode','success');
         return redirect()->route('admin.vacations.index')->with('status', 'Vacation Created');
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function edit($id)
     {     
+        $brands =Brand::All();
         $content = Space::whereId($id)->first();
-         return view('vacations.edit',compact('content'));
+         return view('vacations.edit',compact('content'), ['brands' => $brands]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-      public  function update(Request $request, $id)
+  
+    public  function update(Request $request, $id)
     {
          
         $vacations = Space::find($id);
 
         
+        if ($request->hasFile('thumbnail')) {
+            $image = $request->file('thumbnail');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = \public_path('/spaces');
+            $image->move($destinationPath,$name);
+            $vacations->thumbnail = $name;
+            
+        }
+        
+        $vacations->id_brand = $request->id_brand ;
         $vacations->name = $request->name;
         $vacations->address = $request->address;
+        $vacations->city = $request->city;
         $vacations->capacity = $request->capacity;
         $vacations->price = $request->price;
+        $vacations->period = $request->period;
+        $vacations->post_type = $request->post_type;
+        $vacations->activity_type = $request->activity_type;
+        $vacations->repetition_type = $request->repetition_type;
+        $vacations->reservation_type = $request->reservation_type;
+        $vacations->percent = $request->percent;
+        $vacations->date = $request->date;
         $vacations->description = $request->description;
-        $vacations->gallery = $request->image;
-        $vacations->map = $request->map;
         $vacations->type="meeting";
+        if($request->has('ads')){
+            $vacations->ads = 'yes';
+        }else{
+             $vacations->ads = 'no';
+        }
+         if($files=$request->file('images')){
+            foreach($files as $file){
+                $name=$file->getClientOriginalName();
+                $file->move('spaces',$name);
+                $images[]=$name;
+            }$vacations->gallery=json_encode($images);
+         }
+
+        $vacations->type="vacation";
         $vacations->save();
  
 

@@ -8,11 +8,7 @@ use App\Brand;
 use Session;
 class SpaceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {  
         $meetings=Space::where('type','=','meeting')->paginate(10);
@@ -22,11 +18,7 @@ class SpaceController extends Controller
        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
 
     {
@@ -58,7 +50,7 @@ class SpaceController extends Controller
             $destinationPath = \public_path('/spaces');
             $image->move($destinationPath,$name);
             $space->thumbnail = $name;
-            echo "thumbnail";
+            
         }
         
         $space->id_brand = $request->id_brand ;

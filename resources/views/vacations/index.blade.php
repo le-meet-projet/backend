@@ -75,6 +75,7 @@
 													 
 													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending" style="width: 175px;">{{ __('Name') }}</th>
 													<th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 175px;">{{ __('Address') }}</th>
+													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 175px;">{{ __('Date') }}</th>
 													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 175px;">{{ __('Capacity') }}</th>
 													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 175px;">{{ __('Price') }}</th>
 													 
@@ -89,6 +90,7 @@
 													 
 													<td>{{$vacation->name}}</td>
 													<td>{{$vacation->address}}</td>
+													<td>{{$vacation->date}}</td>
 													<td> {{$vacation->capacity}}</td>
 													<td> {{$vacation->price}}</td>
 	

@@ -41,10 +41,10 @@
 											<div class="col-md">
 												<label class="tx-gray-600">{{ __('Billed To') }}</label>
 												<div class="billed-to">
-													<h6>{{$orders->user->name}}</h6>
-													<p>{{ $orders->user->address }}<br>
-													{{ __('Tel No') }}: {{$orders->user->phone}}<br>
-													{{ __('Email') }}: {{$orders->user->email}}</p>
+													<h6> </h6>
+													<p> <br>
+													{{ __('Tel No') }}:  <br>
+													{{ __('Email') }}:  </p>
 												</div>
 											</div>
 											<div class="col-md">

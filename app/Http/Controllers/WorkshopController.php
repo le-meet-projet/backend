@@ -6,75 +6,78 @@ use Illuminate\Http\Request;
 use App\Space;
 use App\workshop;
 use Session;
-
+use App\Brand;
 class WorkshopController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+     
     public function index()
     {   
-       
+        $brands =Brand::All();
         $workshops=Space::where('type','=','workshop')->paginate(10);
-        return view('workshops.index',compact('workshops'));
+        return view('workshops.index',compact('workshops'), ['brands' => $brands]);
    
       
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  
     public function create()
     {
-        return view('workshops.create');
+        $brands =Brand::All();
+        return view('workshops.create', ['brands' => $brands]);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function store(Request $request)
     {
         $input= $this->validate($request, [
 
 
-            'name' => 'unique:spaces',
+          //  'name' => 'unique:spaces',
+        ]);
 
-           
-
-
-           // 'name' => 'unique:spaces',
-
-         
-                    ]);
-
-        $space = new Space();
-        $space->name = $request->title;
-        $space->address = $request->address;
-        $space->date = $request->date;
-        $space->time = $request->time;
-        $space->capacity = $request->capacity;
-        $space->price = $request->price;
-        $space->description = $request->description;
-
-
-        //$space->longtitude = $request->longtitude;
-
+        $workshop = new Space();
+        if ($request->hasFile('thumbnail')) {
+            $image = $request->file('thumbnail');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = \public_path('/spaces');
+            $image->move($destinationPath,$name);
+            $workshop->thumbnail = $name;
+            
+        }
+        $workshop->name = $request->name;
+        $workshop->id_brand = $request->id_brand ;
         
-
-        $space->type="workshop";
-        $space->save();
-
-        // $notification = array(
-        //     'message' => 'workshop successfully created.',
-        //     'alert-type' => 'success'
-        // );
+        $workshop->address = $request->address;
+        $workshop->city = $request->city;
+        $workshop->capacity = $request->capacity;
+        $workshop->price = $request->price;
+        $workshop->period = $request->period;
+        $workshop->post_type = $request->post_type;
+        $workshop->activity_type = $request->activity_type;
+        $workshop->repetition_type = $request->repetition_type;
+        $workshop->reservation_type = $request->reservation_type;
+        $workshop->percent = $request->percent;
+        $workshop->date = $request->date;
+        $workshop->time = $request->time;
+        $workshop->description = $request->description;
+        $workshop->type="meeting";
+        if($request->has('ads')){
+            $workshop->ads = 'yes';
+        }else{
+             $workshop->ads = 'no';
+        }
+         if($files=$request->file('images')){
+            foreach($files as $file){
+                $name=$file->getClientOriginalName();
+                $file->move('spaces',$name);
+                $images[]=$name;
+            }$workshop->gallery=json_encode($images);
+         }
+ 
+         
+ 
+        $workshop->type="workshop";
+        $workshop->save();
+ 
         return redirect()->route('admin.workshops.index')->with('notification','workshop successfully created');
 
         Session::flash('statuscode','success');
@@ -82,62 +85,66 @@ class WorkshopController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
+  
     public function edit($id)
     {
          $content = Space::find($id);
-         return view('workshops.edit',compact('content'));
+         $brands =Brand::All();
+         return view('workshops.edit',compact('content'), ['brands' => $brands]);
         
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, $id)
     {
         $workshop = Space::find($id);
 
         
-        $workshop->name = $request->title;
+        if ($request->hasFile('thumbnail')) {
+            $image = $request->file('thumbnail');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = \public_path('/spaces');
+            $image->move($destinationPath,$name);
+            $workshop->thumbnail = $name;
+            
+        }
+        
+        $workshop->id_brand = $request->id_brand ;
+        $workshop->name = $request->name;
         $workshop->address = $request->address;
+        $workshop->city = $request->city;
         $workshop->capacity = $request->capacity;
         $workshop->price = $request->price;
+        $workshop->period = $request->period;
+        $workshop->post_type = $request->post_type;
+        $workshop->activity_type = $request->activity_type;
+        $workshop->repetition_type = $request->repetition_type;
+        $workshop->reservation_type = $request->reservation_type;
+        $workshop->percent = $request->percent;
+        $workshop->date = $request->date;
+        $workshop->time = $request->time;
         $workshop->description = $request->description;
-        $workshop->gallery = $request->image;
-        $workshop->map = $request->map;
+        $workshop->type="meeting";
+        if($request->has('ads')){
+            $workshop->ads = 'yes';
+        }else{
+             $workshop->ads = 'no';
+        }
+         if($files=$request->file('images')){
+            foreach($files as $file){
+                $name=$file->getClientOriginalName();
+                $file->move('spaces',$name);
+                $images[]=$name;
+            }$workshop->gallery=json_encode($images);
+         }
+ 
+         
+ 
         $workshop->type="workshop";
-        $workshop->time=$request->hour;
-        $workshop->date=$request->date;
         $workshop->save();
 
-        // $input = $request->all();
-
-        // $space->update($input);
-
-        // $notification = array(
-        //     'message' => 'workshop successfully updated.',
-        //     'alert-type' => 'success'
-        // );
+      
         return redirect()->route('admin.workshops.index')->with('notification','workshop successfully updated');
 
         Session::flash('statuscode','info');
@@ -145,12 +152,7 @@ class WorkshopController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function destroy($id)
     {
         Space::find($id)->delete();

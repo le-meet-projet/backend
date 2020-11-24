@@ -28,7 +28,7 @@
 					<!-- breadcrumb -->		 
 					<!-- /row -->
 					<!-- row -->
-					 <form method="POST" action="{{route('admin.workshops.store')}}">
+					 <form method="POST" action="{{route('admin.workshops.store')}} " enctype="multipart/form-data">
 											@csrf 
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
@@ -45,7 +45,7 @@
 												<label class="form-label mg-b-0">{{ __('Title') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input required="" class="form-control" placeholder="{{ __('Workshop Subject ') }}  " type="text" name="title">
+												<input required="" class="form-control" placeholder="{{ __('Workshop Subject ') }}  " type="text" name="name">
 											</div>
 										</div>
 										 
@@ -61,6 +61,36 @@
 												<input required=""class="form-control" placeholder="{{ __('Workshop Address') }} " type="text" name="address">
 
 
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('City') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+											 <select  id="city" class="form-control" name="city" required>
+														  <option value="Abha">{{ __('Abha') }}</option>
+											               <option value="Ad-Dilam">{{ __('Ad-Dilam') }}</option>
+											               <option value="Al-Abwa">{{ __('Al-Abwa') }}</option>
+											               <option value="Al Artaweeiyah">{{ __('Al Artaweeiyah') }}</option>
+											               <option value="Al Bukayriyah">{{ __('Al Bukayriyah') }}</option>
+											               <option value="Badr">{{ __('Badr') }}</option>
+											               <option value="Baljurashi">{{ __('Baljurashi') }}</option>
+											               <option value="Bisha">{{ __('Bisha') }}</option>
+											               <option value="Bareg">{{ __('Bareg') }}</option>
+											               <option value="Buraydah">{{ __('Buraydah') }}</option>
+											               <option value="Al Bahah">{{ __('Al Bahah') }}</option>
+											               <option value="Dammam">{{ __('Dammam') }}</option>
+											               <option value="Dhahran">{{ __('Dhahran') }}</option>
+											               <option value="Dhurma">{{ __('Dhurma') }}</option>
+
+											               <option value="Dahaban">{{ __('Dahaban') }}</option>
+											               <option value="Diriyah">{{ __('Diriyah') }}</option>
+											               <option value="Duba">{{ __('Duba') }}</option>
+											               <option value="Dumat Al-Jandal">{{ __('Dumat Al-Jandal') }}</option>
+
+											                              
+											 </select>
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -99,15 +129,131 @@
 												<input required="" class="form-control" placeholder=" {{ __('Price') }}" type="number" name="price">
 											</div>
 										</div>
+										 
+										 <div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Percent') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input class="form-control" name="percent" placeholder="{{ __('percent ') }} " type="number" required="required">
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Thumbnail') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input class="form-control" id="thumbnail" name="thumbnail" placeholder="{{ __('thumbnail ') }} " type="file"  >
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Gallery') }}</label>
+											</div>
+	 	
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+ 											<input required type="file" class="form-control" name="images[]" placeholder="address" multiple>
+
+ 										</div>
+
+
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Brand') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+ 													<select  id="id_brand" class="form-control" name="id_brand" required>
+					                                 @foreach($brands as $brand)
+					                                    
+					                                        <option value="{{$brand->id}}">{{$brand->name}}</option>
+					                                   
+					                                 @endforeach
+					                                 </select>
+											</div>
+										</div>
+										 
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('نوع النشاط') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+											 <select  id="activity_type" class="form-control" name="activity_type" required>
+														  <option value="musical">موسيقي</option>
+											               <option value="Entertaining">ترفيهي  </option>
+											                 <option value="kinetic">حركي  </option>              
+											 </select>
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __(' الفترة  ') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+											 <select  id="period" class="form-control" name="period" required>
+														  <option value="morning"> صباحي</option>
+											               <option value="evening">مسائي  </option>
+											                           
+											 </select>
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('  نوع المشاركة  ') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+											 <select  id="post_type" class="form-control" name="post_type" required>
+														  <option value="Individually"> فردي </option>
+											               <option value="collective">جماعي  </option>
+											                           
+											 </select>
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('   نوع الحجز   ') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+											 <select  id="reservation_type" class="form-control" name="reservation_type" required>
+														  <option value="once">  مرة واحدة </option>
+											               <option value="many">متعدد المرات  </option>
+											                           
+											 </select>
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('   نوع التكرار    ') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+											 <select  id="repetition_type" class="form-control" name="repetition_type" required>
+														  <option value="daily"> يوميا </option>
+											               <option value="weekly">   اسبوعيا  </option>
+											                           
+											 </select>
+											</div>
+										</div>
 								        <div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Description') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<textarea required=""class="form-control" placeholder=" " type="text" name="description"></textarea>  
+												<textarea class="form-control" name="description" placeholder=" " type="text" required="required"></textarea>  
 											</div>
 										</div>
-										
+								         
+										 <div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('هل سيظهر في الاعلانات') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+ 													 <label class="switch">
+															<input name='ads' type="checkbox" value=" "  >
+															<span class="slider round"></span>
+												</label>
+											</div>
+										</div>
+
 								         																		 
 									</div>
 										<button type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Create New Workshop') }}</button>
