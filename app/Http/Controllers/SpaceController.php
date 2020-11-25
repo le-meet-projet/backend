@@ -78,16 +78,21 @@ class SpaceController extends Controller
                 $file->move('spaces',$name);
                 $images[]=$name;
             }
+            $space->gallery=json_encode($images);
          }
 
 
  
-         $space->gallery=json_encode($images);
-         $space->qrcode =QrCode::size(250)
-        ->backgroundColor(255, 255, 204)
          
-        ->generate('ItSolutionStuff.com', public_path('image/qrcode.png'));
-
+          $space->qrcode = $request->qrcode;
+        //   if ($request->hasFile('qrcode')) {
+        //     $image = $request->file('qrcode');
+        //     $name = time().'.'.$image->getClientOriginalExtension();
+        //     $destinationPath = \public_path('/spaces');
+        //     $image->move($destinationPath,$name);
+        //     $space->qrcode = $name;
+            
+        // }
 
         $space->save();
 

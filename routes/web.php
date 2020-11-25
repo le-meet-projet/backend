@@ -19,7 +19,12 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
 		Route::get('/edit/{id}', 'SpaceController@edit')->name('edit');
 		Route::get('/delete/{id}', 'SpaceController@destroy')->name('delete');
 		Route::post('/update/{id}', 'SpaceController@update')->name('update');
-		Route::post('/store', 'SpaceController@store')->name('store');
+		Route::post('/store', 'SpaceController@store',function () {
+          QrCode::size(50)
+            ->format('png')
+            ->generate('lemeet', public_path('image/qrcode.png'));
+         
+  })->name('store');
 	});
 	//workshops
 	Route::group(['prefix' => 'workshops', 'as' => 'workshops.'], function () {

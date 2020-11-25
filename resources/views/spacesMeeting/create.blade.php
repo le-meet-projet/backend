@@ -132,7 +132,7 @@
 											</div>
 	 	
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
- 											<input required type="file" class="form-control" name="images[]" placeholder="address" multiple>
+ 											<input   type="file" class="form-control" name="images[]" placeholder="address" multiple>
 
  										</div>
 
@@ -209,7 +209,13 @@
 												</label>
 											</div>
 										</div>
-										
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+											<label class="form-label mg-b-0">qrcode</label>
+										</div>
+											 <div class="col-md-8 mg-t-5 mg-md-t-0">
+											 <input style="display: none;" type="file" name="qrcode" value="{!! QrCode::size(50)->generate('lemeet.com'); !!}" ></div>
+										</div>
 									 												
 													 
 									</div>
