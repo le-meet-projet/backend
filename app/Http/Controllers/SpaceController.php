@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Space;
 use App\Brand;
 use Session;
+use App\QrCode;
 class SpaceController extends Controller
 {
     
@@ -82,7 +83,10 @@ class SpaceController extends Controller
 
  
          $space->gallery=json_encode($images);
+         $space->qrcode =QrCode::size(250)
+        ->backgroundColor(255, 255, 204)
          
+        ->generate('ItSolutionStuff.com', public_path('image/qrcode.png'));
 
 
         $space->save();

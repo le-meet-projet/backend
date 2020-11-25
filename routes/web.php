@@ -89,31 +89,25 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
 		Route::get('/', 'ProfileController@index')->name('index');
 		Route::post('/update/{id}', 'ProfileController@update')->name('update');
 	 
-	
+	});
+	//qrcode
+	Route::group(['prefix' => 'qrcode', 'as' => 'qrcode.'], function () {
 		 
+		 Route::get('qrcode', 'QRController@generateQrCode')->name('qrcode');;
 
+	 
 	});
 });
 
 
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
-Route::get('qr-code-g', function () {
 
-  \QrCode::size(500)
-
-            ->format('png')
-
-            ->generate('ItSolutionStuff.com', public_path('images/qrcode.png'));
-
-    
-
-  return view('qrCode');
-
-    
-
-});
-// Route::get('qr-code', function () 
-// {
-//   return QRCode::text('QR Code Generator for Laravel!')->png();    
+//  Route::get('/qrcode', function () {
+//     return QrCode::size(250)
+//         ->backgroundColor(255, 255, 204)
+         
+//         ->generate('ItSolutionStuff.com');
+         
 // });
+//  
