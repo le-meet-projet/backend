@@ -214,7 +214,7 @@
 											<label class="form-label mg-b-0">qrcode</label>
 										</div>
 											 <div class="col-md-8 mg-t-5 mg-md-t-0">
-											 <input style="display: none;" type="file" name="qrcode" value="{!! QrCode::size(50)->generate('lemeet.com'); !!}" ></div>
+											 <input style="display: none;" type="file" name="qrcode" value="{!! QrCode::size(50)->generate('lemghgjhgj'); !!}" ></div>
 										</div>
 									 												
 													 

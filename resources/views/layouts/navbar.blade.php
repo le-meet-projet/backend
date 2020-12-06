@@ -1,6 +1,6 @@
 <div class="sticky">
 	<div class="horizontal-main hor-menu clearfix side-header">
-			<div class=" ">
+			<div class="horizontal-mainwrapper container clearfix ">
 						<!--Nav-->
 						<nav class="horizontalMenu clearfix">
 							<ul class="horizontalMenu-list">

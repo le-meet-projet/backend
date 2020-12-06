@@ -43,16 +43,18 @@
 												<div class="billed-to">
 													<h6> </h6>
 													<p> <br>
-													{{ __('Tel No') }}:  <br>
-													{{ __('Email') }}:  </p>
+													{{ __('Name') }}:{{$users->name}}  <br>	
+													{{ __('Adress') }}:{{$users->address}}  <br>
+													{{ __('Tel No') }}:{{$users->phone}}  <br>
+													{{ __('Email') }}:{{$users->email}}  </p>
 												</div>
 											</div>
 											<div class="col-md">
 												<label class="tx-gray-600">{{ __('Invoice Information') }}</label>
-												<p class="invoice-info-row"><span>{{ __('Invoice No') }}</span> <span>{{$orders->id}}</span></p>
-												<!-- <p class="invoice-info-row"><span>{{ __('Project ID') }}</span> <span>{{$orders->id}}</span></p> -->
-												<p class="invoice-info-row"><span>{{ __('Issue Date') }}:</span> <span>{{$orders->created_at}}</span></p>
-												<p class="invoice-info-row"><span>{{ __('Due Date') }}:</span><span>{{$orders->deleted_at}}</span></p>
+												<p class="invoice-info-row"><span>{{ __('Invoice No') }} :{{$orders->id}}</span> <span> </span></p>
+												 
+												<p class="invoice-info-row"><span>{{ __('Issue Date') }}:{{$orders->created_at}}</span> <span> </span></p>
+												<p class="invoice-info-row"><span>{{ __('Due Date') }}:{{$orders->date}}</span><span> </span></p>
 											</div>
 										</div>
 										<div class="table-responsive mg-t-40">
@@ -60,17 +62,18 @@
 												<thead>
 													<tr>
 														<th class="wd-20p">{{ __('Type') }}</th>
-														<th class="wd-40p">{{ __('Description') }}</th>
+														
 														<th class="tx-center">{{ __('Date') }}</th>
 														<th class="tx-right"> {{ __('Price') }}</th>
+														<th class="wd-40p">{{ __('Description') }}</th>
 													</tr>
 												</thead>
 												<tbody>
 													<tr>
-														<td>{{$orders->type}}</td>
-														<td class="tx-12">{{$orders->description}}</td>
-														<td class="tx-center">{{$orders->created_at}}</td>
-														<td class="tx-right">{{$orders->price}} $</td>
+														<td> {{$orders->type}}</td>
+														<td class="tx-12"> {{$orders->date}}</td>
+														<td class="tx-center"> {{$orders->price}}</td>
+														<td class="tx-right">{{$orders->description}} </td>
 													</tr>
 										 
 													<tr>
@@ -81,34 +84,28 @@
 															</div> 
 														</td>
 														<td class="tx-right">{{ __('Sub-Total') }}</td>
-														<td class="tx-right" colspan="2">${{$sub_total}}</td>
+														<td class="tx-right" colspan="2"> {{$sub_total}} DH</td>
 													</tr>
 													<tr>
-														<td class="tx-right">{{ __('Tax ') }}({{$orders->coupon}}%)</td>
-														<td class="tx-right" colspan="2">{{$discount}}</td>
+														<td class="tx-right">{{ __('Tax ') }}( %)</td>
+														<td class="tx-right" colspan="2">{{$discount}} DH </td>
 													</tr>
 													<tr>
 														<td class="tx-right tx-uppercase tx-bold tx-inverse">{{ __('Total Due') }}</td>
 														<td class="tx-right" colspan="2">
-															<h4 class="tx-primary tx-bold">${{$duo_total}}</h4>
+															<h4 class="tx-primary tx-bold"> {{$duo_total}} DH</h4>
 														</td>
 													</tr>
 												</tbody>
 											</table>
 										</div>
 										<hr class="mg-b-40">
-										<a href="#" class="btn btn-danger float-right mt-3 ml-2">
-											<i class=" "></i>{{ __('Delete Order') }}
-										</a>
-										<div>
-										<a onclick="window.print()""   class=" btn btnprn btn-success float-right mt-3" >
-											<i class="mdi mdi-printer mr-1"  >{{ __('Print') }}</i>
-                                            
-									
-										</a>
-
-                                      
-									</div>
+											<div>
+												<a href=" {{ route('admin.orders.createPDF',['id'=>$orders->id]) }}" class="btn btn-primary float-right mt-3 ml-2">
+													<i class="mdi mdi-printer mr-1 "></i>{{ __('Print Invoice') }}
+												</a>
+											</div>
+											 
 									</div>
 								</div>
 							</div>

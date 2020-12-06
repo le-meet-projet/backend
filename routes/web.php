@@ -10,7 +10,7 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
 	Route::group(['prefix' => 'orders', 'as' => 'orders.'], function () {
 		Route::get('/', 'OrdersController@index')->name('index');
 		Route::get('/details/{id}', 'OrdersController@show')->name('details');
-		Route::get('/printdetails/{id}', 'OrdersController@print')->name('printdetails');
+		Route::get('/createPDF/{id}', 'OrdersController@createPDF')->name('createPDF');
 	});
 	//spaces
 	Route::group(['prefix' => 'spaces', 'as' => 'spaces.'], function () {
