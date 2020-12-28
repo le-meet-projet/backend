@@ -19,12 +19,12 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         // USER
         Route::post('register', 'Auth\ApiAuthController@register')->name('user.register');
         Route::post('login', 'Auth\ApiAuthController@login')->name('user.login');
+        Route::post('otp', 'ApiController@otpConfirm')->name('otpConfirmation');
         Route::middleware('auth:api')->group(function () {
             Route::get('/logout', 'Auth\ApiAuthController@logout')->name('user.logout');
         });
         // SPACES
         Route::group(['prefix' => 'spaces'], function () {
-
             Route::get('/', 'ApiController@spaces')->name('spaces.all');
             Route::middleware('auth:api')->group(function () {
                 // CREATE EDIT DELETE UPDATE SPACE

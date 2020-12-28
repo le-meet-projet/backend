@@ -43,3 +43,7 @@ you can login from  /dashboard
 	user : admin@admin.com
 	pass : 1234
 
+### 5. Api Side
+```
+$ php artisan passport:keys
+```

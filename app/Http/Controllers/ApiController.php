@@ -9,6 +9,8 @@ use App\Review;
 use App\Space;
 use App\User;
 use Cartalyst\Stripe\Stripe;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +20,26 @@ use Illuminate\Support\Facades\Hash;
 
 class ApiController extends Controller
 {
+    // OTP CONFIRMATION
+    /**
+     * @param Request $request
+     * @return Application|ResponseFactory|Response
+     */
+    public function otpConfirm(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required | string | max:15 | min:10'
+        ]);
+        $phone = $request['phone'];
+
+        $user = User::where(['phone' => $phone])->first();
+
+        if ( $user ) return \response(['message' => 'The phone number is already exists !']);
+
+        $generatedOtp = '1234';
+        return \response(['message' => 'New number phone', 'otp' => $generatedOtp]);
+    }
+    // OTP CONFIRMATION
     // START SPACE FUNCTIONS
     /**
      * GET ALL THE SPACES

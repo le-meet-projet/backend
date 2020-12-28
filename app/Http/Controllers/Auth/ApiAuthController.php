@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Http\Response;
@@ -13,16 +14,17 @@ use Illuminate\Support\Str;
 
 class ApiAuthController extends Controller
 {
+
     /**
      * @param Request $request
      * @return Response
      */
-    public function register (Request $request) {
+    public function register(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required | string | max:255',
             'email' => 'required | string | email | max:255 | unique:users',
             'password' => 'required | string | min:6 | confirmed',
-            'phone' => 'required | string | min:10 | max:15',
+            'phone' => 'required | string | min:10 | max:15 | unique:users',
         ]);
 
         if ($validator->fails())
@@ -40,13 +42,22 @@ class ApiAuthController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function login (Request $request) {
+    public function login(Request $request) {
         $logins = $request->validate([
-            'email' => 'required | string | email | max:255',
+            'phone' => 'required | string | min:10 | max:15',
             'password' => 'required | string | min:6',
         ]);
 
-        if ( !Auth::attempt($logins) ) return response(['error' => 'Invalid credentials'], 422);
+        $user = User::where(['phone' => $request['phone']])->first();
+        $isCorrectPassword = false;
+        if ( $user ) {
+            $isCorrectPassword = Hash::check($request['password'], $user->password);
+        }
+        elseif ( $user === null || !$isCorrectPassword) {
+            return response(['error' => 'Invalid credentials'], 422);
+        }
+
+        Auth::login($user);
 
         $token = Auth::user()->createToken('authToken')->accessToken;
 
