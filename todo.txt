@@ -1,0 +1,14 @@
+Space ->
+Vacations
+Workshop -> type
+Meetings -> type
+Conferences -> type
+
+-> post type delete
+
+---------------------------
+id | space_id | type_space|
+1  | 1        | meeting   |
+2  | 1        | workshop  |
+
+where -> meeting -> id

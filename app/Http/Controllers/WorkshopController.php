@@ -2,30 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\SpaceSubSpace;
 use Illuminate\Http\Request;
 use App\Space;
 use App\workshop;
 use Session;
 use App\Brand;
+
 class WorkshopController extends Controller
 {
-     
+
     public function index()
-    {   
-        $brands =Brand::All();
-        $workshops=Space::where('type','=','workshop')->paginate(10);
+    {
+        $brands = Brand::All();
+        $workshops= Workshop::paginate(10);
         return view('workshops.index',compact('workshops'), ['brands' => $brands]);
-   
-      
     }
 
-  
+
     public function create()
     {
         $brands =Brand::All();
         return view('workshops.create', ['brands' => $brands]);
     }
- 
+
     public function store(Request $request)
     {
         $input= $this->validate($request, [
@@ -34,18 +34,19 @@ class WorkshopController extends Controller
           //  'name' => 'unique:spaces',
         ]);
 
-        $workshop = new Space();
+
+        $workshop = new Workshop();
         if ($request->hasFile('thumbnail')) {
             $image = $request->file('thumbnail');
             $name = time().'.'.$image->getClientOriginalExtension();
             $destinationPath = \public_path('/spaces');
             $image->move($destinationPath,$name);
             $workshop->thumbnail = $name;
-            
+
         }
         $workshop->name = $request->name;
         $workshop->id_brand = $request->id_brand ;
-        
+
         $workshop->address = $request->address;
         $workshop->city = $request->city;
         $workshop->capacity = $request->capacity;
@@ -59,7 +60,6 @@ class WorkshopController extends Controller
         $workshop->date = $request->date;
         $workshop->time = $request->time;
         $workshop->description = $request->description;
-        $workshop->type="meeting";
         if($request->has('ads')){
             $workshop->ads = 'yes';
         }else{
@@ -72,12 +72,13 @@ class WorkshopController extends Controller
                 $images[]=$name;
             }$workshop->gallery=json_encode($images);
          }
- 
-         
- 
-        $workshop->type="workshop";
+
         $workshop->save();
- 
+
+        $spaceSubSpace = new SpaceSubSpace();
+        $spaceSubSpace->space_id = $workshop->id;
+        $spaceSubSpace->type_space = 'workshop';
+        $spaceSubSpace->save();
         return redirect()->route('admin.workshops.index')->with('notification','workshop successfully created');
 
         Session::flash('statuscode','success');
@@ -85,31 +86,30 @@ class WorkshopController extends Controller
 
     }
 
-   
-  
+
     public function edit($id)
     {
          $content = Space::find($id);
          $brands =Brand::All();
          return view('workshops.edit',compact('content'), ['brands' => $brands]);
-        
+
     }
 
-    
+
     public function update(Request $request, $id)
     {
         $workshop = Space::find($id);
 
-        
+
         if ($request->hasFile('thumbnail')) {
             $image = $request->file('thumbnail');
             $name = time().'.'.$image->getClientOriginalExtension();
             $destinationPath = \public_path('/spaces');
             $image->move($destinationPath,$name);
             $workshop->thumbnail = $name;
-            
+
         }
-        
+
         $workshop->id_brand = $request->id_brand ;
         $workshop->name = $request->name;
         $workshop->address = $request->address;
@@ -138,13 +138,13 @@ class WorkshopController extends Controller
                 $images[]=$name;
             }$workshop->gallery=json_encode($images);
          }
- 
-         
- 
+
+
+
         $workshop->type="workshop";
         $workshop->save();
 
-      
+
         return redirect()->route('admin.workshops.index')->with('notification','workshop successfully updated');
 
         Session::flash('statuscode','info');
@@ -152,10 +152,11 @@ class WorkshopController extends Controller
 
     }
 
-   
-    public function destroy($id)
+
+    public function destroy(int $id)
     {
         Space::find($id)->delete();
+        SpaceSubSpace::where(['space_id' => $id, 'type_space' => 'workshop'])->delete;
         Session::flash('statuscode','error');
         return redirect()->route('admin.workshops.index')->with('status','Workshop Deleted');
     }

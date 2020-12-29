@@ -19,12 +19,7 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
 		Route::get('/edit/{id}', 'SpaceController@edit')->name('edit');
 		Route::get('/delete/{id}', 'SpaceController@destroy')->name('delete');
 		Route::post('/update/{id}', 'SpaceController@update')->name('update');
-		Route::post('/store', 'SpaceController@store',function () {
-          QrCode::size(50)
-            ->format('png')
-            ->generate('lemeet', public_path('image/qrcode.png'));
-         
-  })->name('store');
+		Route::post('/store', 'SpaceController@store')->name('store');
 	});
 	//workshops
 	Route::group(['prefix' => 'workshops', 'as' => 'workshops.'], function () {
@@ -50,7 +45,7 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
 	Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
 		Route::get('/', 'UserController@index')->name('index');
 		Route::get('/create', 'UserController@create')->name('create');
-		
+
 		Route::post('/add', 'UserController@store')->name('add');
 		Route::get('/edit/{id}', 'UserController@edit')->name('edit');
 		Route::post('/update/{id}', 'UserController@update')->name('update');
@@ -76,7 +71,7 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
 		Route::post('/update/{id}', 'BrandController@update')->name('update');
 		Route::get('/delete/{id}', 'BrandController@destroy')->name('delete');
 		Route::post('/store', 'BrandController@store')->name('store');
-		 
+
 
 	});
 	//reviews
@@ -85,22 +80,22 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
 		Route::get('/edit/{id}', 'ReviewsController@edit')->name('edit');
 		Route::post('/update/{id}', 'ReviewsController@update')->name('update');
 		Route::get('/delete/{id}', 'ReviewsController@destroy')->name('delete');
-	
-		 
+
+
 
 	});
 	//profile
 	Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
 		Route::get('/', 'ProfileController@index')->name('index');
 		Route::post('/update/{id}', 'ProfileController@update')->name('update');
-	 
+
 	});
 	//qrcode
 	Route::group(['prefix' => 'qrcode', 'as' => 'qrcode.'], function () {
-		 
+
 		 Route::get('qrcode', 'QRController@generateQrCode')->name('qrcode');;
 
-	 
+
 	});
 });
 
@@ -111,8 +106,8 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 //  Route::get('/qrcode', function () {
 //     return QrCode::size(250)
 //         ->backgroundColor(255, 255, 204)
-         
+
 //         ->generate('ItSolutionStuff.com');
-         
+
 // });
-//  
+//

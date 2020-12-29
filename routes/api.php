@@ -103,3 +103,42 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         });
     });
 });
+
+
+Route::group(['middleware' => ['cors', 'json.response']], function () {
+
+    Route::group(['prefix' => '/v3'], function () {
+        // AUTH ROUTES
+        Route::post('register', 'Auth\ApiAuthController@register')->name('user.register');
+        Route::post('login', 'Auth\ApiAuthController@login')->name('user.login');
+        Route::post('otp', 'ApiController@otpConfirm')->name('otpConfirmation');
+        Route::middleware('auth:api')->group(function () {
+            Route::get('/logout', 'Auth\ApiAuthController@logout')->name('user.logout');
+        });
+
+        // MEETINGS
+        Route::get('meeting', 'ApiController\ApiMeetingController@index')->name('spaces.meetings.index');
+        Route::post('meeting/sort', 'ApiController\ApiMeetingController@sort')->name('spaces.meetings.sort');
+        Route::get('meeting/{id}/reviews', 'ApiController\ApiMeetingController@reviews')->name('spaces.meetings.reviews');
+        Route::get('meeting/{id}', 'ApiController\ApiMeetingController@getMeeting')->name('spaces.meetings.getMeeting');
+
+        // WORKSHOPS
+        Route::get('workshop', 'ApiController\ApiWorkshopController@index')->name('spaces.workshop.index');
+        Route::post('workshop/sort', 'ApiController\ApiWorkshopController@sort')->name('spaces.workshop.sort');
+        Route::get('workshop/{id}/reviews', 'ApiController\ApiWorkshopController@reviews')->name('spaces.workshop.reviews');
+        Route::get('workshop/{id}', 'ApiController\ApiWorkshopController@getWorkshop')->name('spaces.workshop.getWorkshop');
+
+        // OFFICES
+        Route::get('office', 'ApiController\ApiOfficeController@index')->name('spaces.office.index');
+        Route::post('office/sort', 'ApiController\ApiOfficeController@sort')->name('spaces.office.sort');
+        Route::get('office/{id}/reviews', 'ApiController\ApiOfficeController@reviews')->name('spaces.office.reviews');
+        Route::post('office/{id}', 'ApiController\ApiOfficeController@getOffice')->name('spaces.office.getOffice');
+
+        // VACATIONS
+        Route::get('vacation', 'ApiController\ApiVacationController@index')->name('spaces.vacation.index');
+        Route::post('vacation/sort', 'ApiController\ApiVacationController@sort')->name('spaces.vacation.sort');
+        Route::get('vacation/{id}/reviews', 'ApiController\ApiVacationController@reviews')->name('spaces.vacation.reviews');
+        Route::get('vacation/{id}', 'ApiController\ApiVacationController@getVacation')->name('spaces.vacation.getVacation');
+    });
+
+});

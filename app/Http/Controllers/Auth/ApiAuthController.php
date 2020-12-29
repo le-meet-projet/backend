@@ -19,7 +19,8 @@ class ApiAuthController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function register(Request $request) {
+    public function register(Request $request): Response
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required | string | max:255',
             'email' => 'required | string | email | max:255 | unique:users',
@@ -42,10 +43,11 @@ class ApiAuthController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function login(Request $request) {
+    public function login(Request $request): Response
+    {
         $logins = $request->validate([
             'phone' => 'required | string | min:10 | max:15',
-            'password' => 'required | string | min:6',
+            'password' => 'required | string ',
         ]);
 
         $user = User::where(['phone' => $request['phone']])->first();
@@ -69,7 +71,8 @@ class ApiAuthController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function logout (Request $request) {
+    public function logout (Request $request): Response
+    {
         $token = $request->user()->token();
         $token->revoke();
         $response = ['message' => 'You have been successfully logged out!'];
