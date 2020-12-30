@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Favorite extends Model
@@ -14,12 +16,12 @@ class Favorite extends Model
         'space_id',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo('App\User');
     }
 
-    public function space()
+    public function space(): HasOne
     {
         return $this->hasOne('App\Space');
     }

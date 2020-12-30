@@ -120,7 +120,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::get('meeting', 'ApiController\ApiMeetingController@index')->name('spaces.meetings.index');
         Route::get('meeting/conference', 'ApiController\ApiMeetingController@conference')->name('spaces.meetings.conference');
         Route::get('meeting/meeting', 'ApiController\ApiMeetingController@meeting')->name('spaces.meetings.meeting');
-        
 
 
         Route::post('meeting/sort', 'ApiController\ApiMeetingController@sort')->name('spaces.meetings.sort');
@@ -144,6 +143,14 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::post('vacation/sort', 'ApiController\ApiVacationController@sort')->name('spaces.vacation.sort');
         Route::get('vacation/{id}/reviews', 'ApiController\ApiVacationController@reviews')->name('spaces.vacation.reviews');
         Route::get('vacation/{id}', 'ApiController\ApiVacationController@getVacation')->name('spaces.vacation.getVacation');
+
+        // FAVORITES
+        Route::middleware('auth:api')->group(function () {
+            // ADD THE SPACE TO THE USER FAVORITE
+            Route::post('favorite/{space_id}', 'ApiController\ApiFavoriteController@add')->name('favorite.space.add');
+            // DELETE THE FAVORITE
+            Route::get('favorite/{id}/delete', 'ApiController\ApiFavoriteController@delete')->name('favorite.space.delete');
+        });
     });
 
 });

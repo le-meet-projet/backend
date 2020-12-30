@@ -1,9 +1,1 @@
---> create otp
-telephone if exists return json -> already exists
-else send sms to telephone and return otp -> as json
---> change email to telephone login
-
-
-
-
-generate latest_migrations
+WORKING FOR FAVORITE
