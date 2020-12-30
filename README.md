@@ -45,5 +45,16 @@ you can login from  /dashboard
 
 ### 5. Api Side
 ```
-$ php artisan passport:keys
+ php artisan passport:keys
 ```
+
+### 6. Api Side
+```
+ sudo chmod -R 777 /var/www/o-bazaar/storage &&  sudo chmod -R 777 /var/www/o-bazaar/public && sudo chmod -R 777 /var/www/o-bazaar/bootstrap/cache
+
+```
+
+
+
+
+
