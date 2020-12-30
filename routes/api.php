@@ -156,6 +156,18 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
             Route::post('favorite/{space_id}', 'ApiController\ApiFavoriteController@add')->name('favorite.space.add');
             // DELETE THE FAVORITE
             Route::get('favorite/{id}/delete', 'ApiController\ApiFavoriteController@delete')->name('favorite.space.delete');
+            Route::group(['prefix' => 'invitation/'], function () {
+                // INVITE USER TO THE SPACE
+                Route::post('{space_id}', 'ApiController\ApiInvitationController@inviteUser')->name('space.invite.user');
+                // EDIT THE INVITATION
+                Route::get('{invit_id}/edit', 'ApiController\ApiInvitationController@edit')->name('space.invite.edit');
+                // UPDATE THE INVITATION
+                Route::post('{invit_id}/update', 'ApiController\ApiInvitationController@update')->name('space.invite.update');
+                // ANSWER TO THE INVITATION
+                Route::post('{invit_id}/answer', 'ApiController\ApiInvitationController@answer')->name('space.invite.answer');
+                // DELETE THE INVITATION
+                Route::post('{invit_id}/delete', 'ApiController\ApiInvitationController@delete')->name('space.invite.delete');
+            });
         });
     });
 
