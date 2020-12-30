@@ -13,7 +13,7 @@ class Api {
             'roomName' => $meeting->name,
             'price' => "$meeting->price",
             'rate' => '4.5',
-            'location' => $meeting->address,
+            'location' => $meeting->address
         ];
     }
 
@@ -25,7 +25,7 @@ class Api {
             'title' => $vacation->name,
             'price' => "$vacation->price",
             'rate' => '4.5',
-            'location' => $vacation->address,
+            'location' => $vacation->address
         ];
     }
 

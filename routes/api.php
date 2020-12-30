@@ -116,6 +116,12 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
             Route::get('/logout', 'Auth\ApiAuthController@logout')->name('user.logout');
         });
 
+
+        Route::get('popular/{limit}', 'ApiController\ApiController@index');
+        Route::get('favorite', 'ApiController\ApiController@favorite');
+
+
+
         // MEETINGS
         Route::get('meeting', 'ApiController\ApiMeetingController@index')->name('spaces.meetings.index');
         Route::get('meeting/conference', 'ApiController\ApiMeetingController@conference')->name('spaces.meetings.conference');
