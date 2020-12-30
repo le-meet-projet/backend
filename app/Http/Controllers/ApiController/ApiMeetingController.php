@@ -10,6 +10,16 @@ use Illuminate\Http\Response;
 
 class ApiMeetingController extends Controller
 {
+
+
+
+    public $helper ;
+
+    public function __construct(){
+        
+        $this->helper = new \App\Helpers\Api();
+        
+    }
     /**
      * GET ALL THE MEETING SPACES
      *
@@ -17,10 +27,50 @@ class ApiMeetingController extends Controller
      */
     public function index(): Response
     {
-        $meetings = Meeting::where(['type' => 'meeting'])->get();
+        $meetings = Meeting::get();
         if (!$meetings) return response(['error' => 'Not found !'], 404);
         return response(['meetings' => $meetings]);
     }
+
+    
+    
+
+    public function meetingResponse($type){
+        $meetings = Meeting::where(['type' => $type])->get()->map(function($meeting){
+            return $this->helper->conference($meeting);
+        });
+
+        $api = [
+            'state' => false,
+            'message' => 'meetings not found!',
+            'data' => []
+        ];
+
+        if ( count($meetings) > 0 ){
+            $api['state'] = true;
+            $api['message'] = '';
+            $api['data'] = $meetings;
+        }
+
+        return response($api);
+    }
+
+    public function conference(): Response
+    {
+        return $this->meetingResponse('conference');
+    }
+
+
+    public function meeting(): Response
+    {
+        return $this->meetingResponse('meeting');
+    }
+
+
+    
+
+
+
 
     /**
      * SORT THE MEETING SPACE

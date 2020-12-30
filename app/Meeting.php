@@ -10,6 +10,7 @@ class Meeting extends Model
 {
     use SoftDeletes;
 
+
     public function ratings(): HasMany
     {
         return $this->hasMany(Rating::class);
@@ -19,4 +20,5 @@ class Meeting extends Model
     {
         return $this->hasMany(Review::class);
     }
+
 }

@@ -118,6 +118,11 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
         // MEETINGS
         Route::get('meeting', 'ApiController\ApiMeetingController@index')->name('spaces.meetings.index');
+        Route::get('meeting/conference', 'ApiController\ApiMeetingController@conference')->name('spaces.meetings.conference');
+        Route::get('meeting/meeting', 'ApiController\ApiMeetingController@meeting')->name('spaces.meetings.meeting');
+        
+
+
         Route::post('meeting/sort', 'ApiController\ApiMeetingController@sort')->name('spaces.meetings.sort');
         Route::get('meeting/{id}/reviews', 'ApiController\ApiMeetingController@reviews')->name('spaces.meetings.reviews');
         Route::get('meeting/{id}', 'ApiController\ApiMeetingController@getMeeting')->name('spaces.meetings.getMeeting');
@@ -142,3 +147,4 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     });
 
 });
+

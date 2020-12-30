@@ -59,6 +59,10 @@ class SpaceController extends Controller
         $space->activity_type = $request->activity_type;
         $space->percent = $request->percent;
         $space->description = $request->description;
+        $space->map = $request->map ?? '';
+
+
+
         if($request->has('ads')){
             $space->ads = 'yes';
         }else{
