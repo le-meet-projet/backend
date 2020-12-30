@@ -10,11 +10,11 @@ class CreateSpacesTable extends Migration
     {
         Schema::create('spaces', function (Blueprint $table) {
 			$table->bigIncrements('id');
-			$table->int('id_brand');
+			$table->integer('id_brand');
 			$table->string('name')->nullable()->default('NULL');
 			$table->string('address')->nullable()->default('NULL');
-			$table->text('description');
-			$table->text('map');
+			$table->text('description')->nullable()->default(NULL);
+			$table->text('map')->nullable()->default(NULL);
 			$table->string('thumbnail')->nullable()->default('NULL');
 			$table->string('gallery')->nullable()->default('NULL');
 			$table->string('type')->nullable()->default('NULL');

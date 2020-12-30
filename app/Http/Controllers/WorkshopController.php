@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\SpaceSubSpace;
 use Illuminate\Http\Request;
 use App\Space;
-use App\workshop;
+use App\Workshop;
 use Session;
 use App\Brand;
 

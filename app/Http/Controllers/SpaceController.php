@@ -55,7 +55,6 @@ class SpaceController extends Controller
         $space->capacity = $request->capacity;
         $space->price = $request->price;
         $space->period = $request->period;
-        $space->post_type = $request->post_type;
         $space->activity_type = $request->activity_type;
         $space->activity_type = $request->activity_type;
         $space->percent = $request->percent;
