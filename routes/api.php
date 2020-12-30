@@ -164,6 +164,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
             });
         });
 
+        // USER
         Route::group(['middleware' => 'auth:api', 'prefix' => 'user/'], function () {
             Route::get('/profile', 'ApiController\ApiUserController@profileUser')->name('user.profile.api');
             Route::get('/edit', 'ApiController\ApiUserController@editUser')->name('user.edit.api');

@@ -1,8 +1,8 @@
 <div class="sticky">
     <div class="horizontal-main hor-menu clearfix side-header">
-        <div class="horizontal-mainwrapper container clearfix">
+        <div class="horizontal-mainwrapper clearfix d-flex">
             <!--Nav-->
-            <nav class="horizontalMenu clearfix">
+            <nav class="horizontalMenu clearfix mx-auto">
                 <ul class="horizontalMenu-list">
                     <li aria-haspopup="true">
                         <a href="{{ route('admin.') }}" class="">
@@ -19,7 +19,15 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                                 <i class="fas fa-shopping-basket"></i>
                             </svg> {{ __('Orders') }}
+                            <i class="fe fe-chevron-down horizontal-icon"></i>
                         </a>
+                        <ul class="sub-menu">
+                            <li aria-haspopup="true">
+                                <a href="{{ route('admin.reviews.index') }}" class="sub-icon">
+                                    {{ __('Reviews') }}
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li aria-haspopup="true">
                         <a href="{{ route('admin.spaces.index') }}" class="sub-icon">
@@ -124,13 +132,6 @@
                                 <a href="{{ route('admin.brand.create') }}" class="slide-item">{{ __('New Brand') }}</a>
                             </li>
                         </ul>
-                    </li>
-                    <li aria-haspopup="true">
-                        <a href="{{ route('admin.reviews.index') }}" class="sub-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
-                                <i class="fas fa-stream"></i>
-                            </svg> {{ __('Reviews') }}
-                        </a>
                     </li>
                 </ul>
             </nav>
