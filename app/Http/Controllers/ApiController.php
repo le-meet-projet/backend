@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Favorite;
+use App\Notification;
 use App\Order;
 use App\Rating;
 use App\Review;

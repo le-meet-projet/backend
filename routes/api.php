@@ -172,8 +172,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
             Route::post('/delete/{id}', 'ApiController\ApiUserController@deleteUser')->name('user.delete.api');
             Route::get('/{id}/ads', 'ApiController\ApiUserController@userAds')->name('user.ads.api');
             Route::get('/{id}/notifications', 'ApiController\ApiUserController@userNotification')->name('user.notifications.api');
-            Route::get('/orders', 'ApiController@userOrders')->name('user.orders.api');
-            Route::get('/notification', 'ApiController@currentUserNotifications')->name('user.notifications.api');
+            Route::get('/orders', 'ApiController\ApiUserController@userOrders')->name('user.orders.api');
+            Route::get('/notification', 'ApiController\ApiUserController@currentUserNotifications')->name('user.notifications.api');
         });
     });
 

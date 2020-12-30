@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\ApiController;
 
+use App\Ads;
 use App\Http\Controllers\Controller;
+use App\Notification;
+use App\Order;
 use App\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
@@ -124,6 +127,26 @@ class ApiUserController extends Controller
         $notifications = Notification::where(['user_id' => $id])->get()->toArray();
         if ( count($notifications) === 0 ) return response(['error' => 'No notifications for the user !'], 404);
         return response(['notifications' => $notifications], 200);
+    }
+
+    /**
+     * @return Response
+     */
+    public function currentUserNotifications(): Response
+    {
+        $notifications = $this->currentUser->notifications;
+        if ( count($notifications) === 0 ) return response(['error' => 'No notifications'], 404);
+        return response(['notifications' => $notifications]);
+    }
+
+    /**
+     * @return Response
+     */
+    public function userOrders(): Response
+    {
+        $orders = $this->currentUser->orders;
+        if ( count($orders) === 0 ) return response(['error' => 'No orders'], 404);
+        return response(['orders' => $orders]);
     }
 
 }
