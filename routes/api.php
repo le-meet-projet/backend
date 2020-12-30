@@ -115,19 +115,13 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::middleware('auth:api')->group(function () {
             Route::get('/logout', 'Auth\ApiAuthController@logout')->name('user.logout');
         });
-
-
         Route::get('popular/{limit}', 'ApiController\ApiController@index');
         Route::get('favorite', 'ApiController\ApiController@favorite');
-
-
 
         // MEETINGS
         Route::get('meeting', 'ApiController\ApiMeetingController@index')->name('spaces.meetings.index');
         Route::get('meeting/conference', 'ApiController\ApiMeetingController@conference')->name('spaces.meetings.conference');
         Route::get('meeting/meeting', 'ApiController\ApiMeetingController@meeting')->name('spaces.meetings.meeting');
-
-
         Route::post('meeting/sort', 'ApiController\ApiMeetingController@sort')->name('spaces.meetings.sort');
         Route::get('meeting/{id}/reviews', 'ApiController\ApiMeetingController@reviews')->name('spaces.meetings.reviews');
         Route::get('meeting/{id}', 'ApiController\ApiMeetingController@getMeeting')->name('spaces.meetings.getMeeting');
@@ -168,6 +162,18 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
                 // DELETE THE INVITATION
                 Route::post('{invit_id}/delete', 'ApiController\ApiInvitationController@delete')->name('space.invite.delete');
             });
+        });
+
+        Route::group(['middleware' => 'auth:api', 'prefix' => 'user/'], function () {
+            Route::get('/profile', 'ApiController\ApiUserController@profileUser')->name('user.profile.api');
+            Route::get('/edit', 'ApiController\ApiUserController@editUser')->name('user.edit.api');
+            Route::post('/update', 'ApiController\ApiUserController@updateUser')->name('user.update.api');
+            Route::post('/update/avatar', 'ApiController\ApiUserController@updateAvatar')->name('user.update.avatar.api');
+            Route::post('/delete/{id}', 'ApiController\ApiUserController@deleteUser')->name('user.delete.api');
+            Route::get('/{id}/ads', 'ApiController\ApiUserController@userAds')->name('user.ads.api');
+            Route::get('/{id}/notifications', 'ApiController\ApiUserController@userNotification')->name('user.notifications.api');
+            Route::get('/orders', 'ApiController@userOrders')->name('user.orders.api');
+            Route::get('/notification', 'ApiController@currentUserNotifications')->name('user.notifications.api');
         });
     });
 

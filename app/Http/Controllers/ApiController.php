@@ -729,7 +729,7 @@ class ApiController extends Controller
      *
      * @return Response
      */
-    public function profileUser()
+    public function profileUser(): Response
     {
         $user = User::find(Auth::user()->id);
         return \response(['profile' => $user]);
@@ -738,7 +738,7 @@ class ApiController extends Controller
     /**
      * @return Response
      */
-    public function editUser()
+    public function editUser(): Response
     {
         return \response(['Information_user' => User::find(Auth::user()->id)]);
     }
@@ -779,7 +779,7 @@ class ApiController extends Controller
      * @param int $id
      * @return Response
      */
-    public function updateAvatar(Request $request)
+    public function updateAvatar(Request $request): Response
     {
         $request->validate([
             'avatar' => 'string | max:255 | required',
@@ -796,7 +796,7 @@ class ApiController extends Controller
      * @param int $id
      * @return Response
      */
-    public function deleteUser(int $id)
+    public function deleteUser(int $id): Response
     {
         $current_user = Auth::user();
         if ( $current_user->role !== 'admin' ) return response(['error' => 'Unauthorized'], 403);
@@ -818,7 +818,7 @@ class ApiController extends Controller
      * @param int $id
      * @return Response
      */
-    public function userNotification(int $id)
+    public function userNotification(int $id): Response
     {
         $notifications = Notification::where(['user_id' => $id])->get()->toArray();
         if ( count($notifications) === 0 ) return response(['error' => 'No notifications for the user !'], 404);
@@ -828,7 +828,7 @@ class ApiController extends Controller
     /**
      * @return Response
      */
-    public function userOrders()
+    public function userOrders(): Response
     {
         $orders = Order::where(['user_id' => Auth::user()->id])->get()->toArray();
         if ( count($orders) === 0 ) return response(['error' => 'No orders'], 404);
@@ -838,7 +838,7 @@ class ApiController extends Controller
     /**
      * @return Response
      */
-    public function currentUserNotifications()
+    public function currentUserNotifications(): Response
     {
         $notifications = Notification::where(['user_id' => Auth::user()->id])->get()->toArray();
         if ( count($notifications) === 0 ) return response(['error' => 'No notifications'], 404);
