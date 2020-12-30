@@ -12,6 +12,17 @@ use Illuminate\Http\Response;
 class ApiWorkshopController extends Controller
 {
 
+
+    
+    
+    public $helper ;
+
+    public function __construct(){
+        
+        $this->helper = new \App\Helpers\Api();
+        
+    }
+
     /**
      * GET ALL THE WORKSHOP SPACES
      *
@@ -19,7 +30,27 @@ class ApiWorkshopController extends Controller
      */
     public function index(): Response
     {
-        return \response(Workshop::all());
+
+        $workshops = Workshop::all()->map(function($workshop){
+            return $this->helper->vacation($workshop);
+        });
+
+        $api = [
+            'state' => false,
+            'message' => 'workshops not found!',
+            'data' => []
+        ];
+
+        if ( count($workshops) > 0 ){
+            $api['state'] = true;
+            $api['message'] = '';
+            $api['data'] = $workshops;
+        }
+
+        return response($api);
+
+
+        
     }
 
     /**

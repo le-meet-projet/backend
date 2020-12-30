@@ -17,6 +17,19 @@ class Api {
         ];
     }
 
+    public function vacation($vacation){
+        $thumbnail = ($vacation->thumbnail  != 'NULL' ) ?  env('SPACE_THUMBNAIL').$vacation->thumbnail : env('NO_IMAGE');
+        return [
+            'id' => $vacation->id,
+            'image' =>  $thumbnail,
+            'title' => $vacation->name,
+            'price' => "$vacation->price",
+            'rate' => '4.5',
+            'location' => $vacation->address,
+        ];
+    }
+
+
 
 
 

@@ -52,7 +52,6 @@ class WorkshopController extends Controller
         $workshop->capacity = $request->capacity;
         $workshop->price = $request->price;
         $workshop->period = $request->period;
-        $workshop->post_type = $request->post_type;
         $workshop->activity_type = $request->activity_type;
         $workshop->repetition_type = $request->repetition_type;
         $workshop->reservation_type = $request->reservation_type;
@@ -60,6 +59,7 @@ class WorkshopController extends Controller
         $workshop->date = $request->date;
         $workshop->time = $request->time;
         $workshop->description = $request->description;
+        $workshop->map = $request->map ?? '';
         if($request->has('ads')){
             $workshop->ads = 'yes';
         }else{

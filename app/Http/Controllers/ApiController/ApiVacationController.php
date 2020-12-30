@@ -11,6 +11,16 @@ use Illuminate\Http\Response;
 class ApiVacationController extends Controller
 {
 
+
+    
+    public $helper ;
+
+    public function __construct(){
+        
+        $this->helper = new \App\Helpers\Api();
+        
+    }
+
     /**
      * GET ALL THE VACATION SPACE
      *
@@ -18,9 +28,23 @@ class ApiVacationController extends Controller
      */
     public function index(): Response
     {
-        $vacations = Vacation::all();
-        if ( !$vacations ) return response(['error' => 'No vacation found !'], 404);
-        return response(['vacations' => $vacations]);
+        $vacations = Vacation::all()->map(function($vacation){
+            return $this->helper->vacation($vacation);
+        });
+
+        $api = [
+            'state' => false,
+            'message' => 'vacations not found!',
+            'data' => []
+        ];
+
+        if ( count($vacations) > 0 ){
+            $api['state'] = true;
+            $api['message'] = '';
+            $api['data'] = $vacations;
+        }
+
+        return response($api);
     }
 
     /**
