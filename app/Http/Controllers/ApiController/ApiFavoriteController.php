@@ -6,9 +6,58 @@ use App\Favorite;
 use App\Http\Controllers\Controller;
 use App\SpaceSubSpace;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ApiFavoriteController extends Controller
 {
+
+    public function add_to_favorite(Request $request){
+
+        $types = ['workshop','office','meeting','vacation'];
+           
+        $validator = \Validator::make($request->all(), [
+            'type' => 'required|in:' . implode(',', $types),
+            'type_id' => 'required | numeric ',
+        ]);
+       
+       if ($validator->fails()) {
+           $api = [
+               'state' => false,
+               'message' => 'something went wrong',
+               'data' => [],
+           ];
+           return \response($api);
+       }
+
+       
+        $count = Favorite::where('type',$request->type)->where('type_id',$request->type_id)->where('user_id', Auth::user()->id)->count();
+
+        if($count == 0 ){
+            $favorite = new Favorite();
+            $favorite->type = $request->type;
+            $favorite->type_id = $request->type_id;
+            $favorite->user_id =  Auth::user()->id;
+            $saved = $favorite->save();   
+
+            if($saved)  {
+                $api = [
+                    'state' => true,
+                    'message' => '',
+                    'data' => []
+                ];
+                return \response($api);
+            }
+        }
+
+        $api = [
+            'state' => false,
+            'message' => 'something went wrong',
+            'data' => []
+        ];
+        return \response($api);
+    }
+
 
     public function add(int $space_id)
     {

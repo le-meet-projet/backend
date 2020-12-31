@@ -46,25 +46,41 @@ class ApiAuthController extends Controller
     public function login(Request $request): Response
     {
         $logins = $request->validate([
-            'phone' => 'required | string | min:10 | max:15',
+            'phone' => 'required | string | min:8 | max:15',
             'password' => 'required | string ',
         ]);
 
-        $user = User::where(['phone' => $request['phone']])->first();
-        $isCorrectPassword = false;
-        if ( $user ) {
-            $isCorrectPassword = Hash::check($request['password'], $user->password);
+        $password = $request['password'];
+        $phone = $request['phone'];
+
+        $user = User::where(['phone' => $phone])->first();
+
+        $check = false;
+        if($user){
+            $check = Hash::check($password, $user->password);
         }
-        elseif ( $user === null || !$isCorrectPassword) {
-            return response(['error' => 'Invalid credentials'], 422);
+
+        if($check == false){
+ 
+            $api = [
+                'success' => false,
+                'message' => 'المعلومات خاطئة ! المرجوا المحاولة من جديد',
+            ];
+
+            return response($api);
         }
 
         Auth::login($user);
 
         $token = Auth::user()->createToken('authToken')->accessToken;
 
-        $response = ['token' => $token];
-        return response($response, 200);
+        $api = [
+            'success' => true,
+            'token' => $token,
+            'user' => $user
+        ];
+
+        return response($api, 200);
     }
 
     /**

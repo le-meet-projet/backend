@@ -27,17 +27,44 @@ class ApiController extends Controller
      */
     public function otpConfirm(Request $request)
     {
-        $request->validate([
-            'phone' => 'required | string | max:15 | min:10'
+          
+        $validator = \Validator::make($request->all(), [
+             'phone' => 'required | string | max:15 | min:10'
         ]);
+        
+        if ($validator->fails()) {
+            $api = [
+                'state' => false,
+                'message' => 'The phone number is not correct !',
+                'data' => [],
+            ];
+            return \response($api);
+        }
+
         $phone = $request['phone'];
 
         $user = User::where(['phone' => $phone])->first();
+        if ( $user ) return \response($api);
 
-        if ( $user ) return \response(['message' => 'The phone number is already exists !']);
 
-        $generatedOtp = '1234';
-        return \response(['message' => 'New number phone', 'otp' => $generatedOtp]);
+        $api = [
+            'state' => false,
+            'message' => 'The phone number is already exists !',
+            'data' => [],
+        ];
+
+        if ( $user ) return \response($api);
+
+        $generatedOtp =  '1234' ;//rand(1111,9999);
+        $api = [
+            'state' => true,
+            'message' => '',
+            'data' => [
+                'otp' => $generatedOtp,
+            ],
+        ];
+        
+        return \response($api);
     }
     // OTP CONFIRMATION
     // START SPACE FUNCTIONS

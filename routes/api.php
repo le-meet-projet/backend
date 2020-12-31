@@ -108,6 +108,10 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     Route::group(['prefix' => '/v3'], function () {
+
+
+
+
         // AUTH ROUTES
         Route::post('register', 'Auth\ApiAuthController@register')->name('user.register');
         Route::post('login', 'Auth\ApiAuthController@login')->name('user.login');
@@ -144,8 +148,11 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::get('vacation/{id}/reviews', 'ApiController\ApiVacationController@reviews')->name('spaces.vacation.reviews');
         Route::get('vacation/{id}', 'ApiController\ApiVacationController@getVacation')->name('spaces.vacation.getVacation');
 
-        // FAVORITES
+        
         Route::middleware('auth:api')->group(function () {
+
+            Route::post('/add/to/favorite', 'ApiController\ApiFavoriteController@add_to_favorite');
+
             // ADD THE SPACE TO THE USER FAVORITE
             Route::post('favorite/{space_id}', 'ApiController\ApiFavoriteController@add')->name('favorite.space.add');
             // DELETE THE FAVORITE

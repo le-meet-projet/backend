@@ -163,7 +163,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
         LaravelQRCode\Providers\QRCodeServiceProvider::class,
 
         /*
