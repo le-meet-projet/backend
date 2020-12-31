@@ -6,19 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateFavoritesTable extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::create('favorites', function (Blueprint $table) {
-
-        $table->bigIncrements('id');
-		$table->integer('user_id')->nullable();
-		$table->date('date')->nullable();
-		$table->timestamps();
-		$table->timestamp('deleted_at')->nullable();
-
+            $table->id();
+            $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
         Schema::dropIfExists('favorites');

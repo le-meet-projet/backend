@@ -198,6 +198,7 @@
 
         @section('scripts')
             <script>
+                @if( count($users) > 0 )
                 /*		$(document).ready(function(){
                             //$('#datatable').DataTable();
                             $('#datatable').on('click','.deletebtn',fonction(){
@@ -213,6 +214,7 @@
 
 
 			});
+			@endif
 
 
 		});*/
