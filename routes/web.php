@@ -102,12 +102,3 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
 
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
-
-//  Route::get('/qrcode', function () {
-//     return QrCode::size(250)
-//         ->backgroundColor(255, 255, 204)
-
-//         ->generate('ItSolutionStuff.com');
-
-// });
-//

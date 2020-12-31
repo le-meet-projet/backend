@@ -12,8 +12,8 @@
                         <div class="d-flex my-xl-auto right-content">
                             <div class="pr-1 mb-3 mb-xl-0">
                                 <a href="{{ route('admin.spaces.index') }}">
-                                    <button type="button" class="btn btn-danger btn-icon mr-2"><i
-                                            class="mdi mdi-arrow-left"></i></button>
+                                    <button type="button" class="btn btn-danger btn-icon mr-2">
+                                        <i class="mdi mdi-arrow-left"></i></button>
                                 </a>
                             </div>
                             <div class="pr-1 mb-3 mb-xl-0">
@@ -24,10 +24,8 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <!-- breadcrumb -->
-
                 <!-- row -->
                 <form method="POST" id="upload" action="{{route('admin.spaces.store')}}" enctype="multipart/form-data">
                     @csrf
@@ -90,13 +88,10 @@
                                                     <option value="Dammam">{{ __('Dammam') }}</option>
                                                     <option value="Dhahran">{{ __('Dhahran') }}</option>
                                                     <option value="Dhurma">{{ __('Dhurma') }}</option>
-
                                                     <option value="Dahaban">{{ __('Dahaban') }}</option>
                                                     <option value="Diriyah">{{ __('Diriyah') }}</option>
                                                     <option value="Duba">{{ __('Duba') }}</option>
                                                     <option value="Dumat Al-Jandal">{{ __('Dumat Al-Jandal') }}</option>
-
-
                                                 </select>
                                             </div>
                                         </div>
@@ -147,10 +142,7 @@
                                             <div class="col-md-8 mg-t-5 mg-md-t-0">
                                                 <input type="file" class="form-control" name="images[]"
                                                        placeholder="address" multiple>
-
                                             </div>
-
-
                                         </div>
                                         <div class="row row-xs align-items-center mg-b-20">
                                             <div class="col-md-4">
@@ -159,14 +151,11 @@
                                             <div class="col-md-8 mg-t-5 mg-md-t-0">
                                                 <select id="id_brand" class="form-control" name="id_brand" required>
                                                     @foreach($brands as $brand)
-
                                                         <option value="{{$brand->id}}">{{$brand->name}}</option>
-
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
-
                                         <div class="row row-xs align-items-center mg-b-20">
                                             <div class="col-md-4">
                                                 <label class="form-label mg-b-0">{{ __('نوع النشاط') }}</label>
@@ -213,7 +202,6 @@
                                                           type="text" required="required"></textarea>
                                             </div>
                                         </div>
-
                                         <div class="row row-xs align-items-center mg-b-20">
                                             <div class="col-md-4">
                                                 <label
@@ -226,16 +214,9 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="row row-xs align-items-center mg-b-20">
-                                            <div class="col-md-4">
-                                                <label class="form-label mg-b-0">qrcode</label>
-                                            </div>
-                                            <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                                <input style="display: none;" type="file" name="qrcode"
-                                                       value="{!! QrCode::size(50)->generate('lemghgjhgj'); !!}"></div>
-                                        </div>
                                     </div>
-                                    <button type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Create New Space') }}</button>
+                                    <button type="submit"
+                                            class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Create New Space') }}</button>
                                 </div>
                             </div>
                         </div>

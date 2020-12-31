@@ -69,10 +69,10 @@
         ]
     },
     "extra": {
-    "laravel": {
-        "dont-discover": [
-            "laravel/dusk"
-        ]
+        "laravel": {
+            "dont-discover": [
+                "laravel/dusk"
+            ]
+        }
     }
-} 
 }
