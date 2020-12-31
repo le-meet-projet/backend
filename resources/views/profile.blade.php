@@ -31,7 +31,7 @@
                             <div class="pl-0">
                                 <div class="main-profile-overview">
                                     <div class="main-img-user profile-user">
-                                        <img src="{{ asset(\Illuminate\Support\Facades\Auth::user()->avatar) }}" alt="">
+                                        <img src="{{  Auth::user()->avatar !== null ? asset(Auth::user()->avatar) : asset('users/1606144165.jpg')  }}" alt="">
                                     </div>
                                     <div class="d-flex justify-content-between mg-b-20">
                                         <div>

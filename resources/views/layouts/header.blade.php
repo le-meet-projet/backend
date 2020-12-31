@@ -42,13 +42,13 @@
                 <div class="nav nav-item  navbar-nav-right ml-auto">
                     <div class="dropdown main-profile-menu nav nav-item nav-link">
                         <a class="profile-user d-flex" href="">
-                            <img src="{{ asset(Auth::user()->avatar) }}" alt="">
+                            <img src="{{ Auth::user()->avatar !== null ? asset(Auth::user()->avatar) : asset('users/1606144165.jpg') }}" alt="">
                         </a>
                         <div class="dropdown-menu">
                             <div class="main-header-profile bg-primary p-3">
                                 <div class="d-flex wd-100p">
                                     <div class="main-img-user">
-                                        <img alt="" src="{{ asset(Auth::user()->avatar) }}" class="">
+                                        <img alt="" src="{{ Auth::user()->avatar !== null ? asset(Auth::user()->avatar) : asset('users/1606144165.jpg') }}" class="">
                                     </div>
                                     <div class="ml-3 my-auto">
                                         <h6>{{ Auth::user()->name }}</h6>
