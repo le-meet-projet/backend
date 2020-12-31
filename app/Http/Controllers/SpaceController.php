@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\QrCodeHelper;
 use App\Meeting;
 use App\SpaceSubSpace;
 use Illuminate\Http\Request;
 use App\Brand;
+use Illuminate\Support\Facades\File;
 use LaravelQRCode\Facades\QRCode;
 use Session;
 
@@ -84,11 +86,9 @@ class SpaceController extends Controller
 
         $space->save();
 
-        $rs = md5(time(). mt_rand(1,100000));
-        $rs .= '.png';
-        $file = 'qr_codes/' . $rs;
-        $qr_code = QrCode::url(env('APP_NAME_QR_CODE') . $space->id)->setSize(4)->setOutfile($file)->png();
+        $file = QrCodeHelper::storeQrCode($space, $space->type);
         $space->qrcode = $file;
+
         $space->save();
 
         $space_sub = new SpaceSubSpace();
@@ -163,6 +163,12 @@ class SpaceController extends Controller
     public function destroy($id)
     {
         $content = Meeting::find($id);
+        $files[] = public_path() . '/spaces/' . $content->thumbnail;
+        foreach (json_decode($content->gallery, true) as $item ) {
+            $files[] = public_path() . '/spaces/' . $item;
+        }
+        $files[] = public_path() . '/qr_codes/' . $content->qrcode;
+        File::delete($files);
         $spaceSub = SpaceSubSpace::where(['space_id' => $id, 'type_space' => $content->type]);
         $content->delete();
         $spaceSub->delete();

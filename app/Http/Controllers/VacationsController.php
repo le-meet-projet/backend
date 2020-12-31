@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\QrCodeHelper;
 use App\SpaceSubSpace;
+use App\Workshop;
 use Illuminate\Http\Request;
 use App\Vacation;
 use App\Space;
 use App\Brand;
+use Illuminate\Support\Facades\File;
 use Session;
 
 class VacationsController extends Controller
@@ -18,10 +21,8 @@ class VacationsController extends Controller
      */
     public function index()
     {
-
-        $vacations = Vacation::paginate(10);
+        $vacations = Vacation::orderBy('created_at', 'desc')->paginate(10);
         $brands = Brand::All();
-
         return view('vacations.index', compact('vacations'), ['brands' => $brands]);
 
     }
@@ -89,6 +90,10 @@ class VacationsController extends Controller
         $vacations->gallery = json_encode($images);
         $vacations->save();
 
+        $file = QrCodeHelper::storeQrCode($vacations, 'vacation');
+        $vacations->qrcode = $file;
+        $vacations->save();
+
         $spaceSubSpace = new SpaceSubSpace();
         $spaceSubSpace->space_id = $vacations->id;
         $spaceSubSpace->type_space = 'vacation';
@@ -101,7 +106,7 @@ class VacationsController extends Controller
     public function edit($id)
     {
         $brands = Brand::All();
-        $content = Space::whereId($id)->first();
+        $content = Vacation::whereId($id)->first();
         return view('vacations.edit', compact('content'), ['brands' => $brands]);
     }
 
@@ -109,7 +114,7 @@ class VacationsController extends Controller
     public function update(Request $request, $id)
     {
 
-        $vacations = Space::find($id);
+        $vacations = Vacation::find($id);
 
 
         if ($request->hasFile('thumbnail')) {
@@ -161,6 +166,12 @@ class VacationsController extends Controller
     public function destroy($id)
     {
         $content = Vacation::find($id);
+        $files[] = public_path() . '/spaces/' . $content->thumbnail;
+        foreach (json_decode($content->gallery, true) as $item ) {
+            $files[] = public_path() . '/spaces/' . $item;
+        }
+        $files[] = public_path() . '/qr_codes/' . $content->qrcode;
+        File::delete($files);
         $content->delete();
         $space = SpaceSubSpace::where(['space_id' => $id, 'type_space' => 'vacation'])->first();
         $space->delete();

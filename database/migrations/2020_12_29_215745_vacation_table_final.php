@@ -24,6 +24,7 @@ class VacationTableFinal extends Migration
             $table->string('post_type');
             $table->string('thumbnail')->nullable()->default('NULL');
             $table->string('gallery')->nullable()->default('NULL');
+            $table->string('qrcode')->nullable()->default(null);
             $table->string('activity_type')->nullable()->default('NULL');
             $table->string('reservation_type')->nullable()->default('NULL');
             $table->float('price');

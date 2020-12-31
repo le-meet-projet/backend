@@ -144,7 +144,8 @@
                                             <div class="col-md-8 mg-t-5 mg-md-t-0">
                                                 @if(is_array(json_decode($content->gallery, true))&& $content->gallery !== null)
                                                     @foreach(json_decode($content->gallery, true) as $image)
-                                                        <img src="{{ asset('spaces/' . $image) }}" class="" width="70px" alt="">
+                                                        <img src="{{ asset('spaces/' . $image) }}" class="" width="70px"
+                                                             alt="">
                                                     @endforeach
                                                 @endif
                                                 <input required type="file" class="form-control" name="images[]"
@@ -171,7 +172,6 @@
                                             <div class="col-md-8 mg-t-5 mg-md-t-0">
                                                 <select id="activity_type" class="form-control" name="activity_type"
                                                         required>
-
                                                     <option value="musical">موسيقي</option>
                                                     <option value="Entertaining">ترفيهي</option>
                                                     <option value="kinetic">حركي</option>
@@ -231,7 +231,8 @@
                                                     class="form-label mg-b-0">{{ __('Qr Code') }}</label>
                                             </div>
                                             <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                                <img src="{{ asset($content->qrcode) }}" alt="">
+                                                <img src="{{ asset('qr_codes/' . $content->qrcode) }}" class="img-fluid"
+                                                     alt="">
                                             </div>
                                         </div>
                                     </div>
@@ -241,14 +242,12 @@
                             </div>
                         </div>
                     </div>
+                    <!-- /row -->
+                </form>
             </div>
-            <!-- /row -->
-            </form>
+            <!-- Container closed -->
         </div>
-        <!-- Container closed -->
-    </div>
-    <!-- main-content closed -->
-
+        <!-- main-content closed -->
     </div>
     <!-- End Page -->
     </div>

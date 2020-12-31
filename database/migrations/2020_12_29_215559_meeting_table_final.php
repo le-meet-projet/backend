@@ -24,6 +24,7 @@ class MeetingTableFinal extends Migration
             $table->text('map');
             $table->string('thumbnail')->nullable()->default('NULL');
             $table->string('gallery')->nullable()->default('NULL');
+            $table->string('qrcode')->nullable()->default(null);
             $table->string('type')->nullable()->default('NULL');
             $table->string('activity_type')->nullable()->default('NULL');
             $table->string('reservation_type')->nullable()->default('NULL');
@@ -34,7 +35,6 @@ class MeetingTableFinal extends Migration
             $table->string('city')->nullable()->default('NULL');
             $table->date('date')->nullable();
             $table->time('time')->nullable();
-            $table->string('qrcode')->nullable()->default('NULL');
             $table->string('capacity')->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\QrCodeHelper;
+use App\Meeting;
 use App\SpaceSubSpace;
 use Illuminate\Http\Request;
 use App\Space;
 use App\Workshop;
+use Illuminate\Support\Facades\File;
 use Session;
 use App\Brand;
 
@@ -15,38 +18,35 @@ class WorkshopController extends Controller
     public function index()
     {
         $brands = Brand::All();
-        $workshops= Workshop::paginate(10);
-        return view('workshops.index',compact('workshops'), ['brands' => $brands]);
+        $workshops = Workshop::orderBy('created_at', 'desc')->paginate(10);
+        return view('workshops.index', compact('workshops'), ['brands' => $brands]);
     }
-
 
     public function create()
     {
-        $brands =Brand::All();
+        $brands = Brand::All();
         return view('workshops.create', ['brands' => $brands]);
     }
 
     public function store(Request $request)
     {
-        $input= $this->validate($request, [
-
-
-          //  'name' => 'unique:spaces',
+        $input = $this->validate($request, [
+            //  'name' => 'unique:spaces',
         ]);
 
 
         $workshop = new Workshop();
         if ($request->hasFile('thumbnail')) {
             $image = $request->file('thumbnail');
-            $name = time().'.'.$image->getClientOriginalExtension();
+            $name = time() . '.' . $image->getClientOriginalExtension();
             $destinationPath = \public_path('/spaces');
-            $image->move($destinationPath,$name);
+            $image->move($destinationPath, $name);
             $workshop->thumbnail = $name;
 
         }
-        $workshop->name = $request->name;
-        $workshop->id_brand = $request->id_brand ;
 
+        $workshop->name = $request->name;
+        $workshop->id_brand = $request->id_brand;
         $workshop->address = $request->address;
         $workshop->city = $request->city;
         $workshop->capacity = $request->capacity;
@@ -60,28 +60,35 @@ class WorkshopController extends Controller
         $workshop->time = $request->time;
         $workshop->description = $request->description;
         $workshop->map = $request->map ?? '';
-        if($request->has('ads')){
-            $workshop->ads = 'yes';
-        }else{
-             $workshop->ads = 'no';
-        }
-         if($files=$request->file('images')){
-            foreach($files as $file){
-                $name=$file->getClientOriginalName();
-                $file->move('spaces',$name);
-                $images[]=$name;
-            }$workshop->gallery=json_encode($images);
-         }
 
+        if ($request->has('ads')) {
+            $workshop->ads = 'yes';
+        } else {
+            $workshop->ads = 'no';
+        }
+        if ($files = $request->file('images')) {
+            foreach ($files as $file) {
+                $name = $file->getClientOriginalName();
+                $file->move('spaces', $name);
+                $images[] = $name;
+            }
+            $workshop->gallery = json_encode($images);
+        }
+
+        $workshop->save();
+
+        $file = QrCodeHelper::storeQrCode($workshop, 'workshop');
+        $workshop->qrcode = $file;
         $workshop->save();
 
         $spaceSubSpace = new SpaceSubSpace();
         $spaceSubSpace->space_id = $workshop->id;
         $spaceSubSpace->type_space = 'workshop';
         $spaceSubSpace->save();
-        return redirect()->route('admin.workshops.index')->with('notification','workshop successfully created');
 
-        Session::flash('statuscode','success');
+        return redirect()->route('admin.workshops.index')->with('notification', 'workshop successfully created');
+
+        Session::flash('statuscode', 'success');
         return redirect()->route('admin.workshops.index')->with('status', 'Workshop Created');
 
     }
@@ -89,28 +96,28 @@ class WorkshopController extends Controller
 
     public function edit($id)
     {
-         $content = Space::find($id);
-         $brands =Brand::All();
-         return view('workshops.edit',compact('content'), ['brands' => $brands]);
+        $content = Workshop::find($id);
+        $brands = Brand::All();
+        return view('workshops.edit', compact('content'), ['brands' => $brands]);
 
     }
 
 
     public function update(Request $request, $id)
     {
-        $workshop = Space::find($id);
+        $workshop = Workshop::find($id);
 
 
         if ($request->hasFile('thumbnail')) {
             $image = $request->file('thumbnail');
-            $name = time().'.'.$image->getClientOriginalExtension();
+            $name = time() . '.' . $image->getClientOriginalExtension();
             $destinationPath = \public_path('/spaces');
-            $image->move($destinationPath,$name);
+            $image->move($destinationPath, $name);
             $workshop->thumbnail = $name;
 
         }
 
-        $workshop->id_brand = $request->id_brand ;
+        $workshop->id_brand = $request->id_brand;
         $workshop->name = $request->name;
         $workshop->address = $request->address;
         $workshop->city = $request->city;
@@ -125,39 +132,46 @@ class WorkshopController extends Controller
         $workshop->date = $request->date;
         $workshop->time = $request->time;
         $workshop->description = $request->description;
-        $workshop->type="meeting";
-        if($request->has('ads')){
+        $workshop->type = "meeting";
+        if ($request->has('ads')) {
             $workshop->ads = 'yes';
-        }else{
-             $workshop->ads = 'no';
+        } else {
+            $workshop->ads = 'no';
         }
-         if($files=$request->file('images')){
-            foreach($files as $file){
-                $name=$file->getClientOriginalName();
-                $file->move('spaces',$name);
-                $images[]=$name;
-            }$workshop->gallery=json_encode($images);
-         }
+        if ($files = $request->file('images')) {
+            foreach ($files as $file) {
+                $name = $file->getClientOriginalName();
+                $file->move('spaces', $name);
+                $images[] = $name;
+            }
+            $workshop->gallery = json_encode($images);
+        }
 
 
-
-        $workshop->type="workshop";
+        $workshop->type = "workshop";
         $workshop->save();
 
 
-        return redirect()->route('admin.workshops.index')->with('notification','workshop successfully updated');
+        return redirect()->route('admin.workshops.index')->with('notification', 'workshop successfully updated');
 
-        Session::flash('statuscode','info');
-        return redirect()->route('admin.workshops.index')->with('status','Workshop Updated');
+        Session::flash('statuscode', 'info');
+        return redirect()->route('admin.workshops.index')->with('status', 'Workshop Updated');
 
     }
 
 
     public function destroy(int $id)
     {
-        Space::find($id)->delete();
-        SpaceSubSpace::where(['space_id' => $id, 'type_space' => 'workshop'])->delete;
-        Session::flash('statuscode','error');
-        return redirect()->route('admin.workshops.index')->with('status','Workshop Deleted');
+        $content = Workshop::find($id);
+        $files[] = public_path() . '/spaces/' . $content->thumbnail;
+        foreach (json_decode($content->gallery, true) as $item ) {
+            $files[] = public_path() . '/spaces/' . $item;
+        }
+        $files[] = public_path() . '/qr_codes/' . $content->qrcode;
+        File::delete($files);
+        $content->delete();
+        SpaceSubSpace::where(['space_id' => $id, 'type_space' => 'workshop'])->first()->delete;
+        Session::flash('statuscode', 'error');
+        return redirect()->route('admin.workshops.index')->with('status', 'Workshop Deleted');
     }
 }
