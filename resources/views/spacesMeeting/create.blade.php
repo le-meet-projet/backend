@@ -11,7 +11,7 @@
                     <div class="my-auto">
                         <div class="d-flex my-xl-auto right-content">
                             <div class="pr-1 mb-3 mb-xl-0">
-                                <a href="{{ route('admin.spaces.index') }}">
+                                <a href="{{ route('admin.spaces.index', ['type' => $type]) }}">
                                     <button type="button" class="btn btn-danger btn-icon mr-2">
                                         <i class="mdi mdi-arrow-left"></i></button>
                                 </a>
@@ -38,17 +38,7 @@
                                     </div>
                                     <p class="mg-b-20">{{ __('All fields are required') }}* </p>
                                     <div class="pd-30 pd-sm-40 bg-gray-200">
-                                        <div class="row row-xs align-items-center mg-b-20">
-                                            <div class="col-md-4">
-                                                <label class="form-label mg-b-0">{{ __('Type') }}</label>
-                                            </div>
-                                            <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                                <select id="type_space" class="form-control" name="type_space" required>
-                                                    <option value="conference">Conference Space</option>
-                                                    <option value="meeting">Meeting Space</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                        <input type="hidden" name="type_space" value="{{ $type }}">
                                         <div class="row row-xs align-items-center mg-b-20">
                                             <div class="col-md-4">
                                                 <label class="form-label mg-b-0">{{ __('Name') }}</label>

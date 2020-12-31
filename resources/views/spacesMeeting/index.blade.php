@@ -27,7 +27,7 @@
 
                     <div class="d-flex my-xl-auto right-content">
                         <div class="pr-1 mb-3 mb-xl-0">
-                            <a href="{{ route('admin.spaces.create') }}">
+                            <a href="{{ route('admin.spaces.create', ['type' => $type]) }}">
                                 <button type="button" class="btn btn-info btn-icon ml-2"><i class="mdi mdi-plus"></i>
                                 </button>
                             </a>
@@ -43,9 +43,10 @@
                             <div class="card-body">
                                 <div class="empty_state text-center">
                                     <i class="fas fa-map-marker-alt empty_state_icon"></i>
-                                    <h4> {{ __('start adding new meeting spaces') }}
+                                    <h4>
+                                        {{ __('start adding new meeting spaces') }}
                                     </h4>
-                                    <a href="{{ route('admin.spaces.create') }}"
+                                    <a href="{{ route('admin.spaces.create', ['type' => $type]) }}"
                                        class="btn bg-blue btn-labeled heading-btn"><b><i class="icon-plus"></i></b>
                                         {{ __('create new space') }}
                                     </a>

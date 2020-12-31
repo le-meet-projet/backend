@@ -13,6 +13,10 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
         Route::get('/details/{id}', 'OrdersController@show')->name('details');
         Route::get('/createPDF/{id}', 'OrdersController@createPDF')->name('createPDF');
     });
+    // Meetings
+//    Route::group(['prefix' => 'meetings', 'as' => 'meetings.'], function  () {
+//        Route::get('/', 'MeetingController@index')->name('index');
+//    });
     //spaces
     Route::group(['prefix' => 'spaces', 'as' => 'spaces.'], function () {
         Route::get('/', 'SpaceController@index')->name('index');

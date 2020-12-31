@@ -13,18 +13,28 @@ use Session;
 
 class SpaceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $meetings = Meeting::orderBy('created_at', 'DESC')->Paginate(10);
+        $request->validate([
+            'type' => 'required | string'
+        ]);
+        $type = strtolower($request['type']);
+        if ($type !== 'meeting' && $type !== 'conference') return redirect()->route('admin.spaces.index', ['type' => $type]);
+        $meetings = Meeting::where(['type' => $type])->orderBy('created_at', 'DESC')->Paginate(10);
         $brands = Brand::All();
-        return view('spacesMeeting.index', compact('meetings'), ['brands' => $brands]);
+        return view('spacesMeeting.index', compact('meetings'), ['brands' => $brands, 'type' => $type]);
     }
 
 
-    public function create()
+    public function create(Request $request)
     {
+        $request->validate([
+            'type' => 'required | string'
+        ]);
+        $type = strtolower($request['type']);
+        if ($type !== 'meeting' && $type !== 'conference') return redirect()->route('admin.spaces.index', ['type' => $type]);
         $brands = Brand::All();
-        return view('spacesMeeting.create', ['brands' => $brands]);
+        return view('spacesMeeting.create', ['brands' => $brands, 'type' => $type]);
     }
 
     public function store(Request $request)
@@ -97,7 +107,7 @@ class SpaceController extends Controller
         $space_sub->save();
 
         Session::flash('statuscode', 'success');
-        return redirect()->route('admin.spaces.index')->with('status', 'Space Created');
+        return redirect()->route('admin.spaces.index', ['type' => $request->type_space])->with('status', 'Space Created');
 
     }
 
@@ -124,7 +134,6 @@ class SpaceController extends Controller
             $destinationPath = \public_path('/spaces');
             $image->move($destinationPath, $name);
             $space->thumbnail = $name;
-            echo "thumbnail";
         }
 
         $space->id_brand = $request->id_brand;
@@ -163,9 +172,12 @@ class SpaceController extends Controller
     public function destroy($id)
     {
         $content = Meeting::find($id);
+        $type = $content->type;
         $files[] = public_path() . '/spaces/' . $content->thumbnail;
-        foreach (json_decode($content->gallery, true) as $item ) {
-            $files[] = public_path() . '/spaces/' . $item;
+        if ($content->gallery !== null) {
+            foreach (json_decode($content->gallery, true) as $item) {
+                $files[] = public_path() . '/spaces/' . $item;
+            }
         }
         $files[] = public_path() . '/qr_codes/' . $content->qrcode;
         File::delete($files);
@@ -173,6 +185,6 @@ class SpaceController extends Controller
         $content->delete();
         $spaceSub->delete();
         Session::flash('statuscode', 'error');
-        return redirect()->route('admin.spaces.index')->with('status', 'Space Deleted');
+        return redirect()->route('admin.spaces.index', ['type' => $type])->with('status', 'Space Deleted');
     }
 }

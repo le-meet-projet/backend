@@ -29,25 +29,44 @@
                             </li>
                         </ul>
                     </li>
-                    <li aria-haspopup="true">
-                        <a href="{{ route('admin.spaces.index') }}" class="sub-icon">
+                    <li aria-haspopup="true" >
+                        <a href="{{ route('admin.spaces.index', ['type' => 'meeting']) }}" class="sub-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                                 <i class="fas fa-map-marker-alt"></i>
-                            </svg> {{ __('Meeting Spaces') }}
+                            </svg> {{ __('قاعات الاجتمعات') }}
                             <i class="fe fe-chevron-down horizontal-icon"></i>
                         </a>
                         <ul class="sub-menu">
                             <li aria-haspopup="true">
-                                <a href="{{ route('admin.spaces.index') }}"
-                                   class="slide-item">{{ __('Meeting Spaces') }}</a>
+                                <a href="{{ route('admin.spaces.index', ['type' => 'meeting']) }}"
+                                   class="slide-item">{{ __('جميع القاعات') }}</a>
                             </li>
                             <li aria-haspopup="true">
-                                <a href="{{ route('admin.spaces.create') }}"
-                                   class="slide-item">{{ __('New Space') }}</a>
+                                <a href="{{ route('admin.spaces.create', ['type' => 'meeting']) }}"
+                                   class="slide-item">{{ __('اضافة قاعة جديدة') }}</a>
                             </li>
                         </ul>
                     </li>
                     <li aria-haspopup="true">
+                        <a href="{{ route('admin.spaces.index', ['type' => 'conference']) }}" class="sub-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </svg>
+                            {{ __('قاعة المؤتمرات') }}
+                            <i class="fe fe-chevron-down horizontal-icon"></i>
+                        </a>
+                        <ul class="sub-menu">
+                            <li aria-haspopup="true">
+                                <a href="{{ route('admin.spaces.index', ['type' => 'conference']) }}"
+                                   class="slide-item">{{ __('جميع القاعات') }}</a>
+                            </li>
+                            <li aria-haspopup="true">
+                                <a href="{{ route('admin.spaces.create', ['type' => 'conference']) }}"
+                                   class="slide-item">{{ __('إضافة قاعة جديدة') }}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li aria-haspopup="true" style="display:none;">
                         <a href="{{ route('admin.workshops.index') }}" class="sub-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24"
                                  class="side-menu__icon" viewBox="0 0 24 24">
@@ -67,7 +86,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li aria-haspopup="true">
+                    <li aria-haspopup="true" style="display:none;">
                         <a href="{{ route('admin.vacations.index') }}" class="sub-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24"
                                  class="side-menu__icon" viewBox="0 0 24 24">

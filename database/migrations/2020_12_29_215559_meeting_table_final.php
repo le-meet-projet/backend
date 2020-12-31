@@ -22,10 +22,11 @@ class MeetingTableFinal extends Migration
             $table->float('price');
             $table->text('description');
             $table->text('map');
-            $table->string('thumbnail')->nullable()->default('NULL');
-            $table->string('gallery')->nullable()->default('NULL');
+            $table->longText('lat');
+            $table->string('thumbnail')->nullable()->default(null);
+            $table->string('gallery')->nullable()->default(null);
             $table->string('qrcode')->nullable()->default(null);
-            $table->string('type')->nullable()->default('NULL');
+            $table->string('type');
             $table->string('activity_type')->nullable()->default('NULL');
             $table->string('reservation_type')->nullable()->default('NULL');
             $table->string('repetition_type')->nullable()->default('NULL');
