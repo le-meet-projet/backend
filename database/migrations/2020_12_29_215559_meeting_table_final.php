@@ -32,6 +32,7 @@ class MeetingTableFinal extends Migration
             $table->string('repetition_type')->nullable()->default('NULL');
             $table->string('period')->nullable()->default('NULL');
             $table->string('percent')->nullable()->default('NULL');
+            $table->string('iban')->nullable()->default(null);
             $table->string('ads')->nullable()->default('NULL');
             $table->string('city')->nullable()->default('NULL');
             $table->date('date')->nullable();
