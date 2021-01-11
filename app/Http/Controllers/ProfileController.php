@@ -29,19 +29,18 @@ class ProfileController extends Controller
             $destinationPath = \public_path('/users');
             $image->move($destinationPath, $name);
             $user->avatar = '/users/' . $name;
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->phone = $request->phone;
-            $user->address = $request->address;
-
-            $user->password = Hash::make($request->password);
-            $user->save();
-
-
-            Session::flash('statuscode', 'info');
-
-            return redirect()->route('admin.profile.index')->with('status', 'Profile Updated');
-
         }
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        Session::flash('statuscode', 'info');
+        return redirect()->route('admin.profile.index')->with('status', 'Profile Updated');
+
     }
 }

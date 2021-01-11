@@ -40,7 +40,18 @@ class ApiUserController extends Controller
      */
     public function profileUser(): Response
     {
-        return \response(['profile' => $this->currentUser]);
+
+        $user =  $this->currentUser;
+        if($user['avatar'] == 'NULL' or $user['avatar'] == '' or is_null($user['avatar'])){
+            $user['avatar'] = env('API_URL').'default-user-avatar.png';
+        }
+        
+        $api = [
+            'state' => true,
+            'message' => '',
+            'data' => $user
+        ];
+        return \response($api);
     }
 
     /**
@@ -49,35 +60,52 @@ class ApiUserController extends Controller
      */
     public function updateUser(Request $request): Response
     {
-        $request->validate([
+        $id = \Auth::user()->id;
+        $validator = \Validator::make($request->all(), [
             'name' => 'string | max:255',
             'email' => 'email | string | max:255',
-            'password' => 'string | max:255 | confirmed',
-            'old_password' => 'string | max:255',
+            'password' => 'max:255',
+            'address' => 'max:400',
+            'phone' => 'string | max:400 | unique:users,phone,'.$id.',id',
         ]);
 
-        if ( $request['email'] !== $this->currentUser->email ) {
-            $request->validate([
-                'email' => 'unique:users',
-            ]);
+        if ($validator->fails())
+        {
+            $api = [
+                'state' => false,
+                'message' =>  $validator->errors()->all()[0] ,
+                'data' => ''
+            ];
+            return response($api, 200);
         }
 
-        if ( $request->has('password') ) {
-            if ( $request['password'] === null )
-                return \response(['message' => 'The old password is missed !']);
-            elseif ( !Hash::check($request['old_password'], Auth::user()->getAuthPassword()) )
-                return \response(['message' => 'The old password is not correct !'], 403);
-            else
-                $request['password'] = Hash::make($request['password']);
-        }
 
         $user = Auth::user();
+
+
+        $password = $user->getAuthPassword();
+
+        if ( $request->has('password') and !is_null($request->password)) {
+            $password = Hash::make($request['password']);
+        }
+
         $user->email = $request['email'] ?? $user->email;
-        $user->password = $request['password'] ?? $user->getAuthPassword();
+        $user->password = $password; 
+        $user->phone = $request['phone'] ?? $user->phone;
         $user->name = $request['name'] ?? $user->name;
+        $user->address = $request['address'] ?? $user->address;
         $user->save();
 
-        return response(['message' => 'The user information was updated !'], 200);
+
+        $api = [
+            'state' => true,
+            'message' => 'تم تعديل المعلومات بنجاح',
+            'data' => []
+        ];
+        return \response($api);
+
+        
+        return response($api, 200);
     }
 
     /**

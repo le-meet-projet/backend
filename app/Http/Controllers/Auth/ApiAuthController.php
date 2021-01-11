@@ -24,19 +24,41 @@ class ApiAuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required | string | max:255',
             'email' => 'required | string | email | max:255 | unique:users',
-            'password' => 'required | string | min:6 | confirmed',
+            'password' => 'required | string | min:6 ',
             'phone' => 'required | string | min:10 | max:15 | unique:users',
         ]);
 
         if ($validator->fails())
         {
-            return response(['errors' => $validator->errors()->all()], 422);
+            $api = [
+                'state' => false,
+                'message' =>  $validator->errors()->all()[0] ,
+                'data' => ''
+            ];
+            return response($api, 200);
         }
 
         $request['password'] = Hash::make($request['password']);
-        User::create($request->toArray());
-        $response = ['message' => 'The user was created with success'];
-        return response($response, 200);
+
+        $request['avatar'] = 'default-user-avatar.png';
+  
+        $saved = User::create($request->toArray());
+
+        if($saved){
+            $api = [
+                'state' => true,
+                'message' => '',
+                'data' => '',
+            ];
+            return response($api,200);
+        }
+
+        $api = [
+            'state' => false,
+            'message' => 'something went wrong',
+            'data' => '',
+        ];
+        return response($api,422);
     }
 
     /**
@@ -45,6 +67,7 @@ class ApiAuthController extends Controller
      */
     public function login(Request $request): Response
     {
+
         $logins = $request->validate([
             'phone' => 'required | string | min:8 | max:15',
             'password' => 'required | string ',
@@ -53,7 +76,11 @@ class ApiAuthController extends Controller
         $password = $request['password'];
         $phone = $request['phone'];
 
+
+        
         $user = User::where(['phone' => $phone])->first();
+
+      
 
         $check = false;
         if($user){
@@ -91,7 +118,23 @@ class ApiAuthController extends Controller
     {
         $token = $request->user()->token();
         $token->revoke();
-        $response = ['message' => 'You have been successfully logged out!'];
-        return response($response, 200);
+
+
+        $api = [
+            'state' => true,
+            'message' => '',
+            'data' => '',
+        ];
+        return response($api,200);
+
+    }
+
+
+    public function check(){
+        if (  \Auth::guard('api')->check()) {
+
+           return response(['authenticated' => true ]);
+        }
+        return response(['authenticated' => false ]);
     }
 }

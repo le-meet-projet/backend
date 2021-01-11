@@ -9,6 +9,9 @@ use App\Rating;
 use App\Review;
 use App\Space;
 use App\User;
+use App\Meeting;
+use App\Vacation;
+use App\Workshop;
 use Cartalyst\Stripe\Stripe;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -20,6 +23,165 @@ use Illuminate\Support\Facades\Hash;
 
 class ApiController extends Controller
 {
+
+    
+
+
+    public $helper ;
+
+    public function __construct(){
+        
+        $this->helper = new \App\Helpers\Api();
+        
+    }
+
+    public function getDetails(Request $request){
+       
+        $types = ['workshop','office','meeting','vacation'];
+        
+        $validator = \Validator::make($request->all(), [
+            'type' => 'required|in:' . implode(',', $types),
+            'id'   => 'required | numeric ',
+        ]);
+       
+       if ($validator->fails()) {
+           $api = [
+               'state' => false,
+               'message' => 'المعلومات غير صحيحة',
+               'data' => [],
+           ];
+           return \response($api);
+       }
+
+
+
+        $type = $request->type;
+        $id   = $request->id;
+
+        if($type == 'meeting') {
+
+            $meeting = Meeting::with('favorite')->where('id',$id)->first();
+            $favorite = Favorite::where('type_id',$meeting->id)->where('type','meeting')->count();
+            $result = $this->helper->conference($meeting);
+            $result['favorite']  = ($favorite != 0 ) ? true : false;
+            $result['content']   = $meeting->description;
+            $result['location']   = $meeting->address;
+            $result['latitude']  = 30.393496;
+            $result['longitude'] = -9.600167;
+            $result['zoom']      = 14.4746;
+            $result['ratings']   = [];
+            
+            $api = [
+                'state' => true,
+                'message' => '',
+                'data' => $result
+            ];
+            return \response($api);
+
+        }
+
+
+
+        if($type == 'office') {
+
+            $meeting = Meeting::with('favorite')->where('id',$id)->first();
+            $favorite = Favorite::where('type_id',$meeting->id)->where('type','office')->count();
+            $result = $this->helper->conference($meeting);
+            $result['favorite']  = ($favorite != 0 ) ? true : false;
+            $result['content']   = $meeting->description;
+            $result['location']   = $meeting->address;
+            $result['place']      = $result['roomName'];
+            $result['latitude']  = 30.393496;
+            $result['longitude'] = -9.600167;
+            $result['zoom']      = 14.4746;
+            $result['ratings']   = [];
+            
+            $api = [
+                'state' => true,
+                'message' => '',
+                'data' => $result
+            ];
+            return \response($api);
+            
+        }
+
+
+        
+
+        if($type == 'vacation') {
+
+            $vacation =  Vacation::where('id',$id)->first();
+            $favorite = Favorite::where('type_id',$vacation->id)->where('type','vacation')->count();
+            $result = $this->helper->vacation($vacation);
+            $result['favorite']  = ($favorite != 0 ) ? true : false;
+            $result['content']   = $vacation->description;
+            $result['location']   = $vacation->address;
+            $result['latitude']  = 30.393496;
+            $result['longitude'] = -9.600167;
+            $result['zoom']      = 14.4746;
+            $result['time']      = 'من: 04:00 م - إلى: 12:00 م';
+            $result['date']      = 'الخميس - 5 نوفمبر';
+            $result['activityType']      = 'حركي';
+            $result['participationType']      = 'فردي';
+            
+
+            $result['ratings']   = [];
+
+            
+            $api = [
+                'state' => true,
+                'message' => '',
+                'data' => $result
+            ];
+            return \response($api);
+            
+        }
+
+
+        
+
+        if($type == 'workshop') {
+
+            $vacation =  Workshop::where('id',$id)->first();
+            $favorite = Favorite::where('type_id',$vacation->id)->where('type','workshop')->count();
+            $result = $this->helper->vacation($vacation);
+            $result['favorite']  = ($favorite != 0 ) ? true : false;
+            $result['content']   = $vacation->description;
+            $result['location']   = $vacation->address;
+            $result['latitude']  = 30.393496;
+            $result['longitude'] = -9.600167;
+            $result['zoom']      = 14.4746;
+            $result['time']      = 'من: 04:00 م - إلى: 12:00 م';
+            $result['date']      = 'الخميس - 5 نوفمبر';
+            $result['activityType']      = 'حركي';
+            $result['participationType']      = 'فردي';
+            
+
+            $result['ratings']   = [];
+
+            
+            $api = [
+                'state' => true,
+                'message' => '',
+                'data' => $result
+            ];
+            return \response($api);
+            
+        }
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
     // OTP CONFIRMATION
     /**
      * @param Request $request
@@ -44,17 +206,17 @@ class ApiController extends Controller
         $phone = $request['phone'];
 
         $user = User::where(['phone' => $phone])->first();
-        if ( $user ) return \response($api);
 
-
-        $api = [
-            'state' => false,
-            'message' => 'The phone number is already exists !',
-            'data' => [],
-        ];
-
-        if ( $user ) return \response($api);
-
+        if ( $user ) {
+            $api = [
+                'state' => false,
+                'message' => 'The phone number is already exists !',
+                'data' => [],
+            ];
+            return \response($api);
+        }
+        
+       
         $generatedOtp =  '1234' ;//rand(1111,9999);
         $api = [
             'state' => true,
@@ -759,7 +921,12 @@ class ApiController extends Controller
      */
     public function profileUser(): Response
     {
+        
+            dd('dmdmm');
         $user = User::find(Auth::user()->id);
+        if(is_null($user->avatar) or $user->avatar == 'NULL' or $user->avatar == '' or empty($user->avatar)){
+            $user->avatar = env('API_URL').'default-user-avatar.png';
+        }
         return \response(['profile' => $user]);
     }
 

@@ -5,11 +5,10 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Favorite extends Model
 {
-    use SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -25,4 +24,17 @@ class Favorite extends Model
     {
         return $this->hasOne('App\Space');
     }
+    public function meeting(){
+        return $this->belongsTo('App\Meeting','type_id');
+    }
+
+    public function workshop(){
+        return $this->belongsTo('App\Workshop','type_id');
+    }
+
+    
+    public function vacation(){
+        return $this->belongsTo('App\Vacation','type_id');
+    }
+
 }

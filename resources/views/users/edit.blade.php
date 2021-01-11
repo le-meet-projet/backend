@@ -51,7 +51,7 @@
                                                 <img src="{{ $content->avatar !== null ? asset('users/' . $content->avatar) : asset('users/1606144165.jpg') }}" class="" width="70px">
                                                 <input class="form-control" name="avatar"
                                                        placeholder=" {{ __('Avatar') }}" type="file"
-                                                       value="{{ $content->avatar }}" required>
+                                                       value="{{ $content->avatar }}" >
                                             </div>
                                         </div>
                                         <div class="row row-xs align-items-center mg-b-20">

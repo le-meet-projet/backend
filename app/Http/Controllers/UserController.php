@@ -74,10 +74,13 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        if ( $id === Auth::user()->id ) {
+
+                if ( $id === Auth::user()->id ) {
             return redirect()->route('admin.users.index');
         }
         $user = User::find($id);
+        
+
         if ( !$user ) return redirect()->route('admin.users.index');
         $user->name = $request->name;
         $user->email = $request->email;

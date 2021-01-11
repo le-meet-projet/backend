@@ -21,4 +21,15 @@ class Meeting extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function favorite(){
+        //->where('type', 'meeting')
+        return $this->belongsTo('App\Favorite','type_id'); 
+    }
+
+
+    // whereHas('director', function($q) {
+    //     $q->where('name', 'great');
+    // })
+
+
 }

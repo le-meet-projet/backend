@@ -110,6 +110,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::group(['prefix' => '/v3'], function () {
 
 
+        Route::get('/check/auth', 'Auth\ApiAuthController@check');
 
 
         // AUTH ROUTES
@@ -129,6 +130,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::post('meeting/sort', 'ApiController\ApiMeetingController@sort')->name('spaces.meetings.sort');
         Route::get('meeting/{id}/reviews', 'ApiController\ApiMeetingController@reviews')->name('spaces.meetings.reviews');
         Route::get('meeting/{id}', 'ApiController\ApiMeetingController@getMeeting')->name('spaces.meetings.getMeeting');
+
+
 
         // WORKSHOPS
         Route::get('workshop', 'ApiController\ApiWorkshopController@index')->name('spaces.workshop.index');
@@ -151,7 +154,13 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         
         Route::middleware('auth:api')->group(function () {
 
+            Route::get('/favorite/list', 'ApiController\ApiFavoriteController@list');
+
+
+            Route::post('/details', 'ApiController@getDetails');
+
             Route::post('/add/to/favorite', 'ApiController\ApiFavoriteController@add_to_favorite');
+            Route::post('/remove/from/favorite', 'ApiController\ApiFavoriteController@remove_from_favorite');
 
             // ADD THE SPACE TO THE USER FAVORITE
             Route::post('favorite/{space_id}', 'ApiController\ApiFavoriteController@add')->name('favorite.space.add');

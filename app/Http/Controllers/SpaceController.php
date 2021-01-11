@@ -96,7 +96,18 @@ class SpaceController extends Controller
 
         $space->save();
 
-        $file = QrCodeHelper::storeQrCode($space, $space->type);
+
+        
+        $types = [
+            'meeting' => 'meeting',
+            'conference' => 'office'
+        ];
+        $type = $types[$space->type];
+        $code = 'lemeet-'.$type.'-'.$space->id;
+        $file = QrCodeHelper::storeQrCode($code);
+
+
+
         $space->qrcode = $file;
 
         $space->save();

@@ -13,6 +13,9 @@ use App\Reviews;
 class DashboardController extends Controller
 {
        public function home() {
+
+     //   dd(\Auth::user()->toArray());
+
             
         $users=User::count();
         $orders=Order::count();
