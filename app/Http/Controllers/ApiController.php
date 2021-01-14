@@ -61,7 +61,8 @@ class ApiController extends Controller
         if($type == 'meeting') {
 
             $meeting = Meeting::with('favorite')->where('id',$id)->first();
-            $favorite = Favorite::where('type_id',$meeting->id)->where('type','meeting')->count();
+            $id = \Auth::user()->id;
+            $favorite = Favorite::where('type_id',$meeting->id)->where('user_id',$id)->where('type','meeting')->count();
             $result = $this->helper->conference($meeting);
             $result['favorite']  = ($favorite != 0 ) ? true : false;
             $result['content']   = $meeting->description;
@@ -85,7 +86,9 @@ class ApiController extends Controller
         if($type == 'office') {
 
             $meeting = Meeting::with('favorite')->where('id',$id)->first();
-            $favorite = Favorite::where('type_id',$meeting->id)->where('type','office')->count();
+            $id = \Auth::user()->id;
+            
+            $favorite = Favorite::where('type_id',$meeting->id)->where('user_id',$id)->where('type','office')->count();
             $result = $this->helper->conference($meeting);
             $result['favorite']  = ($favorite != 0 ) ? true : false;
             $result['content']   = $meeting->description;
@@ -111,7 +114,10 @@ class ApiController extends Controller
         if($type == 'vacation') {
 
             $vacation =  Vacation::where('id',$id)->first();
-            $favorite = Favorite::where('type_id',$vacation->id)->where('type','vacation')->count();
+            $id = \Auth::user()->id;
+            
+            
+            $favorite = Favorite::where('type_id',$vacation->id)->where('user_id',$id)->where('type','vacation')->count();
             $result = $this->helper->vacation($vacation);
             $result['favorite']  = ($favorite != 0 ) ? true : false;
             $result['content']   = $vacation->description;

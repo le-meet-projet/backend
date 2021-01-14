@@ -69,6 +69,9 @@ class SpaceController extends Controller
         $space->percent = $request->percent;
         $space->description = $request->description;
         $space->map = $request->map ?? '';
+        $space->lat = $request->lat ?? '';
+        $space->longitude = $request->longitude;
+        $space->latitude = $request->latitude;
 
 
         if ($request->has('ads')) {
@@ -157,6 +160,8 @@ class SpaceController extends Controller
         $space->activity_type = $request->activity_type;
         $space->activity_type = $request->activity_type;
         $space->percent = $request->percent;
+        $space->longitude = $request->longitude;
+        $space->latitude = $request->latitude;
 
         $space->type = "meeting";
         if ($request->has('ads')) {

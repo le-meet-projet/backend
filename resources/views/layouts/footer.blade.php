@@ -72,31 +72,57 @@
 		<script src="../public/js/app.js"></script>
 		<script src="jquery.printPage.js"></script>
 		<script src="/assets/js/sweetalert.js"></script>
-        	<script type="text/javascript">
-											
-				$('#print').click(function(){
-												$('.container').printThis();
-											});
-										</script>
-
-		  <script>
-		  	
-		  	@if(session('status'))
-									 
-					 
-						swal({
-							  title: '	{{ session('status') }}',
-							 
-							  icon: '{{ session('statuscode') }}',
-							  button: "OK!",
-							});			 
+		<script type="text/javascript">
+			$('#print').click(function() {
+				$('.container').printThis();
+			});
+		</script>
+		<script>
+		  	@if(session('status'))	 
+				swal({
+						title: '	{{ session('status') }}',
+						
+						icon: '{{ session('statuscode') }}',
+						button: "OK!",
+					});			 
 								 
 			@endif
-		  </script>
+		</script>
+		<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places&amp;key=AIzaSyDwFc97AGfeqzqBmL2eVFxgeHm-CQNnvNM"></script>
+
+		<script>
+		@if(isset($content))
+			var latitude = {{ $content->latitude }};
+			var longitude = {{ $content->latitude }};
+		@else
+			var latitude = 24.716;
+			var longitude = 46.683;
+		@endif
+			if($("#latitude").val() && $("#longitude").val() ){
+				var latitude = $("#latitude").val();
+				var longitude = $("#longitude").val();
+			}
+
+			var map = new google.maps.Map(document.getElementById('map_canvas'), {
+				zoom: 12,
+				center: new google.maps.LatLng(latitude, longitude),
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			});
+
+			var myMarker = new google.maps.Marker({
+				position: new google.maps.LatLng(latitude, longitude),
+				draggable: true
+			});
+
+			google.maps.event.addListener(myMarker, 'dragend', function (evt) {    
+				$('#latitude').val(evt.latLng.lat().toFixed(3));
+				$('#longitude').val(evt.latLng.lng().toFixed(3));
+			});
 
 
-	
-
+			map.setCenter(myMarker.position);
+			myMarker.setMap(map);
+		</script>
 </body>
 </html>
  

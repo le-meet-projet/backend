@@ -153,17 +153,12 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
         
         Route::middleware('auth:api')->group(function () {
-
             Route::get('/favorite/list', 'ApiController\ApiFavoriteController@list');
-
-
             Route::post('/details', 'ApiController@getDetails');
-
             Route::post('/add/to/favorite', 'ApiController\ApiFavoriteController@add_to_favorite');
             Route::post('/remove/from/favorite', 'ApiController\ApiFavoriteController@remove_from_favorite');
-
             // ADD THE SPACE TO THE USER FAVORITE
-            Route::post('favorite/{space_id}', 'ApiController\ApiFavoriteController@add')->name('favorite.space.add');
+            Route::post('favorite/{space_id}/add', 'ApiController\ApiFavoriteController@add')->name('favorite.space.add');
             // DELETE THE FAVORITE
             Route::get('favorite/{id}/delete', 'ApiController\ApiFavoriteController@delete')->name('favorite.space.delete');
             Route::group(['prefix' => 'invitation/'], function () {
@@ -179,6 +174,9 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
                 Route::post('{invit_id}/delete', 'ApiController\ApiInvitationController@delete')->name('space.invite.delete');
             });
         });
+
+        // QR CODE
+        Route::post('/qrcode', 'ApiController\QrCodeController@index')->name('qr.code.index');
 
         // USER
         Route::group(['middleware' => 'auth:api', 'prefix' => 'user/'], function () {

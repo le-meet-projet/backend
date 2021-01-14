@@ -12,25 +12,74 @@ use Illuminate\Http\Response;
 class ApiFavoriteController extends Controller
 {
 
-    public function list(){
-
+    /*
+      {
+                    'id':'1',
+                    'image':'https://.....',
+                    'type':'meeting', or office/vacation/workshop
+                    'description':'فوكس',
+                    'price':'50ريال\\ساعة',
+                    'rate':'4.3\\5',
+                    'location':'الرياض\n352م',
+                },
+                */
+    public function list() {
         $user_id = \Auth::user()->id;
 
-        $data = [];
-        $favorites = Favorite::with('meeting','workshop','vacation')->where('user_id',$user_id)->get()->map(function($favorite){
+        $favorites = Favorite::with('meeting','workshop','vacation')->where('user_id', $user_id)->get()->map(function($favorite) {
+           return $this->prepareFavoritesForApi($favorite, $favorite->type);
+        })->toArray();
 
-        });
-
-
-        
-
-        dd($favorite);
-
+        return response()->json([
+            'state' => true,
+            'message' => '',
+            'data' => $favorites
+        ]);
     }
 
 
+    public function prepareFavoritesForApi($favorite,$type){
+
+       
+        
+        if($type == 'meeting' || $type == 'office'){
+            $thumbnail = ($favorite->meeting->thumbnail  != 'NULL' and $favorite->meeting->thumbnail  != NULL) ?  env('SPACE_THUMBNAIL').$favorite->meeting->thumbnail : env('NO_IMAGE');
+
+            $data = [
+                'image'=> $thumbnail,
+                'description'=> $favorite->meeting->description,
+                'price'=> $favorite->meeting->price,
+                'rate'=> $favorite->meeting->rate,
+                'location'=> $favorite->meeting->address,
+            ];
+        }
+        if($type == 'vacation' ){
+            $data = [
+                'image'=> $thumbnail,
+                'description'=> $favorite->meeting->description,
+                'price'=> $favorite->meeting->price,
+                'rate'=> $favorite->meeting->rate,
+                'location'=> $favorite->meeting->address,
+            ];
+        }
+        if($type == 'workshop'){
+            $data = [
+                'image'=> $thumbnail,
+                'description'=> $favorite->meeting->description,
+                'price'=> $favorite->meeting->price,
+                'rate'=> $favorite->meeting->rate,
+                'location'=> $favorite->meeting->address,
+            ];
+        }
+
+        $data['id'] = $favorite->id;
+        $data['type'] = $favorite->type;
+
+       
+        return $data;
+    }
     
-    public function add_to_favorite(Request $request){
+    public function add_to_favorite(Request $request) {
 
         $types = ['workshop','office','meeting','vacation'];
            
@@ -106,12 +155,15 @@ class ApiFavoriteController extends Controller
        
        if($count != 0 ){
            $favorite = $query->first();
-           $favorite->delete();
            $api = [
                 'state' => true,
                 'message' => '',
-                'data' => true
+                'data' => [
+                    'id' => $favorite->id,
+                    '$favorite' => $favorite->type
+                ]
             ];
+            $favorite->delete();
             return \response($api);
        }
        
