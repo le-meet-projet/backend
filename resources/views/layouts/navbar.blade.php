@@ -76,11 +76,11 @@
                         </a>
                         <ul class="sub-menu">
                             <li aria-haspopup="true">
-                                <a href="{{ route('admin.tables.index', ['type' => 'conference']) }}"
+                                <a href="{{ route('admin.tables.index') }}"
                                    class="slide-item">{{ __('جميع الطاولات') }}</a>
                             </li>
                             <li aria-haspopup="true">
-                                <a href="{{ route('admin.tables.create', ['type' => 'conference']) }}"
+                                <a href="{{ route('admin.tables.create') }}"
                                    class="slide-item">{{ __('إضافة طاولة جديدة') }}</a>
                             </li>
                         </ul>

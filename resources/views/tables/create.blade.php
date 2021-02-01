@@ -227,7 +227,7 @@
                                         </div>
                                     </div>
                                     <button type="submit"
-                                            class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Create New Space') }}</button>
+                                            class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Create New Table') }}</button>
                                 </div>
                             </div>
                         </div>
