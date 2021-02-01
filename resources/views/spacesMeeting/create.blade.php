@@ -222,8 +222,8 @@
                                             <div class="col-md-8 mg-t-5 mg-md-t-0">
                                                 <div id='map_canvas' style="height: 500px;"></div>
                                                 <div id="current"></div>
-                                                <input type="hidden" name="latitude" id="latitude">
-                                                <input type="hidden" name="longitude" id="longitude">
+                                                <input type="hidden" name="latitude" id="latitude" value="24.716">
+                                                <input type="hidden" name="longitude" id="longitude" value="46.683">
                                             </div>
                                         </div>
                                     </div>

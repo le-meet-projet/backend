@@ -114,7 +114,7 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
         Route::get('/create', 'TableController@create')->name('create');
         Route::post('/store', 'TableController@store')->name('store');
         Route::get('/edit/{id}', 'TableController@edit')->name('edit');
-        Route::get('/update/{id}', 'TableController@update')->name('update');
+        Route::post('/update/{id}', 'TableController@update')->name('update');
         Route::get('/delete/{id}', 'TableController@delete')->name('delete');
     });
 });

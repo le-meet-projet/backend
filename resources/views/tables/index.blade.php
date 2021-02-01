@@ -110,7 +110,7 @@
                                                             <tr>
                                                                 <td>
                                                                     <img
-                                                                        src="{{ asset('spaces/' . $table->thumbnail) }}"
+                                                                        src="{{ asset('tables/' . $table->thumbnail) }}"
                                                                         class="w-75" alt="">
                                                                 </td>
                                                                 <td>
@@ -124,7 +124,7 @@
                                                                 <td> {{$table->price}}</td>
                                                                 <td>
 														<span class="ml-auto">
-															<a href="{{ route('admin.spaces.edit',['id'=>$table->id]) }}"><i
+															<a href="{{ route('admin.tables.edit', ['id' => $table->id]) }}"><i
                                                                     class="si si-pencil text-primary mr-2"
                                                                     data-toggle="tooltip" title="" data-placement="top"
                                                                     data-original-title="Edit"></i></a>
@@ -154,9 +154,8 @@
 														        </button>
 														      </div>
 														      <form id="delete_modal_form" method="GET"
-                                                                    action="{{route('admin.spaces.delete', $table->id)}}">
+                                                                    action="{{route('admin.tables.delete', $table->id)}}">
 														      	@csrf
-
 														      <div class="modal-footer">
 														        <button type="button" class="btn btn-primary"
                                                                         data-dismiss="modal">{{ __('Close') }}</button>
