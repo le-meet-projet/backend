@@ -117,6 +117,16 @@
                                         </div>
                                         <div class="row row-xs align-items-center mg-b-20">
                                             <div class="col-md-4">
+                                                <label class="form-label mg-b-0">{{ __('IBAN') }}</label>
+                                            </div>
+                                            <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                                <input class="form-control" name="iban"
+                                                       placeholder="{{ __('IBAN ') }} " type="text"
+                                                       required="required">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-4">
                                                 <label class="form-label mg-b-0">{{ __('Thumbnail') }}</label>
                                             </div>
                                             <div class="col-md-8 mg-t-5 mg-md-t-0">

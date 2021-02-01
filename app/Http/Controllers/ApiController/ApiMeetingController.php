@@ -11,8 +11,6 @@ use Illuminate\Http\Response;
 class ApiMeetingController extends Controller
 {
 
-
-
     public $helper ;
 
     public function __construct(){
@@ -30,13 +28,10 @@ class ApiMeetingController extends Controller
         $meetings = Meeting::get();
         if (!$meetings) return response(['error' => 'Not found !'], 404);
         return response(['meetings' => $meetings]);
-    }
-
-    
-    
+    }    
 
     public function meetingResponse($type){
-        $meetings = Meeting::where(['type' => $type])->get()->map(function($meeting){
+        $meetings = Meeting::where(['type' => $type])->get()->map(function($meeting) {
             return $this->helper->conference($meeting);
         });
 
@@ -65,11 +60,6 @@ class ApiMeetingController extends Controller
     {
         return $this->meetingResponse('meeting');
     }
-
-
-    
-
-
 
 
     /**

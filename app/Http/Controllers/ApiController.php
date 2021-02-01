@@ -20,12 +20,10 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Invitation;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class ApiController extends Controller
 {
-
-    
-
 
     public $helper ;
 
@@ -61,14 +59,14 @@ class ApiController extends Controller
         if($type == 'meeting') {
 
             $meeting = Meeting::with('favorite')->where('id',$id)->first();
-            $id = \Auth::user()->id;
-            $favorite = Favorite::where('type_id',$meeting->id)->where('user_id',$id)->where('type','meeting')->count();
+            $user_id = \Auth::user()->id;
+            $favorite = Favorite::where('type_id',$meeting->id)->where('user_id',$user_id)->where('type','meeting')->count();
             $result = $this->helper->conference($meeting);
             $result['favorite']  = ($favorite != 0 ) ? true : false;
             $result['content']   = $meeting->description;
             $result['location']   = $meeting->address;
-            $result['latitude']  = 30.393496;
-            $result['longitude'] = -9.600167;
+            $result['latitude']  = $meeting->latitude;
+            $result['longitude'] = $meeting->longitude;
             $result['zoom']      = 14.4746;
             $result['ratings']   = [];
             
@@ -86,16 +84,16 @@ class ApiController extends Controller
         if($type == 'office') {
 
             $meeting = Meeting::with('favorite')->where('id',$id)->first();
-            $id = \Auth::user()->id;
+            $user_id = \Auth::user()->id;
             
-            $favorite = Favorite::where('type_id',$meeting->id)->where('user_id',$id)->where('type','office')->count();
+            $favorite = Favorite::where('type_id',$meeting->id)->where('user_id',$user_id)->where('type','office')->count();
             $result = $this->helper->conference($meeting);
             $result['favorite']  = ($favorite != 0 ) ? true : false;
             $result['content']   = $meeting->description;
             $result['location']   = $meeting->address;
             $result['place']      = $result['roomName'];
-            $result['latitude']  = 30.393496;
-            $result['longitude'] = -9.600167;
+            $result['latitude']  = $meeting->latitude;
+            $result['longitude'] = $meeting->longitude;
             $result['zoom']      = 14.4746;
             $result['ratings']   = [];
             
@@ -114,10 +112,10 @@ class ApiController extends Controller
         if($type == 'vacation') {
 
             $vacation =  Vacation::where('id',$id)->first();
-            $id = \Auth::user()->id;
+            $user_id = \Auth::user()->id;
             
             
-            $favorite = Favorite::where('type_id',$vacation->id)->where('user_id',$id)->where('type','vacation')->count();
+            $favorite = Favorite::where('type_id',$vacation->id)->where('user_id',$user_id)->where('type','vacation')->count();
             $result = $this->helper->vacation($vacation);
             $result['favorite']  = ($favorite != 0 ) ? true : false;
             $result['content']   = $vacation->description;
@@ -1046,4 +1044,197 @@ class ApiController extends Controller
         return response(['notifications' => $notifications]);
     }
     // END USER FUNCTIONS
+
+    public function order_dates() {
+
+        /*
+        *
+        *   to do : 
+        *   dir li hna lyouma  + osbo3 ykon bdak chkel dyal reservation_dates 
+        */
+        $reservation_dates = [];
+
+        $arDays = [
+            'Mon' => 'الإتنين',
+            'Tue' => 'الثلاثاء',
+            'Wed' => 'الاربعاء',
+            'Thu' => 'الخميس',
+            'Fri' => 'الجمعة',
+            'Sat' => 'السبت',
+            'Sun' => 'الأحد'
+        ];
+
+        $arMonths = [
+            'Jan' => 'يناير',
+            'Feb' => 'فبراير',
+            'Mar' => 'مارس',
+            'Apr' => 'ابريل',
+            'May' => 'ماي',
+            'Jun' => 'يونيو',
+            'Jul' => 'يوليوز',
+            'Aug' => 'غشت',
+            'Sep' => 'شتنبر',
+            'Oct' => 'اكتوبر',
+            'Nov' => 'نونبر',
+            'Dec' => 'دجنبر',
+        ];
+        
+        for($i = 0; $i < 7; $i++) {
+
+            $date = (Carbon::now())->addDays($i);
+            $month = date_format($date, 'M');
+            $day = date_format($date, 'D');
+
+            $reservation_dates['reservation_dates'][] = [
+                'id' => date_format($date, 'y-m-d'),
+                'month' => $arMonths[$month],
+                'day' => $arDays[$day],
+                'active' => false
+            ];
+        }
+
+        $reservation_dates['reservation_times'] = [
+            [
+                'from' => 'من : 09:00 ص',
+                'to' => 'الى : 10:00 ص',
+                'active' => false,
+            ],
+            [
+                'from' => 'من : 10:00 ص',
+                'to' => 'الى : 11:00 ص',
+                'active' => false,
+            ],
+            [
+                'from' => 'من : 11:00 ص',
+                'to' => 'الى : 12:00 م',
+                'active' => false,
+            ],
+            [
+                'from' => 'من : 12:00 م',
+                'to' => 'الى : 01:00 م',
+                'active' => false,
+            ],
+            [
+                'from' => 'من : 01:00 م',
+                'to' => 'الى : 02:00 م',
+                'active' => false,
+            ],
+            [
+                'from' => 'من : 02:00 م',
+                'to' => 'الى : 03:00 م',
+                'active' => false,
+            ],
+            [
+                'from' => 'من : 04:00 م',
+                'to' => 'الى : 05:00 م',
+                'active' => false,
+            ],
+            [
+                'from' => 'من : 05:00 م',
+                'to' => 'الى : 06:00 م',
+                'active' => false,
+            ]
+        ];
+
+
+
+        $api = [
+            'state' => true,
+            'message' => '',
+            'data' => $reservation_dates,
+        ];
+        return response()->json($api);
+    }
+
+
+
+
+    public function verify_coupon(Request $request){
+        $coupon = $request->coupon;
+        $id = $request->id;
+        $type = $request->type;
+
+        // now we verify the coupon here !
+        
+        $api = [
+            'state'=> true,
+            'message'=> '',
+            'data' => 'تم خصم 14 ريال'
+        ];
+
+        return response()->json($api);
+    }
+
+
+    public function pay_secure(){
+
+
+        $api = [
+            'state'=> true,
+            'message'=> '',
+            'data' => []
+        ];
+
+        return response()->json($api);
+    }
+    public function confirm_payment(){
+        $api = [
+            'state'=> true,
+            'message'=> '',
+            'data' => [
+            ]
+        ];
+
+        return response()->json($api); 
+    }
+
+
+    public function user_orders_list()
+    {
+        $api = [
+            'state' => true,
+            'message' => '',
+            'data' => [
+                [
+                'date' => '20 أكتوبر :',
+                'image' => 'https://i1.wp.com/www.manae-business.fr/wp-content/uploads/2020/03/you-x-ventures-Oalh2MojUuk-unsplash.jpg?resize=2000%2C1200&ssl=1',
+                'type' =>  'meeting',
+                'description' => 'مجرد وصف',
+                'price' => '50 ريال ',
+                'reservationNumber' => '212',
+                'rate' => '4.3 \\ 5 '
+                ],
+                [
+                'date' => '20 أكتوبر :',
+                'image' => 'https://i1.wp.com/www.manae-business.fr/wp-content/uploads/2020/03/you-x-ventures-Oalh2MojUuk-unsplash.jpg?resize=2000%2C1200&ssl=1',
+                'type' =>  'meeting',
+                'description' => 'مجرد وصف',
+                'price' => '50 ريال ',
+                'reservationNumber' => '212',
+                'rate' => '4.3 \\ 5 '
+                ],
+                [
+                'date' => '20 أكتوبر :',
+                'image' => 'https://i1.wp.com/www.manae-business.fr/wp-content/uploads/2020/03/you-x-ventures-Oalh2MojUuk-unsplash.jpg?resize=2000%2C1200&ssl=1',
+                'type' =>  'meeting',
+                'description' => 'مجرد وصف',
+                'price' => '50 ريال ',
+                'reservationNumber' => '212',
+                'rate' => '4.3 \\ 5 '
+                ],
+                [
+                'date' => '20 أكتوبر :',
+                'image' => 'https://i1.wp.com/www.manae-business.fr/wp-content/uploads/2020/03/you-x-ventures-Oalh2MojUuk-unsplash.jpg?resize=2000%2C1200&ssl=1',
+                'type' =>  'meeting',
+                'description' => 'مجرد وصف',
+                'price' => '50 ريال ',
+                'reservationNumber' => '212',
+                'rate' => '4.3 \\ 5 '
+                ]
+            ]
+        ];
+
+        return response()->json($api);
+    }
+
 }

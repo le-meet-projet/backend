@@ -108,10 +108,16 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     Route::group(['prefix' => '/v3'], function () {
-
+        
+        /// new api start
+        Route::post('/order/dates', 'ApiController@order_dates');
+        Route::post('/coupon/verify', 'ApiController@verify_coupon');
+        Route::post('/pay/secure', 'ApiController@pay_secure');
+        Route::post('/confirm/payment', 'ApiController@confirm_payment');
+        Route::post('/user/orders/list', 'ApiController@user_orders_list');        
+        // new api end
 
         Route::get('/check/auth', 'Auth\ApiAuthController@check');
-
 
         // AUTH ROUTES
         Route::post('register', 'Auth\ApiAuthController@register')->name('user.register');
@@ -155,8 +161,15 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::middleware('auth:api')->group(function () {
             Route::get('/favorite/list', 'ApiController\ApiFavoriteController@list');
             Route::post('/details', 'ApiController@getDetails');
+
+
             Route::post('/add/to/favorite', 'ApiController\ApiFavoriteController@add_to_favorite');
+            
             Route::post('/remove/from/favorite', 'ApiController\ApiFavoriteController@remove_from_favorite');
+            Route::post('/remove/many/from/favorite', 'ApiController\ApiFavoriteController@remove_many_from_favorite');
+
+
+
             // ADD THE SPACE TO THE USER FAVORITE
             Route::post('favorite/{space_id}/add', 'ApiController\ApiFavoriteController@add')->name('favorite.space.add');
             // DELETE THE FAVORITE
@@ -193,4 +206,5 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     });
 
 });
+
 

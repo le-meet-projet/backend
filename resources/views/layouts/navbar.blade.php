@@ -66,6 +66,25 @@
                             </li>
                         </ul>
                     </li>
+                    <li aria-haspopup="true">
+                        <a href="{{ route('admin.tables.index') }}" class="sub-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </svg>
+                            {{ __('الطاولات') }}
+                            <i class="fe fe-chevron-down horizontal-icon"></i>
+                        </a>
+                        <ul class="sub-menu">
+                            <li aria-haspopup="true">
+                                <a href="{{ route('admin.tables.index', ['type' => 'conference']) }}"
+                                   class="slide-item">{{ __('جميع الطاولات') }}</a>
+                            </li>
+                            <li aria-haspopup="true">
+                                <a href="{{ route('admin.tables.create', ['type' => 'conference']) }}"
+                                   class="slide-item">{{ __('إضافة طاولة جديدة') }}</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li aria-haspopup="true" style="display:none;">
                         <a href="{{ route('admin.workshops.index') }}" class="sub-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24"

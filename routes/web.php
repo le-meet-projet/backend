@@ -107,6 +107,16 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
 
 
     });
+
+    // Tables
+    Route::group(['prefix' => 'tables', 'as' => 'tables.'], function () {
+        Route::get('/', 'TableController@index')->name('index');
+        Route::get('/create', 'TableController@create')->name('create');
+        Route::get('/store', 'TableController@store')->name('store');
+        Route::get('/edit/{id}', 'TableController@edit')->name('edit');
+        Route::get('/update/{id}', 'TableController@update')->name('update');
+        Route::get('/delete/{id}', 'TableController@delete')->name('delete');
+    });
 });
 
 

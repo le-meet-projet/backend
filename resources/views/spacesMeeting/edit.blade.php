@@ -11,7 +11,7 @@
                     <div class="my-auto">
                         <div class="d-flex my-xl-auto right-content">
                             <div class="pr-1 mb-3 mb-xl-0">
-                                <a href="{{ route('admin.spaces.index') }}">
+                                <a href="{{ route('admin.spaces.index', ['type' => $content->type]) }}">
                                     <button type="button" class="btn btn-danger btn-icon mr-2"><i
                                             class="mdi mdi-arrow-left"></i></button>
                                 </a>
@@ -129,6 +129,16 @@
                                         </div>
                                         <div class="row row-xs align-items-center mg-b-20">
                                             <div class="col-md-4">
+                                                <label class="form-label mg-b-0">{{ __('IBAN') }}</label>
+                                            </div>
+                                            <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                                <input class="form-control" name="iban"
+                                                       placeholder="{{ __('IBAN ') }} " type="text" value="{{ $content->iban }}"
+                                                       required="required">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-4">
                                                 <label class="form-label mg-b-0">{{ __('Thumbnail') }}</label>
                                             </div>
                                             <div class="col-md-8 mg-t-5 mg-md-t-0">
@@ -240,7 +250,7 @@
                                                 <label
                                                     class="form-label mg-b-0">{{ __('Location') }}</label>
                                             </div>
-                                            <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                            <div class="col-md-8 mg-t-5 mg-md-t-0">                                            
                                                 <div id='map_canvas' style="height: 500px;"></div>
                                                 <div id="current"></div>
                                                 <input type="hidden" name="latitude" id="latitude" value="{{ $content->latitude }}">

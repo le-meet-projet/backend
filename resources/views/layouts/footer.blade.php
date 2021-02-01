@@ -88,8 +88,7 @@
 								 
 			@endif
 		</script>
-		<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places&amp;key=AIzaSyDwFc97AGfeqzqBmL2eVFxgeHm-CQNnvNM"></script>
-
+    	<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places&amp;key=AIzaSyDwFc97AGfeqzqBmL2eVFxgeHm-CQNnvNM"></script>
 		<script>
 		@if(isset($content))
 			var latitude = {{ $content->latitude }};

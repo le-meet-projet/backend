@@ -12,7 +12,7 @@ class QrCodeController extends Controller
     public function index(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'qr_code_content' => 'required | string '
+            'qr_code' => 'required | string '
         ]);
 
         if ($validator->fails()) {
@@ -24,7 +24,7 @@ class QrCodeController extends Controller
             return \response($api);
         }
 
-        $qr_arr = explode('-', $request['qr_code_content']);
+        $qr_arr = explode('-', $request['qr_code']);
         if (count($qr_arr) !== 3) {
             $api = [
                 'state' => false,
@@ -46,8 +46,8 @@ class QrCodeController extends Controller
         }
 
         $api = [
-            'id' => $type,
-            'type' => intval($qr_arr[2])
+            'id' => intval($qr_arr[2]),
+            'type' => $type
         ];
 
         return response()->json([

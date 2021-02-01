@@ -28,6 +28,7 @@ class MeetingTableFinal extends Migration
             $table->string('qrcode')->nullable()->default(null);
             $table->string('latitude')->nullable()->default(null);
             $table->string('longitude')->nullable()->default(null);
+            $table->string('iban')->nullable()->default(null);
             $table->string('type');
             $table->string('activity_type')->nullable()->default('NULL');
             $table->string('reservation_type')->nullable()->default('NULL');

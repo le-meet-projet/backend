@@ -127,6 +127,27 @@ class ApiFavoriteController extends Controller
         return \response($api);
     }
 
+    
+
+    public function remove_many_from_favorite(Request $request){
+     
+        $ids = json_decode($request->listIdsFavorites);
+        $favorites = Favorite::find($ids);
+        foreach($favorites as $item){
+            $item->delete();
+        }
+        
+
+        $api = [
+            'state' => true,
+            'message' => '',
+            'data' => [],
+        ];
+        return \response($api);
+    }
+
+
+
     public function remove_from_favorite(Request $request){
 
         $types = ['workshop','office','meeting','vacation'];
@@ -160,7 +181,7 @@ class ApiFavoriteController extends Controller
                 'message' => '',
                 'data' => [
                     'id' => $favorite->id,
-                    '$favorite' => $favorite->type
+                    'favorite' => $favorite->type
                 ]
             ];
             $favorite->delete();
