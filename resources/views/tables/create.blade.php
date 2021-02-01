@@ -44,7 +44,7 @@
                                             </div>
                                             <div class="col-md-8 mg-t-5 mg-md-t-0">
                                                 <input class="form-control" name="name"
-                                                       placeholder="{{ __('Space Name ') }} " type="text" required="">
+                                                       placeholder="{{ __('Table Name ') }} " type="text" required="">
                                             </div>
                                         </div>
                                         <div class="row row-xs align-items-center mg-b-20">
@@ -53,7 +53,7 @@
                                             </div>
                                             <div class="col-md-8 mg-t-5 mg-md-t-0">
                                                 <input class="form-control" name="address"
-                                                       placeholder="{{ __('Space Address ') }} " type="text"
+                                                       placeholder="{{ __('Table Address ') }} " type="text"
                                                        required="required">
                                             </div>
                                         </div>
@@ -90,7 +90,7 @@
                                             </div>
                                             <div class="col-md-8 mg-t-5 mg-md-t-0">
                                                 <input class="form-control" name="capacity"
-                                                       placeholder="{{ __('Space Capacity ') }} " type="number"
+                                                       placeholder="{{ __('Table Capacity ') }} " type="number"
                                                        required="required">
                                             </div>
                                         </div>
@@ -170,7 +170,7 @@
                                         </div>
                                         <div class="row row-xs align-items-center mg-b-20">
                                             <div class="col-md-4">
-                                                <label class="form-label mg-b-0">{{ __(' الفترة  ') }}</label>
+                                                <label class="form-label mg-b-0">{{ __('الفترة') }}</label>
                                             </div>
                                             <div class="col-md-8 mg-t-5 mg-md-t-0">
                                                 <select id="period" class="form-control" name="period" required>
