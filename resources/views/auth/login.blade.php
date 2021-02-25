@@ -96,19 +96,7 @@
                                                             </div>
                                                         </div>
                                                         <button class="btn btn-main-primary btn-block">{{ __('Login') }}</button>
-
-                                                        @if (Route::has('password.request'))
-                                                        <div class="main-signin-footer mt-5">
-                                                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                                                    {{ __('Forgot Your Password?') }}
-                                                                </a>
-                                                        </div>
-                                                    @endif
-
                                                     </form>
-
-
-
                                                 </div>
 											</div>
 										</div>
@@ -119,7 +107,6 @@
 					</div><!-- End -->
 				</div>
 			</div>
-
 		</div>
 		<!-- End Page -->
 
@@ -141,10 +128,8 @@
 		<!-- Rating js-->
 		<script src="../../assets/plugins/rating/jquery.rating-stars.js"></script>
 		<script src="../../assets/plugins/rating/jquery.barrating.js"></script>
-
 		<!-- custom js -->
 		<script src="../../assets/js/custom.js"></script>
-
 	</body>
 </html>
 

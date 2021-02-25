@@ -60,12 +60,25 @@
 												<label class="form-label mg-b-0">{{ __('Thumbnail') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												@if($content->thumbnail !== null)
+													<img width="50" src="{{ asset('brands/' . $content->thumbnail) }}" alt="">
+												@endif
 												<input class="form-control" name="thumbnail" placeholder="{{ __('Thumbnail') }}" type="file">
 											</div>
 										</div>
-										 
-																	
-								        
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Gallery') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												@if($content->gallery !== null && count(json_decode($content->gallery, true)) > 0)
+													@foreach(json_decode($content->gallery) as $image)
+														<img width="50" src="{{ asset('brands/' . $image) }}" alt="">
+													@endforeach
+												@endif
+												<input class="form-control" name="gallery[]" placeholder="{{ __('Gallery') }}" type="file" multiple>
+											</div>
+										</div>
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Description') }}</label>
@@ -73,7 +86,15 @@
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
 												<textarea class="form-control" name="description" placeholder=" " type="text" required="">{{ $content->description }}</textarea>  
 											</div>
-										</div>	 
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Files') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input class="form-control" name="files[]" placeholder="{{ __('Files') }}" type="file" multiple>
+											</div>
+										</div> 
 									</div>
 									<button type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Save Changes') }}</button>
 

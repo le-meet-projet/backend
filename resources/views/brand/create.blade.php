@@ -37,8 +37,6 @@
 										 {{ __('Add A New Brand') }}
 									</div>
 									<p class="mg-b-20">{{ __('All fields are required*') }} </p>
-									
-									 									
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Brand name  ') }}</label>
@@ -52,7 +50,7 @@
 												<label class="form-label mg-b-0">{{ __('Address') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" name="adress" placeholder="{{ __('Address') }} " type="text" required="">
+												<input class="form-control" name="address" placeholder="{{ __('Address') }} " type="text" required="">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -63,9 +61,14 @@
 												<input class="form-control" name="thumbnail" placeholder="{{ __('Thumbnail') }}" type="file">
 											</div>
 										</div>
-										 
-																	
-								        
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Gallery') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input class="form-control" name="gallery[]" placeholder="{{ __('Gallery') }}" type="file" multiple>
+											</div>
+										</div>
 										<div class="row row-xs align-items-center mg-b-20">
 											<div class="col-md-4">
 												<label class="form-label mg-b-0">{{ __('Description') }}</label>
@@ -73,7 +76,15 @@
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
 												<textarea class="form-control" name="description" placeholder=" " type="text" required=""></textarea>  
 											</div>
-										</div>	 
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Files') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input class="form-control" name="files[]" placeholder="{{ __('Files') }}" type="file" multiple>
+											</div>
+										</div>
 									</div>
 									<button type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Create New Brand') }}</button>
 

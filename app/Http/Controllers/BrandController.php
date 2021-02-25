@@ -52,10 +52,36 @@ class BrandController extends Controller
 
         $brand = new Brand;
         $brand->name = $request->input('name');
-        $brand->adress = $request->input('adress');
+        $brand->address = $request->input('address');
         $brand->description = $request->input('description');
-        if($request->hasFile('thumbnail')){
-            $brand->thumbnail = $request->thumbnail->store('thumbnails');
+
+        if ($request->hasFile('thumbnail')) {
+            $image = $request->file('thumbnail');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = \public_path('/brands');
+            $image->move($destinationPath, $name);
+            $brand->thumbnail = $name;
+
+        }
+
+        if ($request->hasFile('gallery')) {
+            $images = [];
+            foreach ($request->file('gallery') as $file) {
+                $name = $file->getClientOriginalName();
+                $file->move('brands/', $name);
+                $images[] = $name;
+            }
+            $brand->gallery = count($images) > 0 ? json_encode($images) : null;
+        }
+
+        if ($request->hasFile('files')) {
+            $files = [];
+            foreach ($request->file('files') as $file) {
+                $name = $file->getClientOriginalName();
+                $file->move('brands/files/', $name);
+                $files[] = $name;
+            }
+            $brand->gallery = count($images) > 0 ? json_encode($files) : null;
         }
 
         $brand->save();
@@ -97,8 +123,27 @@ class BrandController extends Controller
         if($request->hasFile('thumbnail')){
             $brand->thumbnail = $request->thumbnail->store('thumbnails');
         }
-     
-     
+
+        if ($request->hasFile('gallery')) {
+            $images = [];
+            foreach ($request->file('gallery') as $file) {
+                $name = $file->getClientOriginalName();
+                $file->move('brands/', $name);
+                $images[] = $name;
+            }
+            $brand->gallery = count($images) > 0 ? json_encode($files) : null;
+        }
+
+        if ($request->hasFile('files')) {
+            $files = [];
+            foreach ($request->file('files') as $file) {
+                $name = $file->getClientOriginalName();
+                $file->move('brands/files/', $name);
+                $files[] = $name;
+            }
+            $brand->gallery = count($images) > 0 ? json_encode($images) : null;
+        }
+
         $brand->save();
 
        // return redirect()->route('admin.users.index')->with('notification','User successfully updated');

@@ -17,8 +17,9 @@ class MeetingTableFinal extends Migration
         Schema::create('meetings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('id_brand');
-            $table->string('name')->nullable()->default('NULL');
-            $table->string('address')->nullable()->default('NULL');
+            $table->string('name')->nullable()->default(null);
+            $table->string('address')->nullable()->default(null);
+            $table->json('options')->nullable()->default(null);
             $table->float('price');
             $table->text('description');
             $table->text('map');
@@ -30,13 +31,10 @@ class MeetingTableFinal extends Migration
             $table->string('longitude')->nullable()->default(null);
             $table->string('iban')->nullable()->default(null);
             $table->string('type');
-            $table->string('activity_type')->nullable()->default('NULL');
-            $table->string('reservation_type')->nullable()->default('NULL');
-            $table->string('repetition_type')->nullable()->default('NULL');
-            $table->string('period')->nullable()->default('NULL');
-            $table->string('percent')->nullable()->default('NULL');
-            $table->string('ads')->nullable()->default('NULL');
-            $table->string('city')->nullable()->default('NULL');
+            $table->string('period')->nullable()->default(null);
+            $table->string('percent')->nullable()->default(null);
+            $table->string('ads')->nullable()->default(null);
+            $table->string('city')->nullable()->default(null);
             $table->date('date')->nullable();
             $table->time('time')->nullable();
             $table->string('capacity')->nullable();

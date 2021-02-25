@@ -137,7 +137,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::get('meeting/{id}/reviews', 'ApiController\ApiMeetingController@reviews')->name('spaces.meetings.reviews');
         Route::get('meeting/{id}', 'ApiController\ApiMeetingController@getMeeting')->name('spaces.meetings.getMeeting');
 
-
+        // SHARED TABLES
+        Route::get('shared_table', 'ApiController\ApiSharedTableController@index')->name('spaces.shared_table.index');
 
         // WORKSHOPS
         Route::get('workshop', 'ApiController\ApiWorkshopController@index')->name('spaces.workshop.index');

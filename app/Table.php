@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Table extends Model
 {
     use SoftDeletes;
+
+    public function favorite(){
+        return $this->belongsTo('App\Favorite','type_id'); 
+    }
 }

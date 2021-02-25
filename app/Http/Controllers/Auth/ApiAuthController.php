@@ -23,8 +23,8 @@ class ApiAuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required | string | max:255',
-            'email' => 'required | string | email | max:255 | unique:users',
-            'password' => 'required | string | min:6 ',
+            'email' => ' string | email | max:255 | unique:users',
+            'password' => 'string | min:6 ',
             'phone' => 'required | string | min:10 | max:15 | unique:users',
         ]);
 

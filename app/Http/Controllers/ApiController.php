@@ -12,6 +12,7 @@ use App\User;
 use App\Meeting;
 use App\Vacation;
 use App\Workshop;
+use App\Table;
 use Cartalyst\Stripe\Stripe;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -35,17 +36,48 @@ class ApiController extends Controller
 
     public function getDetails(Request $request){
        
-        $types = ['workshop','office','meeting','vacation'];
+        $types = ['workshop','office','meeting','vacation','shared_table'];
         
         $validator = \Validator::make($request->all(), [
             'type' => 'required|in:' . implode(',', $types),
             'id'   => 'required | numeric ',
         ]);
+
+        $ratings =  [
+            [
+                'starsNumber' => '5',
+                'rateLabel' => 'ممتاز جداً',
+                'name' => 'أحمد المطيري',
+                'date' => '2012-02-23',
+                'rateText'  => 'أنا ممتن لكم على الخدمات الراقية',
+            ],
+            [
+                'starsNumber' => '5',
+                'rateLabel' => 'ممتاز جداً',
+                'name' => 'أحمد المطيري',
+                'date' => '2012-02-23',
+                'rateText'  => 'أنا ممتن لكم على الخدمات الراقية',
+            ],
+            [
+                'starsNumber' => '5',
+                'rateLabel' => 'ممتاز جداً',
+                'name' => 'أحمد المطيري',
+                'date' => '2012-02-23',
+                'rateText'  => 'أنا ممتن لكم على الخدمات الراقية',
+            ],
+            [
+                'starsNumber' => '5',
+                'rateLabel' => 'ممتاز جداً',
+                'name' => 'أحمد المطيري',
+                'date' => '2012-02-23',
+                'rateText'  => 'أنا ممتن لكم على الخدمات الراقية',
+            ],
+        ];
        
        if ($validator->fails()) {
            $api = [
                'state' => false,
-               'message' => 'المعلومات غير صحيحة',
+               'message' => 'mmldldmldmldlm',
                'data' => [],
            ];
            return \response($api);
@@ -68,7 +100,11 @@ class ApiController extends Controller
             $result['latitude']  = $meeting->latitude;
             $result['longitude'] = $meeting->longitude;
             $result['zoom']      = 14.4746;
-            $result['ratings']   = [];
+            $result['ratings']   = [
+
+
+
+            ];
             
             $api = [
                 'state' => true,
@@ -173,6 +209,27 @@ class ApiController extends Controller
             
         }
 
+        if($type == 'shared_table') {
+            $table                  = Table::with('favorite')->where('id',$id)->first();
+            $favorite               = Favorite::where('type_id', $table->id)->where('type', 'table')->count();
+            $result                 = $this->helper->table($table);
+            $result['favorite']     = ($favorite != 0 ) ? true : false;
+            $result['content']      = $table->description;
+            $result['location']     = $table->address;
+            $result['latitude']     = $table->latitude;
+            $result['longitude']    = $table->longitude;
+            $result['zoom']         = 14.4746;
+            $result['ratings']      = $ratings;
+            
+            $api = [
+                'state' => true,
+                'message' => '',
+                'data' => $result
+            ];
+            return \response($api);
+
+        }
+
 
 
 
@@ -219,9 +276,26 @@ class ApiController extends Controller
             ];
             return \response($api);
         }
+
+        $generatedOtp =  rand(1111,9999);
         
-       
-        $generatedOtp =  '1234' ;//rand(1111,9999);
+        $apiUrl = "https://mapi.moreify.com/api/v1/sendSms";
+        $postParams = array(
+            'project' =>        'lemeet1253',
+            'password' =>       'a03aa7346dc2f9e6',
+            'phonenumber' =>    $phone,
+            'message' =>        'Your verification code is '.$generatedOtp,
+        );
+        
+        $curl = curl_init($apiUrl);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $postParams);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+        $response = curl_exec($curl);
+
+
+    
         $api = [
             'state' => true,
             'message' => '',
@@ -1045,8 +1119,8 @@ class ApiController extends Controller
     }
     // END USER FUNCTIONS
 
-    public function order_dates() {
-
+    public function order_dates(Request $request) {
+        $type = $request->type;
         /*
         *
         *   to do : 
@@ -1078,22 +1152,8 @@ class ApiController extends Controller
             'Nov' => 'نونبر',
             'Dec' => 'دجنبر',
         ];
-        
-        for($i = 0; $i < 7; $i++) {
 
-            $date = (Carbon::now())->addDays($i);
-            $month = date_format($date, 'M');
-            $day = date_format($date, 'D');
-
-            $reservation_dates['reservation_dates'][] = [
-                'id' => date_format($date, 'y-m-d'),
-                'month' => $arMonths[$month],
-                'day' => $arDays[$day],
-                'active' => false
-            ];
-        }
-
-        $reservation_dates['reservation_times'] = [
+        $reservation_times = [
             [
                 'from' => 'من : 09:00 ص',
                 'to' => 'الى : 10:00 ص',
@@ -1135,14 +1195,48 @@ class ApiController extends Controller
                 'active' => false,
             ]
         ];
+        
+        if($type == 'shared_table'){
+            for($i = 0; $i < 4; $i++) {
+                $reservation_dates['chairs_numbers'][] = [
+                    'number' => $i,
+                    'active' => false,
+                ];
+            }
+        }
+        
+        for($i = 0; $i < 7; $i++) {
 
+            $date = (Carbon::now())->addDays($i);
+            $month = date_format($date, 'M');
+            $day = date_format($date, 'D');
 
+            if($type == 'shared_table'){
+                $reservation_dates['reservation_dates'][] = [
+                    'date' => date_format($date, 'y-m-d'),
+                    'day' => $arDays[$day],
+                    'month' => $arMonths[$month],
+                    'active' => false,
+                    'times' => $reservation_times,
+                    'reserved_chairs' => ['1', '2', '3']
+                ];
+            }else{
+                $reservation_dates['reservation_dates'][] = [
+                    'date' => date_format($date, 'y-m-d'),
+                    'day' => $arDays[$day],
+                    'month' => $arMonths[$month],
+                    'active' => false,
+                    'times' => $reservation_times
+                ];
+            }
+        }
 
         $api = [
             'state' => true,
             'message' => '',
             'data' => $reservation_dates,
         ];
+        
         return response()->json($api);
     }
 

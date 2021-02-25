@@ -63,24 +63,9 @@
                                             </div>
                                             <div class="col-md-8 mg-t-5 mg-md-t-0">
                                                 <select id="city" class="form-control" name="city" required>
-                                                    <option value="Abha">{{ __('Abha') }}</option>
-                                                    <option value="Ad-Dilam">{{ __('Ad-Dilam') }}</option>
-                                                    <option value="Al-Abwa">{{ __('Al-Abwa') }}</option>
-                                                    <option value="Al Artaweeiyah">{{ __('Al Artaweeiyah') }}</option>
-                                                    <option value="Al Bukayriyah">{{ __('Al Bukayriyah') }}</option>
-                                                    <option value="Badr">{{ __('Badr') }}</option>
-                                                    <option value="Baljurashi">{{ __('Baljurashi') }}</option>
-                                                    <option value="Bisha">{{ __('Bisha') }}</option>
-                                                    <option value="Bareg">{{ __('Bareg') }}</option>
-                                                    <option value="Buraydah">{{ __('Buraydah') }}</option>
-                                                    <option value="Al Bahah">{{ __('Al Bahah') }}</option>
-                                                    <option value="Dammam">{{ __('Dammam') }}</option>
-                                                    <option value="Dhahran">{{ __('Dhahran') }}</option>
-                                                    <option value="Dhurma">{{ __('Dhurma') }}</option>
-                                                    <option value="Dahaban">{{ __('Dahaban') }}</option>
-                                                    <option value="Diriyah">{{ __('Diriyah') }}</option>
-                                                    <option value="Duba">{{ __('Duba') }}</option>
-                                                    <option value="Dumat Al-Jandal">{{ __('Dumat Al-Jandal') }}</option>
+                                                    <option value="riad">الرياض</option>
+                                                    <option value="jaddah">جدة</option>
+                                                    <option value="damam">الدمام</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -153,6 +138,38 @@
                                                         <option value="{{$brand->id}}">{{$brand->name}}</option>
                                                     @endforeach
                                                 </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-4">
+                                                <label class="form-label mg-b-0">{{ __('الخصائص') }}</label>
+                                            </div>
+                                            <div class="col-md-8 mg-t-5 mg-md-t-0 d-flex justify-content-between">
+                                                <div class="form-group form-check">
+                                                    <input type="checkbox" class="form-check-input" name="properties[]" id="wifi" value="wifi">
+                                                    <label class="form-check-label" for="wifi">ويفي</label>
+                                                </div>
+                                                <div class="form-group form-check">
+                                                    <input type="checkbox" class="form-check-input" name="properties[]" id="display" value="display_screen">
+                                                    <label class="form-check-label" for="display">شاشة عرض</label>
+                                                </div>
+                                                <div class="form-group form-check">
+                                                    <input type="checkbox" class="form-check-input" name="properties[]" id="conditioner" value="conditioner">
+                                                    <label class="form-check-label" for="conditioner">مكيف</label>
+                                                </div>
+                                                <div class="form-group form-check">
+                                                    <input type="checkbox" class="form-check-input" name="properties[]" id="blackboard" value="blackboard">
+                                                    <label class="form-check-label" for="blackboard">سبورة</label>
+                                                </div>
+                                                <div class="form-group form-check">
+                                                    <input type="checkbox" class="form-check-input" name="properties[]" id="speaker" value="speaker">
+                                                    <label class="form-check-label" for="speaker">مكبر صوت</label>
+                                                </div>
+                                                <div class="form-group form-check">
+                                                    <input type="checkbox" class="form-check-input" name="properties[]" id="presentation_tools" value="presentation_tools">
+                                                    <label class="form-check-label" for="presentation_tools">أدوات العروض</label>
+                                                </div>                                                 
                                             </div>
                                         </div>
                                         <div class="row row-xs align-items-center mg-b-20">

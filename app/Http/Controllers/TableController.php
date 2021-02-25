@@ -45,10 +45,8 @@ class TableController extends Controller
         $table->address = $request->address;
         $table->city = $request->city;
         $table->capacity = $request->capacity;
+        $table->options = json_encode($request->properties);
         $table->price = $request->price;
-        $table->period = $request->period;
-        $table->activity_type = $request->activity_type;
-        $table->activity_type = $request->activity_type;
         $table->percent = $request->percent;
         $table->iban = $request->iban;
         $table->description = $request->description;
@@ -113,10 +111,8 @@ class TableController extends Controller
         $table->address = $request->address;
         $table->city = $request->city;
         $table->capacity = $request->capacity;
+        $table->options = json_encode($request->properties);
         $table->price = $request->price;
-        $table->period = $request->period;
-        $table->activity_type = $request->activity_type;
-        $table->activity_type = $request->activity_type;
         $table->percent = $request->percent;
         $table->iban = $request->iban;
         $table->description = $request->description;

@@ -62,10 +62,8 @@ class SpaceController extends Controller
         $space->address = $request->address;
         $space->city = $request->city;
         $space->capacity = $request->capacity;
+        $space->options = json_encode($request->properties);
         $space->price = $request->price;
-        $space->period = $request->period;
-        $space->activity_type = $request->activity_type;
-        $space->activity_type = $request->activity_type;
         $space->percent = $request->percent;
         $space->iban = $request->iban;
         $space->description = $request->description;
@@ -142,7 +140,6 @@ class SpaceController extends Controller
     public function update(Request $request, $id)
     {
         $space = Meeting::find($id);
-        $space->type = $request->type_space;
         if ($request->hasFile('thumbnail')) {
             $image = $request->file('thumbnail');
             $name = time() . '.' . $image->getClientOriginalExtension();
@@ -156,16 +153,12 @@ class SpaceController extends Controller
         $space->address = $request->address;
         $space->city = $request->city;
         $space->capacity = $request->capacity;
+        $space->options = json_encode($request->properties);
         $space->price = $request->price;
-        $space->period = $request->period;
-        $space->activity_type = $request->activity_type;
-        $space->activity_type = $request->activity_type;
         $space->percent = $request->percent;
         $space->longitude = $request->longitude;
         $space->latitude = $request->latitude;
-        $space->iban = $request->iban;
-
-        $space->type = "meeting";
+        $space->iban = $request->iban;  
         if ($request->has('ads')) {
             $space->ads = 'yes';
         } else {
@@ -179,10 +172,10 @@ class SpaceController extends Controller
                 $images[] = $name;
             }
             $space->gallery = json_encode($images);
-        }
+        }   
         $space->save();
         Session::flash('statuscode', 'info');
-        return redirect()->route('admin.spaces.index')->with('status', 'Space Updated');
+        return redirect()->route('admin.spaces.index', ['type' => $space->type])->with('status', 'Space Updated');
 
     }
 

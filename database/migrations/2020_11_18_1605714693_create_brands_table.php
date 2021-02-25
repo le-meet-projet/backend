@@ -11,11 +11,12 @@ class CreateBrandsTable extends Migration
         Schema::create('brands', function (Blueprint $table) {
 
 		$table->bigIncrements('id');
-		$table->string('name')->nullable()->default('NULL');
-		$table->text('adress');
+		$table->string('name')->nullable()->default(null);
+		$table->text('address');
 		$table->text('description');
-		$table->string('thumbnail')->nullable()->default('NULL');
-		$table->string('gallery')->nullable()->default('NULL');
+		$table->string('thumbnail')->nullable()->default(null);
+		$table->json('gallery')->nullable()->default(null);
+		$table->json('files')->nullable()->default(null);
 		$table->timestamps();
 		$table->timestamp('deleted_at')->nullable();
 
