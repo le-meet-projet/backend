@@ -108,10 +108,9 @@
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
 												<select name="type" class="form-control">
 													<option value="" hidden>Not selected</option>
-													<option value="hotel">Hotel</option>
-													<option value="restaurant">Restaurant</option>
-													<option value="workspace">Workspace</option>
-													<option value="coffee">Coffee</option>
+													@foreach (\App\Brand::$types as $type)
+														<option value="{{ $type }}">{{ ucfirst($type) }}</option>
+													@endforeach
 												</select>
 											</div>
 										</div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Brand;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ class AddIbanBankTypeToBrandsTable extends Migration
         Schema::table('brands', function (Blueprint $table) {
             $table->string('iban')->nullable()->after('files');
             $table->string('bank')->nullable()->after('iban');
-            $table->enum('type', ['hotel', 'restaurant', 'workspace', 'coffee'])->nullable()->after('bank');
+            $table->enum('type', Brand::$types)->nullable()->after('bank');
         });
     }
 
