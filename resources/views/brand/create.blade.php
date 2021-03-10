@@ -27,7 +27,7 @@
 					</div>
 					<!-- breadcrumb -->		 
 					<!-- row -->
-					<form method="POST" action="{{ route('admin.brand.store') }}" enctype="multipart/form-data">
+				<form method="POST" action="{{ route('admin.brand.store') }}" enctype="multipart/form-data">
 					@csrf
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
@@ -83,6 +83,35 @@
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
 												<input class="form-control" name="files[]" placeholder="{{ __('Files') }}" type="file" multiple>
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('IBAN') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input class="form-control" name="iban" placeholder="{{ __('IBAN') }} " type="text" required="">
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Bank') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input class="form-control" name="bank" placeholder="{{ __('Bank') }} " type="text" required="">
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Type') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<select name="type" class="form-control">
+													<option value="hotel">Hotel</option>
+													<option value="restaurant">Restaurant</option>
+													<option value="workspace">Workspace</option>
+													<option value="coffee">Coffee</option>
+												</select>
 											</div>
 										</div>
 									</div>

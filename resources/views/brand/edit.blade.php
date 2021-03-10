@@ -52,7 +52,7 @@
 												<label class="form-label mg-b-0">{{ __('Address') }}</label>
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
-												<input class="form-control" name="adress" placeholder="{{ __('Address') }} " type="text" required="" value="{{$content->adress}}">
+												<input class="form-control" name="address" placeholder="{{ __('Address') }} " type="text" required="" value="{{$content->address}}">
 											</div>
 										</div>
 										<div class="row row-xs align-items-center mg-b-20">
@@ -94,7 +94,36 @@
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
 												<input class="form-control" name="files[]" placeholder="{{ __('Files') }}" type="file" multiple>
 											</div>
-										</div> 
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('IBAN') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input class="form-control" name="iban" placeholder="{{ __('IBAN') }} " type="text" value="{{ $content->iban }}" required="">
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Bank') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<input class="form-control" name="bank" placeholder="{{ __('Bank') }} " type="text" value="{{ $content->bank }}" required="">
+											</div>
+										</div>
+										<div class="row row-xs align-items-center mg-b-20">
+											<div class="col-md-4">
+												<label class="form-label mg-b-0">{{ __('Type') }}</label>
+											</div>
+											<div class="col-md-8 mg-t-5 mg-md-t-0">
+												<select name="type" class="form-control">
+													<option value="hotel" {{ $content->type == 'hotel' ? 'selected':'' }}>Hotel</option>
+													<option value="restaurant" {{ $content->type == 'restaurant' ? 'selected':'' }}>Restaurant</option>
+													<option value="workspace" {{ $content->type == 'workspace' ? 'selected':'' }}>Workspace</option>
+													<option value="coffee" {{ $content->type == 'coffee' ? 'selected':'' }}>Coffee</option>
+												</select>
+											</div>
+										</div>
 									</div>
 									<button type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5 btn-block">{{ __('Save Changes') }}</button>
 

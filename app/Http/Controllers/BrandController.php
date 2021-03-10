@@ -84,6 +84,10 @@ class BrandController extends Controller
             $brand->gallery = count($images) > 0 ? json_encode($files) : null;
         }
 
+        $brand->iban = $request->input('iban');
+        $brand->bank = $request->input('bank');
+        $brand->type = $request->input('type');
+
         $brand->save();
 
         Session::flash('statuscode','success');
@@ -118,7 +122,7 @@ class BrandController extends Controller
         $brand = Brand::find($id);
 
         $brand->name     = $request->name;
-        $brand->adress    = $request->adress;
+        $brand->address    = $request->address;
         $brand->description    = $request->description;
         if($request->hasFile('thumbnail')){
             $brand->thumbnail = $request->thumbnail->store('thumbnails');
@@ -143,6 +147,10 @@ class BrandController extends Controller
             }
             $brand->gallery = count($images) > 0 ? json_encode($images) : null;
         }
+
+        $brand->iban = $request->iban;
+        $brand->bank = $request->bank;
+        $brand->type = $request->type;
 
         $brand->save();
 
