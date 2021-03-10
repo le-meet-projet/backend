@@ -70,30 +70,17 @@ class ApiAuthController extends Controller
 
         $logins = $request->validate([
             'phone' => 'required | string | min:8 | max:15',
-            'password' => 'required | string ',
         ]);
 
-        $password = $request['password'];
         $phone = $request['phone'];
-
-
         
         $user = User::where(['phone' => $phone])->first();
 
-      
-
-        $check = false;
-        if($user){
-            $check = Hash::check($password, $user->password);
-        }
-
-        if($check == false){
- 
+        if(!$user){
             $api = [
                 'success' => false,
                 'message' => 'المعلومات خاطئة ! المرجوا المحاولة من جديد',
             ];
-
             return response($api);
         }
 

@@ -26,18 +26,19 @@ use Carbon\Carbon;
 class ApiController extends Controller
 {
 
-    public $helper ;
+    public $helper;
 
-    public function __construct(){
-        
+    public function __construct()
+    {
+
         $this->helper = new \App\Helpers\Api();
-        
     }
 
-    public function getDetails(Request $request){
-       
-        $types = ['workshop','office','meeting','vacation','shared_table'];
-        
+    public function getDetails(Request $request)
+    {
+
+        $types = ['workshop', 'office', 'meeting', 'vacation', 'shared_table'];
+
         $validator = \Validator::make($request->all(), [
             'type' => 'required|in:' . implode(',', $types),
             'id'   => 'required | numeric ',
@@ -73,58 +74,65 @@ class ApiController extends Controller
                 'rateText'  => 'أنا ممتن لكم على الخدمات الراقية',
             ],
         ];
-       
-       if ($validator->fails()) {
-           $api = [
-               'state' => false,
-               'message' => 'mmldldmldmldlm',
-               'data' => [],
-           ];
-           return \response($api);
-       }
+
+        if ($validator->fails()) {
+            $api = [
+                'state' => false,
+                'message' => $validator->errors()->first(),
+                'data' => [],
+            ];
+            return \response($api);
+        }
 
 
 
         $type = $request->type;
         $id   = $request->id;
 
-        if($type == 'meeting') {
+        if ($type == 'meeting') {
 
-            $meeting = Meeting::with('favorite')->where('id',$id)->first();
-            $user_id = \Auth::user()->id;
-            $favorite = Favorite::where('type_id',$meeting->id)->where('user_id',$user_id)->where('type','meeting')->count();
+            $meeting = Meeting::with('favorite')->where('id', $id)->first();
+
+            $favorite = 0;
+            if (Auth::check()) {
+                $user_id = \Auth::user()->id;
+                $favorite = Favorite::where('type_id', $meeting->id)->where('user_id', $user_id)->where('type', 'meeting')->count();
+            }
+
+
+
             $result = $this->helper->conference($meeting);
-            $result['favorite']  = ($favorite != 0 ) ? true : false;
+            $result['favorite']  = ($favorite != 0) ? true : false;
             $result['content']   = $meeting->description;
             $result['location']   = $meeting->address;
             $result['latitude']  = $meeting->latitude;
             $result['longitude'] = $meeting->longitude;
             $result['zoom']      = 14.4746;
-            $result['ratings']   = [
+            $result['ratings']   = [];
 
-
-
-            ];
-            
             $api = [
                 'state' => true,
                 'message' => '',
                 'data' => $result
             ];
             return \response($api);
-
         }
 
 
 
-        if($type == 'office') {
+        if ($type == 'office') {
 
-            $meeting = Meeting::with('favorite')->where('id',$id)->first();
-            $user_id = \Auth::user()->id;
-            
-            $favorite = Favorite::where('type_id',$meeting->id)->where('user_id',$user_id)->where('type','office')->count();
+            $meeting = Meeting::with('favorite')->where('id', $id)->first();
+
+
+            $favorite = 0;
+            if (Auth::check()) {
+                $user_id = \Auth::user()->id;
+                $favorite = Favorite::where('type_id', $meeting->id)->where('user_id', $user_id)->where('type', 'office')->count();
+            }
+
             $result = $this->helper->conference($meeting);
-            $result['favorite']  = ($favorite != 0 ) ? true : false;
+            $result['favorite']  = ($favorite != 0) ? true : false;
             $result['content']   = $meeting->description;
             $result['location']   = $meeting->address;
             $result['place']      = $result['roomName'];
@@ -132,28 +140,33 @@ class ApiController extends Controller
             $result['longitude'] = $meeting->longitude;
             $result['zoom']      = 14.4746;
             $result['ratings']   = [];
-            
+
             $api = [
                 'state' => true,
                 'message' => '',
                 'data' => $result
             ];
             return \response($api);
-            
         }
 
 
-        
 
-        if($type == 'vacation') {
 
-            $vacation =  Vacation::where('id',$id)->first();
-            $user_id = \Auth::user()->id;
-            
-            
-            $favorite = Favorite::where('type_id',$vacation->id)->where('user_id',$user_id)->where('type','vacation')->count();
+        if ($type == 'vacation') {
+
+            $vacation =  Vacation::where('id', $id)->first();
+
+
+
+            $favorite = 0;
+            if (Auth::check()) {
+                $user_id = \Auth::user()->id;
+                $favorite = Favorite::where('type_id', $vacation->id)->where('user_id', $user_id)->where('type', 'vacation')->count();
+            }
+
+
             $result = $this->helper->vacation($vacation);
-            $result['favorite']  = ($favorite != 0 ) ? true : false;
+            $result['favorite']  = ($favorite != 0) ? true : false;
             $result['content']   = $vacation->description;
             $result['location']   = $vacation->address;
             $result['latitude']  = 30.393496;
@@ -163,29 +176,37 @@ class ApiController extends Controller
             $result['date']      = 'الخميس - 5 نوفمبر';
             $result['activityType']      = 'حركي';
             $result['participationType']      = 'فردي';
-            
+
 
             $result['ratings']   = [];
 
-            
+
             $api = [
                 'state' => true,
                 'message' => '',
                 'data' => $result
             ];
             return \response($api);
-            
         }
 
 
-        
 
-        if($type == 'workshop') {
 
-            $vacation =  Workshop::where('id',$id)->first();
-            $favorite = Favorite::where('type_id',$vacation->id)->where('type','workshop')->count();
+        if ($type == 'workshop') {
+
+            $vacation =  Workshop::where('id', $id)->first();
+
+
+
+            $favorite = 0;
+            if (Auth::check()) {
+                $user_id = \Auth::user()->id;
+                $favorite = Favorite::where('type_id', $vacation->id)->where('type', 'workshop')->count();
+            }
+
+
             $result = $this->helper->vacation($vacation);
-            $result['favorite']  = ($favorite != 0 ) ? true : false;
+            $result['favorite']  = ($favorite != 0) ? true : false;
             $result['content']   = $vacation->description;
             $result['location']   = $vacation->address;
             $result['latitude']  = 30.393496;
@@ -195,45 +216,45 @@ class ApiController extends Controller
             $result['date']      = 'الخميس - 5 نوفمبر';
             $result['activityType']      = 'حركي';
             $result['participationType']      = 'فردي';
-            
+
 
             $result['ratings']   = [];
 
-            
+
             $api = [
                 'state' => true,
                 'message' => '',
                 'data' => $result
             ];
             return \response($api);
-            
         }
 
-        if($type == 'shared_table') {
-            $table                  = Table::with('favorite')->where('id',$id)->first();
-            $favorite               = Favorite::where('type_id', $table->id)->where('type', 'table')->count();
+        if ($type == 'shared_table') {
+
+            $table   =  Table::with('favorite')->where('id', $id)->first();
+
+            $favorite = 0;
+            if (Auth::check()) {
+                $user_id = \Auth::user()->id;
+                $favorite               = Favorite::where('type_id', $table->id)->where('user_id', $user_id)->where('type', 'table')->count();
+            }
+
             $result                 = $this->helper->table($table);
-            $result['favorite']     = ($favorite != 0 ) ? true : false;
+            $result['favorite']     = ($favorite != 0) ? true : false;
             $result['content']      = $table->description;
             $result['location']     = $table->address;
             $result['latitude']     = $table->latitude;
             $result['longitude']    = $table->longitude;
             $result['zoom']         = 14.4746;
             $result['ratings']      = $ratings;
-            
+
             $api = [
                 'state' => true,
                 'message' => '',
                 'data' => $result
             ];
             return \response($api);
-
         }
-
-
-
-
-
     }
 
 
@@ -250,11 +271,11 @@ class ApiController extends Controller
      */
     public function otpConfirm(Request $request)
     {
-          
+
         $validator = \Validator::make($request->all(), [
-             'phone' => 'required | string | max:15 | min:10'
+            'phone' => 'required | string | max:15 | min:10'
         ]);
-        
+
         if ($validator->fails()) {
             $api = [
                 'state' => false,
@@ -265,37 +286,31 @@ class ApiController extends Controller
         }
 
         $phone = $request['phone'];
-
-        $user = User::where(['phone' => $phone])->first();
-
-        if ( $user ) {
-            $api = [
-                'state' => false,
-                'message' => 'The phone number is already exists !',
-                'data' => [],
-            ];
-            return \response($api);
-        }
-
-        $generatedOtp =  rand(1111,9999);
+    
+        $generatedOtp =  rand(1111, 9999);
         
+        /*
+        $generatedOtp =  123456;
+        */
+
         $apiUrl = "https://mapi.moreify.com/api/v1/sendSms";
         $postParams = array(
             'project' =>        'lemeet1253',
             'password' =>       'a03aa7346dc2f9e6',
             'phonenumber' =>    $phone,
-            'message' =>        'Your verification code is '.$generatedOtp,
+            'message' =>        'Your verification code is ' . $generatedOtp,
         );
-        
+       
+
         $curl = curl_init($apiUrl);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $postParams);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
         $response = curl_exec($curl);
+        
 
 
-    
         $api = [
             'state' => true,
             'message' => '',
@@ -303,7 +318,7 @@ class ApiController extends Controller
                 'otp' => $generatedOtp,
             ],
         ];
-        
+
         return \response($api);
     }
     // OTP CONFIRMATION
@@ -328,10 +343,9 @@ class ApiController extends Controller
     public function createSpace(Request $request)
     {
         $space = Space::where(['name' => $request['name']])->withTrashed()->first();
-        if ( $space !== null ) {
+        if ($space !== null) {
             $space->restore();
-        }
-        else {
+        } else {
             $this->validateSpaceOrderRequest($request);
 
             $space = new Space();
@@ -362,7 +376,7 @@ class ApiController extends Controller
     public function spaceOrderDetails(int $id)
     {
         $order = Order::where(['space_id' => $id])->get()->toArray();
-        if ( count($order) === 0 ) return response(['error' => 'nothing found'], 404);
+        if (count($order) === 0) return response(['error' => 'nothing found'], 404);
         $response = ['Orders' => $order];
         return response($response);
     }
@@ -383,7 +397,7 @@ class ApiController extends Controller
     public function deleteSpace(int $id)
     {
         $space = Space::find($id);
-        if ( null === $space ) return response(['error' => 'Not found'], 404);
+        if (null === $space) return response(['error' => 'Not found'], 404);
 
         $space->delete();
 
@@ -399,7 +413,7 @@ class ApiController extends Controller
     public function updateSpace(Request $request, int $id)
     {
         $space = Space::find($id);
-        if ( null === $space ) return response(['error' => 'Not found'], 404);
+        if (null === $space) return response(['error' => 'Not found'], 404);
         $this->validateSpaceOrderRequest($request);
 
         $space = new Space();
@@ -447,11 +461,11 @@ class ApiController extends Controller
         $user_id = Auth::user()->id;
         $space = Space::find($id);
         $favorite = Favorite::where(['user_id' => $user_id, 'space_id' => $id])->first();
-        if ( null === $space ) return response(['error' => 'Not found'], 404);
-        if ( null !== $favorite ) return response(['error' => 'The space is already in your favorite !']);
+        if (null === $space) return response(['error' => 'Not found'], 404);
+        if (null !== $favorite) return response(['error' => 'The space is already in your favorite !']);
 
         $favorite = Favorite::where(['user_id' => $user_id, 'space_id' => $id])->withTrashed();
-        if ( $favorite !== null ) {
+        if ($favorite !== null) {
             $favorite->restore();
 
             $response = ['message' => 'The space was added to your favorite with success !'];
@@ -470,7 +484,7 @@ class ApiController extends Controller
     {
         $user_id = Auth::user()->id;
         $favorite = Favorite::where(['user_id' => $user_id, 'space_id' => $id])->first();
-        if ( null === $favorite ) return response(['error' => 'The favorite does not exists !']);
+        if (null === $favorite) return response(['error' => 'The favorite does not exists !']);
 
         $favorite->delete();
         $response = ['message' => 'The favorite was deleted with success !'];
@@ -486,7 +500,7 @@ class ApiController extends Controller
     {
         $user_id = Auth::user()->id;
         $space = Space::find($id);
-        if ( $space === null ) return response(['error' => 'Not found'], 404);
+        if ($space === null) return response(['error' => 'Not found'], 404);
 
         $review = new Review();
         $rating = new Rating();
@@ -506,7 +520,7 @@ class ApiController extends Controller
         $review->value = $request['review_value'];
 
         $rating->save();
-        if ( $review->value !== null ) $review->save();
+        if ($review->value !== null) $review->save();
 
         return response(['message' => 'The rating was added with success !'], 200);
     }
@@ -525,14 +539,14 @@ class ApiController extends Controller
         ]);
 
         $user_id = (int) $request['user_id'];
-        if ( User::find($user_id) === null or $request['user_id'] === Auth::user()->id ) return \response(['error' => 'User not found !'], 404);
+        if (User::find($user_id) === null or $request['user_id'] === Auth::user()->id) return \response(['error' => 'User not found !'], 404);
 
         $space = Space::find($id);
-        if ( null === $space ) return response(['message' => 'Space not found', 404]);
+        if (null === $space) return response(['message' => 'Space not found', 404]);
 
         $invitation = Invitation::where(['user_id' => $user_id, 'creator_id' => Auth::user()->id])->withTrashed()->first();
 
-        if ( $invitation === null )
+        if ($invitation === null)
             $invitation = new Invitation();
         else
             $invitation->restore();
@@ -553,7 +567,7 @@ class ApiController extends Controller
     public function editInvitation(int $id)
     {
         $invitation = Invitation::where(['id' => $id, 'creator_id' => Auth::user()->id])->first();
-        if ( $invitation === null ) return response(['error' => 'Invitation was not found']);
+        if ($invitation === null) return response(['error' => 'Invitation was not found']);
         $response = ['Invitation' => $invitation];
         return response($response);
     }
@@ -566,7 +580,7 @@ class ApiController extends Controller
     public function updateInvitation(Request $request, int $id)
     {
         $invitation = Invitation::where(['id' => $id, 'creator_id' => Auth::user()->id])->first();
-        if ( $invitation === null ) return response(['error' => 'The invitation was not found !'], 404);
+        if ($invitation === null) return response(['error' => 'The invitation was not found !'], 404);
 
         $request->validate([
             'user_id' => 'required',
@@ -575,8 +589,8 @@ class ApiController extends Controller
 
         $request['user_id'] = (int) $request['user_id'];
         $request['space_id'] = (int) $request['space_id'];
-        if ( User::find($request['user_id']) === null or $request['user_id'] === Auth::user()->id ) return response(['error' => 'User was not found !']);
-        if ( Space::find($request['space_id']) === null ) return response(['error' => 'Space was not found !']);
+        if (User::find($request['user_id']) === null or $request['user_id'] === Auth::user()->id) return response(['error' => 'User was not found !']);
+        if (Space::find($request['space_id']) === null) return response(['error' => 'Space was not found !']);
 
         $invitation->user_id = $request['user_id'];
         $invitation->space_id = $request['space_id'];
@@ -593,9 +607,9 @@ class ApiController extends Controller
     public function deleteInvitation(int $id)
     {
         $invitation = Invitation::find($id);
-        if ( null === $invitation ) return response(['error' => 'The invitation was not found !'], 404);
+        if (null === $invitation) return response(['error' => 'The invitation was not found !'], 404);
 
-        if ( Auth::user()->id !== $invitation->creator()->first()->id ) return response(['error' => 'Unauthorized'], 403);
+        if (Auth::user()->id !== $invitation->creator()->first()->id) return response(['error' => 'Unauthorized'], 403);
 
         $invitation->delete();
         return response(['message' => 'The invitation was deleted with success'], 200);
@@ -604,22 +618,22 @@ class ApiController extends Controller
     public function acceptOrDenyInvitation(Request $request, int $id)
     {
         $invitation = Invitation::where(['id' => $id, 'date' => null])->first();
-        if ( $invitation === null ) return response(['error' => 'The invitation was not found '], 404);
+        if ($invitation === null) return response(['error' => 'The invitation was not found '], 404);
 
-        if ( $invitation->user()->first()->id !== Auth::user()->id ) return response(['error' => 'Unauthorized'], 403);
+        if ($invitation->user()->first()->id !== Auth::user()->id) return response(['error' => 'Unauthorized'], 403);
 
         $request->validate([
             'action' => 'required | string | max:255',
         ]);
 
-        if ( $request['action'] !== 'accept' and $request['action'] !== 'deny' ) return response(['error' => 'Action not defined'], 404);
-        elseif ( $request['action'] === 'accept' ) $invitation->accepted = true;
+        if ($request['action'] !== 'accept' and $request['action'] !== 'deny') return response(['error' => 'Action not defined'], 404);
+        elseif ($request['action'] === 'accept') $invitation->accepted = true;
         else $invitation->accepted = false;
 
         $invitation->date = new \DateTimeImmutable();
         $invitation->save();
 
-        if ( $request['action'] === 'deny' )
+        if ($request['action'] === 'deny')
             return response(['message' => 'You are denied the invitation'], 200);
 
         return response(['message' => 'You are accepted the invitation'], 200);
@@ -631,7 +645,7 @@ class ApiController extends Controller
     public function getMeetingSpaces()
     {
         $meeting_spaces = Space::where(['type' => 'meeting'])->get();
-        if ( $meeting_spaces === null ) return \response(['error' => 'No meeting spaces found'], 404);
+        if ($meeting_spaces === null) return \response(['error' => 'No meeting spaces found'], 404);
         return response(['meetings_spaces' => $meeting_spaces]);
     }
 
@@ -641,7 +655,7 @@ class ApiController extends Controller
      */
     public function sortMeetingSpaces(Request $request)
     {
-        if ( count($this->sortSpace($request, 'meeting')) === 0 ) return response(['error' => 'No spaces found !']);
+        if (count($this->sortSpace($request, 'meeting')) === 0) return response(['error' => 'No spaces found !']);
         return response(['meeting_spaces' => $this->sortSpace($request, 'meeting')]);
     }
 
@@ -661,17 +675,17 @@ class ApiController extends Controller
     public function getMeetingId(int $id)
     {
         $meeting_space = Space::where(['id' => $id, 'type' => 'meeting'])->first();
-        if ( $meeting_space === null ) return response(['error' => 'Space not found !'], 404);
+        if ($meeting_space === null) return response(['error' => 'Space not found !'], 404);
         return response(['meeting_space' => $meeting_space]);
     }
 
     public function getMeetingReviews(int $id)
     {
         $meeting_space = Space::where(['type' => 'meeting', 'id' => $id])->first();
-        if ( $meeting_space === null ) return response(['error' => 'Space not found !'], 404);
+        if ($meeting_space === null) return response(['error' => 'Space not found !'], 404);
 
         $reviews = $meeting_space->reviews()->get();
-        if ( count($reviews) === 0 ) return \response(['reviews' => 'No reviews for this space'], 404);
+        if (count($reviews) === 0) return \response(['reviews' => 'No reviews for this space'], 404);
         return response(['reviews' => $reviews], 200);
     }
 
@@ -681,7 +695,7 @@ class ApiController extends Controller
     public function getWorkShopsSpaces()
     {
         $workshops = Space::where(['type' => 'workshop'])->orderBy('id', 'ASC')->get();
-        if ( count($workshops) === 0 ) return response(['error' => 'No workshops found !']);
+        if (count($workshops) === 0) return response(['error' => 'No workshops found !']);
         return response(['WorkShops' => $workshops]);
     }
 
@@ -707,7 +721,7 @@ class ApiController extends Controller
     public function getWorkshopId(int $id)
     {
         $space = Space::where(['id' => $id, 'type' => 'workshop'])->first();
-        if ( $space === null ) return response(['error' => 'Not found !'], 404);
+        if ($space === null) return response(['error' => 'Not found !'], 404);
 
         return response(['workshop' => $space]);
     }
@@ -719,10 +733,10 @@ class ApiController extends Controller
     public function getWorkshopReviews(int $id)
     {
         $workshop_space = Space::where(['type' => 'workshop', 'id' => $id])->first();
-        if ( $workshop_space === null ) return response(['error' => 'Workshop not found !'], 404);
+        if ($workshop_space === null) return response(['error' => 'Workshop not found !'], 404);
 
         $reviews = $workshop_space->reviews()->get();
-        if ( count($reviews) === 0 ) return \response(['reviews' => 'No reviews for this space'], 404);
+        if (count($reviews) === 0) return \response(['reviews' => 'No reviews for this space'], 404);
         return response(['reviews' => $reviews], 200);
     }
 
@@ -732,14 +746,14 @@ class ApiController extends Controller
     public function getOfficesSpaces()
     {
         $offices = Space::where(['type' => 'office'])->get()->toArray();
-        if ( count($offices) === 0 ) return response(['error' => 'No office found !'], 404);
+        if (count($offices) === 0) return response(['error' => 'No office found !'], 404);
         return \response(['offices' => $offices]);
     }
 
     public function sortOffices(Request $request)
     {
         $sorted_offices = $this->sortSpace($request, 'office');
-        if ( count($sorted_offices) === 0 ) return response(['error' => 'No offices !'], 404);
+        if (count($sorted_offices) === 0) return response(['error' => 'No offices !'], 404);
         return response(['offices' => $sorted_offices]);
     }
 
@@ -759,7 +773,7 @@ class ApiController extends Controller
     public function getOfficeId(int $id)
     {
         $office = Space::where(['type' => 'office', 'id' => $id])->first();
-        if ( $office === null ) return response(['error' => 'Office not found !'], 404);
+        if ($office === null) return response(['error' => 'Office not found !'], 404);
         return \response(['office' => $office]);
     }
 
@@ -770,9 +784,9 @@ class ApiController extends Controller
     public function getOfficeReviews(int $id)
     {
         $office = Space::where(['id' => $id, 'type' => 'office'])->first();
-        if ( $office === null ) return response(['error' => 'Office not found !'], 404);
+        if ($office === null) return response(['error' => 'Office not found !'], 404);
         $office_reviews = $office->reviews()->get()->toArray();
-        if ( count($office_reviews) === 0 ) return response(['error' => 'No reviews for the office !']);
+        if (count($office_reviews) === 0) return response(['error' => 'No reviews for the office !']);
         return response(['Reviews' => $office_reviews]);
     }
 
@@ -782,7 +796,7 @@ class ApiController extends Controller
     public function getHolidaysSpaces()
     {
         $holidaySpaces = Space::where(['type' => 'holiday'])->get()->toArray();
-        if ( count($holidaySpaces) === 0 ) return response(['error' => 'No holiday spaces found !'], 404);
+        if (count($holidaySpaces) === 0) return response(['error' => 'No holiday spaces found !'], 404);
         return response(['Holiday' => $holidaySpaces]);
     }
 
@@ -793,7 +807,7 @@ class ApiController extends Controller
     public function sortHolidays(Request $request)
     {
         $sortedSpaces = $this->sortSpace($request, 'holiday');
-        if ( count($sortedSpaces) === 0 && $request['option'] === 'nearby' ) return response(['error' => 'No offices nearby !']);
+        if (count($sortedSpaces) === 0 && $request['option'] === 'nearby') return response(['error' => 'No offices nearby !']);
         return \response(['Offices' => $sortedSpaces]);
     }
 
@@ -813,7 +827,7 @@ class ApiController extends Controller
     public function getHolidayId(int $id)
     {
         $holiday_space = Space::where(['type' => 'holiday', 'id' => $id])->first();
-        if ( null === $holiday_space ) return response(['error' => 'No holiday space found !'], 404);
+        if (null === $holiday_space) return response(['error' => 'No holiday space found !'], 404);
         return response(['Holiday_space' => $holiday_space]);
     }
 
@@ -824,9 +838,9 @@ class ApiController extends Controller
     public function getHolidayReviews(int $id)
     {
         $holiday_space = Space::where(['type' => 'holiday', 'id' => $id])->first();
-        if ( null === $holiday_space ) return \response(['error' => 'Holiday space not found !']);
+        if (null === $holiday_space) return \response(['error' => 'Holiday space not found !']);
         $space_reviews = $holiday_space->reviews()->get()->toArray();
-        if ( count($space_reviews) === 0 ) return response(['error' => 'No reviews for the space'], 404);
+        if (count($space_reviews) === 0) return response(['error' => 'No reviews for the space'], 404);
         return \response(['space_reviews' => $space_reviews], 200);
     }
 
@@ -837,7 +851,6 @@ class ApiController extends Controller
      */
     private function searchSpace(Request $request, string $spaceType)
     {
-
     }
 
     /**
@@ -852,12 +865,11 @@ class ApiController extends Controller
         ]);
         $sort_option = $request['option'];
         $spaces = Space::where(['type' => $spaceType])->get();
-        if ( $sort_option === 'best_price' ) $spaces = Space::where(['type' => $spaceType])->orderBy('price', 'asc')->get();
-        elseif ( $sort_option === 'best_rating' ) {
+        if ($sort_option === 'best_price') $spaces = Space::where(['type' => $spaceType])->orderBy('price', 'asc')->get();
+        elseif ($sort_option === 'best_rating') {
             $ratings = [];
-            foreach ( $spaces as $space )
-            {
-                if ( $space->ratings()->count() > 0 ) {
+            foreach ($spaces as $space) {
+                if ($space->ratings()->count() > 0) {
                     $space_rating_array = $space->ratings()->get()->toArray();
 
                     usort($space_rating_array, function ($sr1, $sr2) {
@@ -876,18 +888,16 @@ class ApiController extends Controller
             });
             $sorted_spaces = [];
 
-            foreach ( $ratings as $rating ) {
+            foreach ($ratings as $rating) {
                 $sorted_spaces[] = Space::find((int) $rating['space_id']);
             }
 
             return $sorted_spaces;
-        }
-        elseif ( $sort_option === 'most_popular' ) {
+        } elseif ($sort_option === 'most_popular') {
             $ratings_with_space_id = [];
 
-            foreach ( $spaces as $space )
-            {
-                if ( $space->ratings()->count() )
+            foreach ($spaces as $space) {
+                if ($space->ratings()->count())
                     $ratings_with_space_id[] = [
                         'id' => $space->id,
                         'rating_count' => $space->ratings()->count(),
@@ -900,13 +910,12 @@ class ApiController extends Controller
 
             $spaces_meetings_sort = [];
 
-            foreach ( $ratings_with_space_id as $item ) {
+            foreach ($ratings_with_space_id as $item) {
                 $spaces_meetings_sort[] = Space::find((int) $item['id']);
             }
 
             return $spaces_meetings_sort;
-        }
-        else {
+        } else {
             $spaces = Space::where(['city' => Auth::user()->city])->get();
         }
 
@@ -934,7 +943,7 @@ class ApiController extends Controller
         $user_id = Auth::user()->id;
         $space = Space::find($id);
 
-        if ( null === $space ) return \response(['error' => 'The space wasn\'t found !'], 404);
+        if (null === $space) return \response(['error' => 'The space wasn\'t found !'], 404);
 
         $order = new Order();
         $order->date = $request['date'];
@@ -960,7 +969,7 @@ class ApiController extends Controller
     public function orderDetails(int $id)
     {
         $order = Order::find($id);
-        if ( $order === null ) return \response(['error' => 'The order was not found ']);
+        if ($order === null) return \response(['error' => 'The order was not found ']);
         return \response(['Order_details' => $order]);
     }
 
@@ -976,7 +985,7 @@ class ApiController extends Controller
         ]);
 
         $order = Order::where(['id' => $id, 'user_id' => Auth::user()->id])->first();
-        if ( $order === null ) return \response(['error' => 'The order was not found !'], 404);
+        if ($order === null) return \response(['error' => 'The order was not found !'], 404);
         $token_stripe = $request['stripe_token'];
         $stripe = Stripe::make(env('STRIPE_SECRET_KEY', ''));
 
@@ -999,11 +1008,11 @@ class ApiController extends Controller
      */
     public function profileUser(): Response
     {
-        
-            dd('dmdmm');
+
+        dd('dmdmm');
         $user = User::find(Auth::user()->id);
-        if(is_null($user->avatar) or $user->avatar == 'NULL' or $user->avatar == '' or empty($user->avatar)){
-            $user->avatar = env('API_URL').'default-user-avatar.png';
+        if (is_null($user->avatar) or $user->avatar == 'NULL' or $user->avatar == '' or empty($user->avatar)) {
+            $user->avatar = env('API_URL') . 'default-user-avatar.png';
         }
         return \response(['profile' => $user]);
     }
@@ -1029,10 +1038,10 @@ class ApiController extends Controller
             'old_password' => 'string | max:255',
         ]);
 
-        if ( $request->has('password') ) {
-            if ( $request['password'] === null )
+        if ($request->has('password')) {
+            if ($request['password'] === null)
                 return \response(['message' => 'The old password is missed !']);
-            elseif ( !Hash::check($request['old_password'], Auth::user()->getAuthPassword()) )
+            elseif (!Hash::check($request['old_password'], Auth::user()->getAuthPassword()))
                 return \response(['message' => 'The old password is not correct !'], 403);
             else
                 $request['password'] = Hash::make($request['password']);
@@ -1058,7 +1067,7 @@ class ApiController extends Controller
             'avatar' => 'string | max:255 | required',
         ]);
         $user = User::find(Auth::user()->getAuthIdentifier());
-        if ( null === $user ) return response(['error' => 'No user found !'], 404);
+        if (null === $user) return response(['error' => 'No user found !'], 404);
         $user->avatar = $request['avatar'];
         $user->save();
 
@@ -1072,9 +1081,9 @@ class ApiController extends Controller
     public function deleteUser(int $id): Response
     {
         $current_user = Auth::user();
-        if ( $current_user->role !== 'admin' ) return response(['error' => 'Unauthorized'], 403);
+        if ($current_user->role !== 'admin') return response(['error' => 'Unauthorized'], 403);
         $user = User::find($id);
-        if ( $user === null ) return response(['error' => 'The user was not found !'], 404);
+        if ($user === null) return response(['error' => 'The user was not found !'], 404);
         $user->delete();
 
         return response(['message' => 'The user was deleted with success !']);
@@ -1083,7 +1092,7 @@ class ApiController extends Controller
     public function userAds(int $id)
     {
         $ads = Ads::where(['user_id' => $id])->get()->toArray();
-        if ( count($ads) === 0 ) return response(['error' => 'The ads was not found !'], 404);
+        if (count($ads) === 0) return response(['error' => 'The ads was not found !'], 404);
         return response(['ads' => $ads]);
     }
 
@@ -1094,7 +1103,7 @@ class ApiController extends Controller
     public function userNotification(int $id): Response
     {
         $notifications = Notification::where(['user_id' => $id])->get()->toArray();
-        if ( count($notifications) === 0 ) return response(['error' => 'No notifications for the user !'], 404);
+        if (count($notifications) === 0) return response(['error' => 'No notifications for the user !'], 404);
         return response(['notifications' => $notifications], 200);
     }
 
@@ -1104,7 +1113,7 @@ class ApiController extends Controller
     public function userOrders(): Response
     {
         $orders = Order::where(['user_id' => Auth::user()->id])->get()->toArray();
-        if ( count($orders) === 0 ) return response(['error' => 'No orders'], 404);
+        if (count($orders) === 0) return response(['error' => 'No orders'], 404);
         return response(['orders' => $orders]);
     }
 
@@ -1114,19 +1123,49 @@ class ApiController extends Controller
     public function currentUserNotifications(): Response
     {
         $notifications = Notification::where(['user_id' => Auth::user()->id])->get()->toArray();
-        if ( count($notifications) === 0 ) return response(['error' => 'No notifications'], 404);
+        if (count($notifications) === 0) return response(['error' => 'No notifications'], 404);
         return response(['notifications' => $notifications]);
     }
     // END USER FUNCTIONS
 
-    public function order_dates(Request $request) {
+
+  
+
+    public function order_dates(Request $request)
+    {
         $type = $request->type;
         /*
         *
         *   to do : 
         *   dir li hna lyouma  + osbo3 ykon bdak chkel dyal reservation_dates 
         */
+
         $reservation_dates = [];
+
+        $type = $request->type;
+        $id   = $request->id;
+
+        if ($type == 'meeting' or $type == 'office') {
+            $price = Meeting::where('id', $id)->first()->price;
+        }
+        
+        if ($type == 'vacation') {
+            $price =  Vacation::where('id', $id)->first()->price;;
+        }
+        
+        if ($type == 'workshop') {
+            $price =  Workshop::where('id', $id)->first()->price;;
+        }
+        
+        if ($type == 'shared_table') {
+            $price = Table::with('favorite')->where('id', $id)->first()->price;;
+        }
+
+        $reservation_dates['price'] = $price;
+
+
+
+        
 
         $arDays = [
             'Mon' => 'الإتنين',
@@ -1195,64 +1234,67 @@ class ApiController extends Controller
                 'active' => false,
             ]
         ];
-        
-        if($type == 'shared_table'){
-            for($i = 0; $i < 4; $i++) {
+
+        if ($type == 'shared_table') {
+            for ($i = 0; $i < 4; $i++) {
                 $reservation_dates['chairs_numbers'][] = [
-                    'number' => $i,
+                    'number' => "$i",
                     'active' => false,
                 ];
             }
         }
-        
-        for($i = 0; $i < 7; $i++) {
+
+        for ($i = 0; $i < 7; $i++) {
 
             $date = (Carbon::now())->addDays($i);
             $month = date_format($date, 'M');
             $day = date_format($date, 'D');
 
-            if($type == 'shared_table'){
+            if ($type == 'shared_table') {
                 $reservation_dates['reservation_dates'][] = [
                     'date' => date_format($date, 'y-m-d'),
                     'day' => $arDays[$day],
-                    'month' => $arMonths[$month],
+                    'month' => date_format($date, 'd') . ' ' . $arMonths[$month],
                     'active' => false,
                     'times' => $reservation_times,
                     'reserved_chairs' => ['1', '2', '3']
                 ];
-            }else{
+            } else {
                 $reservation_dates['reservation_dates'][] = [
                     'date' => date_format($date, 'y-m-d'),
                     'day' => $arDays[$day],
-                    'month' => $arMonths[$month],
+                    'month' => date_format($date, 'd') . ' ' . $arMonths[$month],
                     'active' => false,
                     'times' => $reservation_times
                 ];
             }
         }
 
+        
+
         $api = [
             'state' => true,
             'message' => '',
             'data' => $reservation_dates,
         ];
-        
+
         return response()->json($api);
     }
 
 
 
 
-    public function verify_coupon(Request $request){
+    public function verify_coupon(Request $request)
+    {
         $coupon = $request->coupon;
         $id = $request->id;
         $type = $request->type;
 
         // now we verify the coupon here !
-        
+
         $api = [
-            'state'=> true,
-            'message'=> '',
+            'state' => true,
+            'message' => '',
             'data' => 'تم خصم 14 ريال'
         ];
 
@@ -1260,26 +1302,27 @@ class ApiController extends Controller
     }
 
 
-    public function pay_secure(){
+    public function pay_secure()
+    {
 
 
         $api = [
-            'state'=> true,
-            'message'=> '',
+            'state' => true,
+            'message' => 'paid successfully',
             'data' => []
         ];
 
         return response()->json($api);
     }
-    public function confirm_payment(){
+    public function confirm_payment()
+    {
         $api = [
-            'state'=> true,
-            'message'=> '',
-            'data' => [
-            ]
+            'state' => true,
+            'message' => '',
+            'data' => []
         ];
 
-        return response()->json($api); 
+        return response()->json($api);
     }
 
 
@@ -1290,45 +1333,44 @@ class ApiController extends Controller
             'message' => '',
             'data' => [
                 [
-                'date' => '20 أكتوبر :',
-                'image' => 'https://i1.wp.com/www.manae-business.fr/wp-content/uploads/2020/03/you-x-ventures-Oalh2MojUuk-unsplash.jpg?resize=2000%2C1200&ssl=1',
-                'type' =>  'meeting',
-                'description' => 'مجرد وصف',
-                'price' => '50 ريال ',
-                'reservationNumber' => '212',
-                'rate' => '4.3 \\ 5 '
+                    'date' => '20 أكتوبر :',
+                    'image' => 'https://i1.wp.com/www.manae-business.fr/wp-content/uploads/2020/03/you-x-ventures-Oalh2MojUuk-unsplash.jpg?resize=2000%2C1200&ssl=1',
+                    'type' =>  'meeting',
+                    'description' => 'مجرد وصف',
+                    'price' => '50 ريال ',
+                    'reservationNumber' => '212',
+                    'rate' => '4.3 \\ 5 '
                 ],
                 [
-                'date' => '20 أكتوبر :',
-                'image' => 'https://i1.wp.com/www.manae-business.fr/wp-content/uploads/2020/03/you-x-ventures-Oalh2MojUuk-unsplash.jpg?resize=2000%2C1200&ssl=1',
-                'type' =>  'meeting',
-                'description' => 'مجرد وصف',
-                'price' => '50 ريال ',
-                'reservationNumber' => '212',
-                'rate' => '4.3 \\ 5 '
+                    'date' => '20 أكتوبر :',
+                    'image' => 'https://i1.wp.com/www.manae-business.fr/wp-content/uploads/2020/03/you-x-ventures-Oalh2MojUuk-unsplash.jpg?resize=2000%2C1200&ssl=1',
+                    'type' =>  'meeting',
+                    'description' => 'مجرد وصف',
+                    'price' => '50 ريال ',
+                    'reservationNumber' => '212',
+                    'rate' => '4.3 \\ 5 '
                 ],
                 [
-                'date' => '20 أكتوبر :',
-                'image' => 'https://i1.wp.com/www.manae-business.fr/wp-content/uploads/2020/03/you-x-ventures-Oalh2MojUuk-unsplash.jpg?resize=2000%2C1200&ssl=1',
-                'type' =>  'meeting',
-                'description' => 'مجرد وصف',
-                'price' => '50 ريال ',
-                'reservationNumber' => '212',
-                'rate' => '4.3 \\ 5 '
+                    'date' => '20 أكتوبر :',
+                    'image' => 'https://i1.wp.com/www.manae-business.fr/wp-content/uploads/2020/03/you-x-ventures-Oalh2MojUuk-unsplash.jpg?resize=2000%2C1200&ssl=1',
+                    'type' =>  'meeting',
+                    'description' => 'مجرد وصف',
+                    'price' => '50 ريال ',
+                    'reservationNumber' => '212',
+                    'rate' => '4.3 \\ 5 '
                 ],
                 [
-                'date' => '20 أكتوبر :',
-                'image' => 'https://i1.wp.com/www.manae-business.fr/wp-content/uploads/2020/03/you-x-ventures-Oalh2MojUuk-unsplash.jpg?resize=2000%2C1200&ssl=1',
-                'type' =>  'meeting',
-                'description' => 'مجرد وصف',
-                'price' => '50 ريال ',
-                'reservationNumber' => '212',
-                'rate' => '4.3 \\ 5 '
+                    'date' => '20 أكتوبر :',
+                    'image' => 'https://i1.wp.com/www.manae-business.fr/wp-content/uploads/2020/03/you-x-ventures-Oalh2MojUuk-unsplash.jpg?resize=2000%2C1200&ssl=1',
+                    'type' =>  'meeting',
+                    'description' => 'مجرد وصف',
+                    'price' => '50 ريال ',
+                    'reservationNumber' => '212',
+                    'rate' => '4.3 \\ 5 '
                 ]
             ]
         ];
 
         return response()->json($api);
     }
-
 }

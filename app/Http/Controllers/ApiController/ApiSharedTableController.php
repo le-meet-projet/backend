@@ -13,9 +13,10 @@ class ApiSharedTableController extends Controller
         $tables = Table::get();
 
         $data = [];
-        foreach($tables as $table){
+        foreach ($tables as $table) {
             array_push($data, [
-                'image' => $table->thumbnail != NULL ? env('SPACE_THUMBNAIL').$table->thumbnail : env('NO_IMAGE'),
+                'id' => $table->id,
+                'image' => $table->thumbnail != NULL ? env('SPACE_THUMBNAIL') . $table->thumbnail : env('NO_IMAGE'),
                 'place_name' => $table->name,
                 'price' => $table->price,
                 'rate' => '5/5',
@@ -23,14 +24,13 @@ class ApiSharedTableController extends Controller
             ]);
         }
 
-        if (!$tables)
-        {
+        if (!$tables) {
             $result = [
                 'state' => false,
                 'message' => 'Not found !',
                 'data' => [],
             ];
-        }else{
+        } else {
             $result = [
                 'state' => true,
                 'message' => '',

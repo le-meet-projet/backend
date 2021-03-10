@@ -108,13 +108,14 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     Route::group(['prefix' => '/v3'], function () {
-        
+
         /// new api start
         Route::post('/order/dates', 'ApiController@order_dates');
         Route::post('/coupon/verify', 'ApiController@verify_coupon');
+        Route::post('/coupon/verification', 'ApiController@verify_coupon');
         Route::post('/pay/secure', 'ApiController@pay_secure');
         Route::post('/confirm/payment', 'ApiController@confirm_payment');
-        Route::post('/user/orders/list', 'ApiController@user_orders_list');        
+        Route::post('/user/orders/list', 'ApiController@user_orders_list');
         // new api end
 
         Route::get('/check/auth', 'Auth\ApiAuthController@check');
@@ -158,14 +159,15 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::get('vacation/{id}/reviews', 'ApiController\ApiVacationController@reviews')->name('spaces.vacation.reviews');
         Route::get('vacation/{id}', 'ApiController\ApiVacationController@getVacation')->name('spaces.vacation.getVacation');
 
-        
+        Route::post('/details', 'ApiController@getDetails');
+
+
         Route::middleware('auth:api')->group(function () {
             Route::get('/favorite/list', 'ApiController\ApiFavoriteController@list');
-            Route::post('/details', 'ApiController@getDetails');
 
 
             Route::post('/add/to/favorite', 'ApiController\ApiFavoriteController@add_to_favorite');
-            
+
             Route::post('/remove/from/favorite', 'ApiController\ApiFavoriteController@remove_from_favorite');
             Route::post('/remove/many/from/favorite', 'ApiController\ApiFavoriteController@remove_many_from_favorite');
 
@@ -205,7 +207,4 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
             Route::get('/notification', 'ApiController\ApiUserController@currentUserNotifications')->name('user.notifications.api');
         });
     });
-
 });
-
-
