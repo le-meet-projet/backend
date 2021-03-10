@@ -107,6 +107,7 @@
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
 												<select name="type" class="form-control">
+													<option value="" hidden>Not selected</option>
 													<option value="hotel">Hotel</option>
 													<option value="restaurant">Restaurant</option>
 													<option value="workspace">Workspace</option>

@@ -117,6 +117,7 @@
 											</div>
 											<div class="col-md-8 mg-t-5 mg-md-t-0">
 												<select name="type" class="form-control">
+													<option value="" hidden>Not selected</option>
 													<option value="hotel" {{ $content->type == 'hotel' ? 'selected':'' }}>Hotel</option>
 													<option value="restaurant" {{ $content->type == 'restaurant' ? 'selected':'' }}>Restaurant</option>
 													<option value="workspace" {{ $content->type == 'workspace' ? 'selected':'' }}>Workspace</option>
