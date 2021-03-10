@@ -92,7 +92,7 @@
 												<tr>
 													
 													<td>{{$brand->name}}</td>
-													<td>{{ $brand->adress}} </td>
+													<td>{{ $brand->address}} </td>
 													<td>   
 															{{ $brand->description}}
 													 </td>
