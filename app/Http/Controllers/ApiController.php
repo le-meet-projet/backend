@@ -37,6 +37,11 @@ class ApiController extends Controller
     public function getDetails(Request $request)
     {
 
+        $header = $request->header('Authorization');
+       // dd(\Auth::check());
+     //   dd($header);
+
+       // dd('loldlldd');
         $types = ['workshop', 'office', 'meeting', 'vacation', 'shared_table'];
 
         $validator = \Validator::make($request->all(), [
@@ -94,15 +99,17 @@ class ApiController extends Controller
             $meeting = Meeting::with('favorite')->where('id', $id)->first();
 
             $favorite = 0;
+        //   dd($request->user());
             if (Auth::check()) {
                 $user_id = \Auth::user()->id;
-                $favorite = Favorite::where('type_id', $meeting->id)->where('user_id', $user_id)->where('type', 'meeting')->count();
+             //   dd(Favorite::where('type_id', $id)->where('user_id', $user_id)->where('type', 'meeting')->count());
+                $favorite = Favorite::where('type_id', $id)->where('user_id', $user_id)->where('type', 'meeting')->count();
             }
 
 
-
+          //  dd($favorite);
             $result = $this->helper->conference($meeting);
-            $result['favorite']  = ($favorite != 0) ? true : false;
+            $result['favorite']  = $favorite > 0 ? true : false;
             $result['content']   = $meeting->description;
             $result['location']   = $meeting->address;
             $result['latitude']  = $meeting->latitude;
@@ -236,7 +243,7 @@ class ApiController extends Controller
             $favorite = 0;
             if (Auth::check()) {
                 $user_id = \Auth::user()->id;
-                $favorite               = Favorite::where('type_id', $table->id)->where('user_id', $user_id)->where('type', 'table')->count();
+                $favorite  = Favorite::where('type_id', $table->id)->where('user_id', $user_id)->where('type', 'table')->count();
             }
 
             $result                 = $this->helper->table($table);
