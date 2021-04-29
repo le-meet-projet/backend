@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Brand;
+use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
@@ -51,6 +52,15 @@ class BrandController extends Controller
         ]);
 
         $brand = new Brand;
+        //create user 
+        $user = new User;
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->password);
+        $user->role = 'Brand';
+        $user->save();
+       //////
+
         $brand->name = $request->input('name');
         $brand->address = $request->input('address');
         $brand->description = $request->input('description');

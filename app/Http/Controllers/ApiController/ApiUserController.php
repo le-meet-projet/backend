@@ -63,7 +63,7 @@ class ApiUserController extends Controller
         $id = \Auth::user()->id;
         $validator = \Validator::make($request->all(), [
             'name' => 'string | max:255',
-            'email' => 'email | string | max:255',
+           // 'email' => 'email | string | max:255',
             'password' => 'max:255',
             'address' => 'max:400',
             'phone' => 'string | max:400 | unique:users,phone,'.$id.',id',
@@ -89,7 +89,7 @@ class ApiUserController extends Controller
             $password = Hash::make($request['password']);
         }
 
-        $user->email = $request['email'] ?? $user->email;
+//$user->email = $request['email'] ?? $user->email;
         $user->password = $password; 
         $user->phone = $request['phone'] ?? $user->phone;
         $user->name = $request['name'] ?? $user->name;

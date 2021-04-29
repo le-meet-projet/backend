@@ -1,17 +1,20 @@
-<?php 
+<?php
 
 namespace App\Helpers;
 
-class Api {
+class Api
+{
 
-    public function conference($meeting) {
+    public function conference($meeting)
+    {
         $thumbnail = $meeting->thumbnail  != NULL ? env('SPACE_THUMBNAIL') . $meeting->thumbnail : env('NO_IMAGE');
         return [
             'id' => $meeting->id,
             'image' =>  $thumbnail,
             'roomName' => $meeting->name,
+            'place' => $meeting->name,
             'price' => $meeting->price,
-            'rate' => '4.5',
+            'rate' => NULL,
             'location' => $meeting->address,
             'latitude' => $meeting->latitude,
             'longitude' => $meeting->longitude,
@@ -20,14 +23,15 @@ class Api {
         ];
     }
 
-    public function vacation($vacation){
-        $thumbnail = $vacation->thumbnail  != NULL ? env('SPACE_THUMBNAIL').$vacation->thumbnail : env('NO_IMAGE');
+    public function vacation($vacation)
+    {
+        $thumbnail = $vacation->thumbnail  != NULL ? env('SPACE_THUMBNAIL') . $vacation->thumbnail : env('NO_IMAGE');
         return [
             'id' => $vacation->id,
             'image' =>  $thumbnail,
             'title' => $vacation->name,
             'price' => $vacation->price,
-            'rate' => '4.5',
+            'rate' => NULL,
             'location' => $vacation->address,
             'latitude' => $vacation->latitude,
             'longitude' => $vacation->longitude,
@@ -38,14 +42,15 @@ class Api {
 
 
 
-    public function singleMeeting($meeting){
-        $thumbnail = $meeting->thumbnail  != NULL ?  env('SPACE_THUMBNAIL').$meeting->thumbnail : env('NO_IMAGE');
+    public function singleMeeting($meeting)
+    {
+        $thumbnail = $meeting->thumbnail  != NULL ?  env('SPACE_THUMBNAIL') . $meeting->thumbnail : env('NO_IMAGE');
         return [
             'id' => $meeting->id,
             'image' =>  $thumbnail,
             'roomName' => $meeting->name,
             'price' => $meeting->price,
-            'rate' => '4.5',
+            'rate' => NULL,
             'location' => $meeting->address,
             'latitude' => $meeting->latitude,
             'longitude' => $meeting->longitude,
@@ -54,14 +59,15 @@ class Api {
         ];
     }
 
-    public function table($table){
-        $thumbnail = $table->thumbnail  != NULL ? env('SPACE_THUMBNAIL').$table->thumbnail : env('NO_IMAGE');
+    public function table($table)
+    {
+        $thumbnail = $table->thumbnail  != NULL ? env('SPACE_THUMBNAIL') . $table->thumbnail : env('NO_IMAGE');
         return [
             'id' => $table->id,
             'image' =>  $thumbnail,
             'place_name' => $table->name,
             'price' => $table->price,
-            'rate' => '4.5 / 5',
+            'rate' => NULL,
             'content' => $table->options,
             'location' => $table->address,
             'latitude' => $table->latitude,
@@ -69,7 +75,4 @@ class Api {
             'zoom' => $table->period
         ];
     }
-
-
-
 }

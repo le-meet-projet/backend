@@ -11,12 +11,12 @@ use Illuminate\Http\Response;
 class ApiMeetingController extends Controller
 {
 
-    public $helper ;
+    public $helper;
 
-    public function __construct(){
-        
+    public function __construct()
+    {
+
         $this->helper = new \App\Helpers\Api();
-        
     }
     /**
      * GET ALL THE MEETING SPACES
@@ -28,10 +28,11 @@ class ApiMeetingController extends Controller
         $meetings = Meeting::get();
         if (!$meetings) return response(['error' => 'Not found !'], 404);
         return response(['meetings' => $meetings]);
-    }    
+    }
 
-    public function meetingResponse($type){
-        $meetings = Meeting::where(['type' => $type])->get()->map(function($meeting) {
+    public function meetingResponse($type)
+    {
+        $meetings = Meeting::where(['type' => $type])->get()->map(function ($meeting) {
             return $this->helper->conference($meeting);
         });
 
@@ -41,7 +42,7 @@ class ApiMeetingController extends Controller
             'data' => []
         ];
 
-        if ( count($meetings) > 0 ){
+        if (count($meetings) > 0) {
             $api['state'] = true;
             $api['message'] = '';
             $api['data'] = $meetings;
@@ -50,15 +51,40 @@ class ApiMeetingController extends Controller
         return response($api);
     }
 
-    public function conference(): Response
+    public function conference(Request $request)
     {
+        $type = $request->order_by;
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
+        $meetings = (new \App\Filter\ConferenceFilter())->init($request);
+
+        $api = [];
+        $api['state'] = true;
+        $api['message'] = '';
+        $api['data'] = $meetings;
+        return response()->json($api);
+
         return $this->meetingResponse('conference');
     }
 
 
-    public function meeting(): Response
+    public function meeting(Request $request)
     {
-        return $this->meetingResponse('meeting');
+
+        \Log::info($request->all());
+
+
+        $type = $request->order_by;
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
+        $meetings = (new \App\Filter\MeetingFilter())->init($request);
+
+        $api = [];
+        $api['state'] = true;
+        $api['message'] = '';
+        $api['data'] = $meetings;
+        return response()->json($api);
+        //return $this->meetingResponse('meeting');
     }
 
 
@@ -99,7 +125,7 @@ class ApiMeetingController extends Controller
     public function getMeeting(int $id): Response
     {
         $meeting = Meeting::find($id);
-        if ( !$meeting ) return response(['error' => 'No meeting found !'], 404);
+        if (!$meeting) return response(['error' => 'No meeting found !'], 404);
         return response(['meeting' => $meeting]);
     }
 }

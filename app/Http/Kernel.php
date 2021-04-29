@@ -66,5 +66,7 @@ class Kernel extends HttpKernel
         'Admin' => \App\Http\Middleware\Admin::class,
         'json.response' => \App\Http\Middleware\ForceJsonResponse::class,
         'cors' => \App\Http\Middleware\Cors::class,
+        'api.Logging' => \App\Http\Middleware\ApiLogging::class,
+
     ];
 }

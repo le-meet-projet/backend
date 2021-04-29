@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -118,10 +119,6 @@ class ApiAuthController extends Controller
 
 
     public function check(){
-        if (  \Auth::guard('api')->check()) {
-
-           return response(['authenticated' => true ]);
-        }
-        return response(['authenticated' => false ]);
+        return new JsonResponse(['authenticated' => \Auth::guard('api')->check()]);
     }
 }

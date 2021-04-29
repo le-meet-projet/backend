@@ -2,7 +2,6 @@
 
 
 @section('content')
- 
  <!-- main-content opened -->
 <div class="main-content horizontal-content">
 	<!-- container opened -->
@@ -69,31 +68,32 @@
 												<tr role="row">
 													 
 													 
-													 <th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 70px;">{{ __('Id') }}</th>
-													 <th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 70px;">{{ __('Date') }}</th>
+													 <th class="wd-20p border-bottom-0 sorting text-center" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 70px;">{{ __('Id') }}</th>
+													 <th class="wd-20p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 70px;">{{ __('Image') }}</th>
 													 
-													<th class="wd-15p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 105px;">{{ __('Total') }}</th>
-													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width:70px;">{{ __('Status') }}</th>
+													<th class="wd-15p border-bottom-0 sorting text-center" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 105px;">{{ __('Address') }}</th>
+													<th class="wd-10p border-bottom-0 sorting text-center" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width:70px;">{{ __('Price') }}</th>
 													
 												 
 													 
-													<th class="wd-10p border-bottom-0 sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 75px;">{{ __('More') }}</th>
+													<th class="wd-10p border-bottom-0 sorting text-center" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 75px;">{{ __('More') }}</th>
 												</tr>
 											</thead>
 											<tbody>
 												@foreach($orders as $order)
 												<tr>
-													<td>{{$order->id}}</td>
-													<td>{{$order->date}}</td>
+													<td class="text-center">{{$order->id}}</td>
+													<td><img src="{{ asset('spaces/' . $order->thumbnail) }}"
+                                                                        class="w-75" alt=""></td>
 											 	 
 														 
 												 
-													<td>{{$order->price}}</td>
-													<td>{{$order->status}}</td>
+													<td class="text-center">{{$order->meeting["address"]}}</td>
+													<td class="text-center">{{$order->price}}</td>
 
 													
 												
-													<td><a href=" {{ route('admin.orders.details', ['id' => $order->id]) }}">{{ __('details') }}</a></td>
+													<td class="text-center"><a href=" {{ route('admin.orders.details', ['id' => $order->id]) }}"><i class="fas fa-edit"></i>{{ __('details') }}</a></td>
 
 												 
 													 

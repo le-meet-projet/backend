@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Order;
+use App\OrderLeMeet;
 use App\User;
 use App\Space;
 use App\OrderDetail;
@@ -15,13 +16,16 @@ class OrdersController extends Controller
     public function index()
     {
        $users =User::All();
-       $orders=Order::paginate(10);
+       $orders = \App\OrderLeMeet::with('shared_table','meeting')->paginate(15);
+       //dd($orders);
+       
        return view('requests.index',compact('orders'),['users' => $users]);
     }
 
     public function show($id)
     {
-    	$orders=Order::find($id);
+    	$orders=OrderLeMeet::find($id);
+      //dd($orders);
       
     	$users = User::find(3);
     	$sub_total=$orders->price*$orders->hour;

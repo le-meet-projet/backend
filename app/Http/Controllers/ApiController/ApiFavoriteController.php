@@ -23,11 +23,12 @@ class ApiFavoriteController extends Controller
                     'location':'الرياض\n352م',
                 },
                 */
-    public function list() {
+    public function list()
+    {
         $user_id = \Auth::user()->id;
 
-        $favorites = Favorite::with('meeting','workshop','vacation')->where('user_id', $user_id)->get()->map(function($favorite) {
-           return $this->prepareFavoritesForApi($favorite, $favorite->type);
+        $favorites = Favorite::with('meeting', 'workshop', 'vacation')->where('user_id', $user_id)->get()->map(function ($favorite) {
+            return $this->prepareFavoritesForApi($favorite, $favorite->type);
         })->toArray();
 
         return response()->json([
@@ -38,76 +39,100 @@ class ApiFavoriteController extends Controller
     }
 
 
-    public function prepareFavoritesForApi($favorite,$type){
+    public function prepareFavoritesForApi($favorite, $type)
+    {
 
-       
-        
-        if($type == 'meeting' || $type == 'office'){
-            $thumbnail = ($favorite->meeting->thumbnail  != 'NULL' and $favorite->meeting->thumbnail  != NULL) ?  env('SPACE_THUMBNAIL').$favorite->meeting->thumbnail : env('NO_IMAGE');
+
+        $thumbnail = ($favorite->meeting->thumbnail  != 'NULL' and $favorite->meeting->thumbnail  != NULL) ?  env('SPACE_THUMBNAIL') . $favorite->meeting->thumbnail : env('NO_IMAGE');
+
+        if ($type == 'meeting' || $type == 'office') {
 
             $data = [
-                'image'=> $thumbnail,
-                'description'=> $favorite->meeting->description,
-                'price'=> $favorite->meeting->price,
-                'rate'=> $favorite->meeting->rate,
-                'location'=> $favorite->meeting->address,
+                'id_favorite' => $favorite->id,
+                'image' => $thumbnail,
+                'description' => $favorite->meeting->name,
+                'price' => $favorite->meeting->price,
+                'rate' => $favorite->meeting->rate,
+                'location' => $favorite->meeting->address,
             ];
+
+            $data['id'] = $favorite->meeting->id;
         }
-        if($type == 'vacation' ){
+        if ($type == 'vacation') {
             $data = [
-                'image'=> $thumbnail,
-                'description'=> $favorite->meeting->description,
-                'price'=> $favorite->meeting->price,
-                'rate'=> $favorite->meeting->rate,
-                'location'=> $favorite->meeting->address,
+                'id_favorite' => $favorite->id,
+                'image' => $thumbnail,
+                'description' => $favorite->vacation->name,
+                'price' => $favorite->vacation->price,
+                'rate' => $favorite->vacation->rate,
+                'location' => $favorite->vacation->address,
             ];
+            $data['id'] = $favorite->vacation->id;
         }
-        if($type == 'workshop'){
+        if ($type == 'workshop') {
             $data = [
-                'image'=> $thumbnail,
-                'description'=> $favorite->meeting->description,
-                'price'=> $favorite->meeting->price,
-                'rate'=> $favorite->meeting->rate,
-                'location'=> $favorite->meeting->address,
+                'id_favorite' => $favorite->id,
+                'image' => $thumbnail,
+                'description' => $favorite->workshop->name,
+                'price' => $favorite->workshop->price,
+                'rate' => $favorite->workshop->rate,
+                'location' => $favorite->workshop->address,
             ];
+            $data['id'] = $favorite->workshop->id;
         }
 
-        $data['id'] = $favorite->id;
+
+        if ($type == 'shared_table') {
+            $data = [
+                'id_favorite' => $favorite->id,
+                'image' => $thumbnail,
+                'description' => $favorite->shared_table->name,
+                'price' => $favorite->shared_table->pricmeetinge,
+                'rate' => $favorite->shared_table->rate,
+                'location' => $favorite->shared_table->address,
+            ];
+            $data['id'] = $favorite->shared_table->id;
+        }
+
+
+
+
         $data['type'] = $favorite->type;
 
-       
+
         return $data;
     }
-    
-    public function add_to_favorite(Request $request) {
 
-        $types = ['workshop','office','meeting','vacation'];
-           
+    public function add_to_favorite(Request $request)
+    {
+
+        $types = ['workshop', 'office', 'meeting', 'vacation', 'shared_table'];
+
         $validator = \Validator::make($request->all(), [
             'type' => 'required|in:' . implode(',', $types),
             'type_id' => 'required | numeric ',
         ]);
-       
-       if ($validator->fails()) {
-           $api = [
-               'state' => false,
-               'message' => 'المعلومات غير صحيحة',
-               'data' => [],
-           ];
-           return \response($api);
-       }
 
-       
-        $count = Favorite::where('type',$request->type)->where('type_id',$request->type_id)->where('user_id', Auth::user()->id)->count();
+        if ($validator->fails()) {
+            $api = [
+                'state' => false,
+                'message' => 'المعلومات غير صحيحة',
+                'data' => [],
+            ];
+            return \response($api);
+        }
 
-        if($count == 0 ){
+
+        $count = Favorite::where('type', $request->type)->where('type_id', $request->type_id)->where('user_id', Auth::user()->id)->count();
+
+        if ($count == 0) {
             $favorite = new Favorite();
             $favorite->type = $request->type;
             $favorite->type_id = $request->type_id;
             $favorite->user_id =  Auth::user()->id;
-            $saved = $favorite->save();   
+            $saved = $favorite->save();
 
-            if($saved)  {
+            if ($saved) {
                 $api = [
                     'state' => true,
                     'message' => '',
@@ -127,16 +152,17 @@ class ApiFavoriteController extends Controller
         return \response($api);
     }
 
-    
 
-    public function remove_many_from_favorite(Request $request){
-     
+
+    public function remove_many_from_favorite(Request $request)
+    {
+
         $ids = json_decode($request->listIdsFavorites);
         $favorites = Favorite::find($ids);
-        foreach($favorites as $item){
+        foreach ($favorites as $item) {
             $item->delete();
         }
-        
+
 
         $api = [
             'state' => true,
@@ -148,35 +174,36 @@ class ApiFavoriteController extends Controller
 
 
 
-    public function remove_from_favorite(Request $request){
+    public function remove_from_favorite(Request $request)
+    {
 
-        $types = ['workshop','office','meeting','vacation'];
-           
+        $types = ['workshop', 'office', 'meeting', 'vacation', 'shared_table'];
+
         $validator = \Validator::make($request->all(), [
             'type' => 'required|in:' . implode(',', $types),
             'type_id' => 'required | numeric ',
         ]);
-       
-       if ($validator->fails()) {
-           $api = [
-               'state' => false,
-               'message' => 'المعلومات غير صحيحة',
-               'data' => [],
-           ];
-           return \response($api);
-       }
 
-       $user_id = \Auth::user()->id;
-       $type   = $request->type;
-       $type_id = $request->type_id;
+        if ($validator->fails()) {
+            $api = [
+                'state' => false,
+                'message' => 'المعلومات غير صحيحة',
+                'data' => [],
+            ];
+            return \response($api);
+        }
 
-       $query = Favorite::where('type',$type)->where('type_id',$type_id)->where('user_id', $user_id);
-       $count = $query->count();
-       
-       
-       if($count != 0 ){
-           $favorite = $query->first();
-           $api = [
+        $user_id = \Auth::user()->id;
+        $type   = $request->type;
+        $type_id = $request->type_id;
+
+        $query = Favorite::where('type', $type)->where('type_id', $type_id)->where('user_id', $user_id);
+        $count = $query->count();
+
+
+        if ($count != 0) {
+            $favorite = $query->first();
+            $api = [
                 'state' => true,
                 'message' => '',
                 'data' => [
@@ -186,8 +213,8 @@ class ApiFavoriteController extends Controller
             ];
             $favorite->delete();
             return \response($api);
-       }
-       
+        }
+
         $api = [
             'state' => false,
             'message' => 'حصل خطأ ما ',
@@ -202,9 +229,9 @@ class ApiFavoriteController extends Controller
     public function add(int $space_id)
     {
         $favorite = Favorite::where(['space_id' => $space_id])->first();
-        if ( $favorite ) return response(['message' => 'The space is already in your favorites !']);
+        if ($favorite) return response(['message' => 'The space is already in your favorites !']);
         $space = SpaceSubSpace::find($space_id);
-        if ( !$space ) return response(['error' => 'space not found !'], 404);
+        if (!$space) return response(['error' => 'space not found !'], 404);
         $user = Auth::guard('api')->user();
         $favorite = new Favorite();
         $favorite->user_id = $user->id;
@@ -217,9 +244,8 @@ class ApiFavoriteController extends Controller
     {
         $user = Auth::guard('api')->user();
         $favorite = Favorite::where(['user_id' => $user->id, 'id' => $id])->first();
-        if ( !$favorite ) return response(['error' => 'favorite not found !'], 404);
+        if (!$favorite) return response(['error' => 'favorite not found !'], 404);
         $favorite->delete();
         return response(['success' => 'The favorite was deleted with success !']);
     }
-
 }

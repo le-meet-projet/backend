@@ -3,12 +3,50 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/logs', function(){
+    $api_log =  base_path() . '/storage/logs/api.json';
+    echo json_encode(array_reverse(json_decode(file_get_contents($api_log),TRUE)));
+});
 
 
+
+Route::get('/zkdlld', function(){
+         
+    $orders = \App\OrderLeMeet::with('shared_table','meeting')->get()->map(function($model){
+        
+        if($model->type == 'meeting'){
+            $thumbnail = $model->meeting->thumbnail;
+        }elseif($model->type == 'shared_table'){
+            $thumbnail = $model->meeting->thumbnail;
+        }
+
+        if($thumbnail== NULL){
+            $thumbnail = no_image();
+        }
+        return [
+            'date' =>  $model->created_at->toDateTimeString(),
+            'image' => $thumbnail,
+            'type' =>  $model->type,
+            'description' => $model->description,
+            'price' => $model->price,
+            'reservationNumber' =>  $model->id,
+            'rate' => '4.3 \\ 5 '
+        ];
+    })->toArray();
+
+    dd($orders);
+   
+
+ dd(\DB::table('lemeet_orders')->get(),DB::table('order_unit')->get());
+    //dd(\App\Meeting::paginate(10)->toArray());
+});
 
 
 
 Route::get('/', 'DashboardController@login');
+
+Route::get('/payment/checkout', 'PaymentController@index');
+Route::get('/payment/success', 'PaymentController@success')->name('payment.success');
 Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin'], function () {
 
     

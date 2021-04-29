@@ -73,6 +73,7 @@ class VacationsController extends Controller
         $vacations->date = $request->date;
         $vacations->description = $request->description;
         $vacations->map = $request->map ?? '';
+
         if ($request->has('ads')) {
             $vacations->ads = 'yes';
         } else {

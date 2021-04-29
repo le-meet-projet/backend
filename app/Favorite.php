@@ -24,17 +24,25 @@ class Favorite extends Model
     {
         return $this->hasOne('App\Space');
     }
-    public function meeting(){
-        return $this->belongsTo('App\Meeting','type_id');
+    public function meeting()
+    {
+        return $this->belongsTo('App\Meeting', 'type_id');
     }
 
-    public function workshop(){
-        return $this->belongsTo('App\Workshop','type_id');
+    public function workshop()
+    {
+        return $this->belongsTo('App\Workshop', 'type_id');
     }
 
-    
-    public function vacation(){
-        return $this->belongsTo('App\Vacation','type_id');
+
+    public function vacation()
+    {
+        return $this->belongsTo('App\Vacation', 'type_id');
     }
 
+
+    public function shared_table()
+    {
+        return $this->belongsTo('App\Table', 'type_id');
+    }
 }

@@ -109,6 +109,18 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     Route::group(['prefix' => '/v3'], function () {
 
+
+        Route::post('/search/data', 'ApiController@search_data');
+
+
+
+        Route::post('/rating/get', 'ApiController@rate');
+        Route::post('/check/phoneNumber', 'ApiController@verify');
+        Route::post('/filter/meeting', '\App\Filter\MeetingFilter@init');
+        Route::post('/filter/office', '\App\Filter\OfficeFilter@init');
+        Route::post('/filter/tables', '\App\Filter\TableFilter@init');
+        Route::post('/filter/vacation', '\App\Filter\VacationFilter@init');
+        Route::post('/filter/workshop', '\App\Filter\WorkshopFilter@init');
         /// new api start
         Route::post('/order/dates', 'ApiController@order_dates');
         Route::post('/coupon/verify', 'ApiController@verify_coupon');
@@ -116,6 +128,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::post('/pay/secure', 'ApiController@pay_secure');
         Route::post('/confirm/payment', 'ApiController@confirm_payment');
         Route::post('/user/orders/list', 'ApiController@user_orders_list');
+        Route::post('/user/orders/list', 'ApiController@user_order');
         // new api end
 
         Route::get('/check/auth', 'Auth\ApiAuthController@check');
@@ -130,16 +143,19 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::get('popular/{limit}', 'ApiController\ApiController@index');
         Route::get('favorite', 'ApiController\ApiController@favorite');
 
+
+
         // MEETINGS
         Route::get('meeting', 'ApiController\ApiMeetingController@index')->name('spaces.meetings.index');
-        Route::get('meeting/conference', 'ApiController\ApiMeetingController@conference')->name('spaces.meetings.conference');
-        Route::get('meeting/meeting', 'ApiController\ApiMeetingController@meeting')->name('spaces.meetings.meeting');
+        Route::post('meeting/conference', 'ApiController\ApiMeetingController@conference')->name('spaces.meetings.conference');
+        Route::post('meeting/meeting', 'ApiController\ApiMeetingController@meeting')->name('spaces.meetings.meeting');
+        //     Route::post('meeting/meeting', 'ApiController\ApiMeetingController@meeting')->name('spaces.meetings.meeting');
         Route::post('meeting/sort', 'ApiController\ApiMeetingController@sort')->name('spaces.meetings.sort');
         Route::get('meeting/{id}/reviews', 'ApiController\ApiMeetingController@reviews')->name('spaces.meetings.reviews');
         Route::get('meeting/{id}', 'ApiController\ApiMeetingController@getMeeting')->name('spaces.meetings.getMeeting');
 
         // SHARED TABLES
-        Route::get('shared_table', 'ApiController\ApiSharedTableController@index')->name('spaces.shared_table.index');
+        Route::post('shared_table', 'ApiController\ApiSharedTableController@index')->name('spaces.shared_table.index');
 
         // WORKSHOPS
         Route::get('workshop', 'ApiController\ApiWorkshopController@index')->name('spaces.workshop.index');
@@ -163,6 +179,10 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
 
         Route::middleware('auth:api')->group(function () {
+
+            Route::post('/notifications', 'ApiController@notifications');
+
+
             Route::get('/favorite/list', 'ApiController\ApiFavoriteController@list');
 
 
@@ -189,6 +209,10 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
                 // DELETE THE INVITATION
                 Route::post('{invit_id}/delete', 'ApiController\ApiInvitationController@delete')->name('space.invite.delete');
             });
+
+            // Payment routes
+            Route::post('/payment/prepare', 'ApiController\PaymentController@request');
+            Route::get('/payment/{id}/status', 'ApiController\PaymentController@status');
         });
 
         // QR CODE
@@ -205,6 +229,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
             Route::get('/{id}/notifications', 'ApiController\ApiUserController@userNotification')->name('user.notifications.api');
             Route::get('/orders', 'ApiController\ApiUserController@userOrders')->name('user.orders.api');
             Route::get('/notification', 'ApiController\ApiUserController@currentUserNotifications')->name('user.notifications.api');
+            Route::post('/review', 'ApiController@review')->name('user.review');
         });
     });
 });
