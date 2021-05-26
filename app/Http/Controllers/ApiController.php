@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Invitation;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
 {
@@ -68,65 +69,39 @@ class ApiController extends Controller
     {
 
         $notifications = [];
-        $result = \App\OrderUnit::with('order', 'order.user', 'order.spaceMeeting', 'order.spaceOffice',  'order.spaceShared_table')->forCurrentUser()->Neauvou()->get()->toArray();
+        $result = \App\OrderUnit::with('order', 'order.user', 'order.spaceMeeting', 'order.spaceOffice',  'order.spaceShared_table')->forCurrentUser()->New()->get()->toArray();
 
-        if ($result != []) {
+        if (!empty($result)) {
             $notifications = $this->transformNotification($result);
         }
 
-        $true = [
-            'state' => true,
-            'message' => '',
-            'data' => $notifications
-        ];
-        return response()->json($true);
+        return response()->data($notifications);
     }
 
 
     public function rate(Request $request)
     {
-
         $found = 0;
 
         if ($found == 1) {
-            $true = [
-                'state' => true,
-                'data' => [
-                    'id' => '1',
-                    'type' => 'meeting',
-                    'image' => 'https://www.businesscomparison.com/uk/wp-content/uploads/2019/10/Startup-business-getting-your-first-office.jpg',
-                    'description' => 'كيف كانت تجربتك في قاعة “نجد”',
-                ]
+            $data = [
+                'id' => '1',
+                'type' => 'meeting',
+                'image' => 'https://www.businesscomparison.com/uk/wp-content/uploads/2019/10/Startup-business-getting-your-first-office.jpg',
+                'description' => 'كيف كانت تجربتك في قاعة “نجد”',
             ];
         } elseif ($found == 0) {
-            $true = [
-                'state' => true,
-                'data' => []
-            ];
+            $data = [];
         }
-        return response()->json($true);
+        return response()->data($data);
     }
-
-
-
-
-
-
-
-
 
     public function getDetails(Request $request)
     {
-
         $header = $request->header('Authorization');
-        // dd(\Auth::check());
-        //   dd($header);
-
-        // dd('loldlldd');
-        $types = ['workshop', 'office', 'meeting', 'vacation', 'shared_table'];
 
         $validator = \Validator::make($request->all(), [
-            'type' => 'required|in:' . implode(',', $types),
+            'type' => 'required | string | in:workshop,office,meeting,vacation,shared_table',
             'id'   => 'required | numeric ',
         ]);
         $ratings =  [
@@ -161,30 +136,20 @@ class ApiController extends Controller
         ];
 
         if ($validator->fails()) {
-            $api = [
-                'state' => false,
-                'message' => $validator->errors()->first(),
-                'data' => [],
-            ];
-            return \response($api);
+            return response()->error(400, $validator->errors()->first());
         }
-
-
 
         $type = $request->type;
         $id   = $request->id;
 
         if ($type == 'meeting') {
-
             $meeting = Meeting::with('favorite')->where('id', $id)->first();
             if ($meeting) {
                 IncrementViewSpaceHelper::increment($meeting);
             }
             $favorite = 0;
-            //   dd($request->user());
             if (\Auth::guard('api')->check()) {
                 $user_id = \Auth::guard('api')->user()->id;
-                //   dd(Favorite::where('type_id', $id)->where('user_id', $user_id)->where('type', 'meeting')->count());
                 $favorite = Favorite::where('type_id', $id)->where('user_id', $user_id)->where('type', 'meeting')->count();
             }
 
@@ -197,8 +162,6 @@ class ApiController extends Controller
                 'display_screen' => ' - شاشة العرض'
             ];
 
-
-            // dd($meeting->options);
             $list = [];
             $options = [];
             if (!empty($meeting->options)) {
@@ -207,11 +170,7 @@ class ApiController extends Controller
                     return $arOptions[$ok];
                 }, $list);
             }
-
-
-
-
-            //  dd($favorite);
+            
             $result = $this->helper->conference($meeting);
             $result['favorite']  = $favorite > 0 ? true : false;
             $result['content']   = $meeting->description;
@@ -222,14 +181,7 @@ class ApiController extends Controller
             $result['ratings']   = [];
             $result['content']   = implode(" \n  ", $options);
 
-
-
-            $api = [
-                'state' => true,
-                'message' => '',
-                'data' => $result
-            ];
-            return \response($api);
+            return response()->data($result);
         }
 
 
@@ -392,18 +344,12 @@ class ApiController extends Controller
      */
     public function otpConfirm(Request $request)
     {
-
         $validator = \Validator::make($request->all(), [
             'phone' => 'required | string | max:15 | min:10'
         ]);
 
         if ($validator->fails()) {
-            $api = [
-                'state' => false,
-                'message' => 'The phone number is not correct !',
-                'data' => [],
-            ];
-            return \response($api);
+            return response()->error(400, $validator->errors()->all()[0]);
         }
 
         $phone = $request['phone'];
@@ -422,7 +368,6 @@ class ApiController extends Controller
             'message' =>        'Your verification code is ' . $generatedOtp,
         );
 
-
         $curl = curl_init($apiUrl);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $postParams);
@@ -430,17 +375,7 @@ class ApiController extends Controller
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
         $response = curl_exec($curl);
 
-
-
-        $api = [
-            'state' => true,
-            'message' => '',
-            'data' => [
-                'otp' => $generatedOtp,
-            ],
-        ];
-
-        return \response($api);
+        return response()->data(['otp' => $generatedOtp]);
     }
     // OTP CONFIRMATION
     // START SPACE FUNCTIONS
@@ -1251,23 +1186,21 @@ class ApiController extends Controller
 
     public function verify(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'phone' => 'required | string',
+        ]);
+
+        if ($validator->fails())
+        {
+            return response()->error(400, $validator->errors()->all()[0]);
+        }
 
         $phone = $request->phone;
         $user = User::where('phone', $phone)->first();
         if ($user) {
-            $api = [
-                'state' => true,
-                'message' => 'user exist',
-                'data' => []
-            ];
-            return response()->json($api);
+            return response()->success('user exist');
         }
-        $api = [
-            'state' => false,
-            'message' => 'user not exist',
-            'data' => []
-        ];
-        return response()->json($api);
+        return response()->error(404, 'user not exist');
     }
 
     public function timeToText($time)
@@ -1317,13 +1250,16 @@ class ApiController extends Controller
 
     public function order_dates(Request $request)
     {
-        $type = $request->type;
-
+        $validator = Validator::make($request->all(), [
+            'id' => 'required | numeric',
+            'type' => 'required | string | in:meeting,office,vacation,workshop,shared_table'
+        ]);
+        if ($validator->fails()) {
+            return response()->error(400, $validator->errors()->first());
+        }
 
         $type = $request->type;
         $id   = $request->id;
-
-
 
         if ($type == 'meeting' or $type == 'office') {
             if ($type == 'office') {
@@ -1351,21 +1287,12 @@ class ApiController extends Controller
 
         $order_dates_time = array_values($this->load_order_date_time());
 
-        //  dd($order_dates_time);
-
-
         $where  = [
             'type' => $request->type,
             'type_id' => $request->id,
         ];
 
-
-
-
-
-
         if ($type == 'shared_table') {
-
 
             $found_chaires =  \DB::table('order_unit')->where($where)->select('unique_id', 'chaire_count')->get()->keyBy('unique_id')->toArray();
             $found_days = array_keys($found_chaires);
@@ -1428,32 +1355,8 @@ class ApiController extends Controller
             }
         }
 
+        return response()->data(['reservation_dates' => $filtred]);
 
-
-
-        $api = [
-            'state' => true,
-            'message' => '',
-            'data' => [
-                'reservation_dates' => $filtred
-            ]
-        ];
-
-        return response()->json($api);
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //   dd('mdmmdd');
         if ($type == 'shared_table') {
             for ($i = 0; $i < 4; $i++) {
 
@@ -1468,8 +1371,6 @@ class ApiController extends Controller
 
         $date = now();
         for ($i = 0; $i < 7; $i++) {
-
-            //  $date->addDays(1);
             $month = date_format($date, 'M');
             $day = date_format($date, 'D');
 
@@ -1481,7 +1382,6 @@ class ApiController extends Controller
                     'day' => $arDays[$day],
                     'month' => date_format($date, 'd') . ' ' . $arMonths[$month],
                     'active' => false,
-                    //'times' => $reservation_times,
                     'reserved_chairs' => ['1', '2', '3']
                 ];
             } else {
@@ -1494,19 +1394,9 @@ class ApiController extends Controller
                 ];
             }
             $date->addDays(1);
-
-            //  $date->subdays(1);
         }
 
-
-
-        $api = [
-            'state' => true,
-            'message' => '',
-            'data' => $reservation_dates,
-        ];
-
-        return response()->json($api);
+        return response()->data($reservation_dates);
     }
 
 
@@ -1699,46 +1589,19 @@ class ApiController extends Controller
         return $timeUnit;
     }
 
-
-
-
-
-
-
-
-
     public function verify_coupon(Request $request)
     {
         $coupon = $request->coupon;
         $id = $request->id;
         $type = $request->type;
 
-        // now we verify the coupon here !
-
-        $api = [
-            'state' => true,
-            'message' => 'تم خصم 14 ريال',
-            'data' => [
-                'percent' => 30
-            ]
-        ];
-
-        return response()->json($api);
+        return response()->success('تم خصم 14 ريال', ['percent' => 30]);
     }
 
 
     public function pay_secure()
     {
-
-
-
-        $api = [
-            'state' => true,
-            'message' => 'paid successfully',
-            'data' => []
-        ];
-
-        return response()->json($api);
+        return response()->success('paid successfully');
     }
 
 
@@ -1769,6 +1632,22 @@ class ApiController extends Controller
 
     public function confirm_payment(Request $request)
     {
+        $validator = \Validator::make($request->all(), [
+            'type' => 'required | string | max:255 | in:shared_table,meeting,vacation,workspace',
+            'id'   => 'required | numeric',
+            'dates' => 'required | string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->error(400, $validator->errors()->first());
+        }
+
+        $models = [
+            'shared_table' => Table::query(),
+            'meeting' => Meeting::query(),
+            'vacation' => Vacation::query(),
+            'workspace' => Workshop::query()
+        ];
 
         $user_id = NULL;
         if (\Auth::guard('api')->check()) {
@@ -1781,11 +1660,16 @@ class ApiController extends Controller
             'price' => $request->price,
             'promo_code' => $request->coupon
         ];
-        $order = \DB::table('lemeet_orders')->insert($order);
+
+        $type = $models[$request->type]->whereId($request->id)->with(['brand' => function($query){
+            $query->with('user');
+        }])->first();
+
+        $brand_email = $type->brand->user->email;
+
+        \DB::table('lemeet_orders')->insert($order);
         $order_id = \DB::getPdo()->lastInsertId();
         $dates = json_decode($request->dates, TRUE);
-
-
 
         if ($request->type != 'shared_table') {
             $times_units = [];
@@ -1851,14 +1735,28 @@ class ApiController extends Controller
                     ];
                     $order_units[] = $order_unit;
                 }
-                //   dd($single_unit);
 
             }
             \DB::table('order_unit')->insert($order_units);
         }
 
+        $data = [
+            'order' => $order,
+            'order_units' => $order_units
+        ];
 
+        $email = email()
+            ->to($brand_email)
+            ->subject('New order')
+            ->view('emails.order')
+            ->data($data)
+            ->send();
 
+        if (!$email->success()) {
+            \Log::alert('Email error: '. $email->errors());
+        }else{
+            \Log::info('Email success: Sent');
+        }
 
         /*
         $cardnumber = $request->cardnumber;
@@ -1915,21 +1813,7 @@ class ApiController extends Controller
         echo $responseData;
         exit;
     */
-
-
-
-
-
-
-        $api = [
-            'state' => true,
-            'message' => '',
-            'data' => [
-                'reservation_number' => $order_id
-            ]
-        ];
-
-        return response()->json($api);
+        return response()->data(['reservation_number' => $order_id]);
     }
 
 
@@ -1992,55 +1876,49 @@ class ApiController extends Controller
             ];
         })->toArray();
 
-
-        $api = [
-            'state' => true,
-            'message' => '',
-            'data' => $orders
-        ];
-
-        return response()->json($api);
+        return response()->data($orders);
     }
 
     public function user_order()
     {
 
         $orders = \App\OrderLeMeet::with('shared_table', 'meeting')->latest()->get()->map(function ($model) {
-
             $thumbnail = no_image();
             $name = '';
             if ($model->type == 'meeting') {
-                $name = $model->meeting->name;
-                $thumbnail = $model->meeting->thumbnail;
+                $name = $model->meeting->name ?? null;
+                $thumbnail = $model->meeting->thumbnail ?? null;
             } elseif ($model->type == 'shared_table') {
-                $thumbnail = $model->shared_table->thumbnail;
-                $name = $model->shared_table->name;
+                $thumbnail = $model->shared_table->thumbnail ?? null;
+                $name = $model->shared_table->name ?? null;
             }
 
 
             return [
                 'date' =>  $model->created_at->toDateTimeString(),
-                'image' => $thumbnail,
-                'type' =>  $model->type,
-                'description' => $name,
-                'price' => $model->price,
-                'reservationNumber' =>  $model->id,
+                'image' => $thumbnail ?? '',
+                'type' =>  $model->type ?? 'meeting',
+                'description' => $name ?? '',
+                'price' => $model->price ?? '',
+                'reservationNumber' =>  $model->id ?? '',
                 'rate' => '4.3 \\ 5 '
             ];
         })->toArray();
 
-
-        $api = [
-            'state' => true,
-            'message' => '',
-            'data' => $orders
-        ];
-
-        return response()->json($api);
+        return response()->data($orders);
     }
 
     public function review(Request $request)
     {
+        $validator = \Validator::make($request->all(), [
+            'review' => 'required | string'
+        ]);
+
+        if ($validator->fails())
+        {
+            return response()->error(400, $validator->errors()->all()[0]);
+        }
+
         $data = [];
         $data['user_id'] = $request->user_id;
         $data['brand_id'] = $request->brand_id;
@@ -2049,12 +1927,7 @@ class ApiController extends Controller
 
         \DB::table('reviews')->insert($data);
 
-        $api = [
-            'state' => true,
-            'message' => 'review added successfully',
-        ];
-
-        return response()->json($api);
+        return response()->success('review added successfully');
     }
 
     public function search_data()
@@ -2096,6 +1969,6 @@ class ApiController extends Controller
             'data' => $json
         ];
 
-        return response()->json($api);
+        return response()->data($api);
     }
 }

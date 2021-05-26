@@ -10,7 +10,7 @@ class OrderUnit extends Model
 {
     protected $table = 'order_unit';
 
-    public function scopeNeauvou($query)
+    public function scopeNew($query)
     {
         return $query->where('order_from', '>', now())->orderBy('order_from');
     }

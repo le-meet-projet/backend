@@ -11,23 +11,14 @@ class ApiSharedTableController extends Controller
 {
     public function index(Request $request)
     {
-
-        
-        $type = $request->order_by;
-        $latitude = $request->latitude;
-        $longitude = $request->longitude;
         $meetings = (new \App\Filter\SharedTableFilter())->init($request);
 
+        if($meetings instanceof Response){
+            return $meetings;
+        };
+        
+        return response()->data($meetings);
     
-        $api = [];
-        $api['state'] = true;
-        $api['message'] = '';
-        $api['data'] = $meetings;
-        return response()->json($api);
-    
-
-
-        //dd('ldldd');
         $tables = Table::get();
 
 
@@ -57,6 +48,6 @@ class ApiSharedTableController extends Controller
             ];
         }
 
-        return response($result);
+        return response()->data($result);
     }
 }

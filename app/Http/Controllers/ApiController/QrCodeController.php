@@ -16,44 +16,25 @@ class QrCodeController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $api = [
-                'state' => false,
-                'message' => 'المعلومات غير صحيحة',
-                'data' => [],
-            ];
-            return \response($api);
+            return response()->error(400, 'المعلومات غير صحيحة');
         }
 
         $qr_arr = explode('-', $request['qr_code']);
         if (count($qr_arr) !== 3) {
-            $api = [
-                'state' => false,
-                'message' => 'المعلومات غير صحيحة',
-                'data' => [],
-            ];
-            return \response($api);
+            return response()->error(400, 'المعلومات غير صحيحة');
         }
 
         $type = $qr_arr[1];
 
         if(!in_array($type, ['meeting', 'office', 'workshop', 'vacation'])) {
-            $api = [
-                'state' => false,
-                'message' => 'المعلومات غير صحيحة',
-                'data' => [],
-            ];
-            return \response($api);
+            return response()->error(400, 'المعلومات غير صحيحة');
         }
 
-        $api = [
+        $data = [
             'id' => intval($qr_arr[2]),
             'type' => $type
         ];
 
-        return response()->json([
-            'state' => true,
-            'message' => '',
-            'data' => $api
-        ]);
+        return response()->data($data);
     }
 }

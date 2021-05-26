@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Session;
+use Illuminate\Support\Facades\Validator;
 class BrandController extends Controller
 {
     /**
@@ -47,9 +48,14 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-           'name'     => 'required|string|min:4'
+        $validator = Validator::make($request->all(), [
+            'name'     => 'required|string|min:4'
         ]);
+
+        if ($validator->fails())
+        {
+            return back()->withErrors($validator)->withInput();
+        }
 
         $brand = new Brand;
         //create user 
@@ -57,11 +63,13 @@ class BrandController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->password = Hash::make($request->password);
-        $user->role = 'Brand';
+        $user->role = 'brand';
         $user->save();
        //////
 
         $brand->name = $request->input('name');
+        $brand->regular_est_name = $request->regular_est_name;
+        $brand->com_registration_number = $request->com_registration_number;
         $brand->address = $request->input('address');
         $brand->description = $request->input('description');
 
@@ -133,6 +141,8 @@ class BrandController extends Controller
 
         $brand->name     = $request->name;
         $brand->address    = $request->address;
+        $brand->regular_est_name = $request->regular_est_name;
+        $brand->com_registration_number = $request->com_registration_number;
         $brand->description    = $request->description;
         if($request->hasFile('thumbnail')){
             $brand->thumbnail = $request->thumbnail->store('thumbnails');

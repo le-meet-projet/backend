@@ -82,3 +82,16 @@ border-radius: 34px;
 border-radius: 50%;
 }
  
+.error {
+  background-color: #ff4c4c;
+  padding: 6px 20px;
+  width: max-content;
+}
+
+.error strong{
+  color: #FFF;
+}
+
+.dataTables_wrapper{
+  overflow-x: hidden;
+}

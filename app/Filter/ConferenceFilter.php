@@ -4,6 +4,7 @@ namespace App\Filter;
 
 use App\Meeting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ConferenceFilter {
 
@@ -18,15 +19,31 @@ class ConferenceFilter {
  
 
 
-    public function init($request) {
+    public function init($request)
+    {
+        $validator = Validator::make($request->all(), [
+            'order_by' => 'in:closest,popular,top_rating,best_price',
+        ]);
 
-      //  dd($request->all());
+        if ($validator->fails())
+        {
+            return response()->error(400, $validator->errors()->all()[0]);
+        }
+
         $this->query = Meeting::where(['type' => 'conference']);
         $type = $request->order_by;
         $long = $request->long;
         $lat = $request->lat;
         if($type == 'closest') {
-             $this->closest($long, $lat);
+            $validator = \Validator::make($request->all(), [
+                'long' => 'numeric', 
+                'lat' => 'numeric'
+            ]);
+            if ($validator->fails()) {
+                return response()->error(400, $validator->errors()->first());
+            }
+            
+            $this->closest($long, $lat);
         }elseif ($type == 'popular') {
             $this->popular();
         }elseif ($type == 'top_rating') {

@@ -9,18 +9,14 @@ class PaymentController extends ApiController
     public function request(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'type' => 'required | max:255',
+            'type' => 'required | string | max:255',
             'amount'   => 'required | numeric'
         ]);
 
         if ($validator->fails()) {
-            $api = [
-                'state' => false,
-                'message' => $validator->errors()->first(),
-                'data' => [],
-            ];
-            return \response($api);
+            return response()->error(400, $validator->errors()->first());
         }
+        
         $url = "https://test.oppwa.com/v1/checkouts";
         $data = "entityId=8ac7a4c877afa7980177afffe507019b" .
                 "&amount=92" .
@@ -43,7 +39,7 @@ class PaymentController extends ApiController
             return curl_error($ch);
         }
         curl_close($ch);
-        return json_decode($responseData, true);
+        return response()->data(json_decode($responseData, true));
     }
 
     public function status(string $id)
@@ -63,6 +59,6 @@ class PaymentController extends ApiController
             return curl_error($ch);
         }
         curl_close($ch);
-        return json_decode($responseData, true);
+        return response()->data(json_decode($responseData, true));
     }
 }

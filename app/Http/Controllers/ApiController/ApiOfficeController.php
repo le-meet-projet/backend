@@ -7,6 +7,7 @@ use App\ListSortHelper;
 use App\Meeting;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class ApiOfficeController extends Controller
 {
@@ -19,8 +20,8 @@ class ApiOfficeController extends Controller
     public function index(): Response
     {
         $offices = Meeting::where(['type' => 'conference'])->get();
-        if ( !$offices ) return \response(['error' => 'No office found !'], 404);
-        return response(['offices' => $offices]);
+        if ( !$offices ) return response()->error(404, 'No office found !');
+        return response()->data(['offices' => $offices]);
     }
 
     /**
@@ -31,8 +32,17 @@ class ApiOfficeController extends Controller
      */
     public function sort(Request $request): Response
     {
+        $validator = Validator::make($request->all(), [
+            'option' => 'string | max:255 | in:best_price,best_rating,most_popular'
+        ]);
+
+        if ($validator->fails())
+        {
+            return response()->error(400, $validator->errors()->all()[0]);
+        }
+
         $offices = ListSortHelper::sortList($request, 'conference');
-        return response(['offices' => $offices]);
+        return response()->data(['offices' => $offices]);
     }
 
     /**
@@ -44,8 +54,8 @@ class ApiOfficeController extends Controller
     public function reviews(int $id): Response
     {
         $reviews = ListSortHelper::getReviews($id, 'conference');
-        if ( !$reviews ) return response(['error' => 'No reviews found !']);
-        return response(['reviews' => $reviews]);
+        if ( !$reviews ) return response()->error(404, 'No reviews found !');
+        return response()->data(['reviews' => $reviews]);
     }
 
     /**
@@ -57,8 +67,8 @@ class ApiOfficeController extends Controller
     public function getOffice(int $id): Response
     {
         $office = Meeting::where(['type' => 'conference', 'id' => $id])->first();
-        if ( !$office ) return response(['error' => 'No office found !']);
-        return response(['office' => $office]);
+        if ( !$office ) return response()->error(404, 'No office found !');
+        return response()->data(['office' => $office]);
     }
 
 }

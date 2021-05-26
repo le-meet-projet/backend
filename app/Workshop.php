@@ -13,4 +13,8 @@ class Workshop extends Model
     {
         return $this->belongsTo('App\WorkshopCategory');
     }
+
+    public function brand(){
+        return $this->belongsTo('App\Brand', 'id_brand'); 
+    }
 }

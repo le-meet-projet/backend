@@ -6,31 +6,30 @@ use App\Helpers\SpaceClientHelper;
 use App\Table;
 use App\Vacation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class VacationFilter {
 
     protected $query;
 
     public function init(Request $request) {
-        $this->query = Vacation::query();
-        $validator = \Validator::make($request->all(), [
-            'type' => 'string'
+        $validator = Validator::make($request->all(), [
+            'type' => 'string | in:closest,popular,rating,price'
         ]);
-        if ($validator->fails()) 
-            return [
-                'error' => $validator->errors()->first()
-            ];
+        if ($validator->fails()) {
+            return response()->error(400, $validator->errors()->first());
+        }
 
+
+        $this->query = Vacation::query();
         $type = $request->type;
         if ($type === 'closest') {
             $validator = \Validator::make($request->all(), [
-                'long' => 'required | numeric', 
-                'lat' => 'required | numeric'
+                'long' => 'numeric', 
+                'lat' => 'numeric'
             ]);
             if ($validator->fails()) {
-                return [
-                    'error' => $validator->errors()->first()
-                ];
+                return response()->error(400, $validator->errors()->first());
             }
             $long = $request->long;
             $lat = $request->lat;

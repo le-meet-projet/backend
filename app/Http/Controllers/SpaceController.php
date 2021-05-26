@@ -65,7 +65,6 @@ class SpaceController extends Controller
         $space->options = json_encode($request->properties);
         $space->price = $request->price;
         $space->percent = $request->percent;
-        $space->iban = $request->iban;
         $space->description = $request->description;
         $space->map = $request->map ?? '';
         $space->lat = $request->lat ?? '';

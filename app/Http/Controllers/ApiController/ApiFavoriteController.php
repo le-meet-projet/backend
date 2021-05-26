@@ -31,19 +31,14 @@ class ApiFavoriteController extends Controller
             return $this->prepareFavoritesForApi($favorite, $favorite->type);
         })->toArray();
 
-        return response()->json([
-            'state' => true,
-            'message' => '',
-            'data' => $favorites
-        ]);
+
+        return response()->data($favorites);
     }
 
 
     public function prepareFavoritesForApi($favorite, $type)
     {
-
-
-        $thumbnail = ($favorite->meeting->thumbnail  != 'NULL' and $favorite->meeting->thumbnail  != NULL) ?  env('SPACE_THUMBNAIL') . $favorite->meeting->thumbnail : env('NO_IMAGE');
+        $thumbnail = isset($favorite->meeting) && ($favorite->meeting->thumbnail  != 'NULL' || $favorite->meeting->thumbnail  != null) ?  env('SPACE_THUMBNAIL') . $favorite->meeting->thumbnail : env('NO_IMAGE');
 
         if ($type == 'meeting' || $type == 'office') {
 
@@ -94,9 +89,6 @@ class ApiFavoriteController extends Controller
             $data['id'] = $favorite->shared_table->id;
         }
 
-
-
-
         $data['type'] = $favorite->type;
 
 
@@ -105,21 +97,15 @@ class ApiFavoriteController extends Controller
 
     public function add_to_favorite(Request $request)
     {
-
         $types = ['workshop', 'office', 'meeting', 'vacation', 'shared_table'];
 
         $validator = \Validator::make($request->all(), [
-            'type' => 'required|in:' . implode(',', $types),
+            'type' => 'required | string | in:' . implode(',', $types),
             'type_id' => 'required | numeric ',
         ]);
 
         if ($validator->fails()) {
-            $api = [
-                'state' => false,
-                'message' => 'المعلومات غير صحيحة',
-                'data' => [],
-            ];
-            return \response($api);
+            return response()->error(400, 'المعلومات غير صحيحة');
         }
 
 
@@ -133,43 +119,30 @@ class ApiFavoriteController extends Controller
             $saved = $favorite->save();
 
             if ($saved) {
-                $api = [
-                    'state' => true,
-                    'message' => '',
-                    'data' => true
-                ];
-                return \response($api);
+                return response()->success('Added to favorite successfully');
             }
         }
-
-
-
-        $api = [
-            'state' => false,
-            'message' => 'حصل خطأ ما ',
-            'data' => false
-        ];
-        return \response($api);
+        return response()->error(400, 'حصل خطأ ما');
     }
 
 
 
     public function remove_many_from_favorite(Request $request)
     {
+        $validator = \Validator::make($request->all(), [
+            'listIdsFavorites' => 'required'
+        ]);
+        
+        if ($validator->fails() || !is_array(json_decode($request->listIdsFavorites))) {
+            return response()->error(400, 'المعلومات غير صحيحة');
+        }
 
         $ids = json_decode($request->listIdsFavorites);
         $favorites = Favorite::find($ids);
         foreach ($favorites as $item) {
             $item->delete();
         }
-
-
-        $api = [
-            'state' => true,
-            'message' => '',
-            'data' => [],
-        ];
-        return \response($api);
+        return response()->success('Removed from favorite successfully');
     }
 
 
@@ -180,17 +153,12 @@ class ApiFavoriteController extends Controller
         $types = ['workshop', 'office', 'meeting', 'vacation', 'shared_table'];
 
         $validator = \Validator::make($request->all(), [
-            'type' => 'required|in:' . implode(',', $types),
+            'type' => 'required | string | in:' . implode(',', $types),
             'type_id' => 'required | numeric ',
         ]);
 
         if ($validator->fails()) {
-            $api = [
-                'state' => false,
-                'message' => 'المعلومات غير صحيحة',
-                'data' => [],
-            ];
-            return \response($api);
+            return response()->error(400, 'المعلومات غير صحيحة');
         }
 
         $user_id = \Auth::user()->id;
@@ -203,24 +171,14 @@ class ApiFavoriteController extends Controller
 
         if ($count != 0) {
             $favorite = $query->first();
-            $api = [
-                'state' => true,
-                'message' => '',
-                'data' => [
-                    'id' => $favorite->id,
-                    'favorite' => $favorite->type
-                ]
+            $data = [
+                'id' => $favorite->id,
+                'favorite' => $favorite->type
             ];
             $favorite->delete();
-            return \response($api);
+            return response()->success('Removed from favorite successfully', $data);
         }
-
-        $api = [
-            'state' => false,
-            'message' => 'حصل خطأ ما ',
-            'data' => false
-        ];
-        return \response($api);
+        return response()->error(400, 'حصل خطأ ما');
     }
 
 
@@ -228,24 +186,25 @@ class ApiFavoriteController extends Controller
 
     public function add(int $space_id)
     {
-        $favorite = Favorite::where(['space_id' => $space_id])->first();
-        if ($favorite) return response(['message' => 'The space is already in your favorites !']);
+        $favorite = Favorite::where(['type_id' => $space_id])->first();
+        if ($favorite) return response()->error(400, 'The space is already in your favorites !');
         $space = SpaceSubSpace::find($space_id);
-        if (!$space) return response(['error' => 'space not found !'], 404);
+        if (!$space) return response()->error(404, 'space not found !');
         $user = Auth::guard('api')->user();
         $favorite = new Favorite();
         $favorite->user_id = $user->id;
-        $favorite->space_id = $space_id;
+        $favorite->type = $space->type_space;
+        $favorite->type_id = $space_id;
         $favorite->save();
-        return response(['success' => 'The favorite was added with success !']);
+        return response()->success('The favorite was added with success !');
     }
 
     public function delete(int $id)
     {
         $user = Auth::guard('api')->user();
         $favorite = Favorite::where(['user_id' => $user->id, 'id' => $id])->first();
-        if (!$favorite) return response(['error' => 'favorite not found !'], 404);
+        if (!$favorite) return response()->error(404, 'favorite not found !');
         $favorite->delete();
-        return response(['success' => 'The favorite was deleted with success !']);
+        return response()->success('The favorite was deleted with success !');
     }
 }

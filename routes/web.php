@@ -157,6 +157,18 @@ Route::group(['prefix' => '/dashboard', 'as' => 'admin.', 'middleware' => 'Admin
     });
 });
 
+Route::get('/merchant/login','OrdersMeetingsController@login')->name('merchantlogin');
+Route::post('/merchant/doLogin','OrdersMeetingsController@doLogin')->name('doLogin');
+
+
+Route::group(['prefix' => 'merchant', 'as' => 'merchant.', 'middleware' => 'Brand'], function (){
+Route::get('/','OrdersMeetingsController@send')->name('orders');
+Route::get('/profile','OrdersMeetingsController@profile')->name('profile');
+Route::post('/profileEdit','OrdersMeetingsController@profileEdit')->name('profileEdit');
+Route::get('/orders-invoice','OrdersMeetingsController@invoice')->name('invoice');
+Route::get('/whallet','OrdersMeetingsController@whallet')->name('whallet');
+Route::get('/rating','OrdersMeetingsController@rating')->name('rating');
+});
 
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');

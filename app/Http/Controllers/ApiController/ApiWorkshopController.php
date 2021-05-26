@@ -8,19 +8,15 @@ use App\Workshop;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class ApiWorkshopController extends Controller
 {
-
-
-    
-    
     public $helper ;
 
-    public function __construct(){
-        
-        $this->helper = new \App\Helpers\Api();
-        
+    public function __construct()
+    {
+        $this->helper = new \App\Helpers\Api();    
     }
 
     /**
@@ -30,27 +26,15 @@ class ApiWorkshopController extends Controller
      */
     public function index(): Response
     {
-
         $workshops = Workshop::all()->map(function($workshop){
             return $this->helper->vacation($workshop);
         });
 
-        $api = [
-            'state' => false,
-            'message' => 'workshops not found!',
-            'data' => []
-        ];
-
         if ( count($workshops) > 0 ){
-            $api['state'] = true;
-            $api['message'] = '';
-            $api['data'] = $workshops;
+            return response()->data($workshops);
         }
 
-        return response($api);
-
-
-        
+        return response()->error(404, 'workshops not found!');
     }
 
     /**
@@ -61,12 +45,17 @@ class ApiWorkshopController extends Controller
      */
     public function sort(Request $request)
     {
-        $request->validate([
-            'option' => 'string | max:255'
+        $validator = Validator::make($request->all(), [
+            'option' => 'string | max:255 | in:best_price,best_rating,most_popular'
         ]);
 
+        if ($validator->fails())
+        {
+            return response()->error(400, $validator->errors()->all()[0]);
+        }
+
         $workshops = ListSortHelper::sortList($request, 'workshop');
-        return response($workshops);
+        return response()->data($workshops);
     }
 
     /**
@@ -78,10 +67,10 @@ class ApiWorkshopController extends Controller
     public function reviews($id): Response
     {
         $workshop = Workshop::find($id);
-        if ( !$workshop ) return response(['error' => 'Not found !'], 404);
-        $spaceSubSpace = ListSortHelper::getReviews($id, 'workshops');
-        if (!$spaceSubSpace) return response(['reviews' => 'Not found !'], 404);
-        return response(['reviews' => $spaceSubSpace->reviews]);
+        if ( !$workshop ) return response()->error(404, 'Not found !');
+        $reviews = ListSortHelper::getReviews($id, 'workshop');
+        if (!$reviews) return response()->error(404, 'Not found !');
+        return response()->data(['reviews' => $reviews]);
     }
 
     /**
@@ -93,8 +82,8 @@ class ApiWorkshopController extends Controller
     public function getWorkshop(int $id): Response
     {
         $workshop = Workshop::find($id);
-        if ( !$workshop ) return response(['error' => 'Workshop not found !']);
-        return response(['workshop' => $workshop]);
+        if ( !$workshop ) return response()->error(404, 'Workshop not found !');
+        return response()->data(['workshop' => $workshop]);
     }
 
 }

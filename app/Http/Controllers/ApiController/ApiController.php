@@ -68,17 +68,9 @@ class ApiController extends Controller
         
         $limit = $request->limit ;
 
-        $data = ( count($this->result) < $limit  or $limit == 'all' ) ?  $this->result : array_slice($this->result,0, $limit) ;
-
-
-        $api = [
-            'state' => true,
-            'message' => '',
-            'data' => $data,
-        ];
+        $data = ( count($this->result) < $limit or $limit == 'all' ) ? $this->result : array_slice($this->result,0, $limit) ;
         
-        return response($api);
-
+        return response()->data($data);
     }
 
     

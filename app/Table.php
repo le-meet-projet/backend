@@ -12,4 +12,8 @@ class Table extends Model
     public function favorite(){
         return $this->belongsTo('App\Favorite','type_id'); 
     }
+
+    public function brand(){
+        return $this->belongsTo('App\Brand', 'id_brand'); 
+    }
 }

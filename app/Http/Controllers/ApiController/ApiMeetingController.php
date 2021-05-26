@@ -7,6 +7,7 @@ use App\ListSortHelper;
 use App\Meeting;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class ApiMeetingController extends Controller
 {
@@ -26,8 +27,8 @@ class ApiMeetingController extends Controller
     public function index(): Response
     {
         $meetings = Meeting::get();
-        if (!$meetings) return response(['error' => 'Not found !'], 404);
-        return response(['meetings' => $meetings]);
+        if (!$meetings) return response()->error(404, 'Not found !');
+        return response()->data(['meetings' => $meetings]);
     }
 
     public function meetingResponse($type)
@@ -36,19 +37,11 @@ class ApiMeetingController extends Controller
             return $this->helper->conference($meeting);
         });
 
-        $api = [
-            'state' => false,
-            'message' => 'meetings not found!',
-            'data' => []
-        ];
-
         if (count($meetings) > 0) {
-            $api['state'] = true;
-            $api['message'] = '';
-            $api['data'] = $meetings;
+            return response()->data($meetings);
         }
 
-        return response($api);
+        return response()->error(404, 'meetings not found!');
     }
 
     public function conference(Request $request)
@@ -57,33 +50,29 @@ class ApiMeetingController extends Controller
         $latitude = $request->latitude;
         $longitude = $request->longitude;
         $meetings = (new \App\Filter\ConferenceFilter())->init($request);
-
-        $api = [];
-        $api['state'] = true;
-        $api['message'] = '';
-        $api['data'] = $meetings;
-        return response()->json($api);
-
-        return $this->meetingResponse('conference');
+        
+        if($meetings instanceof Response){
+            return $meetings;
+        };
+        
+        return response()->data($meetings);
     }
 
 
     public function meeting(Request $request)
     {
-
         \Log::info($request->all());
-
 
         $type = $request->order_by;
         $latitude = $request->latitude;
         $longitude = $request->longitude;
         $meetings = (new \App\Filter\MeetingFilter())->init($request);
 
-        $api = [];
-        $api['state'] = true;
-        $api['message'] = '';
-        $api['data'] = $meetings;
-        return response()->json($api);
+        if($meetings instanceof Response){
+            return $meetings;
+        };
+        
+        return response()->data($meetings);
         //return $this->meetingResponse('meeting');
     }
 
@@ -96,11 +85,17 @@ class ApiMeetingController extends Controller
      */
     public function sort(Request $request): Response
     {
-        $request->validate([
-            'option' => 'string | max:255'
+        $validator = Validator::make($request->all(), [
+            'option' => 'string | max:255 | in:best_price,best_rating,most_popular'
         ]);
+
+        if ($validator->fails())
+        {
+            return response()->error(400, $validator->errors()->all()[0]);
+        }
+
         $meetings = ListSortHelper::sortList($request, 'meeting');
-        return response(['meetings' => $meetings]);
+        return response()->data(['meetings' => $meetings]);
     }
 
     /**
@@ -111,9 +106,9 @@ class ApiMeetingController extends Controller
      */
     public function reviews(int $id): Response
     {
-        $spaceSubSpace = ListSortHelper::getReviews($id, 'meeting');
-        if (!$spaceSubSpace) return \response(['error' => 'Not found !'], 404);
-        return response(['reviews' => $spaceSubSpace->reviews]);
+        $reviews = ListSortHelper::getReviews($id, 'meeting');
+        if (!$reviews) return response()->error(404, 'Not found !');
+        return response()->data(['reviews' => $reviews]);
     }
 
     /**
@@ -125,7 +120,7 @@ class ApiMeetingController extends Controller
     public function getMeeting(int $id): Response
     {
         $meeting = Meeting::find($id);
-        if (!$meeting) return response(['error' => 'No meeting found !'], 404);
-        return response(['meeting' => $meeting]);
+        if (!$meeting) return response()->error(404, 'No meeting found !');
+        return response()->data(['meeting' => $meeting]);
     }
 }

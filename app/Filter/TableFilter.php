@@ -5,31 +5,30 @@ namespace App\Filter;
 use App\Helpers\SpaceClientHelper;
 use App\Table;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TableFilter {
 
     protected $query;
 
     public function init(Request $request) {
-        $this->query = Table::query();
         $validator = \Validator::make($request->all(), [
-            'type' => 'string'
+            'type' => 'string | in:closest,popular,rating,price'
         ]);
-        if ($validator->fails()) 
-            return [
-                'error' => $validator->errors()->first()
-            ];
+        if ($validator->fails()) {
+            return response()->error(400, $validator->errors()->first());
+        }
+
+        $this->query = Table::query();
 
         $type = $request->type;
         if ($type === 'closest') {
             $validator = \Validator::make($request->all(), [
-                'long' => 'required | numeric', 
-                'lat' => 'required | numeric'
+                'long' => 'numeric', 
+                'lat' => 'numeric'
             ]);
             if ($validator->fails()) {
-                return [
-                    'error' => $validator->errors()->first()
-                ];
+                return response()->error(400, $validator->errors()->first());
             }
             $long = $request->long;
             $lat = $request->lat;
@@ -69,7 +68,7 @@ class TableFilter {
     }
     
     private function get() {
-        $tables = $this->query->all();
+        $tables = $this->query->get();
         return SpaceClientHelper::getSapce($tables, 'shared_table');
         
     }

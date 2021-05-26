@@ -30,7 +30,7 @@ class ApiUserController extends Controller
      */
     public function editUser(): Response
     {
-        return \response(['Information_user' => $this->currentUser]);
+        return response()->data(['Information_user' => $this->currentUser]);
     }
 
     /**
@@ -40,18 +40,12 @@ class ApiUserController extends Controller
      */
     public function profileUser(): Response
     {
-
         $user =  $this->currentUser;
         if($user['avatar'] == 'NULL' or $user['avatar'] == '' or is_null($user['avatar'])){
             $user['avatar'] = env('API_URL').'default-user-avatar.png';
         }
         
-        $api = [
-            'state' => true,
-            'message' => '',
-            'data' => $user
-        ];
-        return \response($api);
+        return response()->data($user);
     }
 
     /**
@@ -63,25 +57,17 @@ class ApiUserController extends Controller
         $id = \Auth::user()->id;
         $validator = \Validator::make($request->all(), [
             'name' => 'string | max:255',
-           // 'email' => 'email | string | max:255',
-            'password' => 'max:255',
-            'address' => 'max:400',
+            'password' => 'string | min:6 | max:255',
+            'address' => 'string | max:400',
             'phone' => 'string | max:400 | unique:users,phone,'.$id.',id',
         ]);
 
         if ($validator->fails())
         {
-            $api = [
-                'state' => false,
-                'message' =>  $validator->errors()->all()[0] ,
-                'data' => ''
-            ];
-            return response($api, 200);
+            return response()->error(400, $validator->errors()->all()[0]);
         }
 
-
         $user = Auth::user();
-
 
         $password = $user->getAuthPassword();
 
@@ -89,23 +75,13 @@ class ApiUserController extends Controller
             $password = Hash::make($request['password']);
         }
 
-//$user->email = $request['email'] ?? $user->email;
         $user->password = $password; 
         $user->phone = $request['phone'] ?? $user->phone;
         $user->name = $request['name'] ?? $user->name;
         $user->address = $request['address'] ?? $user->address;
         $user->save();
 
-
-        $api = [
-            'state' => true,
-            'message' => 'تم تعديل المعلومات بنجاح',
-            'data' => []
-        ];
-        return \response($api);
-
-        
-        return response($api, 200);
+        return response()->success('تم تعديل المعلومات بنجاح');
     }
 
     /**
@@ -114,14 +90,20 @@ class ApiUserController extends Controller
      */
     public function updateAvatar(Request $request): Response
     {
-        $request->validate([
-            'avatar' => 'string | max:255 | required',
+        $validator = \Validator::make($request->all(), [
+            'avatar' => 'required | string | max:255',
         ]);
+
+        if ($validator->fails())
+        {
+            return response()->error(400, $validator->errors()->all()[0]);
+        }
+
         $user = $this->currentUser;
         $user->avatar = $request['avatar'];
         $user->save();
 
-        return response(['message' => 'The avatar of the user was updated with success !']);
+        return response()->success('The avatar of the user was updated with success !');
     }
 
     /**
@@ -130,20 +112,23 @@ class ApiUserController extends Controller
      */
     public function deleteUser(int $id): Response
     {
-        if ( $this->currentUser->role !== 'admin' || $this->currentUser->id === $idD ) return response(['error' => 'Unauthorized'], 403);
+        if ( $this->currentUser->role !== 'admin' || $this->currentUser->id === $id )
+            return response()->error(403, 'Unauthorized');
         $user = User::find($id);
-        if ( $user === null ) return response(['error' => 'The user was not found !'], 404);
+        if ( $user === null )
+            return response()->error(404, 'The user was not found !');
         $user->delete();
-
-        return response(['message' => 'The user was deleted with success !']);
+            return response()->success('The user was deleted with success !');
     }
 
     public function userAds(int $id)
     {
-        if ($this->currentUser->role !== 'admin') return \response(['error' => 'unauthorized'], 403);
+        if ($this->currentUser->role !== 'admin')
+            return response()->error(403, 'Unauthorized');
         $ads = Ads::where(['user_id' => $id])->get()->toArray();
-        if ( count($ads) === 0 ) return response(['error' => 'The ads was not found !'], 404);
-        return response(['ads' => $ads]);
+        if ( count($ads) === 0 )
+            return response()->error(404, 'The ads was not found !');
+        return response()->data(['ads' => $ads]);
     }
 
     /**
@@ -153,8 +138,9 @@ class ApiUserController extends Controller
     public function userNotification(int $id): Response
     {
         $notifications = Notification::where(['user_id' => $id])->get()->toArray();
-        if ( count($notifications) === 0 ) return response(['error' => 'No notifications for the user !'], 404);
-        return response(['notifications' => $notifications], 200);
+        if ( count($notifications) === 0 )
+            return response()->error(404, 'No notifications for the user !');
+        return response()->data(['notifications' => $notifications]);
     }
 
     /**
@@ -163,8 +149,9 @@ class ApiUserController extends Controller
     public function currentUserNotifications(): Response
     {
         $notifications = $this->currentUser->notifications;
-        if ( count($notifications) === 0 ) return response(['error' => 'No notifications'], 404);
-        return response(['notifications' => $notifications]);
+        if ( count($notifications) === 0 )
+            return response()->error(404, 'No notifications');
+        return response()->data(['notifications' => $notifications]);
     }
 
     /**
@@ -173,8 +160,9 @@ class ApiUserController extends Controller
     public function userOrders(): Response
     {
         $orders = $this->currentUser->orders;
-        if ( count($orders) === 0 ) return response(['error' => 'No orders'], 404);
-        return response(['orders' => $orders]);
+        if ( count($orders) === 0 )
+            return response()->error(404, 'No orders');
+        return response()->data(['orders' => $orders]);
     }
 
 }

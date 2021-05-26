@@ -24,19 +24,14 @@ class ApiAuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required | string | max:255',
-            'email' => ' string | email | max:255 | unique:users',
+            'email' => ' required | string | email | max:255 | unique:users',
             'password' => 'string | min:6 ',
             'phone' => 'required | string | min:10 | max:15 | unique:users',
         ]);
 
         if ($validator->fails())
         {
-            $api = [
-                'state' => false,
-                'message' =>  $validator->errors()->all()[0] ,
-                'data' => ''
-            ];
-            return response($api, 200);
+            return response()->error(400, $validator->errors()->all()[0]);
         }
 
         $request['password'] = Hash::make($request['password']);
@@ -46,20 +41,10 @@ class ApiAuthController extends Controller
         $saved = User::create($request->toArray());
 
         if($saved){
-            $api = [
-                'state' => true,
-                'message' => '',
-                'data' => '',
-            ];
-            return response($api,200);
+            return response()->success('User registered successfully');
         }
 
-        $api = [
-            'state' => false,
-            'message' => 'something went wrong',
-            'data' => '',
-        ];
-        return response($api,422);
+        return response()->error(400, 'Something went wrong');
     }
 
     /**
@@ -68,34 +53,33 @@ class ApiAuthController extends Controller
      */
     public function login(Request $request): Response
     {
-
-        $logins = $request->validate([
+        $validator = Validator::make($request->all(), [
             'phone' => 'required | string | min:8 | max:15',
         ]);
 
+        if ($validator->fails())
+        {
+            return response()->error(400, $validator->errors()->all()[0]);
+        }
+
+    //    dd('mdmdmdd');
         $phone = $request['phone'];
         
         $user = User::where(['phone' => $phone])->first();
-
         if(!$user){
-            $api = [
-                'success' => false,
-                'message' => 'المعلومات خاطئة ! المرجوا المحاولة من جديد',
-            ];
-            return response($api);
+            return response()->error(401, 'المعلومات خاطئة ! المرجوا المحاولة من جديد');
         }
 
         Auth::login($user);
 
-        $token = Auth::user()->createToken('authToken')->accessToken;
+        $token = Auth::user()->createToken('le meet')->accessToken;
 
-        $api = [
-            'success' => true,
+        $data = [
             'token' => $token,
             'user' => $user
         ];
-
-        return response($api, 200);
+        
+        return response()->success('User logged in successfully', $data);
     }
 
     /**
@@ -107,18 +91,11 @@ class ApiAuthController extends Controller
         $token = $request->user()->token();
         $token->revoke();
 
-
-        $api = [
-            'state' => true,
-            'message' => '',
-            'data' => '',
-        ];
-        return response($api,200);
-
+        return response()->success('User logged out successfully');
     }
 
 
     public function check(){
-        return new JsonResponse(['authenticated' => \Auth::guard('api')->check()]);
+        return response()->data(['authenticated' => \Auth::guard('api')->check()]);
     }
 }

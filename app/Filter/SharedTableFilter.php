@@ -20,11 +20,25 @@ class SharedTableFilter {
 
     public function init($request) {
 
+        $validator = \Validator::make($request->all(), [
+            'order_by' => 'string | in:closest,popular,top_rating,best_price'
+        ]);
+        if ($validator->fails()) {
+            return response()->error(400, $validator->errors()->first());
+        }
+
         $this->query = Table::query();
         $type = $request->order_by;
         $long = $request->long;
         $lat = $request->lat;
         if($type == 'closest') {
+            $validator = \Validator::make($request->all(), [
+                'long' => 'numeric', 
+                'lat' => 'numeric'
+            ]);
+            if ($validator->fails()) {
+                return response()->error(400, $validator->errors()->first());
+            }
              $this->closest($long, $lat);
         }elseif ($type == 'popular') {
             $this->popular();
