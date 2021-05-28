@@ -67,7 +67,6 @@ class SharedTableFilter {
     } 
     
     private function price() {
-      //  die('okk');
         $this->query = $this->query->orderBy('price', 'ASC');
         return $this;
     }
@@ -76,7 +75,7 @@ class SharedTableFilter {
         return $this->query->get()->map(function($table) {
             return [
                 'id' => $table->id,
-                'image' => $table->thumbnail != NULL ? env('SPACE_THUMBNAIL') . $table->thumbnail : env('NO_IMAGE'),
+                'image' => $table->thumbnail != NULL ? env('SHARED_TABLE_THUMBNAIL') . $table->thumbnail : no_image(),
                 'place_name' => $table->name,
                 'price' => $table->price,
                 'rate' => '5/5',

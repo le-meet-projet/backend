@@ -2,7 +2,7 @@
 
 
 function no_image(){
-    return  'https://obazaar-test.com/not-found.png';
+    return env('NO_IMAGE');
 }
 
 if (!function_exists('email')) {

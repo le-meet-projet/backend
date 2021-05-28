@@ -38,13 +38,11 @@ class ApiFavoriteController extends Controller
 
     public function prepareFavoritesForApi($favorite, $type)
     {
-        $thumbnail = isset($favorite->meeting) && ($favorite->meeting->thumbnail  != 'NULL' || $favorite->meeting->thumbnail  != null) ?  env('SPACE_THUMBNAIL') . $favorite->meeting->thumbnail : env('NO_IMAGE');
-
         if ($type == 'meeting' || $type == 'office') {
 
             $data = [
                 'id_favorite' => $favorite->id,
-                'image' => $thumbnail,
+                'image' => $favorite->meeting->thumbnail != null ?  env('SPACE_THUMBNAIL') . $favorite->meeting->thumbnail : no_image(),
                 'description' => $favorite->meeting->name,
                 'price' => $favorite->meeting->price,
                 'rate' => $favorite->meeting->rate,
@@ -56,7 +54,7 @@ class ApiFavoriteController extends Controller
         if ($type == 'vacation') {
             $data = [
                 'id_favorite' => $favorite->id,
-                'image' => $thumbnail,
+                'image' => $favorite->vacation->thumbnail != null ?  env('SPACE_THUMBNAIL') . $favorite->vacation->thumbnail : no_image(),
                 'description' => $favorite->vacation->name,
                 'price' => $favorite->vacation->price,
                 'rate' => $favorite->vacation->rate,
@@ -67,7 +65,7 @@ class ApiFavoriteController extends Controller
         if ($type == 'workshop') {
             $data = [
                 'id_favorite' => $favorite->id,
-                'image' => $thumbnail,
+                'image' => $favorite->workshop->thumbnail != null ?  env('SPACE_THUMBNAIL') . $favorite->workshop->thumbnail : no_image(),
                 'description' => $favorite->workshop->name,
                 'price' => $favorite->workshop->price,
                 'rate' => $favorite->workshop->rate,
@@ -80,7 +78,7 @@ class ApiFavoriteController extends Controller
         if ($type == 'shared_table') {
             $data = [
                 'id_favorite' => $favorite->id,
-                'image' => $thumbnail,
+                'image' => $favorite->shared_table->thumbnail != null ?  env('SHARED_TABLE_THUMBNAIL') . $favorite->shared_table->thumbnail : no_image(),
                 'description' => $favorite->shared_table->name,
                 'price' => $favorite->shared_table->pricmeetinge,
                 'rate' => $favorite->shared_table->rate,

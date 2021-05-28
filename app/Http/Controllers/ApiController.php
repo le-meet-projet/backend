@@ -931,7 +931,7 @@ class ApiController extends Controller
     public function confirm_payment(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'type' => 'required | string | max:255 | in:shared_table,meeting,vacation,workspace',
+            'type' => 'required | string | max:255 | in:shared_table,meeting,office,vacation,workspace',
             'id'   => 'required | numeric',
             'dates' => 'required | string'
         ]);
@@ -943,6 +943,7 @@ class ApiController extends Controller
         $models = [
             'shared_table' => Table::query(),
             'meeting' => Meeting::query(),
+            'office' => Meeting::query(),
             'vacation' => Vacation::query(),
             'workspace' => Workshop::query()
         ];
@@ -1181,7 +1182,7 @@ class ApiController extends Controller
     {
 
         $orders = \App\OrderLeMeet::with('shared_table', 'meeting')->latest()->get()->map(function ($model) {
-            $thumbnail = no_image();
+
             $name = '';
             if ($model->type == 'meeting') {
                 $name = $model->meeting->name ?? null;
@@ -1191,6 +1192,9 @@ class ApiController extends Controller
                 $name = $model->shared_table->name ?? null;
             }
 
+            if (!isset($thumbnail) || $thumbnail == null) {
+                $thumbnail = no_image();
+            }
 
             return [
                 'date' =>  $model->created_at->toDateTimeString(),

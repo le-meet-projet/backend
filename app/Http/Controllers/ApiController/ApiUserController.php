@@ -44,6 +44,8 @@ class ApiUserController extends Controller
         if($user['avatar'] == 'NULL' or $user['avatar'] == '' or is_null($user['avatar'])){
             $user['avatar'] = env('API_URL').'default-user-avatar.png';
         }
+
+        $user['avatar'] = env('API_URL').$user['avatar'];
         
         return response()->data($user);
     }
@@ -58,7 +60,7 @@ class ApiUserController extends Controller
         $validator = \Validator::make($request->all(), [
             'name' => 'string | max:255',
             'password' => 'string | min:6 | max:255',
-            'address' => 'string | max:400',
+            'address' => 'max:400',
             'phone' => 'string | max:400 | unique:users,phone,'.$id.',id',
         ]);
 

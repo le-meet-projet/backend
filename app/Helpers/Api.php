@@ -7,7 +7,7 @@ class Api
 
     public function conference($meeting)
     {
-        $thumbnail = $meeting->thumbnail  != NULL ? env('SPACE_THUMBNAIL') . $meeting->thumbnail : env('NO_IMAGE');
+        $thumbnail = $meeting->thumbnail  != NULL ? env('SPACE_THUMBNAIL') . $meeting->thumbnail : no_image();
         return [
             'id' => $meeting->id,
             'image' =>  $thumbnail,
@@ -25,7 +25,7 @@ class Api
 
     public function vacation($vacation)
     {
-        $thumbnail = $vacation->thumbnail  != NULL ? env('SPACE_THUMBNAIL') . $vacation->thumbnail : env('NO_IMAGE');
+        $thumbnail = $vacation->thumbnail  != NULL ? env('SPACE_THUMBNAIL') . $vacation->thumbnail : no_image();
         return [
             'id' => $vacation->id,
             'image' =>  $thumbnail,
@@ -44,7 +44,7 @@ class Api
 
     public function singleMeeting($meeting)
     {
-        $thumbnail = $meeting->thumbnail  != NULL ?  env('SPACE_THUMBNAIL') . $meeting->thumbnail : env('NO_IMAGE');
+        $thumbnail = $meeting->thumbnail  != NULL ?  env('SPACE_THUMBNAIL') . $meeting->thumbnail : no_image();
         return [
             'id' => $meeting->id,
             'image' =>  $thumbnail,
@@ -61,7 +61,7 @@ class Api
 
     public function table($table)
     {
-        $thumbnail = $table->thumbnail  != NULL ? env('SPACE_THUMBNAIL') . $table->thumbnail : env('NO_IMAGE');
+        $thumbnail = $table->thumbnail  != NULL ? env('SPACE_THUMBNAIL') . $table->thumbnail : no_image();
         return [
             'id' => $table->id,
             'image' =>  $thumbnail,
