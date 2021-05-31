@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@800&display=swap" rel="stylesheet">
-        <link href="{{ asset('/public/css/lemeet.css')}}" rel="stylesheet">
+        <link href="{{ asset('/css/lemeet.css')}}" rel="stylesheet">
     </head>
     <body>
         <header>
@@ -19,7 +19,7 @@
                     
                   </form>
                     <div class="logo">
-                        <a  href="{{ route('merchant.orders')}}"><img src="{{ asset('/public/assets/img/lemeet.PNG')}}" /></a>
+                        <a  href="{{ route('merchant.orders')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
                     </div>
                     <div class="form-group role-selector">
                         

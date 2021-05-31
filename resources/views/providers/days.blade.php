@@ -20,7 +20,7 @@
                     <h2><i class="bi bi-person-fill"></i>حسابي</h2>
                   </form>
                     <div class="logo">
-                    <a  href="{{ route('merchant.orders')}}"><img src="{{ asset('/public/assets/img/lemeet.PNG')}}" /></a>
+                    <a  href="{{ route('merchant.orders')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
                     </div>
                     <div class="form-group role-selector">
                         <label class="form-switch">
@@ -56,7 +56,7 @@
                             @foreach($v_order as $days)
                                 @if ($loop->first)                         
                                     <td class="hours">
-                                        <img src="{{ asset('/public/image/salle1.jpg') }}" style="width: 75%;margin-left: 10%;margin-right: 15%;height: 70%;position: absolute;">
+                                        <img src="{{ asset('/image/salle1.jpg') }}" style="width: 75%;margin-left: 10%;margin-right: 15%;height: 70%;position: absolute;">
                                         <div class="name-salle">
                                             {{ $days->name}}
                                         </div>
@@ -93,7 +93,7 @@
                             <div class="col-lg-2 col-xs-2 card-img">
                                 <div class="">
                                     <td class="hours">
-                                        <img src="{{ asset('/public/image/salle1.jpg') }}" style="width: 151px;">
+                                        <img src="{{ asset('/image/salle1.jpg') }}" style="width: 151px;">
                                         <div class="name-lka3a">
                                         قاعة المكان
                                          </div>

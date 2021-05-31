@@ -18,7 +18,7 @@
                     
                   </form>
                     <div class="logo">
-                    <a  href="{{ route('merchant.orders')}}"><img src="{{ asset('/public/assets/img/lemeet.PNG')}}" /></a>
+                    <a  href="{{ route('merchant.orders')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
                     </div>
                     <div class="form-group role-selector">
                         

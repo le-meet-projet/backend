@@ -55,7 +55,6 @@ class OrdersMeetingsController extends Controller{
     public function gettype(){
         
         $bytype = \DB::table('lemeet_orders')->distinct('type')->pluck('type');
-        //dd($bytype);
 
         $date = \Carbon\Carbon::today()->subDays(7);
         $spaces = \DB::table('order_unit')->join('meetings','meetings.id','order_unit.type_id')->where('order_date','>=',$date)->groupby('meetings.name')->select('order_date as dates', 'capacity as capacitys','name', DB::raw('count(order_unit.type_id) as total_orders') , DB::raw(' ((capacity) - count(order_unit.type_id)) as rest'))->groupby('capacity','order_date','type_id')->get()->groupby('name')->toArray();
@@ -75,17 +74,11 @@ class OrdersMeetingsController extends Controller{
 
             $available = collect($space)->values();
 
-            dd($available);
-
 
             global $result;
             $days = collect($space)->map(function($date) use($week) {
 
-               
-
-                dump($space_name);
                 if( ! isset($week[$date->dates])){
-                    dump($date->dates);
                     return  [
                         "dates" => $date->dates,
                         "capacitys" => 0,
@@ -97,37 +90,13 @@ class OrdersMeetingsController extends Controller{
                 return $date;
             })->toArray();
             return  $days;
-           //$result[$space_name] = $days;
-        })->dd();
-
-        dd($result);
-
-        //
-       // dd($week);
+        });
 
 
         $date = \Carbon\Carbon::today()->subDays(7);
-        //$values = \DB::table('order_unit')->join('meetings','meetings.id','order_unit.type_id')->where('order_date','>=',$date)->distinct(['order_date'])->get()->groupby('type_id')->toArray();
-        //$values = collect( $values )->unique(['order_date']);
-       //dd($values);
-       
-       //dd(collect( $values )->unique(['order_date']));
 
-        /*$values = [
-            'name'      => 'قاعة المكان',
-            'id'        => '1',
-            'capacity'  => '20',
-            'order_id'  => '120',
-        ];
-         
-        for($i = 0 ; $i<=10 ; $i++){
-            $values['days'] = $this->getDays();
-            $result[$i] = $values;
-        }*/
         $values = \DB::table('order_unit')->join('meetings','meetings.id','order_unit.type_id')->where('order_date','>=',$date)->groupby('meetings.name')->select('order_date as dates', 'capacity as capacitys','name', DB::raw('count(order_unit.type_id) as total_orders') , DB::raw(' ((capacity) - count(order_unit.type_id)) as rest'))->groupby('capacity','order_date','type_id')->get()->groupby('name')->toArray();
-        //$values = DB::table('order_unit')->join('meetings','meetings.id','order_unit.type_id')->where('order_date','>=',$date)->select('order_date as dates', 'capacity as capacitys','name', DB::raw('count(order_unit.type_id) as count') , DB::raw(' ((capacity) - count(order_unit.type_id))'))->groupby('name')->groupby('capacity')->groupby('order_date')->get()->toArray();
-        //$value = collect( $values )->count(['order_unit']);
-        dd($values);
+
         $this->result = $values;
         
     }

@@ -5,7 +5,7 @@
 <div class="login">
     <form class="form" action="{{ route('doLogin')}}" method="post">
         {{ csrf_field() }}
-      <img style="margin-left: 29%;" src="{{ asset('public/assets/img/lemeet.PNG')}}" />
+      <img style="margin-left: 29%;" src="{{ asset('assets/img/lemeet.PNG')}}" />
       <div class="form-field">
         <label for="login-mail"><i class="fa fa-user"></i></label>
         <input id="login-mail" type="text" name="email" placeholder="E-Mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
