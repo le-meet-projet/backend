@@ -26,4 +26,14 @@ class OrderUnit extends Model
     {
         return $this->belongsTo('\App\OrderLeMeet');
     }
+
+    public function meeting()
+    {
+        return $this->belongsTo('\App\Meeting', 'type_id', 'id');
+    }
+
+    public function table()
+    {
+        return $this->belongsTo('\App\Table', 'type_id', 'id');
+    }
 }

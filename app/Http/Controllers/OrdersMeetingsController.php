@@ -57,45 +57,20 @@ class OrdersMeetingsController extends Controller{
         $bytype = \DB::table('lemeet_orders')->distinct('type')->pluck('type');
 
         $date = \Carbon\Carbon::today()->subDays(7);
-        $spaces = \DB::table('order_unit')->join('meetings','meetings.id','order_unit.type_id')->where('order_date','>=',$date)->groupby('meetings.name')->select('order_date as dates', 'capacity as capacitys','name', DB::raw('count(order_unit.type_id) as total_orders') , DB::raw(' ((capacity) - count(order_unit.type_id)) as rest'))->groupby('capacity','order_date','type_id')->get()->groupby('name')->toArray();
-
-        // get week days
-        $week =  [];
-        for($i=0;$i<7;$i++){
-           $name = today()->subDays($i)->locale('ar')->dayName;
-           $day  = today()->subDays($i)->toDateString();
-           $week[$day] = $name;
-        }   
-
-        global $result;
-        $result = [];
-
-        $new = collect($spaces)->map(function($space,$space_name) use($week){
-
-            $available = collect($space)->values();
-
-
-            global $result;
-            $days = collect($space)->map(function($date) use($week) {
-
-                if( ! isset($week[$date->dates])){
-                    return  [
-                        "dates" => $date->dates,
-                        "capacitys" => 0,
-                        "name" => NULL,
-                        "total_orders" => NULL,
-                        "rest" => NULL,
-                    ];
-                }
-                return $date;
-            })->toArray();
-            return  $days;
-        });
-
-
-        $date = \Carbon\Carbon::today()->subDays(7);
-
-        $values = \DB::table('order_unit')->join('meetings','meetings.id','order_unit.type_id')->where('order_date','>=',$date)->groupby('meetings.name')->select('order_date as dates', 'capacity as capacitys','name', DB::raw('count(order_unit.type_id) as total_orders') , DB::raw(' ((capacity) - count(order_unit.type_id)) as rest'))->groupby('capacity','order_date','type_id')->get()->groupby('name')->toArray();
+        
+        $values = \DB::table('order_unit')
+            ->join('meetings','meetings.id','order_unit.type_id')
+            ->where('order_unit.type', 'meeting')
+            ->where('order_date','>=',$date)
+            ->groupby('meetings.name')
+            ->select(
+                'order_date as dates',
+                'capacity as capacitys','name',
+                DB::raw('count(order_unit.type_id) as total_orders'),
+                DB::raw('((capacity) - count(order_unit.type_id)) as rest')
+            )
+            ->groupby('capacity','order_date','type_id')
+            ->get()->groupby('name')->toArray();
 
         $this->result = $values;
         
@@ -103,7 +78,13 @@ class OrdersMeetingsController extends Controller{
 
     public function getorderperhours(){
         $date = \Carbon\Carbon::now()->format('Y-m-d');
-        $values = \DB::table('order_unit')->join('meetings','meetings.id','order_unit.type_id')->where('order_date','>=',$date)->distinct(['order_date'])->get()->groupby('type_id')->toArray();
+        $values = \DB::table('order_unit')
+            ->join('meetings','meetings.id','order_unit.type_id')
+            ->where('order_unit.type', 'meeting')
+            ->where('order_unit.type', 'meeting')
+            ->where('order_date','>=',$date)
+            ->distinct(['order_date'])
+            ->get()->groupby('type_id')->toArray();
         
         $this->result2 = $values;
     }
@@ -154,12 +135,22 @@ class OrdersMeetingsController extends Controller{
 
     public function send(){
         $orders = $this->result;
-        $orders2 = $this->result2 ;
-        Carbon::setLocale("ar");
-        $weekdays = Carbon::getDays();
-        $test = Carbon::create(\Carbon\Carbon::today()->subDays(0)->format('d-m-Y'))->locale('ar')->dayName;
+        foreach($orders as $meeting => $order){
+            $owned = \App\Meeting::where('name', $meeting)->where('id_brand', \Auth::user()->id)->get();
+            if(!count($owned)){
+                unset($orders[$meeting]);
+            };
+        }
+        $orders2 = $this->result2;
+        foreach($orders2 as $meeting => $order){
+            foreach($order as $index => $ord){
+                $owned = \App\Meeting::where('name', $ord->name)->where('id_brand', \Auth::user()->id)->get();
+                if(!count($owned)){
+                    unset($orders2[$meeting]);
+                };
+            }
+        }
         
-        //dd($test);
         return view('providers.days', compact('orders2','orders'));
     }
 
@@ -199,6 +190,36 @@ class OrdersMeetingsController extends Controller{
 
         return back();
 
+    }
+
+    public function brandOrders()
+    {
+        $tables = \App\OrderUnit::whereHas('table', function($q){
+            $q->whereHas('brand', function ($q) {
+                $q->where('name', \Auth::user()->name);
+            });
+        })->where('type', 'shared_table')->get();
+
+        $meetings = \App\OrderUnit::whereHas('meeting', function($q){
+            $q->whereHas('brand', function ($q) {
+                $q->where('name', \Auth::user()->name);
+            });
+        })->where('type', 'meeting')
+        ->orWhere('type', 'office')->get();
+
+        $tablesTotalIncome = 0;
+        $meetingsTotalIncome = 0;
+        foreach($tables as $table){
+            $tablesTotalIncome += $meeting->table->price;
+        }
+        foreach($meetings as $meeting){
+            $meetingsTotalIncome += $meeting->meeting->price;
+        }
+        
+        $orders = $meetings->merge($tables);
+        $totalIncome = $tablesTotalIncome + $meetingsTotalIncome;
+        
+        return view('providers.orders', compact('orders', 'totalIncome'));
     }
 
 
