@@ -168,6 +168,7 @@ Route::post('/profileEdit','OrdersMeetingsController@profileEdit')->name('profil
 Route::get('/orders-invoice','OrdersMeetingsController@invoice')->name('invoice');
 Route::get('/whallet','OrdersMeetingsController@whallet')->name('whallet');
 Route::get('/rating','OrdersMeetingsController@rating')->name('rating');
+Route::get('orders', 'OrdersMeetingsController@brandOrders');
 });
 
 Auth::routes();

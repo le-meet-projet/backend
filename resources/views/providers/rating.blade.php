@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-lg-3">
                             <span class=""><i class="review bi bi-star"><a>{{$v_review->review}}</a></i>@if($v_review->review < 5)متوسط@elseif($v_review->review >= 5) رائع @endif</span>
-                            <h5>فيصل وليد</h5>
+                            <h5>{{$v_review->user->name}}</h5>
                             <h7>{{$v_review->created_at->format(' M /d / Y ')}}</h7>
                         </div>
                         <div class="vl"></div>

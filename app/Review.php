@@ -24,4 +24,9 @@ class Review extends Model
     {
         return $this->belongsTo(SpaceSubSpace::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo('\App\User', 'user_id', 'id');
+    }
 }

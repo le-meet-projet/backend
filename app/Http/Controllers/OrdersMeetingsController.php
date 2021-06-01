@@ -189,7 +189,7 @@ class OrdersMeetingsController extends Controller{
     }
 
     public function rating(){
-        $reviews = Review::join('meetings','meetings.id_brand','reviews.brand_id')->where('reviews.user_id',Auth::user()->id)->get();
+        $reviews = Review::with('user')->where('reviews.brand_id',Auth::user()->id)->get();
         return view('providers.rating', compact('reviews'));
     }
 
@@ -217,13 +217,13 @@ class OrdersMeetingsController extends Controller{
 
     public function brandOrders()
     {
-        $tables = \App\OrderUnit::whereHas('table', function($q){
+        $tables = OrderUnit::whereHas('table', function($q){
             $q->whereHas('brand', function ($q) {
                 $q->where('name', \Auth::user()->name);
             });
         })->where('type', 'shared_table')->get();
 
-        $meetings = \App\OrderUnit::whereHas('meeting', function($q){
+        $meetings = OrderUnit::whereHas('meeting', function($q){
             $q->whereHas('brand', function ($q) {
                 $q->where('name', \Auth::user()->name);
             });
