@@ -155,11 +155,68 @@ class OrdersMeetingsController extends Controller{
     }
 
     public function invoice(){
-        $orders = $this->result;
-        return view('providers.invoice', compact('orders'));
+        $orders = OrderLeMeet::where(
+            function($q){
+                $q->whereHas('meeting', function($q){
+                    $q->whereHas('brand', function ($q) {
+                        $q->where('name', \Auth::user()->name);
+                    });
+                })->where('type', 'meeting')
+                ->orWhere('type', 'office');
+            }
+        )->orWhere(
+            function($q){
+                $q->whereHas('shared_table', function($q){
+                    $q->whereHas('brand', function ($q) {
+                        $q->where('name', \Auth::user()->name);
+                    });
+                })->where('type', 'shared_table');
+            }
+        )->get();
+        
+        $meetings = [];
+        $tables = [];
+        foreach($orders as $order){
+            if(in_array($order->type, ['meeting', 'office'])){
+                array_push($meetings, $order->meeting);
+            }else{
+                array_push($tables, $order->shared_table);
+            };
+        }
+        
+        $orders = collect($meetings)->merge($tables);
+
+        $result = [];
+        foreach($orders as $order){
+            if(!is_null($order)){
+                !isset($result[$order->created_at->year][$order->created_at->month]) && $result[$order->created_at->year][$order->created_at->month] = [];
+                array_push($result[$order->created_at->year][$order->created_at->month], $order->toArray());
+            }
+        }
+        
+        $earnings = [];
+        foreach($result as $index => $month){
+            ksort($month);
+            foreach($month as $i => $orders){
+                $total = 0;
+                foreach($orders as $order){
+                    $total += ($order['percent'] * $order['price']) / 100;
+                }
+                $earnings[$index][$i] = $total;
+            }
+        }
+
+        $currentMonthIncome = 0;
+        foreach($earnings as $index => $year){
+            foreach($year as $i => $month){
+                str_contains(Carbon::now()->format('m'), $i) && strpos($index, Carbon::now()->format('Y')) !== false && $currentMonthIncome = $month;
+            }
+        }
+
+        return view('providers.invoice', compact('earnings', 'currentMonthIncome'));
     }
 
-    public function whallet(){
+    public function wallet(){
         $total = OrderLeMeet::where(
             function($q){
                 $q->whereHas('meeting', function($q){
@@ -178,11 +235,11 @@ class OrdersMeetingsController extends Controller{
                 })->where('type', 'shared_table');
             }
         )
-        ->select(DB::raw('sum(price) as price'), DB::raw("DATE_FORMAT(created_at,'%M %Y') as Months") )
-        ->groupby('Months')->get();
+        ->select(DB::raw('sum(price) as price'), DB::raw("DATE_FORMAT(created_at,'%m %Y') as Months") )
+        ->groupby('Months')->orderBy('Months')->get();
 
         foreach($total as $t){
-            strpos($t->Months, Carbon::now()->format('F')) !== false && $currentMonthIncome = $t->price;
+            strpos($t->Months, Carbon::now()->format('m')) !== false && strpos($t->Months, Carbon::now()->format('Y')) !== false && $currentMonthIncome = $t->price;
         }
 
         return view('providers.mihfada', compact('total', 'currentMonthIncome'));

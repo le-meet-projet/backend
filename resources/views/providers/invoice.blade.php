@@ -3,57 +3,53 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>تقيماتْ</title>
+        <title>سجل الفاتورة</title>
         <link rel="icon" href="/assets/img/brand/favicon.png" type="image/x-icon"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@800&display=swap" rel="stylesheet">
+        <link href="{{ asset('/css/lemeet.css')}}" rel="stylesheet">
     </head>
     <body>
         <header>
             <nav class="navbar navbar-light">
                 <div class="container-fluid">
-                        <h2>LE MEET</h2>
+                  <form class="d-flex">
+                    
+                  </form>
+                    <div class="logo">
+                        <a  href="{{ route('merchant.orders')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
+                    </div>
+                    <div class="form-group role-selector">
+                        
+                    </div>
                 </div>
               </nav>
         </header>
         <div class="contant">
-            <button class="btn btn-lg sold">الرصيد</button><button class="btn btn-lg total-sold">23180.00 <span>ريال</span> </button><br>
+            <button class="btn btn-lg sold">الرصيد</button><button class="btn btn-lg total-sold">{{ $currentMonthIncome }} <span>ريال</span> </button><br>
             <div class="facteur">
-              <h2>سجل الفاتورة</h2>
-                <div class="col-lg-12 card">
-                    <div class="col-lg-6 month">
-                        <h3><strong><i class="bi bi-file-earmark-text"></i>يناير 2021</strong></h3>
-                    </div>
-                    <div class="col-lg-6 total">
-                        <h3>2290.00 ريال<i class="bi bi-chevron-compact-left"></i></h3>
-                    </div>
+              <h2>سجل الفاتورة</h2><br>
+              @if(count($earnings) > 0)
+                @foreach($earnings as $index => $year)
+                    @foreach($year as $i => $month)
+                        <div class="col-lg-12 card">
+                            <div class="col-lg-6 month">
+                                <h3><strong><i class="bi bi-file-earmark-text"></i>{{ $index . ' ' . date('F', mktime(0, 0, 0, $i, 10)) }}</strong></h3>
+                            </div>
+                            <div class="col-lg-6 total">
+                                <h3>{{ $month}} ريال<i class="bi bi-chevron-compact-left"></i></h3>
+                            </div>
+                        </div>
+                    @endforeach
+                @endforeach
+                @else
+                <div class="container col-lg-4">
+                    <p>لاتوجد أي فاتورة </p>
+                    <a href="{{ route('merchant.orders')}}" class="btn redirect">العودة الى الرئيسية</a>
                 </div>
-                <div class="col-lg-12 card">
-                    <div class="col-lg-6 month">
-                        <h3><strong><i class="bi bi-file-earmark-text"></i>يناير 2021</strong></h3>
-                    </div>
-                    <div class="col-lg-6 total">
-                        <h3>4640.00 ريال<i class="bi bi-chevron-compact-left"></i></h3>
-                    </div>
-                </div>
-                <div class="col-lg-12 card">
-                    <div class="col-lg-6 month">
-                        <h3><strong><i class="bi bi-file-earmark-text"></i>يناير 2021</strong></h3>
-                    </div>
-                    <div class="col-lg-6 total">
-                        <h3>4200.00 ريال<i class="bi bi-chevron-compact-left"></i></h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-12 card">
-                <div class="col-lg-6 month">
-                    <h3><strong><i class="bi bi-file-earmark-text"></i>يناير 2021</strong></h3>
-                </div>
-                <div class="col-lg-6 total">
-                    <h3>2290.00 ريال<i class="bi bi-chevron-compact-left"></i></h3>
-                </div>
+                @endif
             </div>
         </div>
         
@@ -61,8 +57,8 @@
         <div class="container">
             <ul class="nav navbar-nav">
                 <li><a href="{{ route('merchant.profile')}}"><i class="fas fa-cog" ></i><br><strong>الملف الشخصي</strong>  </a> </li>
-                <li><a href="{{ route('merchant.whallet')}}"><i class="bi bi-wallet-fill" ></i><br><strong>المحفضة</strong>  </a> </li>
-                <li><a href="{{ route('merchant.orders')}}" class="active"><i class="bi bi-house"></i><br><strong>الرئيسية</strong></a></li>
+                <li><a href="{{ route('merchant.wallet')}}" class="active"><i class="bi bi-wallet-fill" ></i><br><strong>المحفضة</strong>  </a> </li>
+                <li><a href="{{ route('merchant.orders')}}"><i class="bi bi-house"></i><br><strong>الرئيسية</strong></a></li>
                 <li><a href="{{ route('merchant.rating')}}"><i class="bi bi-star"></i><br><strong>التقيمات</strong>   </a>
                 </li>
             </ul>
@@ -72,6 +68,17 @@
                 *{
                     font-family: 'Almarai', sans-serif;
                 }
+                .btn{
+                    width: 200px;
+                    height: 62px;
+                    line-height: 40px;
+                }
+                
+            .navb{
+                position: fixed !important;
+                bottom: 0 !important;
+                width: 100% !important;
+            }
                 .container-fluid h2{
                     margin-left: auto;
                     margin-right: auto;
@@ -129,6 +136,7 @@
                     display: -webkit-inline-box;
                     padding: 2%;
                     margin-bottom: 2%;
+                    border-color: #336e7c;
                 }
                 .facteur{
                     margin-top:2%
@@ -161,6 +169,23 @@
                 a:hover {
                     color: #336e7c;
                 }
+                .container > p{
+                    color: #336e7c;
+                    padding-top: 10%;
+                    padding-bottom: 5%;
+                    font-size: 55px;
+                    text-align: center;
+                }
+                .redirect{
+                    margin-right: 35%;
+                    background: #336e7c;
+                    color: #fff;
+                    border-color: #336e7c;
+                }
+                .redirect:hover{
+                    background-color: #fff;
+                    color:#000;
+                   
             </style>
     </body>
 </html>
