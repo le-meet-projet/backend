@@ -28,7 +28,7 @@
               </nav>
         </header>
         <div class="contant">
-            <button class="btn btn-lg sold">الرصيد</button><button class="btn btn-lg total-sold">{{ $sum }} <span>ريال</span> </button><br>
+            <button class="btn btn-lg sold">الرصيد</button><button class="btn btn-lg total-sold">{{ $currentMonthIncome }} <span>ريال</span> </button><br>
             <div class="facteur">
               <h2>سجل الفاتورة</h2><br>
               @if(count($total) > 0)

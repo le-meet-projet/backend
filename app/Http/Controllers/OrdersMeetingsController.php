@@ -160,9 +160,32 @@ class OrdersMeetingsController extends Controller{
     }
 
     public function whallet(){
-        $total = DB::table('lemeet_orders')->where('user_id',Auth::user()->id)->select(DB::raw('sum(price) as price'), DB::raw("DATE_FORMAT(created_at,'%M %Y') as Months") )->groupby('Months')->get();
-        $sum =  DB::table('lemeet_orders')->where('user_id',Auth::user()->id)->sum('price');
-        return view('providers.mihfada', compact('total','sum'));
+        $total = OrderLeMeet::where(
+            function($q){
+                $q->whereHas('meeting', function($q){
+                    $q->whereHas('brand', function ($q) {
+                        $q->where('name', \Auth::user()->name);
+                    });
+                })->where('type', 'meeting')
+                ->orWhere('type', 'office');
+            }
+        )->orWhere(
+            function($q){
+                $q->whereHas('shared_table', function($q){
+                    $q->whereHas('brand', function ($q) {
+                        $q->where('name', \Auth::user()->name);
+                    });
+                })->where('type', 'shared_table');
+            }
+        )
+        ->select(DB::raw('sum(price) as price'), DB::raw("DATE_FORMAT(created_at,'%M %Y') as Months") )
+        ->groupby('Months')->get();
+
+        foreach($total as $t){
+            strpos($t->Months, Carbon::now()->format('F')) !== false && $currentMonthIncome = $t->price;
+        }
+
+        return view('providers.mihfada', compact('total', 'currentMonthIncome'));
     }
 
     public function rating(){
@@ -210,7 +233,7 @@ class OrdersMeetingsController extends Controller{
         $tablesTotalIncome = 0;
         $meetingsTotalIncome = 0;
         foreach($tables as $table){
-            $tablesTotalIncome += $meeting->table->price;
+            $tablesTotalIncome += $table->table->price;
         }
         foreach($meetings as $meeting){
             $meetingsTotalIncome += $meeting->meeting->price;

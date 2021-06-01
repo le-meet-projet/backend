@@ -41,7 +41,7 @@
                                 @endphp
                                 <img src="{{ $thumbnail == '/spaces' || $thumbnail == '/tables' ? no_image() : asset($thumbnail) }}">
                                 <div class="name-salle">
-                                    <strong>{{$order->meeting->name}}</strong>
+                                    <strong>{{$order->meeting ? $order->meeting->name : $order->table->name}}</strong>
                                 </div>
                             </div>
                             <div class="col-lg-3">
