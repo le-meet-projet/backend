@@ -5,6 +5,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
         <link rel="icon" href="/assets/img/brand/favicon.png" type="image/x-icon"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
@@ -68,7 +69,7 @@
                                             <div class="border-booking">
                                                 <div class="conf"><a></a>{{ $days->total_orders}}</div>
                                             </div>
-                                            <h6 href=""><a  pd-popup-open="popupNew"> محجوز</a></h6>
+                                            <h6><a id="details" data-date="{{ $days->dates }}" pd-popup-open="popupNew"> محجوز</a></h6>
                                         </div>
                                         <div class="seconddiv">
                                         </div>
@@ -139,15 +140,7 @@
         <!-- Modal -->
         <div class="popup" pd-popup="popupNew">
             <div class="popup-inner">
-                <h1>تفاصيل الحجز</h1>
-                <h2>قاعة المكان</h2>
-                <h4><span>من</span> 09:00ص <span>الى:</span> 10:00ص</h4>
-                <h4>يوم الأحد - 03/01/2021</h4>
-                <div class="form-group">
-                    <button class="btn"><span>اضافة حجز</span></button>
-                    <button class="btn"><span>مشغول</span></button>
-                </div>
-                <a class="popup-close" pd-popup-close="popupNew" href="#"> </a>
+            
             </div>
         </div>
         <style>
@@ -391,16 +384,39 @@ $.fn.conditionalFields = function (action) {
 }
 
 }(jQuery));
-</script><script>
+</script>
+<script>
     $(function(){
-    $('body').conditionalFields('init');
-  });
-
-  $(document).ready(function() {
-    $('#click').click(function(e) {  
-      alert(1);
+        $('body').conditionalFields('init');
     });
-});
-  </script>
+
+    $(document).ready(function() {
+        $('a#details').click(function(e) {  
+            const token = $('meta[name="csrf-token"]').attr('content');
+            const date = $(this).attr('data-date');
+
+            var formData = new FormData();
+            formData.append('_token', token);
+            formData.append('date', date);
+
+            $.ajax({
+                url: '/merchant/order-details',
+                type: 'POST',
+                processData: false, // important
+                contentType: false, // important
+                data: formData,
+                cache: false,
+                dataType: "HTML",
+                success: function (response) {
+                    $('body .popup .popup-inner').html(response);
+                },
+                error: function (response) {
+                    console.log('error');
+                    console.log(response);
+                }
+            });
+        });
+    });
+</script>
     </body>
 </html>

@@ -81,7 +81,6 @@ class OrdersMeetingsController extends Controller{
         $values = \DB::table('order_unit')
             ->join('meetings','meetings.id','order_unit.type_id')
             ->where('order_unit.type', 'meeting')
-            ->where('order_unit.type', 'meeting')
             ->where('order_date','>=',$date)
             ->distinct(['order_date'])
             ->get()->groupby('type_id')->toArray();
@@ -136,22 +135,76 @@ class OrdersMeetingsController extends Controller{
     public function send(){
         $orders = $this->result;
         foreach($orders as $meeting => $order){
-            $owned = \App\Meeting::where('name', $meeting)->where('id_brand', \Auth::user()->id)->get();
+            $owned = \App\Meeting::where('name', $meeting)->where('id_brand', \Auth::user()->brand->id)->get();
             if(!count($owned)){
                 unset($orders[$meeting]);
             };
         }
-        $orders2 = $this->result2;
-        foreach($orders2 as $meeting => $order){
-            foreach($order as $index => $ord){
-                $owned = \App\Meeting::where('name', $ord->name)->where('id_brand', \Auth::user()->id)->get();
-                if(!count($owned)){
-                    unset($orders2[$meeting]);
-                };
+        $lastWeekDays = [];
+        for($i = 6; $i >= 0; $i--){
+            array_push($lastWeekDays, \Carbon\Carbon::today()->subDays($i)->format('Y-m-d'));
+        }
+
+        foreach($orders as $brand => $order){
+            $exist[$brand] = [];
+            $notExists[$brand] = [];
+            foreach($order as $or){
+                array_push($exist[$brand], $or->dates);
             }
+            $notExists[$brand] = array_diff($lastWeekDays, $exist[$brand]);
+        }
+        foreach($orders as $brand => $order){
+            foreach($notExists[$brand] as $notExist){
+                array_push($order, (object)[
+                    'dates' => $notExist,
+                    'total_orders' => 0,
+                    'name' => $brand
+                ]);
+            }
+            $orders[$brand] = $order;
+        }
+        foreach($orders as $brand => $order){
+            foreach($order as $i => $or){
+                usort($order, function($element1, $element2) {
+                    $date1 = strtotime($element1->dates);
+                    $date2 = strtotime($element2->dates);
+                    return $date1 - $date2;
+                } );
+            }
+            $orders[$brand] = $order;
         }
         
+        $orders2 = $this->result2;
+        
         return view('providers.days', compact('orders2','orders'));
+    }
+
+    public function orderDetails(Request $request)
+    {
+        $unitOrders = OrderUnit::where(
+            function($q){
+                $q->where(
+                    function($q){
+                        $q->whereHas('meeting', function($q){
+                            $q->whereHas('brand', function ($q) {
+                                $q->where('name', \Auth::user()->name);
+                            });
+                        })->where('type', 'meeting')
+                        ->orWhere('type', 'office');
+                    }
+                )->orWhere(
+                    function($q){
+                        $q->whereHas('table', function($q){
+                            $q->whereHas('brand', function ($q) {
+                                $q->where('name', \Auth::user()->name);
+                            });
+                        })->where('type', 'shared_table');
+                    }
+                );
+            }
+        )->where('order_date', $request->date)->get();
+
+        return view('providers.order-details', compact('unitOrders'));
     }
 
     public function invoice(){

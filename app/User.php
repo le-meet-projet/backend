@@ -67,4 +67,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class);
     }
+
+    public function brand()
+    {
+        return $this->hasOne('App\Brand', 'name', 'name');
+    }
 }
