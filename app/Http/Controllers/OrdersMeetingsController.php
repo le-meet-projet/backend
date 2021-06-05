@@ -60,7 +60,10 @@ class OrdersMeetingsController extends Controller{
         
         $values = \DB::table('order_unit')
             ->join('meetings','meetings.id','order_unit.type_id')
-            ->where('order_unit.type', 'meeting')
+            ->where(function($q){
+                $q->where('order_unit.type', 'meeting')
+                ->orWhere('order_unit.type', 'office');
+            })
             ->where('order_date','>=',$date)
             ->groupby('meetings.name')
             ->select(
@@ -77,14 +80,16 @@ class OrdersMeetingsController extends Controller{
     }
 
     public function getorderperhours(){
-        $date = \Carbon\Carbon::now()->format('Y-m-d');
-        $values = \DB::table('order_unit')
-            ->join('meetings','meetings.id','order_unit.type_id')
-            ->where('order_unit.type', 'meeting')
-            ->where('order_date','>=',$date)
-            ->distinct(['order_date'])
-            ->get()->groupby('type_id')->toArray();
+        $date = \Carbon\Carbon::now()->toDateString();
         
+        $values = OrderUnit::where('order_date', $date)
+            ->join('meetings','meetings.id','order_unit.type_id')
+            ->where(function($q){
+                $q->where('order_unit.type', 'meeting')
+                ->orWhere('order_unit.type', 'office');
+            })
+            ->get()->groupby('type_id')->toArray();
+            
         $this->result2 = $values;
     }
 
@@ -144,7 +149,7 @@ class OrdersMeetingsController extends Controller{
         for($i = 6; $i >= 0; $i--){
             array_push($lastWeekDays, \Carbon\Carbon::today()->subDays($i)->format('Y-m-d'));
         }
-
+        
         foreach($orders as $brand => $order){
             $exist[$brand] = [];
             $notExists[$brand] = [];
@@ -153,6 +158,7 @@ class OrdersMeetingsController extends Controller{
             }
             $notExists[$brand] = array_diff($lastWeekDays, $exist[$brand]);
         }
+        
         foreach($orders as $brand => $order){
             foreach($notExists[$brand] as $notExist){
                 array_push($order, (object)[
@@ -175,6 +181,53 @@ class OrdersMeetingsController extends Controller{
         }
         
         $orders2 = $this->result2;
+
+        $dayHours = [];
+        for($i = 18; $i >= 9; $i--){
+            array_push($dayHours, \Carbon\Carbon::today()->format('Y-m-d') . ' ' . $i . ':00:00');
+        }
+        
+        foreach($orders2 as $index => $order){
+            $existHours[$index] = [];
+            $notExistsHours[$index] = [];
+            foreach($order as $or){
+                array_push($existHours[$index], $or['order_from']);
+            }
+            $notExistsHours[$index] = array_diff($dayHours, $existHours[$index]);
+        }
+        
+        foreach($orders2 as $index => $order){
+            foreach($order as $i => $or){
+                $owned = \App\Meeting::where('id', $or['id'])->where('id_brand', \Auth::user()->brand->id)->get();
+                if(!count($owned)){
+                    unset($order[$i]);
+                };
+            }
+            $orders2[$index] = $order;
+        }
+        
+        foreach($orders2 as $index => $order){
+            foreach($notExistsHours[$index] as $notExist){
+                array_push($order, [
+                    'id' => 'not found',
+                    'name' => $order[0]['name'],
+                    'dates' => $notExist,
+                    'order_from' => $notExist
+                ]);
+            }
+            $orders2[$index] = $order;
+        }
+
+        foreach($orders2 as $index => $order){
+            foreach($order as $i => $or){
+                usort($order, function($element1, $element2) {
+                    $date1 = strtotime($element1['order_from']);
+                    $date2 = strtotime($element2['order_from']);
+                    return $date1 - $date2;
+                } );
+            }
+            $orders2[$index] = $order;
+        }
         
         return view('providers.days', compact('orders2','orders'));
     }

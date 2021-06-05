@@ -96,31 +96,53 @@
                                     <td class="hours">
                                         <img src="{{ asset('/image/salle1.jpg') }}" style="width: 151px;">
                                         <div class="name-lka3a">
-                                        قاعة المكان
-                                         </div>
+                                        {{ $order['name'] }}
+                                        </div>
                                     </td>
                                 </div>
                             </div>
                             @endif
-                           <div class="col-lg-11 scrolling-wrapper MagicScroll" style="display: flex;" data-options="width: 640; items: 3; step: 2;">
-                                <div class="col-xs-12 col-sm-12 table-td card">
-                                    <td class="hours">
-                                        <div class="booking">
-                                            <div class="days-booking-1">
-                                                <div class="nb-booking">
-                                                    <h6 href=""><a  pd-popup-open="popupNew">رقم الحجز:<br> 201</a></h6>
+                            
+                            @if($order['id'] == 'not found')
+                                <div class="" style="display: flex; width: 10%">
+                                    <div class="col-xs-12 col-sm-12 card">
+                                        <td class="hours">
+                                            <div class="booking">
+                                                <div class="days-booking-1">
+                                                    <div class="nb-booking">
+                                                    <h6>غير محجوز</h6>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="seconddiv">
+                                                    <span class="name-day">{{ explode(' ', $order['order_from'])[1] }} </span><br>
+                                                    <span class="date">{{ explode(' ', $order['order_from'])[0] }} </span>
                                                 </div>
                                             </div>
-                                            
-                                            <div class="seconddiv">
-                                                <span class="name-day"><span>ص</span>09:00 </span><br>
-                                                <span class="date">03/01/2021</span>
-                                            </div>
-                                        </div>
-                                    </td>
+                                        </td>
+                                    </div>
                                 </div>
-                           </div>
-                           @endforeach
+                            @else
+                                <div class="" style="display: flex; width: 10%">
+                                    <div class="col-xs-12 col-sm-12 card">
+                                        <td class="hours">
+                                            <div class="booking">
+                                                <div class="days-booking-1">
+                                                    <div class="nb-booking">
+                                                        <h6><a>رقم الحجز:<br> {{ $order['order_id'] }}</a></h6>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="seconddiv">
+                                                    <span class="name-day">{{ explode(' ', $order['order_from'])[1] }} </span><br>
+                                                    <span class="date">{{ $order['order_date'] }}</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
                        </div>
                    </div>
                    @endforeach

@@ -169,6 +169,7 @@ Route::get('/invoice','OrdersMeetingsController@invoice')->name('invoice');
 Route::get('/wallet','OrdersMeetingsController@wallet')->name('wallet');
 Route::get('/rating','OrdersMeetingsController@rating')->name('rating');
 Route::get('orders', 'OrdersMeetingsController@brandOrders');
+Route::post('/order-details', 'OrdersMeetingsController@orderDetails');
 });
 
 Auth::routes();
