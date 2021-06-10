@@ -107,10 +107,10 @@
                                 <div class="" style="display: flex; width: 10%">
                                     <div class="col-xs-12 col-sm-12 card">
                                         <td class="hours">
-                                            <div class="booking">
+                                            <div class="booking" style="background-color: #FFF;">
                                                 <div class="days-booking-1">
                                                     <div class="nb-booking">
-                                                    <h6>غير محجوز</h6>
+                                                    <h6 style="color: #336e7c;">غير محجوز</h6>
                                                     </div>
                                                 </div>
                                                 

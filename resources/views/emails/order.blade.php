@@ -212,7 +212,7 @@
                         
                         <br/>
                         
-                        <p>{{ __('Thank you for placing your order with') }}  {{ env('APP_NAME') }}. {{ __('This email is to confirm your order has been placed successfully') }}</p>
+                        <p>{{ __('You have new order from') }}  {{ env('APP_NAME') }}. {{ __('This email is to inform you about this order') }}</p>
                             
                         <br/>
 

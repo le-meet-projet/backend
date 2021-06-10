@@ -9,7 +9,7 @@ class PaymentController extends ApiController
     public function request(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'type' => 'required | string | max:255',
+            'type' => 'string | max:255',
             'amount'   => 'required | numeric'
         ]);
 
@@ -19,7 +19,7 @@ class PaymentController extends ApiController
         
         $url = "https://test.oppwa.com/v1/checkouts";
         $data = "entityId=8ac7a4c877afa7980177afffe507019b" .
-                "&amount=92" .
+                "&amount=$request->amount" .
                 "&currency=SAR" .
                 "&paymentType=DB" . 
                 "&testMode=EXTERNAL"

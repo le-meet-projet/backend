@@ -1014,6 +1014,24 @@ class ApiController extends Controller
                 $order_units[] = $order_unit;
             }
 
+            $data = [
+                'order' => $order,
+                'order_units' => $order_units
+            ];
+
+            $email = email()
+                ->to($brand_email)
+                ->subject('New order')
+                ->view('emails.order')
+                ->data($data)
+                ->send();
+
+            if (!$email->success()) {
+                \Log::alert('Meeting order email error: '. $email->errors());
+            }else{
+                \Log::info('Meeting order email sent');
+            }
+
             \DB::table('order_unit')->insert($order_units);
         } else {
 
@@ -1052,9 +1070,9 @@ class ApiController extends Controller
             ->send();
 
         if (!$email->success()) {
-            \Log::alert('Email error: '. $email->errors());
+            \Log::alert('Shared table order email error: '. $email->errors());
         }else{
-            \Log::info('Email success: Sent');
+            \Log::info('Shared table order email sent');
         }
 
         /*

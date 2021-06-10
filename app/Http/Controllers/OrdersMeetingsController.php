@@ -58,7 +58,7 @@ class OrdersMeetingsController extends Controller{
 
         $date = \Carbon\Carbon::today()->subDays(7);
         
-        $values = \DB::table('order_unit')
+        $meetings = \DB::table('order_unit')
             ->join('meetings','meetings.id','order_unit.type_id')
             ->where(function($q){
                 $q->where('order_unit.type', 'meeting')
@@ -73,24 +73,43 @@ class OrdersMeetingsController extends Controller{
                 DB::raw('((capacity) - count(order_unit.type_id)) as rest')
             )
             ->groupby('capacity','order_date','type_id')
-            ->get()->groupby('name')->toArray();
+            ->get()->groupby('name');
 
-        $this->result = $values;
+        $tables = \DB::table('order_unit')
+            ->join('tables','tables.id','order_unit.type_id')
+            ->where('order_unit.type', 'shared_table')
+            ->where('order_date','>=',$date)
+            ->groupby('tables.name')
+            ->select(
+                'order_date as dates',
+                'capacity as capacitys','name',
+                DB::raw('count(order_unit.type_id) as total_orders'),
+                DB::raw('((capacity) - count(order_unit.type_id)) as rest')
+            )
+            ->groupby('capacity','order_date','type_id')
+            ->get()->groupby('name');
+            
+        $this->result = $meetings->merge($tables)->toArray();
         
     }
 
     public function getorderperhours(){
         $date = \Carbon\Carbon::now()->toDateString();
         
-        $values = OrderUnit::where('order_date', $date)
+        $meetings = OrderUnit::where('order_date', $date)
             ->join('meetings','meetings.id','order_unit.type_id')
             ->where(function($q){
                 $q->where('order_unit.type', 'meeting')
                 ->orWhere('order_unit.type', 'office');
             })
-            ->get()->groupby('type_id')->toArray();
+            ->get();
+
+        $tables = OrderUnit::where('order_date', $date)
+            ->join('tables','tables.id','order_unit.type_id')
+            ->where('order_unit.type', 'shared_table')
+            ->get();
             
-        $this->result2 = $values;
+        $this->result2 = $meetings->merge($tables)->groupby('type_id')->toArray();
     }
 
     public function getDays(){
@@ -139,12 +158,14 @@ class OrdersMeetingsController extends Controller{
 
     public function send(){
         $orders = $this->result;
+        
         foreach($orders as $meeting => $order){
-            $owned = \App\Meeting::where('name', $meeting)->where('id_brand', \Auth::user()->brand->id)->get();
-            if(!count($owned)){
+            $ownedMeeting = \App\Meeting::where('name', $meeting)->where('id_brand', \Auth::user()->brand->id)->get();
+            if(!count($ownedMeeting)){
                 unset($orders[$meeting]);
             };
         }
+
         $lastWeekDays = [];
         for($i = 6; $i >= 0; $i--){
             array_push($lastWeekDays, \Carbon\Carbon::today()->subDays($i)->format('Y-m-d'));
@@ -186,16 +207,7 @@ class OrdersMeetingsController extends Controller{
         for($i = 18; $i >= 9; $i--){
             array_push($dayHours, \Carbon\Carbon::today()->format('Y-m-d') . ' ' . $i . ':00:00');
         }
-        
-        foreach($orders2 as $index => $order){
-            $existHours[$index] = [];
-            $notExistsHours[$index] = [];
-            foreach($order as $or){
-                array_push($existHours[$index], $or['order_from']);
-            }
-            $notExistsHours[$index] = array_diff($dayHours, $existHours[$index]);
-        }
-        
+
         foreach($orders2 as $index => $order){
             foreach($order as $i => $or){
                 $owned = \App\Meeting::where('id', $or['id'])->where('id_brand', \Auth::user()->brand->id)->get();
@@ -205,15 +217,26 @@ class OrdersMeetingsController extends Controller{
             }
             $orders2[$index] = $order;
         }
-        
+
+        foreach($orders2 as $index => $order){
+            $existHours[$index] = [];
+            $notExistsHours[$index] = [];
+            foreach($order as $or){
+                array_push($existHours[$index], $or['order_from']);
+            }
+            $notExistsHours[$index] = array_diff($dayHours, $existHours[$index]);
+        }
+
         foreach($orders2 as $index => $order){
             foreach($notExistsHours[$index] as $notExist){
-                array_push($order, [
-                    'id' => 'not found',
-                    'name' => $order[0]['name'],
-                    'dates' => $notExist,
-                    'order_from' => $notExist
-                ]);
+                if(count($notExistsHours[$index]) != 10) { // if at least one order
+                    array_push($order, [
+                        'id' => 'not found',
+                        'name' => $order[0]['name'] ?? '',
+                        'dates' => $notExist,
+                        'order_from' => $notExist
+                    ]);
+                }
             }
             $orders2[$index] = $order;
         }
@@ -242,8 +265,10 @@ class OrdersMeetingsController extends Controller{
                             $q->whereHas('brand', function ($q) {
                                 $q->where('name', \Auth::user()->name);
                             });
-                        })->where('type', 'meeting')
-                        ->orWhere('type', 'office');
+                        })->where(function($q){
+                            $q->where('type', 'meeting')
+                            ->orWhere('type', 'office');
+                        });
                     }
                 )->orWhere(
                     function($q){
@@ -267,8 +292,10 @@ class OrdersMeetingsController extends Controller{
                     $q->whereHas('brand', function ($q) {
                         $q->where('name', \Auth::user()->name);
                     });
-                })->where('type', 'meeting')
-                ->orWhere('type', 'office');
+                })->where(function($q){
+                    $q->where('type', 'meeting')
+                    ->orWhere('type', 'office');
+                });
             }
         )->orWhere(
             function($q){
@@ -329,8 +356,10 @@ class OrdersMeetingsController extends Controller{
                     $q->whereHas('brand', function ($q) {
                         $q->where('name', \Auth::user()->name);
                     });
-                })->where('type', 'meeting')
-                ->orWhere('type', 'office');
+                })->where(function($q){
+                    $q->where('type', 'meeting')
+                    ->orWhere('type', 'office');
+                });
             }
         )->orWhere(
             function($q){
@@ -390,8 +419,10 @@ class OrdersMeetingsController extends Controller{
             $q->whereHas('brand', function ($q) {
                 $q->where('name', \Auth::user()->name);
             });
-        })->where('type', 'meeting')
-        ->orWhere('type', 'office')->get();
+        })->where(function($q){
+            $q->where('order_unit.type', 'meeting')
+            ->orWhere('order_unit.type', 'office');
+        })->get();
 
         $tablesTotalIncome = 0;
         $meetingsTotalIncome = 0;

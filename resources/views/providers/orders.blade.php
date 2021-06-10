@@ -51,8 +51,8 @@
                             <div class="conten-review col-lg-4 mr-4">
                                 <h7>{{ $order->ar_day}}</h7>
                                 <h7>{{ $order->order_date}}</h7></br>
-                                <h7>من: {{ $order->order_from}}</h7></br>
-                                <h7>إلى: {{ $order->order_to}}</h7></br>
+                                <h7>من: {{ explode(' ', $order->order_from)[1] }}</h7></br>
+                                <h7>إلى: {{ explode(' ', $order->order_to)[1] }}</h7></br>
                                 <h7>الثمن: {{ $order->meeting ? $order->meeting->price : $order->table->price }} ريال</h7>
                             </div>
                         <div class="col-lg-2 reply">
