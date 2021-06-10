@@ -14,6 +14,7 @@ use App\Meeting;
 use App\Vacation;
 use App\Workshop;
 use App\Table;
+use App\OrderUnit;
 use Cartalyst\Stripe\Stripe;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -356,24 +357,10 @@ class ApiController extends Controller
 
         $generatedOtp =  rand(1111, 9999);
 
-        /*
-        $generatedOtp =  123456;
-        */
-
-        $apiUrl = "https://mapi.moreify.com/api/v1/sendSms";
-        $postParams = array(
-            'project' =>        'lemeet1253',
-            'password' =>       'a03aa7346dc2f9e6',
-            'phonenumber' =>    $phone,
-            'message' =>        'Your verification code is ' . $generatedOtp,
-        );
-
-        $curl = curl_init($apiUrl);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $postParams);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
-        $response = curl_exec($curl);
+        sms()
+            ->to($phone)
+            ->msg('Your verification code is ' . $generatedOtp)
+            ->send();
 
         return response()->data(['otp' => $generatedOtp]);
     }
@@ -1290,5 +1277,35 @@ class ApiController extends Controller
         ];
 
         return response()->data($api);
+    }
+
+    public function phone_invitation(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'phones' => 'required|string',
+            'order_id' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->error(400, $validator->errors()->all()[0]);
+        }
+
+        $order = OrderUnit::where('id', $request->order_id)->first();
+        switch($order->type){
+            case 'meeting':
+            case 'office' : $type = 'meeting';
+                            break;
+            case 'shared_table': $type = 'table';
+                                break;
+        }
+        
+        $order = OrderUnit::where('id', $request->order_id)->with($type)->first();
+        
+        $sms = sms()
+            ->to($request->phones)
+            ->msg('You got invitation from ' . Auth::user()->name . ' to join ' . $order->$type->name . ' ' . $type . '. day: ' . $order->order_date . ' from: '. explode(' ', $order->order_from)[1] . ' to: '. explode(' ', $order->order_to)[1])
+            ->send();
+        
+        return response()->data($sms);
     }
 }

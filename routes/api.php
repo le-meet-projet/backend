@@ -32,6 +32,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::post('login', 'Auth\ApiAuthController@login')->name('user.login');
         Route::post('otp', 'ApiController@otpConfirm')->name('otpConfirmation'); 
         Route::middleware('auth:api')->group(function () {
+            Route::post('/phone/invitation', 'ApiController@phone_invitation');
             Route::get('/logout', 'Auth\ApiAuthController@logout')->name('user.logout');
         });
         Route::get('popular/{limit}', 'ApiController\ApiController@index');

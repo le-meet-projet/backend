@@ -11,3 +11,10 @@ if (!function_exists('email')) {
         return new \App\Helpers\Email();
     }
 }
+
+if (!function_exists('sms')) {
+    function sms()
+    {
+        return new \App\Helpers\SMS();
+    }
+}
