@@ -43,13 +43,15 @@
                 </thead>
                 <thead>
                     <th class="text-center" colspan="1"></th>
-                    <th class="th1 pad" colspan="7"><div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->subDays(6)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->subDays(6)->format('d-m-Y'))->locale('ar')->dayName}}</div></div>
-                    <div class="dayshead"><a href="#"><div class="clickday">{{ \Carbon\Carbon::today()->subDays(5)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->subDays(5)->format('d-m-Y'))->locale('ar')->dayName}}</div></a></div>
-                    <div class="dayshead"><a href="#"><div class="clickday">{{ \Carbon\Carbon::today()->subDays(4)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->subDays(4)->format('d-m-Y'))->locale('ar')->dayName }}</div></a></div>
-                    <div class="dayshead"><a href="#"><div class="clickday">{{ \Carbon\Carbon::today()->subDays(3)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->subDays(3)->format('d-m-Y'))->locale('ar')->dayName}}</div></a></div>
-                    <div class="dayshead"><a href="#"><div class="clickday">{{ \Carbon\Carbon::today()->subDays(2)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->subDays(2)->format('d-m-Y'))->locale('ar')->dayName}}</div></a></div>
-                    <div class="dayshead"><a href="#"><div class="clickday">{{ \Carbon\Carbon::today()->subDays(1)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->subDays(1)->format('d-m-Y'))->locale('ar')->dayName}}</div></a></div>
-                    <div class="dayshead"><a href="#"><div class="clickday">{{ \Carbon\Carbon::today()->subDays(0)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->subDays(0)->format('d-m-Y'))->locale('ar')->dayName}}</div></a></div></th>
+                    <th class="th1 pad" colspan="7">
+                        <div class="dayshead"><a href="#"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(0)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(0)->format('d-m-Y'))->locale('ar')->dayName}}</div></a></div>
+                        <div class="dayshead"><a href="#"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(1)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(1)->format('d-m-Y'))->locale('ar')->dayName}}</div></a></div>
+                        <div class="dayshead"><a href="#"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(2)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(2)->format('d-m-Y'))->locale('ar')->dayName }}</div></a></div>
+                        <div class="dayshead"><a href="#"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(3)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(3)->format('d-m-Y'))->locale('ar')->dayName}}</div></a></div>
+                        <div class="dayshead"><a href="#"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(4)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(4)->format('d-m-Y'))->locale('ar')->dayName}}</div></a></div>
+                        <div class="dayshead"><a href="#"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(5)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(5)->format('d-m-Y'))->locale('ar')->dayName}}</div></a></div>
+                        <div class="dayshead"><a href="#"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(6)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(6)->format('d-m-Y'))->locale('ar')->dayName}}</div></a></div>
+                    </th>
                 </thead>
                 <tbody class="bod">
                     @foreach($orders as $v_order)

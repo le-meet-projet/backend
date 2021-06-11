@@ -166,9 +166,18 @@ class OrdersMeetingsController extends Controller{
             };
         }
 
-        $lastWeekDays = [];
+        $nextWeekDays = [];
         for($i = 6; $i >= 0; $i--){
-            array_push($lastWeekDays, \Carbon\Carbon::today()->subDays($i)->format('Y-m-d'));
+            array_push($nextWeekDays, \Carbon\Carbon::today()->addDays($i)->format('Y-m-d'));
+        }
+
+        foreach($orders as $brand => $order){
+            foreach($order as $index => $or){
+                if(!in_array($or->dates, $nextWeekDays)){
+                    unset($order[$index]);
+                };
+                $orders[$brand] = $order;
+            }
         }
         
         foreach($orders as $brand => $order){
@@ -177,7 +186,7 @@ class OrdersMeetingsController extends Controller{
             foreach($order as $or){
                 array_push($exist[$brand], $or->dates);
             }
-            $notExists[$brand] = array_diff($lastWeekDays, $exist[$brand]);
+            $notExists[$brand] = array_diff($nextWeekDays, $exist[$brand]);
         }
         
         foreach($orders as $brand => $order){
@@ -200,7 +209,6 @@ class OrdersMeetingsController extends Controller{
             }
             $orders[$brand] = $order;
         }
-        
         $orders2 = $this->result2;
 
         $dayHours = [];
