@@ -1306,15 +1306,6 @@ class ApiController extends Controller
 
     public function phone_invitation(Request $request)
     {
-        $validator = \Validator::make($request->all(), [
-            'phones' => 'required|string',
-            'order_id' => 'required|numeric'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->error(400, $validator->errors()->all()[0]);
-        }
-
         $order = OrderUnit::where('id', $request->order_id)->first();
         switch($order->type){
             case 'meeting':
@@ -1339,10 +1330,14 @@ class ApiController extends Controller
         لتحميل التطبيق نرجوا الضغط على الرابط(....)
         ';
 
+        $phones = implode(',', json_decode($request->contacts));
+        
         $sms = sms()
-            ->to($request->phones)
+            ->to($phones)
             ->msg($msg)
             ->send();
+
+        \Log::info('Invitation SMS sent to: ' . $phones);
         
         return response()->data($sms);
     }

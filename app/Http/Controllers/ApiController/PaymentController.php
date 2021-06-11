@@ -17,8 +17,20 @@ class PaymentController extends ApiController
             return response()->error(400, $validator->errors()->first());
         }
         
+        $brand = $request->brand;
+
+     
+        $entity_id = [
+            'APPLEPAY' => '8ac7a4c877afa7980177afff3bd40196',
+            'mada'     => '8ac7a4c877afa7980177afffe507019b',
+            'credit'   => '8ac7a4c877afa7980177afff3bd40196',
+        ];
+
+
+        
+        
         $url = "https://test.oppwa.com/v1/checkouts";
-        $data = "entityId=8ac7a4c877afa7980177afffe507019b" .
+        $data = "entityId=" .$entity_id[$brand].
                 "&amount=$request->amount" .
                 "&currency=SAR" .
                 "&paymentType=DB" . 
@@ -45,7 +57,7 @@ class PaymentController extends ApiController
     public function status(string $id)
     {
         $url = "https://test.oppwa.com/v1/checkouts/$id/payment";
-        $url .= "?entityId=8ac7a4c877afa7980177afffe507019b";
+        $url .= "?entityId=8ac7a4c877afa7980177afff3bd40196";
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

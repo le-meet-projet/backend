@@ -54,7 +54,7 @@ class MeetingFilter
 
     private function closest($long, $lat)
     {
-        //   $this->query = $this->query->orderBy('views', 'DESC');
+          $this->query = $this->query->orderBy('created_at', 'DESC');
         return $this;
     }
 

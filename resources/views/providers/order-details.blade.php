@@ -11,3 +11,24 @@
     <button class="btn"><span>مشغول</span></button>
 </div>
 <a class="popup-close" pd-popup-close="popupNew" href="#"> </a>
+
+<script>
+    $(function() {
+        //----- OPEN
+        $('[pd-popup-open]').on('click', function(e)  {
+            var targeted_popup_class = jQuery(this).attr('pd-popup-open');
+            $('[pd-popup="' + targeted_popup_class + '"]').fadeIn(100);
+    
+            e.preventDefault();
+        });
+    
+        //----- CLOSE
+        $('[pd-popup-close]').on('click', function(e)  {
+            console.log("Closed");
+            var targeted_popup_class = jQuery(this).attr('pd-popup-close');
+            $('[pd-popup="' + targeted_popup_class + '"]').fadeOut(200);
+    
+            e.preventDefault();
+        });
+});
+</script>

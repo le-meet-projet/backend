@@ -52,11 +52,9 @@ class OrdersMeetingsController extends Controller{
         return view('providers.users.profile');
     }
 
-    public function gettype(){
-        
+    public function gettype()
+    {
         $bytype = \DB::table('lemeet_orders')->distinct('type')->pluck('type');
-
-        $date = \Carbon\Carbon::today()->subDays(7);
         
         $meetings = \DB::table('order_unit')
             ->join('meetings','meetings.id','order_unit.type_id')
@@ -64,7 +62,6 @@ class OrdersMeetingsController extends Controller{
                 $q->where('order_unit.type', 'meeting')
                 ->orWhere('order_unit.type', 'office');
             })
-            ->where('order_date','>=',$date)
             ->groupby('meetings.name')
             ->select(
                 'order_date as dates',
@@ -78,7 +75,6 @@ class OrdersMeetingsController extends Controller{
         $tables = \DB::table('order_unit')
             ->join('tables','tables.id','order_unit.type_id')
             ->where('order_unit.type', 'shared_table')
-            ->where('order_date','>=',$date)
             ->groupby('tables.name')
             ->select(
                 'order_date as dates',
@@ -94,18 +90,14 @@ class OrdersMeetingsController extends Controller{
     }
 
     public function getorderperhours(){
-        $date = \Carbon\Carbon::now()->toDateString();
-        
-        $meetings = OrderUnit::where('order_date', $date)
-            ->join('meetings','meetings.id','order_unit.type_id')
+        $meetings = OrderUnit::join('meetings','meetings.id','order_unit.type_id')
             ->where(function($q){
                 $q->where('order_unit.type', 'meeting')
                 ->orWhere('order_unit.type', 'office');
             })
             ->get();
 
-        $tables = OrderUnit::where('order_date', $date)
-            ->join('tables','tables.id','order_unit.type_id')
+        $tables = OrderUnit::join('tables','tables.id','order_unit.type_id')
             ->where('order_unit.type', 'shared_table')
             ->get();
             
@@ -152,7 +144,6 @@ class OrdersMeetingsController extends Controller{
 
     public function get(){
         $orders = $this->result2;
-       // dd($orders);
         return view('providers.time', compact('orders'));
     }
 
@@ -167,7 +158,7 @@ class OrdersMeetingsController extends Controller{
         }
 
         $nextWeekDays = [];
-        for($i = 6; $i >= 0; $i--){
+        for($i = 7; $i >= 0; $i--){
             array_push($nextWeekDays, \Carbon\Carbon::today()->addDays($i)->format('Y-m-d'));
         }
 
@@ -211,6 +202,26 @@ class OrdersMeetingsController extends Controller{
         }
         $orders2 = $this->result2;
 
+        foreach($orders2 as $meeting => $order){
+            foreach($order as $or){
+                $ownedMeeting = \App\Meeting::where('name', $or['name'])->where('id_brand', \Auth::user()->brand->id)->get();
+                if(!count($ownedMeeting)){
+                    unset($orders2[$meeting]);
+                }
+            }
+        };
+        $spaces = [];
+        foreach($orders2 as $meeting => $order){
+            foreach($order as $index => $or){
+                $today = Carbon::today()->toDateString();
+                if($or['order_date'] != $today){
+                    $spaces[$or['id']] = $or['name'];
+                    unset($order[$index]);
+                }
+                $orders2[$meeting] = $order;
+            }
+        };
+        
         $dayHours = [];
         for($i = 18; $i >= 9; $i--){
             array_push($dayHours, \Carbon\Carbon::today()->format('Y-m-d') . ' ' . $i . ':00:00');
@@ -234,17 +245,15 @@ class OrdersMeetingsController extends Controller{
             }
             $notExistsHours[$index] = array_diff($dayHours, $existHours[$index]);
         }
-
+        
         foreach($orders2 as $index => $order){
-            foreach($notExistsHours[$index] as $notExist){
-                if(count($notExistsHours[$index]) != 10) { // if at least one order
-                    array_push($order, [
-                        'id' => 'not found',
-                        'name' => $order[0]['name'] ?? '',
-                        'dates' => $notExist,
-                        'order_from' => $notExist
-                    ]);
-                }
+            foreach($notExistsHours[$index] as $notExist){  
+                array_push($order, [
+                    'id' => 'not found',
+                    'name' => $order[0]['name'] ?? $spaces[$index],
+                    'dates' => $notExist,
+                    'order_from' => $notExist
+                ]);
             }
             $orders2[$index] = $order;
         }
