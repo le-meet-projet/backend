@@ -21,6 +21,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::post('/coupon/verification', 'ApiController@verify_coupon');
         Route::post('/pay/secure', 'ApiController@pay_secure');
         Route::post('/confirm/payment', 'ApiController@confirm_payment');
+        Route::post('/order/cancel', 'ApiController@cancel_order');
         // Route::post('/user/orders/list', 'ApiController@user_orders_list');
         Route::post('/user/orders/list', 'ApiController@user_order');
         // new api end

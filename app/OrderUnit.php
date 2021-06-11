@@ -21,6 +21,10 @@ class OrderUnit extends Model
         return $query->where('user_id', \Auth::guard('api')->user()->id);
     }
 
+    public function user()
+    {
+        return $this->belongsTo('\App\User', 'user_id');
+    }
 
     public function order()
     {

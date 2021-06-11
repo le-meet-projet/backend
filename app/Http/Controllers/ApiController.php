@@ -2,26 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Favorite;
 use App\Helpers\IncrementViewSpaceHelper;
-use App\Notification;
-use App\Order;
-use App\Rating;
-use App\Review;
-use App\Space;
-use App\User;
-use App\Meeting;
-use App\Vacation;
-use App\Workshop;
-use App\Table;
-use App\OrderUnit;
+use App\{
+    Favorite,
+    Notification,
+    Order,
+    Rating,
+    Review,
+    Space,
+    User,
+    Meeting,
+    Vacation,
+    Workshop,
+    Table,
+    OrderUnit,
+    Invitation,
+    OrderLeMeet
+};
 use Cartalyst\Stripe\Stripe;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use App\Invitation;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -357,9 +360,12 @@ class ApiController extends Controller
 
         $generatedOtp =  rand(1111, 9999);
 
+        $msg = "رسالة الكود, الرمز $generatedOtp
+        الرمز صالح لمرة واحدة فقط";
+
         sms()
             ->to($phone)
-            ->msg('Your verification code is ' . $generatedOtp)
+            ->msg($msg)
             ->send();
 
         return response()->data(['otp' => $generatedOtp]);
@@ -1019,6 +1025,25 @@ class ApiController extends Controller
                 \Log::info('Meeting order email sent');
             }
 
+            $mapLink = '';
+            if(!is_null($type->latitude) && !is_null($type->longitude)){
+                $mapLink = 'الموقع 📍 https://www.google.com/maps/@'.$type->latitude.','.$type->longitude.',13z';
+            }
+            $msg = 'رسالة تأكيد حجز :
+
+             مرحباً '.\Auth::guard('api')->user()->name.' تم تأكيد حجزكم برقم '.$order_id;
+            foreach($order_units as $order_unit){
+                $msg .= ' يوم '.$order_unit['ar_day'].' في '.$type->brand->name.' قاعة '.$type->name.' الساعة '. explode(' ', $order_unit['order_from'])[1] .' '.$mapLink;
+            }
+            $msg .= '
+نتمنى لكم تجربة رائعة .لتحميل التطبيق نرجوا الضغط على الرابط(....)
+            ';
+
+            $sms = sms()
+                ->to(\Auth::guard('api')->user()->phone)
+                ->msg($msg)
+                ->send();
+
             \DB::table('order_unit')->insert($order_units);
         } else {
 
@@ -1300,12 +1325,53 @@ class ApiController extends Controller
         }
         
         $order = OrderUnit::where('id', $request->order_id)->with($type)->first();
-        
+        $mapLink = '';
+        if(!is_null($order->$type->latitude) && !is_null($order->$type->longitude)){
+            $mapLink = 'الموقع 📍 https://www.google.com/maps/@'.$order->$type->latitude.','.$order->$type->longitude.',13z';
+        }
+        $msg = 'رسالة دعوة اعضاء الاجتماع :
+
+        مرحباً..
+
+        انت مدعو الى اجتماع من ' . Auth::user()->name . ' في '.$order->$type->brand->name.' قاعة '.$order->$type->name.'
+        يوم '.$order->ar_day.' الساعة'.explode(' ', $order->order_from)[1].' ،'. $mapLink .' نتمنى لكم تجربة رائعة.
+
+        لتحميل التطبيق نرجوا الضغط على الرابط(....)
+        ';
+
         $sms = sms()
             ->to($request->phones)
-            ->msg('You got invitation from ' . Auth::user()->name . ' to join ' . $order->$type->name . ' ' . $type . '. day: ' . $order->order_date . ' from: '. explode(' ', $order->order_from)[1] . ' to: '. explode(' ', $order->order_to)[1])
+            ->msg($msg)
             ->send();
         
         return response()->data($sms);
+    }
+
+    public function cancel_order(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'order_id' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->error(400, $validator->errors()->all()[0]);
+        }
+
+        $order = OrderLeMeet::find($request->order_id);
+        $orderUnits = OrderUnit::where('order_id', $request->order_id)->get();
+        $order->delete();
+        foreach($orderUnits as $orderUnit){
+            $orderUnit->delete();
+        }
+
+        $msg = 'رسالة إلغاء الحجز :
+        مرحباً '.$order->user->name.' تم إلغاء حجزكم برقم'.$order->id.' لتقديم اي ملاحظة او استفسار نرجو التواصل مع الفريق(.....)';
+
+        sms()
+            ->to($order->user->phone)
+            ->msg($msg)
+            ->send();
+
+        return response()->success('order cancelled successfully');
     }
 }
