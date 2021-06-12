@@ -7,6 +7,8 @@ use App\Order;
 use App\OrderLeMeet;
 use App\User;
 use App\Space;
+use App\Meeting;
+use App\Table;
 use App\OrderDetail;
 use PDF;
 use DB;
@@ -100,8 +102,15 @@ class OrdersMeetingsController extends Controller{
         $tables = OrderUnit::join('tables','tables.id','order_unit.type_id')
             ->where('order_unit.type', 'shared_table')
             ->get();
-            
-        $this->result2 = $meetings->merge($tables)->groupby('type_id')->toArray();
+        
+        $spaces = [];
+        foreach($tables->groupby('type_id')->toArray() as $id => $table){
+            $spaces[$id] = $table;
+        }
+        foreach($meetings->groupby('type_id')->toArray() as $id => $meeting){
+            $spaces[$id] = $meeting;
+        }
+        $this->result2 = $spaces;
     }
 
     public function getDays(){
@@ -149,11 +158,40 @@ class OrdersMeetingsController extends Controller{
 
     public function send(){
         $orders = $this->result;
-        
         foreach($orders as $meeting => $order){
-            $ownedMeeting = \App\Meeting::where('name', $meeting)->where('id_brand', \Auth::user()->brand->id)->get();
+            if(Table::where('name', $meeting)->count()){
+                $orders[$meeting]['type'] = 'table';
+            }else{
+                $orders[$meeting]['type'] = 'meeting';
+            }
+        };
+
+        foreach($orders as $meeting => $order){
+            if($order['type'] == 'table'){
+                $ownedMeeting = Table::where('name', $meeting)->where('id_brand', \Auth::user()->brand->id)->get();
+            }else{
+                $ownedMeeting = Meeting::where('name', $meeting)->where('id_brand', \Auth::user()->brand->id)->get();
+            }
             if(!count($ownedMeeting)){
                 unset($orders[$meeting]);
+            };
+        };
+        foreach($orders as $brand => $order){
+            unset($order['type']);
+            $orders[$brand] = $order;
+        }
+
+        $ownedMeetings = Meeting::where('id_brand', \Auth::user()->brand->id)->get();
+        $ownedTables = Table::where('id_brand', \Auth::user()->brand->id)->get();
+        $ownedSpaces = $ownedMeetings->merge($ownedTables);
+        $existSpaces = [];
+        foreach($ownedSpaces as $space){
+            $existSpaces[$space->id] = $space->name;
+        }
+        
+        foreach($existSpaces as $existSpace){
+            if(!in_array($existSpace, array_keys($orders))){
+                $orders[$existSpace] = [];
             };
         }
 
@@ -179,7 +217,9 @@ class OrdersMeetingsController extends Controller{
             }
             $notExists[$brand] = array_diff($nextWeekDays, $exist[$brand]);
         }
+
         
+
         foreach($orders as $brand => $order){
             foreach($notExists[$brand] as $notExist){
                 array_push($order, (object)[
@@ -190,7 +230,9 @@ class OrdersMeetingsController extends Controller{
             }
             $orders[$brand] = $order;
         }
+
         foreach($orders as $brand => $order){
+            if($brand == 'type') continue;
             foreach($order as $i => $or){
                 usort($order, function($element1, $element2) {
                     $date1 = strtotime($element1->dates);
@@ -200,16 +242,31 @@ class OrdersMeetingsController extends Controller{
             }
             $orders[$brand] = $order;
         }
-        $orders2 = $this->result2;
 
+        $orders2 = $this->result2;
         foreach($orders2 as $meeting => $order){
             foreach($order as $or){
-                $ownedMeeting = \App\Meeting::where('name', $or['name'])->where('id_brand', \Auth::user()->brand->id)->get();
+                if($or['type'] == 'shared_table'){
+                    $ownedMeeting = Table::where('name', $or['name'])->where('id_brand', \Auth::user()->brand->id)->get();
+                }else{
+                    $ownedMeeting = Meeting::where('name', $or['name'])->where('id_brand', \Auth::user()->brand->id)->get();
+                }
                 if(!count($ownedMeeting)){
                     unset($orders2[$meeting]);
-                }
+                };
             }
         };
+        foreach($existSpaces as $id => $existSpace){
+            if(!in_array($id, array_keys($orders2))){
+                $orders2[$id] = [];
+                array_push($orders2[$id], [
+                    'id' => $id,
+                    'name' => $existSpace,
+                    'order_date' => null
+                ]);
+            };
+        }
+
         $spaces = [];
         foreach($orders2 as $meeting => $order){
             foreach($order as $index => $or){
@@ -224,19 +281,24 @@ class OrdersMeetingsController extends Controller{
         
         $dayHours = [];
         for($i = 18; $i >= 9; $i--){
+            if($i < 10) $i = '0'.$i;
             array_push($dayHours, \Carbon\Carbon::today()->format('Y-m-d') . ' ' . $i . ':00:00');
         }
 
         foreach($orders2 as $index => $order){
             foreach($order as $i => $or){
-                $owned = \App\Meeting::where('id', $or['id'])->where('id_brand', \Auth::user()->brand->id)->get();
+                if($or['type'] == 'shared_table'){
+                    $owned = Table::where('id', $or['id'])->where('id_brand', \Auth::user()->brand->id)->get();
+                }else{
+                    $owned = Meeting::where('id', $or['id'])->where('id_brand', \Auth::user()->brand->id)->get();
+                }
                 if(!count($owned)){
                     unset($order[$i]);
                 };
             }
             $orders2[$index] = $order;
         }
-
+        
         foreach($orders2 as $index => $order){
             $existHours[$index] = [];
             $notExistsHours[$index] = [];
@@ -245,7 +307,7 @@ class OrdersMeetingsController extends Controller{
             }
             $notExistsHours[$index] = array_diff($dayHours, $existHours[$index]);
         }
-        
+
         foreach($orders2 as $index => $order){
             foreach($notExistsHours[$index] as $notExist){  
                 array_push($order, [
@@ -275,24 +337,24 @@ class OrdersMeetingsController extends Controller{
     public function orderDetails(Request $request)
     {
         $unitOrders = OrderUnit::where(
-            function($q){
+            function($q) use ($request){
                 $q->where(
-                    function($q){
-                        $q->whereHas('meeting', function($q){
-                            $q->whereHas('brand', function ($q) {
+                    function($q) use ($request){
+                        $q->whereHas('meeting', function($q) use ($request){
+                            $q->whereHas('brand', function ($q) use ($request){
                                 $q->where('name', \Auth::user()->name);
-                            });
+                            })->where('name', $request->name);
                         })->where(function($q){
                             $q->where('type', 'meeting')
                             ->orWhere('type', 'office');
                         });
                     }
                 )->orWhere(
-                    function($q){
-                        $q->whereHas('table', function($q){
-                            $q->whereHas('brand', function ($q) {
+                    function($q) use ($request){
+                        $q->whereHas('table', function($q) use ($request){
+                            $q->whereHas('brand', function ($q){
                                 $q->where('name', \Auth::user()->name);
-                            });
+                            })->where('name', $request->name);
                         })->where('type', 'shared_table');
                     }
                 );

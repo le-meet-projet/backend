@@ -72,7 +72,7 @@
                                             <div class="border-booking">
                                                 <div class="conf"><a></a>{{ $days->total_orders}}</div>
                                             </div>
-                                            <h6><a id="details" data-date="{{ $days->dates }}" pd-popup-open="popupNew"> محجوز</a></h6>
+                                            <h6><a id="details" data-date="{{ $days->dates }}" data-name="{{ $days->name }}" pd-popup-open="popupNew"> محجوز</a></h6>
                                         </div>
                                         <div class="seconddiv">
                                         </div>
@@ -398,10 +398,12 @@ $.fn.conditionalFields = function (action) {
         $('a#details').click(function(e) {  
             const token = $('meta[name="csrf-token"]').attr('content');
             const date = $(this).attr('data-date');
+            const name = $(this).attr('data-name');
 
             var formData = new FormData();
             formData.append('_token', token);
             formData.append('date', date);
+            formData.append('name', name);
 
             $.ajax({
                 url: '/merchant/order-details',

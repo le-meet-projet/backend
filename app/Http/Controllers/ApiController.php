@@ -1055,10 +1055,18 @@ class ApiController extends Controller
 
             foreach (array_values($times_units) as $single_unit) {
                 foreach ($single_unit as $chaire_unit) {
+                    $order_date = explode('@', $chaire_unit['time'])[0];
+                    $order_time =  explode('@', $chaire_unit['time'])[1];
+                    $order_from = $order_date . ' ' . explode('-', $order_time)[0] . ':00:00';
+                    $order_to = $order_date . ' ' . explode('-', $order_time)[1] . ':00:00';
                     $order_unit = [
                         'unique_id' => $chaire_unit['time'],
                         'order_id' => $order_id,
                         'chaire_count' => $chaire_unit['chaires_count'],
+                        'order_date' => $order_date,
+                        'order_time' => $order_time,
+                        'order_from' => $order_from,
+                        'order_to' => $order_to,
                         'type' => $request->type,
                         'type_id' => $request->id,
                     ];

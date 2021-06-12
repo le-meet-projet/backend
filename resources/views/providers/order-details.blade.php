@@ -24,7 +24,6 @@
     
         //----- CLOSE
         $('[pd-popup-close]').on('click', function(e)  {
-            console.log("Closed");
             var targeted_popup_class = jQuery(this).attr('pd-popup-close');
             $('[pd-popup="' + targeted_popup_class + '"]').fadeOut(200);
     
