@@ -12,6 +12,27 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@800&display=swap" rel="stylesheet">
         <link href="{{ asset('/css/lemeet.css')}}" rel="stylesheet">
+
+
+        <style>
+
+th.th2 {
+    background: white !important;  
+    background: white !important;
+    color: #336e7c !important;
+}
+
+        th.th1 {
+    background: white !important;
+}
+
+table thead th:last-child strong {
+    background: white !important;
+    color: #336e7c !important;
+}
+</style>
+
+
     </head>
     <body>
         <header>
