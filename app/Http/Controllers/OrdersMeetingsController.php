@@ -436,7 +436,8 @@ class OrdersMeetingsController extends Controller{
                     }
                 );
             }
-        )->where('order_date', $request->date)->get();
+        )->where('order_date', $request->date)
+        ->where('order_from', $request->date . ' ' . $request->from)->get();
 
         return view('providers.order-details', compact('unitOrders'));
     }

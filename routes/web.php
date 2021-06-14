@@ -162,15 +162,15 @@ Route::post('/merchant/doLogin','OrdersMeetingsController@doLogin')->name('doLog
 
 
 Route::group(['prefix' => 'merchant', 'as' => 'merchant.', 'middleware' => 'Brand'], function (){
-Route::get('/','OrdersMeetingsController@send')->name('orders');
-Route::get('/hours/{id}/{date}','OrdersMeetingsController@sendHours')->name('orders-hours');
-Route::get('/profile','OrdersMeetingsController@profile')->name('profile');
-Route::post('/profileEdit','OrdersMeetingsController@profileEdit')->name('profileEdit');
-Route::get('/invoice','OrdersMeetingsController@invoice')->name('invoice');
-Route::get('/wallet','OrdersMeetingsController@wallet')->name('wallet');
-Route::get('/rating','OrdersMeetingsController@rating')->name('rating');
-Route::get('orders', 'OrdersMeetingsController@brandOrders');
-Route::post('/order-details', 'OrdersMeetingsController@orderDetails');
+    Route::get('/','OrdersMeetingsController@send')->name('orders');
+    Route::get('/hours/{id}/{date}','OrdersMeetingsController@sendHours')->name('orders-hours');
+    Route::get('/profile','OrdersMeetingsController@profile')->name('profile');
+    Route::post('/profileEdit','OrdersMeetingsController@profileEdit')->name('profileEdit');
+    Route::get('/invoice','OrdersMeetingsController@invoice')->name('invoice');
+    Route::get('/wallet','OrdersMeetingsController@wallet')->name('wallet');
+    Route::get('/rating','OrdersMeetingsController@rating')->name('rating');
+    Route::get('orders', 'OrdersMeetingsController@brandOrders');
+    Route::post('/order-details', 'OrdersMeetingsController@orderDetails');
 });
 
 Auth::routes();

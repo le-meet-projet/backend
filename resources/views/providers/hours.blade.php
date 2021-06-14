@@ -83,7 +83,7 @@
                                 <div class="" style="display: flex; width: 10%">
                                     <div class="col-xs-12 col-sm-12 card">
                                         <td class="hours">
-                                            <div class="booking">
+                                            <div class="booking" id="details" data-date="{{ $order['order_date'] }}" data-from="{{ explode(' ', $order['order_from'])[1] }}" data-name="{{ $order['name'] }}" pd-popup-open="popupNew">
                                                 <div class="days-booking-1">
                                                     <div class="nb-booking">
                                                         <h6><a>رقم الحجز:<br> {{ $order['order_id'] }}</a></h6>
@@ -232,6 +232,10 @@
                   color: #fff;
               }
 
+                div#details {
+                    cursor: pointer;
+                }
+
                </style>
             
             
@@ -249,7 +253,6 @@
  
     //----- CLOSE
     $('[pd-popup-close]').on('click', function(e)  {
-        console.log("Closed");
         var targeted_popup_class = jQuery(this).attr('pd-popup-close');
         $('[pd-popup="' + targeted_popup_class + '"]').fadeOut(200);
  
@@ -350,14 +353,16 @@ $.fn.conditionalFields = function (action) {
     });
 
     $(document).ready(function() {
-        $('a#details').click(function(e) {  
+        $('div#details').click(function(e) {
             const token = $('meta[name="csrf-token"]').attr('content');
             const date = $(this).attr('data-date');
+            const from = $(this).attr('data-from');
             const name = $(this).attr('data-name');
 
             var formData = new FormData();
             formData.append('_token', token);
             formData.append('date', date);
+            formData.append('from', from);
             formData.append('name', name);
 
             $.ajax({

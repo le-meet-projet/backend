@@ -96,26 +96,31 @@
                                     </td>
                                 @endif
                                 <td class="days">
-                                    <div class="booking {{ $days->total_orders ? 'positive':'' }}">
-                                        <div class="nbb-booking">
-                                            <div class="border-booking">
-                                                <div class="conf"><a></a>{{ $days->total_orders}}</div>
-                                            </div>
-                                            @if($days->total_orders)
-                                                <h6>
-                                                    <a  href="{{ route('merchant.orders-hours', ['id' => $days->id, 'date' => $days->dates]) }}"
-                                                        style="color: #FFF;"
-                                                    >
+                                    @if($days->total_orders)
+                                        <a  href="{{ route('merchant.orders-hours', ['id' => $days->id, 'date' => $days->dates]) }}"
+                                            style="color: #FFF;"
+                                        >
+                                            <div class="booking positive">
+                                                <div class="nbb-booking">
+                                                    <div class="border-booking">
+                                                        <div class="conf">{{ $days->total_orders}}</div>
+                                                    </div>
+                                                    <h6>
                                                         محجوز
-                                                    </a>
-                                                </h6>
-                                            @else
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    @else
+                                        <div class="booking">
+                                            <div class="nbb-booking">
+                                                <div class="border-booking">
+                                                    <div class="conf">{{ $days->total_orders}}</div>
+                                                </div>
                                                 <h6>غير محجوز</h6>
-                                            @endif
+                                            </div>
                                         </div>
-                                        <div class="seconddiv">
-                                        </div>
-                                    </div>
+                                    @endif
                                 </td>
                             @endforeach
                         </tr>
@@ -168,7 +173,7 @@
                                 <div class="" style="display: flex; width: 10%">
                                     <div class="col-xs-12 col-sm-12 card">
                                         <td class="hours">
-                                            <div class="booking">
+                                            <div class="booking" id="details" data-date="{{ $order['order_date'] }}" data-from="{{ explode(' ', $order['order_from'])[1] }}" data-name="{{ $order['name'] }}" pd-popup-open="popupNew">
                                                 <div class="days-booking-1">
                                                     <div class="nb-booking">
                                                         <h6><a>رقم الحجز:<br> {{ $order['order_id'] }}</a></h6>
@@ -238,6 +243,9 @@
             }
             .bod .booking h6{
                 color: #336e7c;
+            }
+            .bod .booking.positive h6{
+                color: #FFF;
             }
             .name-lka3a{
                 text-align: center;
@@ -326,6 +334,10 @@
                   margin-right: 5%;
                   color: #fff;
               }
+
+              div#details {
+                    cursor: pointer;
+            }
 
                </style>
             
@@ -442,17 +454,18 @@ $.fn.conditionalFields = function (action) {
 <script>
     $(function(){
         $('body').conditionalFields('init');
-    });
 
-    $(document).ready(function() {
-        $('a#details').click(function(e) {  
+        $(document).ready(function() {
+        $('div#details').click(function(e) {
             const token = $('meta[name="csrf-token"]').attr('content');
             const date = $(this).attr('data-date');
+            const from = $(this).attr('data-from');
             const name = $(this).attr('data-name');
 
             var formData = new FormData();
             formData.append('_token', token);
             formData.append('date', date);
+            formData.append('from', from);
             formData.append('name', name);
 
             $.ajax({
@@ -472,6 +485,7 @@ $.fn.conditionalFields = function (action) {
                 }
             });
         });
+    });
     });
 </script>
     </body>

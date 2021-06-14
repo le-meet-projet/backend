@@ -48,7 +48,7 @@
                 @endforeach
                 @else
                 <div class="container col-lg-4">
-                    <p>لاتوجد أي فاتورة </p>
+                    <p>الحساب فارغ </p>
                     <a href="{{ route('merchant.orders')}}" class="btn redirect">العودة الى الرئيسية</a>
                 </div>
                 @endif
