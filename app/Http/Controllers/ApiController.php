@@ -1314,7 +1314,7 @@ class ApiController extends Controller
 
     public function phone_invitation(Request $request)
     {
-        $order = OrderUnit::where('id', $request->order_id)->first();
+        $order = OrderUnit::where('user_id', \Auth::guard('api')->user()->id)->latest()->first();
         switch($order->type){
             case 'meeting':
             case 'office' : $type = 'meeting';
@@ -1323,7 +1323,7 @@ class ApiController extends Controller
                                 break;
         }
         
-        $order = OrderUnit::where('id', $request->order_id)->with($type)->first();
+        $order = OrderUnit::where('user_id', \Auth::guard('api')->user()->id)->with($type)->latest()->first();
         $mapLink = '';
         if(!is_null($order->$type->latitude) && !is_null($order->$type->longitude)){
             $mapLink = 'الموقع 📍 https://www.google.com/maps/@'.$order->$type->latitude.','.$order->$type->longitude.',13z';
@@ -1339,15 +1339,27 @@ class ApiController extends Controller
         ';
 
         $phones = implode(',', json_decode($request->contacts));
+        $phones = str_replace(' ', '', str_replace('-', '', $phones));
         
-        $sms = sms()
+        $smsSent = sms()
             ->to($phones)
             ->msg($msg)
             ->send();
 
-        \Log::info('Invitation SMS sent to: ' . $phones);
+        if($smsSent['message'] == 'Success'){
+            \Log::info('Invitation SMS sent to: ' . $phones);
+            return response()->success('SMS sent successfully', [
+                'code' => $smsSent['code'],
+                'message' => $smsSent['message']
+            ]);
+        }else{
+            \Log::alert('Invitation SMS failed to be sent: ' . $smsSent['code'] . ' | ' . $smsSent['message']);
+            return response()->error(600, 'SMS didn\'t sent', [
+                'code' => $smsSent['code'],
+                'message' => $smsSent['message']
+            ]);
+        }
         
-        return response()->data($sms);
     }
 
     public function cancel_order(Request $request)

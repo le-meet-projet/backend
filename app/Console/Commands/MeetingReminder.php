@@ -87,12 +87,16 @@ class MeetingReminder extends Command
         foreach($orders as $order){
             if($now->diffInMinutes($order->order_from) < $this->duration){
                 $this->createMessage($order);
-                sms()
+                $smsSent = sms()
                     ->to($order->user->phone)
                     ->msg($this->msg)
                     ->send();
-                \Log::channel('commands')->info('[meeting:reminder] sms sent to ' . $order->user->phone);
-                $check++;
+                if($smsSent['message'] == 'Success'){
+                    \Log::channel('commands')->info('[meeting:reminder] sms sent to: ' . $order->user->phone);
+                    $check++;
+                }else{
+                    \Log::channel('commands')->alert('[meeting:reminder] sms failed to be sent to: ' . $order->user->phone . ' | CODE: ' . $smsSent['code'] . ' - ' . $smsSent['message']);
+                }
             }
         }
         return $check;
