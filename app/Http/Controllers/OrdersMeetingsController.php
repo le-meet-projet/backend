@@ -66,6 +66,7 @@ class OrdersMeetingsController extends Controller{
             })
             ->groupby('meetings.name')
             ->select(
+                'meetings.id',
                 'order_date as dates',
                 'capacity as capacitys','name',
                 DB::raw('count(order_unit.type_id) as total_orders'),
@@ -79,6 +80,7 @@ class OrdersMeetingsController extends Controller{
             ->where('order_unit.type', 'shared_table')
             ->groupby('tables.name')
             ->select(
+                'tables.id',
                 'order_date as dates',
                 'capacity as capacitys','name',
                 DB::raw('count(order_unit.type_id) as total_orders'),
@@ -158,6 +160,7 @@ class OrdersMeetingsController extends Controller{
 
     public function send(){
         $orders = $this->result;
+        
         foreach($orders as $meeting => $order){
             if(Table::where('name', $meeting)->count()){
                 $orders[$meeting]['type'] = 'table';
@@ -208,7 +211,6 @@ class OrdersMeetingsController extends Controller{
                 $orders[$brand] = $order;
             }
         }
-        
         foreach($orders as $brand => $order){
             $exist[$brand] = [];
             $notExists[$brand] = [];
@@ -332,6 +334,81 @@ class OrdersMeetingsController extends Controller{
         }
         
         return view('providers.days', compact('orders2','orders'));
+    }
+
+    public function sendHours($id, $date)
+    {
+        $orders2 = $this->result2;
+       
+        $orders2 = array_filter($orders2, function($order_id) use ($id){
+            return $order_id == $id;
+        }, ARRAY_FILTER_USE_KEY);
+
+        $spaces = [];
+        foreach($orders2 as $meeting => $order){
+            foreach($order as $index => $or){
+                $today = $date;
+                if($or['order_date'] != $today){
+                    $spaces[$or['id']] = $or['name'];
+                    unset($order[$index]);
+                }
+                $orders2[$meeting] = $order;
+            }
+        };
+        
+        $dayHours = [];
+        for($i = 18; $i >= 9; $i--){
+            if($i < 10) $i = '0'.$i;
+            array_push($dayHours, $date . ' ' . $i . ':00:00');
+        }
+
+        foreach($orders2 as $index => $order){
+            foreach($order as $i => $or){
+                if($or['type'] == 'shared_table'){
+                    $owned = Table::where('id', $or['id'])->where('id_brand', \Auth::user()->brand->id)->get();
+                }else{
+                    $owned = Meeting::where('id', $or['id'])->where('id_brand', \Auth::user()->brand->id)->get();
+                }
+                if(!count($owned)){
+                    unset($order[$i]);
+                };
+            }
+            $orders2[$index] = $order;
+        }
+        
+        foreach($orders2 as $index => $order){
+            $existHours[$index] = [];
+            $notExistsHours[$index] = [];
+            foreach($order as $or){
+                array_push($existHours[$index], $or['order_from']);
+            }
+            $notExistsHours[$index] = array_diff($dayHours, $existHours[$index]);
+        }
+
+        foreach($orders2 as $index => $order){
+            foreach($notExistsHours[$index] as $notExist){  
+                array_push($order, [
+                    'id' => 'not found',
+                    'name' => $order[0]['name'] ?? $spaces[$index],
+                    'dates' => $notExist,
+                    'order_from' => $notExist
+                ]);
+            }
+            $orders2[$index] = $order;
+        }
+
+        foreach($orders2 as $index => $order){
+            foreach($order as $i => $or){
+                usort($order, function($element1, $element2) {
+                    $date1 = strtotime($element1['order_from']);
+                    $date2 = strtotime($element2['order_from']);
+                    return $date1 - $date2;
+                } );
+            }
+            $orders2[$index] = $order;
+        }
+        
+        return view('providers.hours', compact('orders2'));
     }
 
     public function orderDetails(Request $request)

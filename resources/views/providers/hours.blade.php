@@ -16,114 +16,29 @@
 
 
         <style>
-            .l9a3at,
-            .lhojozat{
-                font-size: 24px;
-            }
 
-            th.th2,
             .l9a3at {
                 background: white !important;  
                 background: white !important;
                 color: #336e7c !important;
+                font-size: 24px;
             }
 
-            th.th1,
             .lhojozat {
                 background: white !important;
                 color: #336e7c !important;
+                font-size: 24px;
             }
 
-            table thead th:last-child strong {
-                background: white !important;
-                color: #336e7c !important;
-            }
         </style>
 
 
     </head>
     <body>
-        <header>
-            <nav class="navbar navbar-light">
-                <div class="container-fluid">
-                  <form class="d-flex">
-                    <h2><i class="bi bi-person-fill"></i>حسابي</h2>
-                  </form>
-                    <div class="logo">
-                    <a  href="{{ route('merchant.orders')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
-                    </div>
-                    <div class="form-group role-selector">
-                        <label class="form-switch">
-                            <span class="lab1">ساعات</span>
-                            <input name="subscribe" type="checkbox" class="custom-control-input condition-trigger" id="customSwitch1">
-                            <i></i>
-                            <span class="lab2">ايام</span>
-                          </label>
-                    </div>
-                </div>
-              </nav>
-        </header>
         
         <div class="contant">
-            <table class="table" id="time"  data-condition="subscribe" data-condition-value="0">
-                <thead>
-                    <th class="th2" colspan="1"><strong>القاعات</strong></th>
-                    <th class="th1" colspan="10"><strong>الحجوزات</strong></th>
-                </thead>
-                <thead>
-                    <th class="text-center" colspan="1"></th>
-                    <th class="th1 pad" colspan="8">
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(0)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(0)->format('d-m-Y'))->locale('ar')->dayName}}</div></div>
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(1)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(1)->format('d-m-Y'))->locale('ar')->dayName}}</div></div>
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(2)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(2)->format('d-m-Y'))->locale('ar')->dayName }}</div></div>
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(3)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(3)->format('d-m-Y'))->locale('ar')->dayName}}</div></div>
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(4)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(4)->format('d-m-Y'))->locale('ar')->dayName}}</div></div>
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(5)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(5)->format('d-m-Y'))->locale('ar')->dayName}}</div></div>
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(6)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(6)->format('d-m-Y'))->locale('ar')->dayName}}</div></div>
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(7)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(7)->format('d-m-Y'))->locale('ar')->dayName}}</div></div>
-                    </th>
-                </thead>
-                <tbody class="bod">
-                    @foreach($orders as $v_order)
-                        <tr>
-                            @foreach($v_order as $days)
-                                @if ($loop->first)                         
-                                    <td class="hours">
-                                        <img src="{{ asset('/image/salle1.jpg') }}" style="width: 75%;margin-left: 10%;margin-right: 15%;height: 70%;position: absolute;">
-                                        <div class="name-salle">
-                                            {{ $days->name}}
-                                        </div>
-                                    </td>
-                                @endif
-                                <td class="days">
-                                    <div class="booking {{ $days->total_orders ? 'positive':'' }}">
-                                        <div class="nbb-booking">
-                                            <div class="border-booking">
-                                                <div class="conf"><a></a>{{ $days->total_orders}}</div>
-                                            </div>
-                                            @if($days->total_orders)
-                                                <h6>
-                                                    <a  href="{{ route('merchant.orders-hours', ['id' => $days->id, 'date' => $days->dates]) }}"
-                                                        style="color: #FFF;"
-                                                    >
-                                                        محجوز
-                                                    </a>
-                                                </h6>
-                                            @else
-                                                <h6>غير محجوز</h6>
-                                            @endif
-                                        </div>
-                                        <div class="seconddiv">
-                                        </div>
-                                    </div>
-                                </td>
-                            @endforeach
-                        </tr>
-                    @endforeach
-                </tbody>
-              </table>
               
-               <div class="table" id="days" data-condition="subscribe" data-condition-value="1">
+               <div class="table">
                    <div class="head" style="display: -webkit-inline-box;">
                        <div class="text-center l9a3at" style="width:10%;"><strong>القاعات</strong></div>
                        <div class="text-center lhojozat" style="width:90%;"><strong>الحجوزات</strong></div>
@@ -223,35 +138,25 @@
             a{
                 text-decoration: none;
             }
-            .table-td{
+             .table-td{
                 width: 10%;
-            }
-            .booking {
+             }
+             .booking {
                 background: #336e7c;
             }
-            .bod .booking{
-                background: #FFF;
-                border: 2px #336e7c solid;
-            }
-            .bod .booking.positive{
-                background: #336e7c;
-            }
-            .bod .booking h6{
-                color: #336e7c;
-            }
-            .name-lka3a{
-                text-align: center;
-                background: #2a5d6a;
-                color: #fff;
-            }
-            .scrolling-wrapper {
-                overflow-x: scroll;
-                overflow-y: hidden;
-                white-space: nowrap;
-                .card {
-                    display: inline-block;
-                }
-            }
+             .name-lka3a{
+                   text-align: center;
+                 background: #2a5d6a;
+                 color: #fff;
+              }
+             .scrolling-wrapper {
+                 overflow-x: scroll;
+                 overflow-y: hidden;
+                 white-space: nowrap;
+                 .card {
+                     display: inline-block;
+                 }
+             }
              .scrolling-wrapper {
                  -webkit-overflow-scrolling: touch;
              }
