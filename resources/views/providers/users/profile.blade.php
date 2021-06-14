@@ -122,6 +122,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{ route('merchant.profile')}}" class="active"><i class="fas fa-cog" ></i><br><strong>الملف الشخصي</strong>  </a> </li>
                 <li><a href="{{ route('merchant.wallet')}}"><i class="bi bi-wallet-fill" ></i><br><strong>المحفضة</strong>  </a> </li>
+                <li><a href="{{ route('merchant.invoice')}}"><i class="bi bi-wallet-fill" ></i><br><strong>الفاتورة</strong>  </a> </li>
                 <li><a href="{{ route('merchant.orders')}}"><i class="bi bi-house"></i><br><strong>الرئيسية</strong></a></li>
                 <li><a href="{{ route('merchant.rating')}}"><i class="bi bi-star"></i><br><strong>التقيمات</strong>   </a>
                 </li>
