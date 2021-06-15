@@ -62,6 +62,9 @@
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <a href="{{ route('logout') }}" class="btn btn-main pd-x-30 mg-r-5 mg-t-5 btn-block">تسجيل الخروج</a>
+                    </div>
                 </div>
                 <div class="col-lg-8">
                     <div class="card">
