@@ -29,7 +29,15 @@
               </nav>
         </header>
         <div class="contant">
-            <button class="btn btn-lg sold">الرصيد</button><button class="btn btn-lg total-sold">{{ $currentMonthIncome }} <span>ريال</span> </button><br>
+            <div class="d-flex justify-content-between">
+                <div class="d-flex">
+                    <button class="btn btn-lg sold">الرصيد</button>
+                    <button class="btn btn-lg total-sold">{{ $currentMonthIncome }} <span>ريال</span> </button>
+                </div>
+                <div>
+                    <a href="{{ route('merchant.invoice')}}" class="btn btn-lg sold"><strong>الفاتورة</strong></a>
+                </div>
+            </div>
             <div class="facteur">
               <h2>كشف الحساب</h2><br>
               @if(count($total) > 0)
@@ -60,7 +68,6 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{ route('merchant.profile')}}"><i class="fas fa-cog" ></i><br><strong>الملف الشخصي</strong>  </a> </li>
                 <li><a href="{{ route('merchant.wallet')}}" class="active"><i class="bi bi-wallet-fill" ></i><br><strong>المحفضة</strong>  </a> </li>
-                <li><a href="{{ route('merchant.invoice')}}"><i class="bi bi-wallet-fill" ></i><br><strong>الفاتورة</strong>  </a> </li>
                 <li><a href="{{ route('merchant.orders')}}"><i class="bi bi-house"></i><br><strong>الرئيسية</strong></a></li>
                 <li><a href="{{ route('merchant.rating')}}"><i class="bi bi-star"></i><br><strong>التقيمات</strong>   </a>
                 </li>
