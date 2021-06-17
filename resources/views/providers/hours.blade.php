@@ -35,6 +35,15 @@
 
     </head>
     <body>
+        <header>
+            <nav class="navbar navbar-light">
+                <div class="container-fluid justify-content-center">
+                    <div class="logo">
+                        <a  href="{{ route('merchant.orders')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
+                    </div>
+                </div>
+              </nav>
+        </header>
         
         <div class="contant">
               

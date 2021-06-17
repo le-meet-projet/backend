@@ -442,7 +442,7 @@ class OrdersMeetingsController extends Controller{
         return view('providers.order-details', compact('unitOrders'));
     }
 
-    public function invoice(){
+    private function invoice(){
         $orders = OrderLeMeet::where(
             function($q){
                 $q->whereHas('meeting', function($q){
@@ -493,7 +493,7 @@ class OrdersMeetingsController extends Controller{
             }
         }
 
-        return view('providers.invoice', compact('earnings', 'currentMonthIncome'));
+        return compact('earnings', 'currentMonthIncome');
     }
 
     public function wallet()
@@ -521,12 +521,11 @@ class OrdersMeetingsController extends Controller{
         ->select(DB::raw('sum(price) as price'), DB::raw("DATE_FORMAT(created_at,'%m %Y') as Months") )
         ->groupby('Months')->orderBy('Months')->get();
 
-        $currentMonthIncome = 0;
-        foreach($total as $t){
-            strpos($t->Months, Carbon::now()->format('m')) !== false && strpos($t->Months, Carbon::now()->format('Y')) !== false && $currentMonthIncome = $t->price;
-        }
+        $invoice = $this->invoice();
+        $earnings = $invoice['earnings'];
+        $currentMonthIncome = $invoice['currentMonthIncome'];
 
-        return view('providers.mihfada', compact('total', 'currentMonthIncome'));
+        return view('providers.mihfada', compact('total', 'earnings', 'currentMonthIncome'));
     }
 
     public function rating(){

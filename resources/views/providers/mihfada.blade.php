@@ -15,15 +15,9 @@
     <body>
         <header>
             <nav class="navbar navbar-light">
-                <div class="container-fluid">
-                  <form class="d-flex">
-                    
-                  </form>
+                <div class="container-fluid justify-content-center">
                     <div class="logo">
                         <a  href="{{ route('merchant.orders')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
-                    </div>
-                    <div class="form-group role-selector">
-                        
                     </div>
                 </div>
               </nav>
@@ -34,32 +28,53 @@
                     <button class="btn btn-lg sold">الرصيد</button>
                     <button class="btn btn-lg total-sold">{{ $currentMonthIncome }} <span>ريال</span> </button>
                 </div>
-                <div>
-                    <a href="{{ route('merchant.invoice')}}" class="btn btn-lg sold"><strong>الفاتورة</strong></a>
-                </div>
             </div>
-            <div class="facteur">
-              <h2>كشف الحساب</h2><br>
-              @if(count($total) > 0)
-                @foreach($total as $v_total)
-                <div class="col-lg-12 card">
-                    <div class="col-lg-6 month">
-                    @php
-                        $date = explode(' ', $v_total->Months);
-                    @endphp
-                        <h3><strong><i class="bi bi-file-earmark-text"></i>{{ date('F', mktime(0, 0, 0, $date[0], 10)) }} {{ $date[1] }}</strong></h3>
+            <div class="row">
+                <div class="facteur col-6">
+                <h2>كشف الحساب</h2><br>
+                @if(count($total) > 0)
+                    @foreach($total as $v_total)
+                    <div class="col-lg-12 card">
+                        <div class="col-lg-6 month">
+                        @php
+                            $date = explode(' ', $v_total->Months);
+                        @endphp
+                            <h3><strong><i class="bi bi-file-earmark-text"></i>{{ date('F', mktime(0, 0, 0, $date[0], 10)) }} {{ $date[1] }}</strong></h3>
+                        </div>
+                        <div class="col-lg-6 total">
+                            <h3>{{ $v_total->price}} ريال<i class="bi bi-chevron-compact-left"></i></h3>
+                        </div>
                     </div>
-                    <div class="col-lg-6 total">
-                        <h3>{{ $v_total->price}} ريال<i class="bi bi-chevron-compact-left"></i></h3>
+                    @endforeach
+                    @else
+                    <div class="container col-lg-4">
+                        <p>الحساب فارغ </p>
+                        <a href="{{ route('merchant.orders')}}" class="btn redirect">العودة الى الرئيسية</a>
                     </div>
+                    @endif
                 </div>
-                @endforeach
-                @else
-                <div class="container col-lg-4">
-                    <p>الحساب فارغ </p>
-                    <a href="{{ route('merchant.orders')}}" class="btn redirect">العودة الى الرئيسية</a>
+                <div class="facteur col-6">
+                <h2>سجل الفاتورة</h2><br>
+                @if(count($earnings) > 0)
+                    @foreach($earnings as $index => $year)
+                        @foreach($year as $i => $month)
+                            <div class="col-lg-12 card">
+                                <div class="col-lg-6 month">
+                                    <h3><strong><i class="bi bi-file-earmark-text"></i>{{ $index . ' ' . date('F', mktime(0, 0, 0, $i, 10)) }}</strong></h3>
+                                </div>
+                                <div class="col-lg-6 total">
+                                    <h3>{{ $month}} ريال<i class="bi bi-chevron-compact-left"></i></h3>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endforeach
+                    @else
+                    <div class="container col-lg-4">
+                        <p>لاتوجد أي فاتورة </p>
+                        <a href="{{ route('merchant.orders')}}" class="btn redirect">العودة الى الرئيسية</a>
+                    </div>
+                    @endif
                 </div>
-                @endif
             </div>
         </div>
         
