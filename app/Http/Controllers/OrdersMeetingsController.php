@@ -486,14 +486,7 @@ class OrdersMeetingsController extends Controller{
             }
         }
 
-        $currentMonthIncome = 0;
-        foreach($earnings as $index => $year){
-            foreach($year as $i => $month){
-                str_contains(Carbon::now()->format('m'), $i) && strpos($index, Carbon::now()->format('Y')) !== false && $currentMonthIncome = $month;
-            }
-        }
-
-        return compact('earnings', 'currentMonthIncome');
+        return compact('earnings');
     }
 
     public function wallet()
@@ -523,9 +516,8 @@ class OrdersMeetingsController extends Controller{
 
         $invoice = $this->invoice();
         $earnings = $invoice['earnings'];
-        $currentMonthIncome = $invoice['currentMonthIncome'];
 
-        return view('providers.mihfada', compact('total', 'earnings', 'currentMonthIncome'));
+        return view('providers.mihfada', compact('total', 'earnings'));
     }
 
     public function rating(){

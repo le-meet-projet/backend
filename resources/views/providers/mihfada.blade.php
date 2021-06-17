@@ -11,6 +11,130 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@800&display=swap" rel="stylesheet">
         <link href="{{ asset('/css/lemeet.css')}}" rel="stylesheet">
+        <style>
+            *{
+                font-family: 'Almarai', sans-serif;
+            }
+            .btn{
+                width: 200px;
+                height: 62px;
+                line-height: 40px;
+            }
+                
+            .navb{
+                position: fixed !important;
+                bottom: 0 !important;
+                width: 100% !important;
+            }
+            .container-fluid h2{
+                margin-left: auto;
+                margin-right: auto;
+            }
+            div .form-group{
+                    display: inline-flex;
+                }
+            .logo h2{
+                text-align: center;
+            }
+            .login{
+                position: relative;
+            }
+            .login h2{
+                text-align: right;
+            }
+            .contant{
+                padding-left: 2%;
+                padding-right: 2%;
+            }
+            .th1{
+                text-align: center;
+                border: solid 1px;
+            }
+            .th2{
+                text-align: center;
+                border: solid 1px;
+            }
+            .sold{
+                background: #336e7c;
+                color: #fff;
+            }
+            .sold:hover{
+                background-color: #fff;
+                color:#000;
+                border-color: #336e7c;
+            }
+            .total-sold{
+                background: #fff;
+                color: #000;
+                border-color: #336e7c;
+                margin-right: 1%;
+            }
+            .total-sold:hover{
+                background: #336e7c;
+                color: #fff;
+                margin-right: 1%;
+            }
+            .total{
+                position: relative;
+                text-align: left;
+            }
+            .card{
+                color: #336e7c;
+                display: -webkit-inline-box;
+                padding: 2%;
+                margin-bottom: 2%;
+                border-color: #336e7c;
+            }
+            .wallet,
+            .invoice{
+                margin-top:2%
+            }
+            .month i{
+                margin-left: 5%;
+            }
+            .nav{
+                display: contents;
+            }
+            li{
+                text-align: center;
+            }
+            li a{
+                text-decoration: none;
+                color: lightgray;
+                text-align: none;
+                font-style: bold;
+            }
+            .active{
+                text-decoration: none;
+                color: #336e7c;
+                text-align: none;
+                font-style: bold;
+            }
+            .card:hover{
+                background:#336e7c;
+                color:#fff;
+            }
+            a:hover {
+                color: #336e7c;
+            }
+            .container > p{
+                color: #336e7c;
+                padding-top: 10%;
+                padding-bottom: 5%;
+                font-size: 55px;
+                text-align: center;
+            }
+            .redirect{
+                margin-right: 35%;
+                background: #336e7c;
+                color: #fff;
+                border-color: #336e7c;
+            }
+            .redirect:hover{
+                background-color: #fff;
+                color:#000;
+            }
+        </style>
     </head>
     <body>
         <header>
@@ -26,13 +150,13 @@
             <div class="d-flex justify-content-between">
                 <div class="d-flex">
                     <button class="btn btn-lg sold">الرصيد</button>
-                    <button class="btn btn-lg total-sold">{{ $currentMonthIncome }} <span>ريال</span> </button>
+                    <button class="btn btn-lg total-sold"><span class="money"></span><span> ريال</span></button>
                 </div>
             </div>
-            <div class="row">
-                <div class="facteur col-6">
-                <h2>كشف الحساب</h2><br>
-                @if(count($total) > 0)
+            @if(count($total) > 0 && count($earnings) > 0)
+                <div class="row">
+                    <div class="wallet col-6">
+                    <h2>كشف الحساب</h2><br>
                     @foreach($total as $v_total)
                     <div class="col-lg-12 card">
                         <div class="col-lg-6 month">
@@ -42,20 +166,13 @@
                             <h3><strong><i class="bi bi-file-earmark-text"></i>{{ date('F', mktime(0, 0, 0, $date[0], 10)) }} {{ $date[1] }}</strong></h3>
                         </div>
                         <div class="col-lg-6 total">
-                            <h3>{{ $v_total->price}} ريال<i class="bi bi-chevron-compact-left"></i></h3>
+                            <h3><span class="money">{{ $v_total->price}}</span> ريال<i class="bi bi-chevron-compact-left"></i></h3>
                         </div>
                     </div>
                     @endforeach
-                    @else
-                    <div class="container col-lg-4">
-                        <p>الحساب فارغ </p>
-                        <a href="{{ route('merchant.orders')}}" class="btn redirect">العودة الى الرئيسية</a>
                     </div>
-                    @endif
-                </div>
-                <div class="facteur col-6">
-                <h2>سجل الفاتورة</h2><br>
-                @if(count($earnings) > 0)
+                    <div class="invoice col-6">
+                    <h2>سجل الفاتورة</h2><br>
                     @foreach($earnings as $index => $year)
                         @foreach($year as $i => $month)
                             <div class="col-lg-12 card">
@@ -63,19 +180,19 @@
                                     <h3><strong><i class="bi bi-file-earmark-text"></i>{{ $index . ' ' . date('F', mktime(0, 0, 0, $i, 10)) }}</strong></h3>
                                 </div>
                                 <div class="col-lg-6 total">
-                                    <h3>{{ $month}} ريال<i class="bi bi-chevron-compact-left"></i></h3>
+                                    <h3><span class="money">{{ $month}}</span> ريال<i class="bi bi-chevron-compact-left"></i></h3>
                                 </div>
                             </div>
                         @endforeach
                     @endforeach
-                    @else
-                    <div class="container col-lg-4">
-                        <p>لاتوجد أي فاتورة </p>
-                        <a href="{{ route('merchant.orders')}}" class="btn redirect">العودة الى الرئيسية</a>
                     </div>
-                    @endif
                 </div>
-            </div>
+            @else
+                <div class="container col-lg-4">
+                    <p>لاتوجد أي فاتورة </p>
+                    <a href="{{ route('merchant.orders')}}" class="btn redirect">العودة الى الرئيسية</a>
+                </div>
+            @endif
         </div>
         
     <nav class ="navbar navb  bg-light">
@@ -89,128 +206,16 @@
             </ul>
         </div>
     </nav>
-            <style>
-                *{
-                    font-family: 'Almarai', sans-serif;
-                }
-                .btn{
-                    width: 200px;
-                    height: 62px;
-                    line-height: 40px;
-                }
-                
-            .navb{
-                position: fixed !important;
-                bottom: 0 !important;
-                width: 100% !important;
+    <script>
+        $(() => {
+            const wallet = $(".wallet").find(".total:last h3 span.money").html();
+            const invoice = $(".invoice").find(".total:last h3 span.money").html();
+            let balance = wallet - invoice;
+            if(isNaN(balance)){
+                balance = 0;
             }
-                .container-fluid h2{
-                    margin-left: auto;
-                    margin-right: auto;
-                }
-                div .form-group{
-                        display: inline-flex;
-                    }
-                .logo h2{
-                    text-align: center;
-                }
-                .login{
-                    position: relative;
-                }
-                .login h2{
-                    text-align: right;
-                }
-                .contant{
-                    padding-left: 2%;
-                    padding-right: 2%;
-                }
-                .th1{
-                    text-align: center;
-                    border: solid 1px;
-                }
-                .th2{
-                    text-align: center;
-                    border: solid 1px;
-                }
-                .sold{
-                    background: #336e7c;
-                    color: #fff;
-                }
-                .sold:hover{
-                    background-color: #fff;
-                    color:#000;
-                    border-color: #336e7c;
-                }
-                .total-sold{
-                    background: #fff;
-                    color: #000;
-                    border-color: #336e7c;
-                    margin-right: 1%;
-                }
-                .total-sold:hover{
-                    background: #336e7c;
-                    color: #fff;
-                    margin-right: 1%;
-                }
-                .total{
-                    position: relative;
-                    text-align: left;
-                }
-                .card{
-                    color: #336e7c;
-                    display: -webkit-inline-box;
-                    padding: 2%;
-                    margin-bottom: 2%;
-                    border-color: #336e7c;
-                }
-                .facteur{
-                    margin-top:2%
-                }
-                .month i{
-                    margin-left: 5%;
-                }
-                .nav{
-                    display: contents;
-                }
-                li{
-                    text-align: center;
-                }
-                li a{
-                    text-decoration: none;
-                    color: lightgray;
-                    text-align: none;
-                    font-style: bold;
-                }
-                .active{
-                    text-decoration: none;
-                    color: #336e7c;
-                    text-align: none;
-                    font-style: bold;
-                }
-                .card:hover{
-                    background:#336e7c;
-                    color:#fff;
-                }
-                a:hover {
-                    color: #336e7c;
-                }
-                .container > p{
-                    color: #336e7c;
-                    padding-top: 10%;
-                    padding-bottom: 5%;
-                    font-size: 55px;
-                    text-align: center;
-                }
-                .redirect{
-                    margin-right: 35%;
-                    background: #336e7c;
-                    color: #fff;
-                    border-color: #336e7c;
-                }
-                .redirect:hover{
-                    background-color: #fff;
-                    color:#000;
-                   
-            </style>
+            $(".total-sold span.money").html(balance);
+        })
+    </script>
     </body>
 </html>
