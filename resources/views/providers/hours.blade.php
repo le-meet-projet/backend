@@ -60,7 +60,7 @@
                             <div class="col-lg-2 col-xs-2 card-img">
                                 <div class="">
                                     <td class="hours">
-                                        <img src="{{ asset('/image/salle1.jpg') }}" style="width: 151px;">
+                                        <img src="{{ $order['thumbnail'] }}" style="width: 100%; height: 102px;">
                                         <div class="name-lka3a">
                                         {{ $order['name'] }}
                                         </div>

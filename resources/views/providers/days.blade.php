@@ -89,7 +89,7 @@
                             @foreach($v_order as $days)
                                 @if ($loop->first)                         
                                     <td class="hours">
-                                        <img src="{{ asset('/image/salle1.jpg') }}" style="width: 75%;margin-left: 10%;margin-right: 15%;height: 70%;position: absolute;">
+                                        <img src="{{$days->thumbnail}}" style="width: 75%;margin-left: 10%;margin-right: 15%;height: 70%;position: absolute;">
                                         <div class="name-salle">
                                             {{ $days->name}}
                                         </div>
@@ -141,7 +141,7 @@
                             <div class="col-lg-2 col-xs-2 card-img">
                                 <div class="">
                                     <td class="hours">
-                                        <img src="{{ asset('/image/salle1.jpg') }}" style="width: 151px;">
+                                        <img src="{{ $order['thumbnail'] }}" style="width: 100%; height: 102px;">
                                         <div class="name-lka3a">
                                         {{ $order['name'] }}
                                         </div>

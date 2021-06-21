@@ -67,6 +67,7 @@ class OrdersMeetingsController extends Controller{
             ->groupby('meetings.name')
             ->select(
                 'meetings.id',
+                'meetings.thumbnail',
                 'order_date as dates',
                 'capacity as capacitys','name',
                 DB::raw('count(order_unit.type_id) as total_orders'),
@@ -81,6 +82,7 @@ class OrdersMeetingsController extends Controller{
             ->groupby('tables.name')
             ->select(
                 'tables.id',
+                'tables.thumbnail',
                 'order_date as dates',
                 'capacity as capacitys','name',
                 DB::raw('count(order_unit.type_id) as total_orders'),
@@ -202,13 +204,13 @@ class OrdersMeetingsController extends Controller{
         for($i = 7; $i >= 0; $i--){
             array_push($nextWeekDays, \Carbon\Carbon::today()->addDays($i)->format('Y-m-d'));
         }
-
         foreach($orders as $brand => $order){
             foreach($order as $index => $or){
                 if(!in_array($or->dates, $nextWeekDays)){
                     unset($order[$index]);
                 };
-                $orders[$brand] = $order;
+                unset($orders[$brand]);
+                $orders[$brand.'-'.$or->thumbnail] = $order;
             }
         }
         foreach($orders as $brand => $order){
@@ -219,17 +221,18 @@ class OrdersMeetingsController extends Controller{
             }
             $notExists[$brand] = array_diff($nextWeekDays, $exist[$brand]);
         }
-
-        
-
-        foreach($orders as $brand => $order){
-            foreach($notExists[$brand] as $notExist){
+        foreach($orders as $brandthumb => $order){
+            $brand = explode('-', $brandthumb)[0];
+            $thumbnail = explode('-', $brandthumb)[1];
+            foreach($notExists[$brandthumb] as $notExist){
                 array_push($order, (object)[
                     'dates' => $notExist,
                     'total_orders' => 0,
-                    'name' => $brand
+                    'name' => $brand,
+                    'thumbnail' => $thumbnail != '' ? asset('/brands') . '/' . $thumbnail : no_image()
                 ]);
             }
+            unset($orders[$brandthumb]);
             $orders[$brand] = $order;
         }
 
@@ -274,7 +277,8 @@ class OrdersMeetingsController extends Controller{
             foreach($order as $index => $or){
                 $today = Carbon::today()->toDateString();
                 if($or['order_date'] != $today){
-                    $spaces[$or['id']] = $or['name'];
+                    $spaces[$or['id']]['name'] = $or['name'];
+                    $spaces[$or['id']]['thumbnail'] = $or['thumbnail'];
                     unset($order[$index]);
                 }
                 $orders2[$meeting] = $order;
@@ -311,10 +315,12 @@ class OrdersMeetingsController extends Controller{
         }
 
         foreach($orders2 as $index => $order){
-            foreach($notExistsHours[$index] as $notExist){  
+            foreach($notExistsHours[$index] as $notExist){
+                $thumbnail = $spaces[$index]['thumbnail'] != null ? asset('/brands') . '/' . $spaces[$index]['thumbnail'] : no_image();
                 array_push($order, [
                     'id' => 'not found',
-                    'name' => $order[0]['name'] ?? $spaces[$index],
+                    'name' => $order[0]['name'] ?? $spaces[$index]['name'],
+                    'thumbnail' => $order[0]['thumbnail'] ?? $thumbnail,
                     'dates' => $notExist,
                     'order_from' => $notExist
                 ]);
@@ -332,7 +338,7 @@ class OrdersMeetingsController extends Controller{
             }
             $orders2[$index] = $order;
         }
-        
+
         return view('providers.days', compact('orders2','orders'));
     }
 
@@ -349,7 +355,8 @@ class OrdersMeetingsController extends Controller{
             foreach($order as $index => $or){
                 $today = $date;
                 if($or['order_date'] != $today){
-                    $spaces[$or['id']] = $or['name'];
+                    $spaces[$or['id']]['name'] = $or['name'];
+                    $spaces[$or['id']]['thumbnail'] = $or['thumbnail'];
                     unset($order[$index]);
                 }
                 $orders2[$meeting] = $order;
@@ -386,10 +393,12 @@ class OrdersMeetingsController extends Controller{
         }
 
         foreach($orders2 as $index => $order){
-            foreach($notExistsHours[$index] as $notExist){  
+            foreach($notExistsHours[$index] as $notExist){
+                $thumbnail = $spaces[$index]['thumbnail'] != null ? asset('/brands') . '/' . $spaces[$index]['thumbnail'] : no_image();
                 array_push($order, [
                     'id' => 'not found',
-                    'name' => $order[0]['name'] ?? $spaces[$index],
+                    'name' => $order[0]['name'] ?? $spaces[$index]['name'],
+                    'thumbnail' => $order[0]['thumbnail'] ?? $thumbnail,
                     'dates' => $notExist,
                     'order_from' => $notExist
                 ]);
