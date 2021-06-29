@@ -205,12 +205,17 @@ class OrdersMeetingsController extends Controller{
             array_push($nextWeekDays, \Carbon\Carbon::today()->addDays($i)->format('Y-m-d'));
         }
         foreach($orders as $brand => $order){
-            foreach($order as $index => $or){
-                if(!in_array($or->dates, $nextWeekDays)){
-                    unset($order[$index]);
-                };
+            if(count($order) > 0){
+                foreach($order as $index => $or){
+                    if(!in_array($or->dates, $nextWeekDays)){
+                        unset($order[$index]);
+                    };
+                    unset($orders[$brand]);
+                    $orders[$brand.'-'.$or->thumbnail] = $order;
+                }
+            }else{
                 unset($orders[$brand]);
-                $orders[$brand.'-'.$or->thumbnail] = $order;
+                $orders[$brand.'-'] = $order;
             }
         }
         foreach($orders as $brand => $order){
@@ -264,10 +269,16 @@ class OrdersMeetingsController extends Controller{
         foreach($existSpaces as $id => $existSpace){
             if(!in_array($id, array_keys($orders2))){
                 $orders2[$id] = [];
+                $spc = Table::where('name', $existSpace)->where('id_brand', \Auth::user()->brand->id)->first();
+                if(!$spc){
+                    $spc = Meeting::where('name', $existSpace)->where('id_brand', \Auth::user()->brand->id)->first();
+                };
+                $thumbnail = $spc->thumbnail;
                 array_push($orders2[$id], [
                     'id' => $id,
                     'name' => $existSpace,
-                    'order_date' => null
+                    'order_date' => null,
+                    'thumbnail' => $thumbnail != '' && !is_null($thumbnail) ? asset('/brands') . '/' . $thumbnail : null
                 ]);
             };
         }
