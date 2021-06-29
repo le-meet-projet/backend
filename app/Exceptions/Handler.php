@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Bots\ErrorsBot;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -61,15 +62,28 @@ class Handler extends ExceptionHandler
             return response()->error(900, $modelName . ' not found');
         }
 
-        return response()->json([
+        $error = [
             'error-type' => get_class($exception),
             'error-message' => $exception->getMessage(),
             'error-code' => $exception->getCode(),
             'error-file' => $exception->getFile(),
             'error-line' => $exception->getLine(),
             'error-trace' => $exception->getTrace(),
-        ]);
-
+        ];
+        
+        $route = !is_null($request->route()) ? $request->route()->uri : null;
+        
+        $errorBotMessage = 'Link visited: '.$request->url().'.';
+        if(!is_null($route)){
+            $errorBotMessage .= 'Route visited: '.$route.'.';
+        }
+        $errorBotMessage .= 'Error type: '.get_class($exception).'.';
+        $errorBotMessage .= 'Error message: '.$exception->getMessage().'.';
+        $errorBotMessage .= 'Error code: '.$exception->getCode().'.';
+        $errorBotMessage .= 'Error file: '.$exception->getFile().'.';
+        $errorBotMessage .= 'Error line: '.$exception->getLine().'.';
+        new ErrorsBot(json_encode($errorBotMessage));
+        return response()->json($error);
         
         return parent::render($request, $exception);
     }
