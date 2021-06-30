@@ -45,7 +45,7 @@ class ApiUserController extends Controller
             $user['avatar'] = env('API_URL').'default-user-avatar.png';
         }
 
-        $user['avatar'] = env('API_URL').$user['avatar'];
+        $user['avatar'] = env('AVATAR_URL').$user['avatar'];
         
         return response()->data($user);
     }
@@ -75,6 +75,11 @@ class ApiUserController extends Controller
 
         if ( $request->has('password') and !is_null($request->password)) {
             $password = Hash::make($request['password']);
+        }
+
+        if($request->hasFile('file')){
+            $path = $request->file('file')->store('public/users');
+            $user->avatar = explode('/', $path)[2];
         }
 
         $user->password = $password; 
