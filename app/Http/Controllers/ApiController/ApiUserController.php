@@ -43,9 +43,10 @@ class ApiUserController extends Controller
         $user =  $this->currentUser;
         if($user['avatar'] == 'NULL' or $user['avatar'] == '' or is_null($user['avatar'])){
             $user['avatar'] = env('API_URL').'default-user-avatar.png';
+        }else{
+            $user['avatar'] = env('AVATAR_URL').$user['avatar'];
         }
 
-        $user['avatar'] = env('AVATAR_URL').$user['avatar'];
         
         return response()->data($user);
     }
