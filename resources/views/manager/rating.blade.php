@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>الطلبات</title>
+        <title>تقيماتْ</title>
         <link rel="icon" href="/assets/img/brand/favicon.png" type="image/x-icon"/>
     <link href="{{ asset('/assets/css/icons.css') }}" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,7 +19,7 @@
                     
                   </form>
                     <div class="logo">
-                    <a  href="{{ route('merchant.orders')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
+                    <a  href="{{ route('manager.index')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
                     </div>
                     <div class="form-group role-selector">
                         
@@ -29,43 +29,35 @@
         </header>
         <div class="contant">
             <div class="facteur">
-              <div class="d-flex justify-content-between">
-                <p>الطلبات</p>
-                <p>مجموع الطلبات: {{$totalIncome}} ريال</p>
-              </div>
-              @if(count($orders) > 0)
-                @foreach($orders as $order)
-                    <div class="col-lg-12 card">
-                            <div class="image-review col-lg-3 col-sm-12">
-                                @php
-                                    $thumbnail = $order->meeting ? '/spaces'.$order->meeting->thumbnail : '/tables'.$order->table->thumbnail;
-                                @endphp
-                                <img src="{{ $thumbnail == '/spaces' || $thumbnail == '/tables' ? no_image() : asset($thumbnail) }}">
-                                <div class="name-salle">
-                                    <strong>{{$order->meeting ? $order->meeting->name : $order->table->name}}</strong>
-                                </div>
+              <h2>التقييمات</h2>
+              @if(count($reviews) > 0)
+              @foreach($reviews as $v_review)
+                <div class="col-lg-12 card">
+                        <div class="image-review col-lg-3 col-sm-12">
+                            <img src="{{ asset('/image/salle1.jpg') }}">
+                            <div class="name-salle">
+                                <strong>{{$v_review->name}}</strong>
                             </div>
-                            <div class="col-lg-3">
-                                <h5>{{ $order->meeting ? $order->meeting->name : $order->table->name }}</h5>
-                            </div>
-                            <div class="vl"></div>
-                            <div class="conten-review col-lg-4 mr-4">
-                                <h7>{{ $order->ar_day}}</h7>
-                                <h7>{{ $order->order_date}}</h7></br>
-                                <h7>من: {{ explode(' ', $order->order_from)[1] }}</h7></br>
-                                <h7>إلى: {{ explode(' ', $order->order_to)[1] }}</h7></br>
-                                <h7>الثمن: {{ $order->meeting ? $order->meeting->price : $order->table->price }} ريال</h7>
-                            </div>
-                        <div class="col-lg-2 reply">
-                            
                         </div>
+                        <div class="col-lg-3">
+                            <span class=""><i class="review bi bi-star"><a>{{$v_review->review}}</a></i>@if($v_review->review < 5)متوسط@elseif($v_review->review >= 5) رائع @endif</span>
+                            <h5>{{$v_review->user->name}}</h5>
+                            <h7>{{$v_review->created_at->format(' M /d / Y ')}}</h7>
+                        </div>
+                        <div class="vl"></div>
+                        <div class="conten-review col-lg-4">
+                            <p>{{$v_review->rating}}</p>
+                        </div>
+                    <div class="col-lg-2 reply">
+                        
                     </div>
-                    @endforeach
+                </div>
+                @endforeach
                 @else
                 
                 <div class="container col-lg-4">
-                    <p>لايوجد أي تقييمات </p>
-                    <a href="{{ route('merchant.orders')}}" class="btn redirect">العودة الى الرئيسية</a>
+                            <p>لايوجد أي تقييمات </p>
+                            <a href="{{ route('manager.index')}}" class="btn redirect">العودة الى الرئيسية</a>
                 </div>
                 @endif
             </div>
@@ -74,10 +66,10 @@
     <nav class ="navbar navb  bg-light">
         <div class="container">
             <ul class="nav navbar-nav">
-                <li><a href="{{ route('merchant.profile')}}"><i class="fas fa-cog" ></i><br><strong>الملف الشخصي</strong>  </a> </li>
-                <li><a href="{{ route('merchant.wallet')}}"><i class="bi bi-wallet-fill" ></i><br><strong>المحفضة</strong>  </a> </li>
-                <li><a href="{{ route('merchant.orders')}}"><i class="bi bi-house"></i><br><strong>الرئيسية</strong></a></li>
-                <li><a href="{{ route('merchant.rating')}}" class="active"><i class="bi bi-star"></i><br><strong>التقيمات</strong>   </a>
+                <li><a href="{{ route('manager.profile')}}"><i class="fas fa-cog" ></i><br><strong>الملف الشخصي</strong>  </a> </li>
+                <li><a href="{{ route('manager.wallet')}}"><i class="bi bi-wallet-fill" ></i><br><strong>المحفضة</strong>  </a> </li>
+                <li><a href="{{ route('manager.index')}}"><i class="bi bi-house"></i><br><strong>الرئيسية</strong></a></li>
+                <li><a href="{{ route('manager.rating')}}" class="active"><i class="bi bi-star"></i><br><strong>التقيمات</strong>   </a>
                 </li>
             </ul>
         </div>
@@ -196,9 +188,6 @@
                 }
                 .facteur h5{
                     color: #000;
-                }
-                .conten-review{
-                    padding-right: 20px;
                 }
                 .conten-review h3{
                     color: #000;

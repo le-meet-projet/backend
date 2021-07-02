@@ -32,7 +32,7 @@
                 
               </form>
                 <div class="logo">
-                <a  href="{{ route('merchant.orders')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
+                <a  href="{{ route('manager.index')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
                 </div>
                 <div class="form-group role-selector">
                     
@@ -71,7 +71,7 @@
                         <div class="card-body">
                             <div class="tab-content border-left border-bottom border-right border-top-0 p-4">
                                 <div class="tab-pane active" id="settings">
-                                    <form action="{{ route('merchant.profileEdit')}}" role="form" method="post">
+                                    <form action="{{ route('manager.profileEdit')}}" role="form" method="post">
                                         @csrf
                                         <div class="form-group">
                                             <label for="FullName">Change Profile Picture</label>
@@ -122,10 +122,10 @@
     <nav class ="navbar navb  bg-light">
         <div class="container">
             <ul class="nav navbar-nav">
-                <li><a href="{{ route('merchant.profile')}}" class="active"><i class="fas fa-cog" ></i><br><strong>الملف الشخصي</strong>  </a> </li>
-                <li><a href="{{ route('merchant.wallet')}}"><i class="bi bi-wallet-fill" ></i><br><strong>المحفضة</strong>  </a> </li>
-                <li><a href="{{ route('merchant.orders')}}"><i class="bi bi-house"></i><br><strong>الرئيسية</strong></a></li>
-                <li><a href="{{ route('merchant.rating')}}"><i class="bi bi-star"></i><br><strong>التقيمات</strong>   </a>
+                <li><a href="{{ route('manager.profile')}}" class="active"><i class="fas fa-cog" ></i><br><strong>الملف الشخصي</strong>  </a> </li>
+                <li><a href="{{ route('manager.wallet')}}"><i class="bi bi-wallet-fill" ></i><br><strong>المحفضة</strong>  </a> </li>
+                <li><a href="{{ route('manager.index')}}"><i class="bi bi-house"></i><br><strong>الرئيسية</strong></a></li>
+                <li><a href="{{ route('manager.rating')}}"><i class="bi bi-star"></i><br><strong>التقيمات</strong>   </a>
                 </li>
             </ul>
         </div>

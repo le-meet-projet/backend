@@ -13,8 +13,11 @@ Route::get('/', 'DashboardController@login');
 Route::get('/payment/checkout', 'PaymentController@index');
 Route::get('/payment/success', 'PaymentController@success')->name('payment.success');
 
-Route::get('/merchant/login','MerchantController@login')->name('merchantlogin');
-Route::post('/merchant/doLogin','MerchantController@doLogin')->name('doLogin');
+Route::get('/merchant/login','MerchantController@login')->name('merchant.login');
+Route::post('/merchant/login','MerchantController@authenticate')->name('merchant.login');
+
+Route::get('/manager/login','ManagerController@login')->name('manager.login');
+Route::post('/manager/login','ManagerController@authenticate')->name('manager.login');
 
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');

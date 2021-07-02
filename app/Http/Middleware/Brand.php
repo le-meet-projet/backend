@@ -13,6 +13,6 @@ class Brand
 			return $next($request);
 		}
 		
-		return redirect()->route('merchantlogin');
+		return redirect()->route('merchant.login');
 	}
 }

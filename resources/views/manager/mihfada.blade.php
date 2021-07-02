@@ -141,7 +141,7 @@
             <nav class="navbar navbar-light">
                 <div class="container-fluid justify-content-center">
                     <div class="logo">
-                        <a  href="{{ route('merchant.orders')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
+                        <a  href="{{ route('manager.index')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
                     </div>
                 </div>
               </nav>
@@ -190,7 +190,7 @@
             @else
                 <div class="container col-lg-4">
                     <p>لاتوجد أي فاتورة </p>
-                    <a href="{{ route('merchant.orders')}}" class="btn redirect">العودة الى الرئيسية</a>
+                    <a href="{{ route('manager.index')}}" class="btn redirect">العودة الى الرئيسية</a>
                 </div>
             @endif
         </div>
@@ -198,10 +198,10 @@
     <nav class ="navbar navb  bg-light">
         <div class="container">
             <ul class="nav navbar-nav">
-                <li><a href="{{ route('merchant.profile')}}"><i class="fas fa-cog" ></i><br><strong>الملف الشخصي</strong>  </a> </li>
-                <li><a href="{{ route('merchant.wallet')}}" class="active"><i class="bi bi-wallet-fill" ></i><br><strong>المحفضة</strong>  </a> </li>
-                <li><a href="{{ route('merchant.orders')}}"><i class="bi bi-house"></i><br><strong>الرئيسية</strong></a></li>
-                <li><a href="{{ route('merchant.rating')}}"><i class="bi bi-star"></i><br><strong>التقيمات</strong>   </a>
+                <li><a href="{{ route('manager.profile')}}"><i class="fas fa-cog" ></i><br><strong>الملف الشخصي</strong>  </a> </li>
+                <li><a href="{{ route('manager.wallet')}}" class="active"><i class="bi bi-wallet-fill" ></i><br><strong>المحفضة</strong>  </a> </li>
+                <li><a href="{{ route('manager.index')}}"><i class="bi bi-house"></i><br><strong>الرئيسية</strong></a></li>
+                <li><a href="{{ route('manager.rating')}}"><i class="bi bi-star"></i><br><strong>التقيمات</strong>   </a>
                 </li>
             </ul>
         </div>

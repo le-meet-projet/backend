@@ -4,25 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\{
-    Order,
-    OrderLeMeet,
-    User,
-    Space,
-    Meeting,
-    Table,
-    OrderDetail,
-    SpaceDetails,
     OrderUnit,
-    Workshop,
-    Review
+    Table,
+    Meeting,
+    Review,
+    User,
+    OrderLeMeet
 };
-use PDF;
-use DB;
 use Carbon\Carbon;
-use Auth;
+use DB;
 use Illuminate\Support\Facades\Hash;
 
-class MerchantController extends Controller
+class ManagerController extends Controller
 {
     public $result = [];
     public $result2 = [];
@@ -32,20 +25,42 @@ class MerchantController extends Controller
         $this->getorderperhours();
     }
 
-    public function login(){
-        return view('providers.auth.login');
+    public function login()
+    {
+        return view('manager.auth.login');
     }
 
-    public function authenticate(Request $request){
-        if (\Auth::guard()->attempt(['role'=>'brand', 'email' => $request->email, 'password' => $request->password])) {
-            return redirect()->route('merchant.orders');
+    public function authenticate(Request $request)
+    {
+        if (\Auth::guard()->attempt(['role'=>'manager', 'email' => $request->email, 'password' => $request->password])) {
+            return redirect()->route('manager.index');
         }
 
-        return redirect()->route('merchant.login');
+        return redirect()->route('manager.login');
     }
 
     public function profile(){
-        return view('providers.users.profile');
+        return view('manager.profile');
+    }
+
+    public function profileEdit(Request $request){
+        $id = \Auth::user()->id;
+        $data = array();
+        if ($request->hasFile('avatar')) {
+            $image = $request->file('avatar');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = \public_path('/users');
+            $image->move($destinationPath, $name);
+            $data['avatar'] = $name;
+        }
+        $data['name'] = $request->name;
+        $data['email'] = $request->email;
+        $data['phone'] = $request->phone;
+        $data['address'] = $request->address;
+
+        User::find($id)->update($data);
+
+        return back();
     }
 
     public function gettype()
@@ -111,7 +126,8 @@ class MerchantController extends Controller
         $this->result2 = $spaces;
     }
 
-    public function index(){
+    public function index()
+    {
         $orders = $this->result;
         
         foreach($orders as $meeting => $order){
@@ -124,9 +140,9 @@ class MerchantController extends Controller
 
         foreach($orders as $meeting => $order){
             if($order['type'] == 'table'){
-                $ownedMeeting = Table::where('name', $meeting)->where('id_brand', \Auth::user()->brand->id)->get();
+                $ownedMeeting = Table::where('name', $meeting)->get();
             }else{
-                $ownedMeeting = Meeting::where('name', $meeting)->where('id_brand', \Auth::user()->brand->id)->get();
+                $ownedMeeting = Meeting::where('name', $meeting)->get();
             }
             if(!count($ownedMeeting)){
                 unset($orders[$meeting]);
@@ -137,8 +153,8 @@ class MerchantController extends Controller
             $orders[$brand] = $order;
         }
 
-        $ownedMeetings = Meeting::where('id_brand', \Auth::user()->brand->id)->get();
-        $ownedTables = Table::where('id_brand', \Auth::user()->brand->id)->get();
+        $ownedMeetings = Meeting::get();
+        $ownedTables = Table::get();
         $ownedSpaces = $ownedMeetings->merge($ownedTables);
         $existSpaces = [];
         foreach($ownedSpaces as $space){
@@ -169,6 +185,7 @@ class MerchantController extends Controller
                 $orders[$brand.'-'] = $order;
             }
         }
+        
         foreach($orders as $brand => $order){
             $exist[$brand] = [];
             $notExists[$brand] = [];
@@ -177,10 +194,11 @@ class MerchantController extends Controller
             }
             $notExists[$brand] = array_diff($nextWeekDays, $exist[$brand]);
         }
+        
         foreach($orders as $brandthumb => $order){
             $brand = explode('-', $brandthumb)[0];
             $thumbnail = explode('-', $brandthumb)[1];
-            foreach($notExists[$brandthumb] as $notExist){
+            foreach($notExists[$brandthumb] as $index => $notExist){
                 array_push($order, (object)[
                     'dates' => $notExist,
                     'total_orders' => 0,
@@ -191,7 +209,7 @@ class MerchantController extends Controller
             unset($orders[$brandthumb]);
             $orders[$brand] = $order;
         }
-
+        
         foreach($orders as $brand => $order){
             if($brand == 'type') continue;
             foreach($order as $i => $or){
@@ -208,9 +226,9 @@ class MerchantController extends Controller
         foreach($orders2 as $meeting => $order){
             foreach($order as $or){
                 if($or['type'] == 'shared_table'){
-                    $ownedMeeting = Table::where('name', $or['name'])->where('id_brand', \Auth::user()->brand->id)->get();
+                    $ownedMeeting = Table::where('name', $or['name'])->get();
                 }else{
-                    $ownedMeeting = Meeting::where('name', $or['name'])->where('id_brand', \Auth::user()->brand->id)->get();
+                    $ownedMeeting = Meeting::where('name', $or['name'])->get();
                 }
                 if(!count($ownedMeeting)){
                     unset($orders2[$meeting]);
@@ -220,20 +238,21 @@ class MerchantController extends Controller
         foreach($existSpaces as $id => $existSpace){
             if(!in_array($id, array_keys($orders2))){
                 $orders2[$id] = [];
-                $spc = Table::where('name', $existSpace)->where('id_brand', \Auth::user()->brand->id)->first();
+                $spc = Table::where('name', $existSpace)->first();
                 if(!$spc){
-                    $spc = Meeting::where('name', $existSpace)->where('id_brand', \Auth::user()->brand->id)->first();
+                    $spc = Meeting::where('name', $existSpace)->first();
                 };
                 $thumbnail = $spc->thumbnail;
+
                 array_push($orders2[$id], [
                     'id' => $id,
                     'name' => $existSpace,
                     'order_date' => null,
-                    'thumbnail' => $thumbnail != '' && !is_null($thumbnail) ? asset('/spaces') . '/' . $thumbnail : null
+                    'thumbnail' => $thumbnail != '' && !is_null($thumbnail) ? $thumbnail : null
                 ]);
             };
         }
-
+        
         $spaces = [];
         foreach($orders2 as $meeting => $order){
             foreach($order as $index => $or){
@@ -256,9 +275,9 @@ class MerchantController extends Controller
         foreach($orders2 as $index => $order){
             foreach($order as $i => $or){
                 if($or['type'] == 'shared_table'){
-                    $owned = Table::where('id', $or['id'])->where('id_brand', \Auth::user()->brand->id)->get();
+                    $owned = Table::where('id', $or['id'])->get();
                 }else{
-                    $owned = Meeting::where('id', $or['id'])->where('id_brand', \Auth::user()->brand->id)->get();
+                    $owned = Meeting::where('id', $or['id'])->get();
                 }
                 if(!count($owned)){
                     unset($order[$i]);
@@ -275,7 +294,6 @@ class MerchantController extends Controller
             }
             $notExistsHours[$index] = array_diff($dayHours, $existHours[$index]);
         }
-
         foreach($orders2 as $index => $order){
             foreach($notExistsHours[$index] as $notExist){
                 $thumbnail = $spaces[$index]['thumbnail'] != null ? asset('/spaces') . '/' . $spaces[$index]['thumbnail'] : no_image();
@@ -289,7 +307,6 @@ class MerchantController extends Controller
             }
             $orders2[$index] = $order;
         }
-
         foreach($orders2 as $index => $order){
             foreach($order as $i => $or){
                 usort($order, function($element1, $element2) {
@@ -300,7 +317,6 @@ class MerchantController extends Controller
             }
             $orders2[$index] = $order;
         }
-
         foreach($orders as $order){
             foreach($order as $or){
                 if(!is_null($or->thumbnail  ) && strpos($or->thumbnail, 'lemeet.co') == false){
@@ -308,7 +324,7 @@ class MerchantController extends Controller
                 };
             }
         }
-        return view('providers.days', compact('orders2','orders'));
+        return view('manager.days', compact('orders2','orders'));
     }
 
     public function sendHours($id, $date)
@@ -341,9 +357,9 @@ class MerchantController extends Controller
         foreach($orders2 as $index => $order){
             foreach($order as $i => $or){
                 if($or['type'] == 'shared_table'){
-                    $owned = Table::where('id', $or['id'])->where('id_brand', \Auth::user()->brand->id)->get();
+                    $owned = Table::where('id', $or['id'])->get();
                 }else{
-                    $owned = Meeting::where('id', $or['id'])->where('id_brand', \Auth::user()->brand->id)->get();
+                    $owned = Meeting::where('id', $or['id'])->get();
                 }
                 if(!count($owned)){
                     unset($order[$i]);
@@ -385,8 +401,7 @@ class MerchantController extends Controller
             }
             $orders2[$index] = $order;
         }
-        
-        return view('providers.hours', compact('orders2'));
+        return view('manager.hours', compact('orders2'));
     }
 
     public function orderDetails(Request $request)
@@ -396,9 +411,8 @@ class MerchantController extends Controller
                 $q->where(
                     function($q) use ($request){
                         $q->whereHas('meeting', function($q) use ($request){
-                            $q->whereHas('brand', function ($q) use ($request){
-                                $q->where('name', \Auth::user()->name);
-                            })->where('name', $request->name);
+                            $q->whereHas('brand')
+                                ->where('name', $request->name);
                         })->where(function($q){
                             $q->where('type', 'meeting')
                             ->orWhere('type', 'office');
@@ -407,9 +421,8 @@ class MerchantController extends Controller
                 )->orWhere(
                     function($q) use ($request){
                         $q->whereHas('table', function($q) use ($request){
-                            $q->whereHas('brand', function ($q){
-                                $q->where('name', \Auth::user()->name);
-                            })->where('name', $request->name);
+                            $q->whereHas('brand')
+                                ->where('name', $request->name);
                         })->where('type', 'shared_table');
                     }
                 );
@@ -417,16 +430,19 @@ class MerchantController extends Controller
         )->where('order_date', $request->date)
         ->where('order_from', $request->date . ' ' . $request->from)->get();
 
-        return view('providers.order-details', compact('unitOrders'));
+        return view('manager.order-details', compact('unitOrders'));
+    }
+
+    public function rating(){
+        $reviews = Review::whereHas('user')->with('user')->get();
+        return view('manager.rating', compact('reviews'));
     }
 
     private function invoice(){
         $orders = OrderLeMeet::where(
             function($q){
                 $q->whereHas('meeting', function($q){
-                    $q->whereHas('brand', function ($q) {
-                        $q->where('name', \Auth::user()->name);
-                    });
+                    $q->whereHas('brand');
                 })->where(function($q){
                     $q->where('type', 'meeting')
                     ->orWhere('type', 'office');
@@ -435,9 +451,7 @@ class MerchantController extends Controller
         )->orWhere(
             function($q){
                 $q->whereHas('shared_table', function($q){
-                    $q->whereHas('brand', function ($q) {
-                        $q->where('name', \Auth::user()->name);
-                    });
+                    $q->whereHas('brand');
                 })->where('type', 'shared_table');
             }
         )->get();
@@ -472,9 +486,7 @@ class MerchantController extends Controller
         $total = OrderLeMeet::where(
             function($q){
                 $q->whereHas('meeting', function($q){
-                    $q->whereHas('brand', function ($q) {
-                        $q->where('name', \Auth::user()->name);
-                    });
+                    $q->whereHas('brand');
                 })->where(function($q){
                     $q->where('type', 'meeting')
                     ->orWhere('type', 'office');
@@ -483,9 +495,7 @@ class MerchantController extends Controller
         )->orWhere(
             function($q){
                 $q->whereHas('shared_table', function($q){
-                    $q->whereHas('brand', function ($q) {
-                        $q->where('name', \Auth::user()->name);
-                    });
+                    $q->whereHas('brand');
                 })->where('type', 'shared_table');
             }
         )
@@ -495,66 +505,6 @@ class MerchantController extends Controller
         $invoice = $this->invoice();
         $earnings = $invoice['earnings'];
 
-        return view('providers.mihfada', compact('total', 'earnings'));
+        return view('manager.mihfada', compact('total', 'earnings'));
     }
-
-    public function rating(){
-        $reviews = Review::whereHas('user')->with('user')->where('reviews.brand_id',Auth::user()->id)->get();
-        return view('providers.rating', compact('reviews'));
-    }
-
-    public function profileEdit(Request $request){
-        $id = \Auth::user()->id;
-        $data = array();
-        if ($request->hasFile('avatar')) {
-            $image = $request->file('avatar');
-            $name = time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = \public_path('/users');
-            $image->move($destinationPath, $name);
-            $data['avatar'] = $name;
-        }
-        $data['name'] = $request->name;
-        $data['email'] = $request->email;
-        $data['phone'] = $request->phone;
-        $data['address'] = $request->address;
-
-        User::where('id',$id)->update($data);
-
-        return back();
-
-    }
-
-    public function brandOrders()
-    {
-        $tables = OrderUnit::whereHas('table', function($q){
-            $q->whereHas('brand', function ($q) {
-                $q->where('name', \Auth::user()->name);
-            });
-        })->where('type', 'shared_table')->get();
-
-        $meetings = OrderUnit::whereHas('meeting', function($q){
-            $q->whereHas('brand', function ($q) {
-                $q->where('name', \Auth::user()->name);
-            });
-        })->where(function($q){
-            $q->where('order_unit.type', 'meeting')
-            ->orWhere('order_unit.type', 'office');
-        })->get();
-
-        $tablesTotalIncome = 0;
-        $meetingsTotalIncome = 0;
-        foreach($tables as $table){
-            $tablesTotalIncome += $table->table->price;
-        }
-        foreach($meetings as $meeting){
-            $meetingsTotalIncome += $meeting->meeting->price;
-        }
-        
-        $orders = $meetings->merge($tables);
-        $totalIncome = $tablesTotalIncome + $meetingsTotalIncome;
-        
-        return view('providers.orders', compact('orders', 'totalIncome'));
-    }
-
-
 }

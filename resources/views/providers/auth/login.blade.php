@@ -1,9 +1,5 @@
-
-    <div>
-        
-    </div>
 <div class="login">
-    <form class="form" action="{{ route('doLogin')}}" method="post">
+    <form class="form" action="{{ route('merchant.login')}}" method="post">
         {{ csrf_field() }}
       <img style="margin-left: 29%;" src="{{ asset('assets/img/lemeet.PNG')}}" />
       <div class="form-field">

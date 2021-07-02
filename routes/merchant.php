@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/','MerchantController@send')->name('orders');
+Route::get('/','MerchantController@index')->name('orders');
 Route::get('/hours/{id}/{date}','MerchantController@sendHours')->name('orders-hours');
 Route::get('/profile','MerchantController@profile')->name('profile');
 Route::post('/profileEdit','MerchantController@profileEdit')->name('profileEdit');

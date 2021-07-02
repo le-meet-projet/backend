@@ -14,7 +14,7 @@ class PaymentController extends Controller
             "&amount=92" .
             "&currency=SAR" .
             "&paymentType=DB" .
-            "&testMode=EXTERNAL";
+            "&testMode=INTERNAL";
 
 
         //  dd($data);

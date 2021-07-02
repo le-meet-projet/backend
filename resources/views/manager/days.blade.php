@@ -50,7 +50,7 @@
                     <h2><i class="bi bi-person-fill"></i>حسابي</h2>
                   </form>
                     <div class="logo">
-                    <a  href="{{ route('merchant.orders')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
+                    <a  href="{{ route('manager.index')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
                     </div>
                     <div class="form-group role-selector">
                         <label class="form-switch">
@@ -89,7 +89,7 @@
                             @foreach($v_order as $days)
                                 @if ($loop->first)                         
                                     <td class="hours">
-                                        <img src="{{$days->thumbnail ?? no_image()}}" style="width: 75%;margin-left: 10%;margin-right: 15%;height: 70%;position: absolute;">
+                                        <img src="{{$days->thumbnail ?? no_image() }}" style="width: 75%;margin-left: 10%;margin-right: 15%;height: 70%;position: absolute;">
                                         <div class="name-salle">
                                             {{ $days->name}}
                                         </div>
@@ -97,7 +97,7 @@
                                 @endif
                                 <td class="days">
                                     @if($days->total_orders)
-                                        <a  href="{{ route('merchant.orders-hours', ['id' => $days->id, 'date' => $days->dates]) }}"
+                                        <a  href="{{ route('manager.orders-hours', ['id' => $days->id, 'date' => $days->dates]) }}"
                                             style="color: #FFF;"
                                         >
                                             <div class="booking positive">
@@ -198,10 +198,10 @@
         <nav class ="navbar navb  bg-light">
             <div class="container">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ route('merchant.profile')}}"><i class="fas fa-cog" ></i><br><strong>الملف الشخصي</strong>  </a> </li>
-                    <li><a href="{{ route('merchant.wallet')}}"><i class="bi bi-wallet-fill" ></i><br><strong>المحفضة</strong>  </a> </li>
-                    <li><a href="{{ route('merchant.orders')}}" class="active"><i class="bi bi-house"></i><br><strong>الرئيسية</strong></a></li>
-                    <li><a href="{{ route('merchant.rating')}}"><i class="bi bi-star"></i><br><strong>التقيمات</strong>   </a>
+                    <li><a href="{{ route('manager.profile')}}"><i class="fas fa-cog" ></i><br><strong>الملف الشخصي</strong></a></li>
+                    <li><a href="{{ route('manager.wallet')}}"><i class="bi bi-wallet-fill" ></i><br><strong>المحفضة</strong></a></li>
+                    <li><a href="{{ route('manager.index')}}" class="active"><i class="bi bi-house"></i><br><strong>الرئيسية</strong></a></li>
+                    <li><a href="{{ route('manager.rating')}}"><i class="bi bi-star"></i><br><strong>التقيمات</strong></a>
                     </li>
                 </ul>
             </div>
@@ -468,7 +468,7 @@ $.fn.conditionalFields = function (action) {
             formData.append('name', name);
 
             $.ajax({
-                url: '/merchant/order-details',
+                url: '/manager/order-details',
                 type: 'POST',
                 processData: false, // important
                 contentType: false, // important

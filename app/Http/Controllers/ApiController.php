@@ -1057,9 +1057,14 @@ class ApiController extends Controller
                 foreach ($single_unit as $chaire_unit) {
                     $order_date = explode('@', $chaire_unit['time'])[0];
                     $order_time =  explode('@', $chaire_unit['time'])[1];
+
+                    $d    = new \DateTime($order_date);
+                    $ar_day = $this->ar_days($d->format('l'));
+
                     $order_from = $order_date . ' ' . explode('-', $order_time)[0] . ':00:00';
                     $order_to = $order_date . ' ' . explode('-', $order_time)[1] . ':00:00';
                     $order_unit = [
+                        'user_id' => \Auth::guard('api')->user()->id,
                         'unique_id' => $chaire_unit['time'],
                         'order_id' => $order_id,
                         'chaire_count' => $chaire_unit['chaires_count'],
@@ -1067,6 +1072,7 @@ class ApiController extends Controller
                         'order_time' => $order_time,
                         'order_from' => $order_from,
                         'order_to' => $order_to,
+                        'ar_day' => $ar_day,
                         'type' => $request->type,
                         'type_id' => $request->id,
                     ];
@@ -1219,7 +1225,7 @@ class ApiController extends Controller
     public function user_order()
     {
 
-        $orders = \App\OrderLeMeet::with('shared_table', 'meeting')->latest()->get()->map(function ($model) {
+        $orders = OrderLeMeet::with('shared_table', 'meeting')->latest()->get()->map(function ($model) {
 
             $name = '';
             if ($model->type == 'meeting') {
@@ -1235,6 +1241,7 @@ class ApiController extends Controller
             }
 
             return [
+                'id' => $model->type_id,
                 'date' =>  $model->created_at->toDateTimeString(),
                 'image' => $thumbnail ?? '',
                 'type' =>  $model->type ?? 'meeting',

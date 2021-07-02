@@ -49,6 +49,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapAdminRoutes();
 
         $this->mapMerchantRoutes();
+
+        $this->mapManagerRoutes();
     }
 
     /**
@@ -101,6 +103,18 @@ class RouteServiceProvider extends ServiceProvider
             'namespace'     => $this->namespace
         ], function () {
             require base_path('routes/merchant.php');
+        });
+    }
+
+    protected function mapManagerRoutes()
+    {
+        Route::group([
+            'middleware'    => ['web', 'manager'],
+            'as'            => 'manager.',
+            'prefix'        => 'manager',
+            'namespace'     => $this->namespace
+        ], function () {
+            require base_path('routes/manager.php');
         });
     }
 }

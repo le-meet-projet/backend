@@ -16,28 +16,20 @@
 
 
         <style>
-            .l9a3at,
-            .lhojozat{
-                font-size: 24px;
-            }
 
-            th.th2,
             .l9a3at {
                 background: white !important;  
                 background: white !important;
                 color: #336e7c !important;
+                font-size: 24px;
             }
 
-            th.th1,
             .lhojozat {
                 background: white !important;
                 color: #336e7c !important;
+                font-size: 24px;
             }
 
-            table thead th:last-child strong {
-                background: white !important;
-                color: #336e7c !important;
-            }
         </style>
 
 
@@ -45,90 +37,17 @@
     <body>
         <header>
             <nav class="navbar navbar-light">
-                <div class="container-fluid">
-                  <form class="d-flex">
-                    <h2><i class="bi bi-person-fill"></i>حسابي</h2>
-                  </form>
+                <div class="container-fluid justify-content-center">
                     <div class="logo">
-                    <a  href="{{ route('merchant.orders')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
-                    </div>
-                    <div class="form-group role-selector">
-                        <label class="form-switch">
-                            <span class="lab1">ساعات</span>
-                            <input name="subscribe" type="checkbox" class="custom-control-input condition-trigger" id="customSwitch1">
-                            <i></i>
-                            <span class="lab2">ايام</span>
-                          </label>
+                        <a  href="{{ route('manager.index')}}"><img src="{{ asset('/assets/img/lemeet.PNG')}}" /></a>
                     </div>
                 </div>
               </nav>
         </header>
         
         <div class="contant">
-            <table class="table" id="time"  data-condition="subscribe" data-condition-value="0">
-                <thead>
-                    <th class="th2" colspan="1"><strong>القاعات</strong></th>
-                    <th class="th1" colspan="10"><strong>الحجوزات</strong></th>
-                </thead>
-                <thead>
-                    <th class="text-center" colspan="1"></th>
-                    <th class="th1 pad" colspan="8">
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(0)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(0)->format('d-m-Y'))->locale('ar')->dayName}}</div></div>
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(1)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(1)->format('d-m-Y'))->locale('ar')->dayName}}</div></div>
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(2)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(2)->format('d-m-Y'))->locale('ar')->dayName }}</div></div>
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(3)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(3)->format('d-m-Y'))->locale('ar')->dayName}}</div></div>
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(4)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(4)->format('d-m-Y'))->locale('ar')->dayName}}</div></div>
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(5)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(5)->format('d-m-Y'))->locale('ar')->dayName}}</div></div>
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(6)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(6)->format('d-m-Y'))->locale('ar')->dayName}}</div></div>
-                        <div class="dayshead"><div class="clickday">{{ \Carbon\Carbon::today()->addDays(7)->format('d-m-Y')}} {{ \Carbon\Carbon::create(\Carbon\Carbon::today()->addDays(7)->format('d-m-Y'))->locale('ar')->dayName}}</div></div>
-                    </th>
-                </thead>
-                <tbody class="bod">
-                    @foreach($orders as $v_order)
-                        <tr>
-                            @foreach($v_order as $days)
-                                @if ($loop->first)                         
-                                    <td class="hours">
-                                        <img src="{{$days->thumbnail ?? no_image()}}" style="width: 75%;margin-left: 10%;margin-right: 15%;height: 70%;position: absolute;">
-                                        <div class="name-salle">
-                                            {{ $days->name}}
-                                        </div>
-                                    </td>
-                                @endif
-                                <td class="days">
-                                    @if($days->total_orders)
-                                        <a  href="{{ route('merchant.orders-hours', ['id' => $days->id, 'date' => $days->dates]) }}"
-                                            style="color: #FFF;"
-                                        >
-                                            <div class="booking positive">
-                                                <div class="nbb-booking">
-                                                    <div class="border-booking">
-                                                        <div class="conf">{{ $days->total_orders}}</div>
-                                                    </div>
-                                                    <h6>
-                                                        محجوز
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    @else
-                                        <div class="booking">
-                                            <div class="nbb-booking">
-                                                <div class="border-booking">
-                                                    <div class="conf">{{ $days->total_orders}}</div>
-                                                </div>
-                                                <h6>غير محجوز</h6>
-                                            </div>
-                                        </div>
-                                    @endif
-                                </td>
-                            @endforeach
-                        </tr>
-                    @endforeach
-                </tbody>
-              </table>
               
-               <div class="table" id="days" data-condition="subscribe" data-condition-value="1">
+               <div class="table">
                    <div class="head" style="display: -webkit-inline-box;">
                        <div class="text-center l9a3at" style="width:10%;"><strong>القاعات</strong></div>
                        <div class="text-center lhojozat" style="width:90%;"><strong>الحجوزات</strong></div>
@@ -198,10 +117,10 @@
         <nav class ="navbar navb  bg-light">
             <div class="container">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ route('merchant.profile')}}"><i class="fas fa-cog" ></i><br><strong>الملف الشخصي</strong>  </a> </li>
-                    <li><a href="{{ route('merchant.wallet')}}"><i class="bi bi-wallet-fill" ></i><br><strong>المحفضة</strong>  </a> </li>
-                    <li><a href="{{ route('merchant.orders')}}" class="active"><i class="bi bi-house"></i><br><strong>الرئيسية</strong></a></li>
-                    <li><a href="{{ route('merchant.rating')}}"><i class="bi bi-star"></i><br><strong>التقيمات</strong>   </a>
+                    <li><a href="{{ route('manager.profile')}}"><i class="fas fa-cog" ></i><br><strong>الملف الشخصي</strong>  </a> </li>
+                    <li><a href="{{ route('manager.wallet')}}"><i class="bi bi-wallet-fill" ></i><br><strong>المحفضة</strong>  </a> </li>
+                    <li><a href="{{ route('manager.index')}}" class="active"><i class="bi bi-house"></i><br><strong>الرئيسية</strong></a></li>
+                    <li><a href="{{ route('manager.rating')}}"><i class="bi bi-star"></i><br><strong>التقيمات</strong>   </a>
                     </li>
                 </ul>
             </div>
@@ -227,38 +146,25 @@
             a{
                 text-decoration: none;
             }
-            .table-td{
+             .table-td{
                 width: 10%;
-            }
-            .booking {
+             }
+             .booking {
                 background: #336e7c;
             }
-            .bod .booking{
-                background: #FFF;
-                border: 2px #336e7c solid;
-            }
-            .bod .booking.positive{
-                background: #336e7c;
-            }
-            .bod .booking h6{
-                color: #336e7c;
-            }
-            .bod .booking.positive h6{
-                color: #FFF;
-            }
-            .name-lka3a{
-                text-align: center;
-                background: #2a5d6a;
-                color: #fff;
-            }
-            .scrolling-wrapper {
-                overflow-x: scroll;
-                overflow-y: hidden;
-                white-space: nowrap;
-                .card {
-                    display: inline-block;
-                }
-            }
+             .name-lka3a{
+                   text-align: center;
+                 background: #2a5d6a;
+                 color: #fff;
+              }
+             .scrolling-wrapper {
+                 overflow-x: scroll;
+                 overflow-y: hidden;
+                 white-space: nowrap;
+                 .card {
+                     display: inline-block;
+                 }
+             }
              .scrolling-wrapper {
                  -webkit-overflow-scrolling: touch;
              }
@@ -334,9 +240,9 @@
                   color: #fff;
               }
 
-              div#details {
+                div#details {
                     cursor: pointer;
-            }
+                }
 
                </style>
             
@@ -355,7 +261,6 @@
  
     //----- CLOSE
     $('[pd-popup-close]').on('click', function(e)  {
-        console.log("Closed");
         var targeted_popup_class = jQuery(this).attr('pd-popup-close');
         $('[pd-popup="' + targeted_popup_class + '"]').fadeOut(200);
  
@@ -453,8 +358,9 @@ $.fn.conditionalFields = function (action) {
 <script>
     $(function(){
         $('body').conditionalFields('init');
+    });
 
-        $(document).ready(function() {
+    $(document).ready(function() {
         $('div#details').click(function(e) {
             const token = $('meta[name="csrf-token"]').attr('content');
             const date = $(this).attr('data-date');
@@ -468,7 +374,7 @@ $.fn.conditionalFields = function (action) {
             formData.append('name', name);
 
             $.ajax({
-                url: '/merchant/order-details',
+                url: '/manager/order-details',
                 type: 'POST',
                 processData: false, // important
                 contentType: false, // important
@@ -484,7 +390,6 @@ $.fn.conditionalFields = function (action) {
                 }
             });
         });
-    });
     });
 </script>
     </body>
