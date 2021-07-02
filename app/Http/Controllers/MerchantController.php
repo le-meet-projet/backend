@@ -10,6 +10,7 @@ use App\{
     Space,
     Meeting,
     Table,
+    Vacation,
     OrderDetail,
     SpaceDetails,
     OrderUnit,
@@ -466,6 +467,171 @@ class MerchantController extends Controller
     public function rating(){
         $reviews = Review::whereHas('user')->with('user')->where('reviews.brand_id',Auth::user()->id)->get();
         return view('providers.rating', compact('reviews'));
+    }
+
+    public function createOrder()
+    {
+        $users = User::whereNotIn('role', ['admin', 'brand'])->get();
+        
+        $meetings = Meeting::where('id_brand', \Auth::user()->brand->id)->select('id', 'name')->get();
+        $tables = Table::where('id_brand', \Auth::user()->brand->id)->select('id', 'name')->get();
+        foreach($meetings as $meeting){
+            $meeting->type = 'meeting';
+        }
+        foreach($tables as $table){
+            $table->type = 'shared_table';
+        }
+        $spaces = $meetings->merge($tables);
+
+        return view('providers.orders.create', compact('users', 'spaces'));
+    }
+
+    public function addOrder(Request $request)
+    {
+        $models = [
+            'shared_table' => Table::query(),
+            'meeting' => Meeting::query(),
+            'office' => Meeting::query(),
+            'vacation' => Vacation::query(),
+            'workspace' => Workshop::query()
+        ];
+
+        $type = explode('-', $request->space)[0];
+        $type_id = explode('-', $request->space)[1];
+        $request->type = $type;
+        $request->type_id = $type_id;
+        
+        $order = [
+            'user_id' => $request->user_id,
+            'type' => $type,
+            'type_id' => $type_id,
+            'price' => $request->price,
+            'promo_code' => $request->coupon
+        ];
+
+        $type = $models[$type]->whereId($type_id)->with(['brand' => function($query){
+            $query->with('user');
+        }])->first();
+
+        $brand_email = $type->brand->user->email;
+
+        \DB::table('lemeet_orders')->insert($order);
+        $order_id = \DB::getPdo()->lastInsertId();
+        
+        $unique_id = $request->date . '@' . explode(':', $request->time_from)[0] . '-' . explode(':', $request->time_to)[0];
+        $order_time = explode('@', $unique_id)[1];
+
+        if ($request->type != 'shared_table') {
+            $times_units = [];
+
+            $order_units = [];
+
+            $order_date = $request->date;
+
+            $order_from_time = $request->time_from;
+            $order_to_time =  $request->time_to;
+
+            $d = new \DateTime($order_date);
+            $ar_day = $this->ar_days($d->format('l'));
+
+            $order_from = $order_date . ' ' . $order_from_time . ':00';
+            $order_to = $order_date . ' ' . $order_to_time . ':00';
+
+            $order_unit = [
+                'user_id' => $request->user_id,
+                'order_from' => $order_from,
+                'order_to' => $order_to,
+                'ar_day' => $ar_day,
+                'unique_id' => $unique_id,
+                'order_id' => $order_id,
+                'order_date' => $order_date,
+                'order_time' => $order_time,
+                'chaire_count' => $request->chaire_count ?? NULL,
+                'type' => $request->type,
+                'type_id' => $request->type_id,
+            ];
+            $order_units[] = $order_unit;
+
+            $data = [
+                'order' => $order,
+                'order_units' => $order_units
+            ];
+
+            $email = email()
+                ->to($brand_email)
+                ->subject('New order')
+                ->view('emails.order')
+                ->data($data)
+                ->send();
+
+            if (!$email->success()) {
+                \Log::alert('Meeting order email error: '. $email->errors());
+            }else{
+                \Log::info('Meeting order email sent');
+            }
+
+            \DB::table('order_unit')->insert($order_units);
+        } else {
+
+            $order_date = $request->date;
+
+            $d    = new \DateTime($order_date);
+            $ar_day = $this->ar_days($d->format('l'));
+
+            $order_from = $order_date . ' ' . $request->time_from . ':00';
+            $order_to = $order_date . ' ' . $request->time_to . ':00';
+            $order_unit = [
+                'user_id' => $request->user_id,
+                'unique_id' => $unique_id,
+                'order_id' => $order_id,
+                'chaire_count' => $request->chair_count,
+                'order_date' => $order_date,
+                'order_time' => $order_time,
+                'order_from' => $order_from,
+                'order_to' => $order_to,
+                'ar_day' => $ar_day,
+                'type' => $request->type,
+                'type_id' => $request->type_id,
+            ];
+            $order_units[] = $order_unit;
+
+            \DB::table('order_unit')->insert($order_units);
+
+            $data = [
+                'order' => $order,
+                'order_units' => $order_units
+            ];
+    
+            $email = email()
+                ->to($brand_email)
+                ->subject('New order')
+                ->view('emails.order')
+                ->data($data)
+                ->send();
+    
+            if (!$email->success()) {
+                \Log::alert('Shared table order email error: '. $email->errors());
+            }else{
+                \Log::info('Shared table order email sent');
+            }
+        }
+
+        return back()->with(['success' => 'order added successfully']);
+    }
+
+    private function ar_days($day)
+    {
+        $days = [
+            'Monday' => 'الإثنين',
+            'Tuesday' => 'الثلاثاء',
+            'Wednesday' => 'الأربعاء',
+            'Thursday' => 'الخميس',
+            'Friday' => 'الجمعة',
+            'Saturday' => 'السبت',
+            'Sunday' => ' الأحد',
+        ];
+
+        return $days[$day];
     }
 
 }

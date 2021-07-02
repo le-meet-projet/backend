@@ -1081,24 +1081,24 @@ class ApiController extends Controller
 
             }
             \DB::table('order_unit')->insert($order_units);
-        }
 
-        $data = [
-            'order' => $order,
-            'order_units' => $order_units
-        ];
-
-        $email = email()
-            ->to($brand_email)
-            ->subject('New order')
-            ->view('emails.order')
-            ->data($data)
-            ->send();
-
-        if (!$email->success()) {
-            \Log::alert('Shared table order email error: '. $email->errors());
-        }else{
-            \Log::info('Shared table order email sent');
+            $data = [
+                'order' => $order,
+                'order_units' => $order_units
+            ];
+    
+            $email = email()
+                ->to($brand_email)
+                ->subject('New order')
+                ->view('emails.order')
+                ->data($data)
+                ->send();
+    
+            if (!$email->success()) {
+                \Log::alert('Shared table order email error: '. $email->errors());
+            }else{
+                \Log::info('Shared table order email sent');
+            }
         }
 
         /*
