@@ -11,130 +11,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@800&display=swap" rel="stylesheet">
         <link href="{{ asset('/css/lemeet.css')}}" rel="stylesheet">
-        <style>
-            *{
-                font-family: 'Almarai', sans-serif;
-            }
-            .btn{
-                width: 200px;
-                height: 62px;
-                line-height: 40px;
-            }
-                
-            .navb{
-                position: fixed !important;
-                bottom: 0 !important;
-                width: 100% !important;
-            }
-            .container-fluid h2{
-                margin-left: auto;
-                margin-right: auto;
-            }
-            div .form-group{
-                    display: inline-flex;
-                }
-            .logo h2{
-                text-align: center;
-            }
-            .login{
-                position: relative;
-            }
-            .login h2{
-                text-align: right;
-            }
-            .contant{
-                padding-left: 2%;
-                padding-right: 2%;
-            }
-            .th1{
-                text-align: center;
-                border: solid 1px;
-            }
-            .th2{
-                text-align: center;
-                border: solid 1px;
-            }
-            .sold{
-                background: #336e7c;
-                color: #fff;
-            }
-            .sold:hover{
-                background-color: #fff;
-                color:#000;
-                border-color: #336e7c;
-            }
-            .total-sold{
-                background: #fff;
-                color: #000;
-                border-color: #336e7c;
-                margin-right: 1%;
-            }
-            .total-sold:hover{
-                background: #336e7c;
-                color: #fff;
-                margin-right: 1%;
-            }
-            .total{
-                position: relative;
-                text-align: left;
-            }
-            .card{
-                color: #336e7c;
-                display: -webkit-inline-box;
-                padding: 2%;
-                margin-bottom: 2%;
-                border-color: #336e7c;
-            }
-            .wallet,
-            .invoice{
-                margin-top:2%
-            }
-            .month i{
-                margin-left: 5%;
-            }
-            .nav{
-                display: contents;
-            }
-            li{
-                text-align: center;
-            }
-            li a{
-                text-decoration: none;
-                color: lightgray;
-                text-align: none;
-                font-style: bold;
-            }
-            .active{
-                text-decoration: none;
-                color: #336e7c;
-                text-align: none;
-                font-style: bold;
-            }
-            .card:hover{
-                background:#336e7c;
-                color:#fff;
-            }
-            a:hover {
-                color: #336e7c;
-            }
-            .container > p{
-                color: #336e7c;
-                padding-top: 10%;
-                padding-bottom: 5%;
-                font-size: 55px;
-                text-align: center;
-            }
-            .redirect{
-                margin-right: 35%;
-                background: #336e7c;
-                color: #fff;
-                border-color: #336e7c;
-            }
-            .redirect:hover{
-                background-color: #fff;
-                color:#000;
-            }
-        </style>
     </head>
     <body>
         <header>
@@ -206,16 +82,7 @@
             </ul>
         </div>
     </nav>
-    <script>
-        $(() => {
-            const wallet = $(".wallet").find(".total:last h3 span.money").html();
-            const invoice = $(".invoice").find(".total:last h3 span.money").html();
-            let balance = wallet - invoice;
-            if(isNaN(balance)){
-                balance = 0;
-            }
-            $(".total-sold span.money").html(balance.toFixed(2));
-        })
-    </script>
+    
+    <script src="{{ asset('js/lemeet.js') }}"></script>
     </body>
 </html>

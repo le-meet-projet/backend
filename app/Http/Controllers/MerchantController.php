@@ -44,10 +44,6 @@ class MerchantController extends Controller
         return redirect()->route('merchant.login');
     }
 
-    public function profile(){
-        return view('providers.users.profile');
-    }
-
     public function gettype()
     {
         $bytype = \DB::table('lemeet_orders')->distinct('type')->pluck('type');
@@ -389,37 +385,6 @@ class MerchantController extends Controller
         return view('providers.hours', compact('orders2'));
     }
 
-    public function orderDetails(Request $request)
-    {
-        $unitOrders = OrderUnit::where(
-            function($q) use ($request){
-                $q->where(
-                    function($q) use ($request){
-                        $q->whereHas('meeting', function($q) use ($request){
-                            $q->whereHas('brand', function ($q) use ($request){
-                                $q->where('name', \Auth::user()->name);
-                            })->where('name', $request->name);
-                        })->where(function($q){
-                            $q->where('type', 'meeting')
-                            ->orWhere('type', 'office');
-                        });
-                    }
-                )->orWhere(
-                    function($q) use ($request){
-                        $q->whereHas('table', function($q) use ($request){
-                            $q->whereHas('brand', function ($q){
-                                $q->where('name', \Auth::user()->name);
-                            })->where('name', $request->name);
-                        })->where('type', 'shared_table');
-                    }
-                );
-            }
-        )->where('order_date', $request->date)
-        ->where('order_from', $request->date . ' ' . $request->from)->get();
-
-        return view('providers.order-details', compact('unitOrders'));
-    }
-
     private function invoice(){
         $orders = OrderLeMeet::where(
             function($q){
@@ -502,59 +467,5 @@ class MerchantController extends Controller
         $reviews = Review::whereHas('user')->with('user')->where('reviews.brand_id',Auth::user()->id)->get();
         return view('providers.rating', compact('reviews'));
     }
-
-    public function profileEdit(Request $request){
-        $id = \Auth::user()->id;
-        $data = array();
-        if ($request->hasFile('avatar')) {
-            $image = $request->file('avatar');
-            $name = time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = \public_path('/users');
-            $image->move($destinationPath, $name);
-            $data['avatar'] = $name;
-        }
-        $data['name'] = $request->name;
-        $data['email'] = $request->email;
-        $data['phone'] = $request->phone;
-        $data['address'] = $request->address;
-
-        User::where('id',$id)->update($data);
-
-        return back();
-
-    }
-
-    public function brandOrders()
-    {
-        $tables = OrderUnit::whereHas('table', function($q){
-            $q->whereHas('brand', function ($q) {
-                $q->where('name', \Auth::user()->name);
-            });
-        })->where('type', 'shared_table')->get();
-
-        $meetings = OrderUnit::whereHas('meeting', function($q){
-            $q->whereHas('brand', function ($q) {
-                $q->where('name', \Auth::user()->name);
-            });
-        })->where(function($q){
-            $q->where('order_unit.type', 'meeting')
-            ->orWhere('order_unit.type', 'office');
-        })->get();
-
-        $tablesTotalIncome = 0;
-        $meetingsTotalIncome = 0;
-        foreach($tables as $table){
-            $tablesTotalIncome += $table->table->price;
-        }
-        foreach($meetings as $meeting){
-            $meetingsTotalIncome += $meeting->meeting->price;
-        }
-        
-        $orders = $meetings->merge($tables);
-        $totalIncome = $tablesTotalIncome + $meetingsTotalIncome;
-        
-        return view('providers.orders', compact('orders', 'totalIncome'));
-    }
-
 
 }

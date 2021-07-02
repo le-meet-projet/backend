@@ -19,5 +19,7 @@ Route::post('/merchant/login','MerchantController@authenticate')->name('merchant
 Route::get('/manager/login','ManagerController@login')->name('manager.login');
 Route::post('/manager/login','ManagerController@authenticate')->name('manager.login');
 
+Route::post('/order-details', 'OrdersController@orderDetails');
+
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');

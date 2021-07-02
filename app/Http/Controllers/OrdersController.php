@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Order;
-use App\OrderLeMeet;
-use App\User;
-use App\Space;
-use App\OrderDetail;
+use App\{
+  Order,
+  OrderLeMeet,
+  User,
+  Space,
+  OrderDetail,
+  OrderUnit
+};
 use PDF;
 use DB;
 class OrdersController extends Controller
@@ -158,7 +161,34 @@ class OrdersController extends Controller
      return $output;
     }
  
+    public function orderDetails(Request $request)
+    {
+        $unitOrders = OrderUnit::where(
+            function($q) use ($request){
+                $q->where(
+                    function($q) use ($request){
+                        $q->whereHas('meeting', function($q) use ($request){
+                            $q->whereHas('brand')
+                              ->where('name', $request->name);
+                        })->where(function($q){
+                            $q->where('type', 'meeting')
+                            ->orWhere('type', 'office');
+                        });
+                    }
+                )->orWhere(
+                    function($q) use ($request){
+                        $q->whereHas('table', function($q) use ($request){
+                            $q->whereHas('brand')
+                              ->where('name', $request->name);
+                        })->where('type', 'shared_table');
+                    }
+                );
+            }
+        )->where('order_date', $request->date)
+        ->where('order_from', $request->date . ' ' . $request->from)->get();
 
+        return view('dashboards.modals.order-details', compact('unitOrders'));
+    }
 
   
 }

@@ -39,30 +39,6 @@ class ManagerController extends Controller
         return redirect()->route('manager.login');
     }
 
-    public function profile(){
-        return view('manager.profile');
-    }
-
-    public function profileEdit(Request $request){
-        $id = \Auth::user()->id;
-        $data = array();
-        if ($request->hasFile('avatar')) {
-            $image = $request->file('avatar');
-            $name = time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = \public_path('/users');
-            $image->move($destinationPath, $name);
-            $data['avatar'] = $name;
-        }
-        $data['name'] = $request->name;
-        $data['email'] = $request->email;
-        $data['phone'] = $request->phone;
-        $data['address'] = $request->address;
-
-        User::find($id)->update($data);
-
-        return back();
-    }
-
     public function gettype()
     {
         $bytype = \DB::table('lemeet_orders')->distinct('type')->pluck('type');

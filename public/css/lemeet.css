@@ -295,10 +295,6 @@ td > div {
         margin: 5px;
     }
 
-
-*{
-    font-family: 'Almarai', sans-serif;
-}
 .logo h2{
     text-align: center;
 }
@@ -719,3 +715,504 @@ span.lab1 {
     margin-top: 11PX;
 }
 
+.navb{
+    position: fixed !important;
+    bottom: 0 !important;
+    width: 100% !important;
+}
+.name-salle{
+    margin-right: 25px !important;
+}
+.head{
+    width: 100%;
+}
+a{
+    text-decoration: none;
+}
+.table-td{
+    width: 10%;
+}
+.booking {
+    background: #336e7c;
+}
+.bod .booking{
+    background: #FFF;
+    border: 2px #336e7c solid;
+}
+.bod .booking.positive{
+    background: #336e7c;
+}
+.bod .booking h6{
+    color: #336e7c;
+}
+.bod .booking.positive h6{
+    color: #FFF;
+}
+.name-lka3a{
+    text-align: center;
+    background: #2a5d6a;
+    color: #fff;
+}
+.scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    .card {
+        display: inline-block;
+    }
+}
+ .scrolling-wrapper {
+     -webkit-overflow-scrolling: touch;
+ }
+ .lhojozat > strong {
+     display: block;
+     border: 1px solid;
+     position: relative;
+     right: 9px;
+     line-height: 47px;
+     width: calc(100% - 19px) !important;
+ }
+ .l9a3at  strong {
+     display: block;
+     border: 1px solid;
+     position: relative;
+     right: 9px;
+     line-height: 47px;
+     width: calc(96% - 19px) !important;
+ }
+ .card-img{
+      max-width: 10%;
+ }
+ @media only screen and (max-width: 1024px) {
+     .card-img {
+          max-width: 20%;
+     }
+     .l9a3at{
+         width: 20% !important;
+     }
+     .lhojozat{
+         width: 80% !important;
+     }
+     img{
+         width: 164px !important;
+     }
+     .lhojozat > strong {
+         width: calc(115% - 19px) !important;
+         height: 60px;
+     }
+     .table-td{
+         width: 20% !important;
+     }
+ }
+ header {
+     padding-right: 69px !important;
+     padding-left: 0 !important;
+     width: 100%;
+ }
+ .hov:hover{
+     background-color: #336e7c;
+     color:#fff;
+     border-color: #336e7c;
+ }
+ strong.hov {
+     font-size: 1.5rem !important;
+ }
+ .form-switch input + i + .lab2 {
+     color: #2a5d6a !important;
+ }
+ .lab1 + .form-switch input:checked + i {
+     color: #2a5d6a !important;
+ }
+  .booking{
+      height: 90px;
+      width: 100%;
+  }
+  .pad{
+      padding-top:10px !important;
+  }
+  .clickday{
+      background: #336e7c;
+      width: 92%;
+      margin-right: 5%;
+      color: #fff;
+  }
+
+  div#details {
+        cursor: pointer;
+}
+
+.l9a3at,
+.lhojozat{
+    font-size: 24px;
+}
+
+th.th2,
+.l9a3at {
+    background: white !important;  
+    background: white !important;
+    color: #336e7c !important;
+}
+
+th.th1,
+.lhojozat {
+    background: white !important;
+    color: #336e7c !important;
+}
+
+table thead th:last-child strong {
+    background: white !important;
+    color: #336e7c !important;
+}
+
+.btn{
+    width: 200px;
+    height: 62px;
+    line-height: 40px;
+}
+    
+.navb{
+    position: fixed !important;
+    bottom: 0 !important;
+    width: 100% !important;
+}
+.container-fluid h2{
+    margin-left: auto;
+    margin-right: auto;
+}
+div .form-group{
+        display: inline-flex;
+    }
+.logo h2{
+    text-align: center;
+}
+.login{
+    position: relative;
+}
+.login h2{
+    text-align: right;
+}
+.contant{
+    padding-left: 2%;
+    padding-right: 2%;
+}
+.th1{
+    text-align: center;
+    border: solid 1px;
+}
+.th2{
+    text-align: center;
+    border: solid 1px;
+}
+.sold{
+    background: #336e7c;
+    color: #fff;
+}
+.sold:hover{
+    background-color: #fff;
+    color:#000;
+    border-color: #336e7c;
+}
+.total-sold{
+    background: #fff;
+    color: #000;
+    border-color: #336e7c;
+    margin-right: 1%;
+}
+.total-sold:hover{
+    background: #336e7c;
+    color: #fff;
+    margin-right: 1%;
+}
+.total{
+    position: relative;
+    text-align: left;
+}
+.card{
+    color: #336e7c;
+    display: -webkit-inline-box;
+    padding: 2%;
+    margin-bottom: 2%;
+    border-color: #336e7c;
+}
+.wallet,
+.invoice{
+    margin-top:2%
+}
+.month i{
+    margin-left: 5%;
+}
+.nav{
+    display: contents;
+}
+li{
+    text-align: center;
+}
+li a{
+    text-decoration: none;
+    color: lightgray;
+    text-align: none;
+    font-style: bold;
+}
+.active{
+    text-decoration: none;
+    color: #336e7c;
+    text-align: none;
+    font-style: bold;
+}
+.card:hover{
+    background:#336e7c;
+    color:#fff;
+}
+a:hover {
+    color: #336e7c;
+}
+.container > p{
+    color: #336e7c;
+    padding-top: 10%;
+    padding-bottom: 5%;
+    font-size: 55px;
+    text-align: center;
+}
+.redirect{
+    margin-right: 35%;
+    background: #336e7c;
+    color: #fff;
+    border-color: #336e7c;
+}
+.redirect:hover{
+    background-color: #fff;
+    color:#000;
+}
+
+body .popup .popup-inner .label{
+    display: inline-block;
+    width: 160px;
+    color: #2a5d6a;
+}
+
+*{
+    font-family: 'Almarai', sans-serif;
+}
+.vl {
+    border-left: 3px solid #336e7c;
+    height: 103px;
+    margin-top: 1%;
+}
+.btn{
+    line-height: 40px;
+}
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 33.3px;
+    margin-top: 25px;
+}
+.navb{
+    position: fixed !important;
+    bottom: 0 !important;
+    width: 100% !important;
+}
+.container-fluid h2{
+    margin-left: auto;
+    margin-right: auto;
+}
+div .form-group{
+        display: inline-flex;
+    }
+.logo h2{
+    text-align: center;
+}
+.login{
+    position: relative;
+}
+.login h2{
+    text-align: right;
+}
+.contant{
+    padding-left: 2%;
+    padding-right: 2%;
+}
+.th1{
+    text-align: center;
+    border: solid 1px;
+}
+.th2{
+    text-align: center;
+    border: solid 1px;
+}
+.card{
+    border-color: #336e7c;
+    margin-bottom: 2%;
+}
+.sold{
+    background: #336e7c;
+    color: #fff;
+}
+.total-sold{
+    background: #fff;
+    color: #000;
+    border-color: #336e7c;
+    margin-right: 1%;
+}
+.total{
+    position: relative;
+    text-align: left;
+}
+.card{
+    color: #336e7c;
+    display: -webkit-inline-box;
+    border-radius: 0rem;
+}
+.facteur{
+    margin-top:2%
+}
+.month i{
+    margin-left: 5%;
+}
+.nav{
+    display: contents;
+}
+li{
+    text-align: center;
+}
+li a{
+    text-decoration: none;
+    color: lightgray;
+    text-align: none;
+}
+.name-salle{
+    background-color: #336e7c;
+    text-align: center;
+    color: #fff;
+    width: 36%;
+    margin-left: auto;
+}
+hr{
+    border: none;
+    border-left: 1px solid hsla(200, 10%, 50%,100);
+    height: 100vh;
+    width: 1px;       
+}
+.review{
+    color: #fff;
+    background-color: #336e7c;
+    padding-left: 2%;
+    padding-right: 2%;
+    margin: 2%;
+}
+.facteur h5{
+    color: #000;
+}
+.conten-review h3{
+    color: #000;
+    padding: 5%;
+}
+.reply{
+    padding: 2%;
+    width: 29%;
+}
+.reply h3{
+    text-align: left;
+}
+.card img{
+    width: 36%;
+    position: relative;
+    max-width:100%;
+    display:block;
+    height:auto;
+}
+.review a{
+    margin-right: 2%;
+}
+li{
+    text-align: center;
+}
+li a{
+    text-decoration: none;
+    color: lightgray;
+    text-align: none;
+    font-style: bold;
+}
+.active{
+    text-decoration: none;
+    color: #336e7c;
+    text-align: none;
+    font-style: bold;
+}
+.card:hover{
+    background:#336e7c;
+    color:#fff;
+}
+    h5{
+        color:#fff;
+    }
+a:hover {
+    color: #336e7c;
+}
+.image-review{
+    margin-left: -14%;
+}
+.container > p{
+    color: #336e7c;
+    padding-top: 20%;
+    padding-bottom: 5%;
+    font-size: 55px;;
+}
+.redirect{
+    margin-right: 35%;
+    background: #336e7c;
+    color: #fff;
+    border-color: #336e7c;
+}
+.redirect:hover{
+    background-color: #fff;
+    color:#000;
+    border-color: #336e7c;
+}
+li a{
+text-decoration: none;
+color: #b7b5b5;
+text-align: none;
+font-style: bold;
+}
+.active{
+text-decoration: none;
+color: #336e7c;
+text-align: none;
+font-style: bold;
+}
+.card:hover{
+background:#336e7c;
+color:#fff;
+}
+a:hover {
+color: #336e7c;
+}
+li a{
+text-decoration: none;
+color: #b7b5b5;
+text-align: none;
+font-style: bold;
+}
+.active{
+text-decoration: none;
+color: #336e7c;
+text-align: none;
+font-style: bold;
+}
+.card:hover{
+background:#336e7c;
+color:#fff;
+}
+a:hover {
+color: #336e7c;
+}
+.bg-light {
+background-color: #E6E6E6!important;
+}
+
+.facteur .card{
+    margin: 0;
+    padding: 10px;
+}

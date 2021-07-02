@@ -18,7 +18,7 @@ class ProfileController extends Controller
         return view('profile');
     }
 
-
+    // Admin
     public function update(Request $request, $id)
     {
         $user = User::find($id);
@@ -41,6 +41,27 @@ class ProfileController extends Controller
 
         Session::flash('statuscode', 'info');
         return redirect()->route('admin.profile.index')->with('status', 'Profile Updated');
+    }
 
+    // Merchant || Manager
+    public function profileEdit(Request $request)
+    {
+        $id = \Auth::user()->id;
+        $data = array();
+        if ($request->hasFile('avatar')) {
+            $image = $request->file('avatar');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = \public_path('/users');
+            $image->move($destinationPath, $name);
+            $data['avatar'] = $name;
+        }
+        $data['name'] = $request->name;
+        $data['email'] = $request->email;
+        $data['phone'] = $request->phone;
+        $data['address'] = $request->address;
+
+        User::find($id)->update($data);
+
+        return back();
     }
 }
