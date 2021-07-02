@@ -46,7 +46,9 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        //
+        $this->mapAdminRoutes();
+
+        $this->mapMerchantRoutes();
     }
 
     /**
@@ -76,5 +78,29 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware(['api','api.Logging'])
             ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
+    }
+
+    protected function mapAdminRoutes()
+    {
+        Route::group([
+            'middleware'    => ['web', 'admin'],
+            'as'            => 'admin.',
+            'prefix'        => 'dashboard',
+            'namespace'     => $this->namespace
+        ], function () {
+            require base_path('routes/admin.php');
+        });
+    }
+
+    protected function mapMerchantRoutes()
+    {
+        Route::group([
+            'middleware'    => ['web', 'brand'],
+            'as'            => 'merchant.',
+            'prefix'        => 'merchant',
+            'namespace'     => $this->namespace
+        ], function () {
+            require base_path('routes/merchant.php');
+        });
     }
 }

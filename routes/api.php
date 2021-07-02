@@ -96,7 +96,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
             // Payment routes
             Route::post('/payment/prepare', 'ApiController\PaymentController@request');
-            Route::get('/payment/{id}/status', 'ApiController\PaymentController@status');
+            Route::post('/payment/{id}/status', 'ApiController\PaymentController@status');
         });
 
         // QR CODE

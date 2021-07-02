@@ -20,15 +20,10 @@ use App\Review;
 use Auth;
 use Illuminate\Support\Facades\Hash;
 
-class OrdersMeetingsController extends Controller{
-
-    public $OrderLeMeet;
-
+class OrdersMeetingsController extends Controller
+{
     public $result = [];
     public $result2 = [];
-    public $orders; 
-    public $capacity; 
-
 
     public function __construct(){
         $this->gettype();
@@ -40,14 +35,11 @@ class OrdersMeetingsController extends Controller{
     }
 
     public function doLogin(Request $request){
-        
+        if (\Auth::guard()->attempt(['role'=>'brand', 'email' => $request->email, 'password' => $request->password])) {
+            return redirect()->route('merchant.orders');
+        }
 
-    if (\Auth::guard()->attempt(['role'=>'brand', 'email' => $request->email, 'password' => $request->password])) {
-        return redirect()->route('merchant.orders');
-    }
-    return redirect()->route('merchantlogin');
-
-
+        return redirect()->route('merchantlogin');
     }
 
     public function profile(){
@@ -115,49 +107,6 @@ class OrdersMeetingsController extends Controller{
             $spaces[$id] = $meeting;
         }
         $this->result2 = $spaces;
-    }
-
-    public function getDays(){
-        /*for($i = 0 ; $i<=6 ; $i++){
-           $result[] =  [
-                        "dayname" => "الأحد",
-                        "capacity" => $this->capacity(),
-                        "orders" => $this->orders(),
-                        "date" => "07/07/2021",
-                        "time" => "10:30",
-                        "rest" => $this->rest(),
-                        "persent" => $this->percent(),
-            ];
-        }*/
-           $result[] = \DB::table('order_unit')->get()->pluck('order_date')->unique('order_date')->toArray();
-        //dd($result);
-        return $result;
-    }
-
-
-    public function percent(){
-        return ( $this->orders * ($this->capacity / 100) ) * 100  . '%' ;
-    }
-
-    public function rest(){
-        return $this->capacity - $this->orders;
-    }
-
-    public function capacity(){
-        $capacity = 10;
-        $this->capacity = $capacity;
-        return $capacity; 
-    }
-
-    public function orders(){
-        $orders = 8;
-        $this->orders = $orders;
-        return $orders;
-    }
-
-    public function get(){
-        $orders = $this->result2;
-        return view('providers.time', compact('orders'));
     }
 
     public function send(){
