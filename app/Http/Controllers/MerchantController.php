@@ -20,7 +20,7 @@ use App\Review;
 use Auth;
 use Illuminate\Support\Facades\Hash;
 
-class OrdersMeetingsController extends Controller
+class MerchantController extends Controller
 {
     public $result = [];
     public $result2 = [];

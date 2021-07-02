@@ -2,11 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/','OrdersMeetingsController@send')->name('orders');
-Route::get('/hours/{id}/{date}','OrdersMeetingsController@sendHours')->name('orders-hours');
-Route::get('/profile','OrdersMeetingsController@profile')->name('profile');
-Route::post('/profileEdit','OrdersMeetingsController@profileEdit')->name('profileEdit');
-Route::get('/wallet','OrdersMeetingsController@wallet')->name('wallet');
-Route::get('/rating','OrdersMeetingsController@rating')->name('rating');
-Route::get('orders', 'OrdersMeetingsController@brandOrders');
-Route::post('/order-details', 'OrdersMeetingsController@orderDetails');
+Route::get('/','MerchantController@send')->name('orders');
+Route::get('/hours/{id}/{date}','MerchantController@sendHours')->name('orders-hours');
+Route::get('/profile','MerchantController@profile')->name('profile');
+Route::post('/profileEdit','MerchantController@profileEdit')->name('profileEdit');
+Route::get('/wallet','MerchantController@wallet')->name('wallet');
+Route::get('/rating','MerchantController@rating')->name('rating');
+Route::get('orders', 'MerchantController@brandOrders');
+Route::post('/order-details', 'MerchantController@orderDetails');
