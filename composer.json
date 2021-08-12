@@ -10,7 +10,6 @@
     "require": {
         "php": "^7.4|^8.0",
         "ext-json": "*",
-        "cartalyst/stripe-laravel": "12.0.*",
         "doctrine/dbal": "^3.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
@@ -23,6 +22,7 @@
         "laravel/ui": "^2.5",
         "paypal/rest-api-sdk-php": "*",
         "simplesoftwareio/simple-qrcode": "^4.1",
+        "stripe/stripe-php": "^7.93",
         "werneckbh/laravel-qr-code": "^0.1.3"
     },
     "require-dev": {

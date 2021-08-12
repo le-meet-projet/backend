@@ -19,7 +19,6 @@ use App\{
     Invitation,
     OrderLeMeet
 };
-use Cartalyst\Stripe\Stripe;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;

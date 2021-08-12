@@ -11,6 +11,7 @@ use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
+use App\Http\Helpers\Stripe;
 use Session;
 use Illuminate\Support\Facades\Validator;
 class BrandController extends Controller
@@ -57,7 +58,6 @@ class BrandController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $brand = new Brand;
         //create user 
         $user = new User;
         $user->name = $request->input('name');
@@ -65,8 +65,9 @@ class BrandController extends Controller
         $user->password = Hash::make($request->password);
         $user->role = 'brand';
         $user->save();
-       //////
+        //////
 
+        $brand = new Brand;
         $brand->name = $request->input('name');
         $brand->regular_est_name = $request->regular_est_name;
         $brand->com_registration_number = $request->com_registration_number;
@@ -105,8 +106,9 @@ class BrandController extends Controller
         $brand->iban = $request->input('iban');
         $brand->bank = $request->input('bank');
         $brand->type = $request->input('type');
-
         $brand->save();
+
+        (new Stripe)->createCustomer($request->input('email'));
 
         Session::flash('statuscode','success');
         return redirect()->route('admin.brand.index')->with('status', 'Brand Created');
@@ -178,7 +180,6 @@ class BrandController extends Controller
 
         Session::flash('statuscode','info');
         return redirect()->route('admin.brand.index')->with('status','Brand Updated');
-
     }
 
     /**
@@ -189,6 +190,8 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
+        (new Stripe)->deleteCustomer($id);
+        Brand::find($id)->user()->delete();
         Brand::find($id)->delete();
         Session::flash('statuscode','error');
         return redirect()->route('admin.brand.index')->with('status','Brand Deleted');

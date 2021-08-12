@@ -11,4 +11,9 @@ class Brand extends Model
     public function user(){
         return $this->belongsTo('App\User', 'name', 'name'); 
     }
+
+    public function card()
+    {
+        return $this->hasOne('App\Card');
+    }
 }
